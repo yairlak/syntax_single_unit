@@ -194,7 +194,7 @@ def extend_metadata(metadata):
     metadata['embedding'] = embedding
 
     # SEMANTIC FEATURES
-    fn_glove = '../../Paradigm/small_glove.twitter.27B.25d.txt'
+    fn_glove = '../../../Paradigm/small_glove.twitter.27B.25d.txt'
 
     glove = load_glove_model(fn_glove)
     #print(sorted(glove.keys()))

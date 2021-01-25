@@ -30,7 +30,7 @@ read TMIN
 echo "Type end point (e.g., 0.4 or 0.5)?"
 read TMAX
 
-echo "Which  fetures.g., letters or word_length)?"
+echo "Which fetures (e.g., letters word_length phone_string is_first_word is_last_word word_position tense pos_simple word_zipf morph_complex grammatical_number embedding wh_subj_obj dec_quest semantic_features)?"
 read FEATURES
 
 echo "Type query for epochs"
@@ -95,7 +95,7 @@ for patient in $PATIENTS; do
 
 
                     #CMD='python /neurospin/unicog/protocols/intracranial/Syntax_with_Fried/Code/Main/encoding_model.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --block-type '$BLOCK' --feature-list'
-                    CMD='python /neurospin/unicog/protocols/intracranial/Syntax_with_Fried/Code/Main/encoding_model.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --feature-list'
+                    CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/encoding/encoding_model.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --feature-list'
 
                     for feature in $FEATURES; do
                         CMD+=' '$feature

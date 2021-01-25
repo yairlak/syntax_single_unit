@@ -378,8 +378,8 @@ def load_epochs_data(args):
     epochs_list - list
     A list with epochs per patient
     '''
-    from functions import load_settings_params
-    from functions.utils import probename2picks, pick_responsive_channels
+    from utils import load_settings_params
+    from utils.utils import probename2picks, pick_responsive_channels
     
     epochs_list = []
     for p, (patient, data_type, filt) in enumerate(zip(args.patient, args.data_type, args.filter)):
@@ -434,9 +434,9 @@ def load_neural_data(args):
     Generate a epochs list with all neural data based on argparse-user choices 
     '''
     import mne
-    from functions import load_settings_params
-    from functions.utils import probename2picks, pick_responsive_channels
-    from functions.read_logs_and_features import extend_metadata
+    from utils import load_settings_params
+    from utils.utils import probename2picks, pick_responsive_channels
+    from utils.read_logs_and_features import extend_metadata
     # LOAD
     epochs_list = []
     for p, (patient, data_type, filt) in enumerate(zip(args.patient, args.data_type, args.filter)):

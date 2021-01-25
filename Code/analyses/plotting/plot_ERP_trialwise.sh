@@ -110,7 +110,7 @@ for PATIENT in $PATIENTS; do
 			    else
 			        BASELINE=''
 			    fi
-			    path2script="/neurospin/unicog/protocols/intracranial/Syntax_with_Fried/Code/analyses/plotting/"
+			    path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/plotting/"
 			    filename_py='plot_ERP_trialwise.py --patient '$PATIENT' --data-type '$DTYPE' --level '$LEVEL' --filter '$FILTER' --comparison-name '$COMPARISON$BASELINE$RESP_FLAG$BLOCK
                 #' --sort-key '$SORT
 			    output_log='logs/out_plot_ERP_trialwise_'$PATIENT'_'$DTYPE'_'$LEVEL'_'$FILTER'_'$COMPARISON'_'$BLOCK

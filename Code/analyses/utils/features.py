@@ -1,13 +1,31 @@
-import os, glob, sys
 import numpy as np
-import mne
-from scipy import io
 
 
 def get_features(metadata, feature_list):
     '''
-    feature_list (list): pos, letters, letter_by_position, bigrams, morphemes, first_letter, last_letter, word_length, sentence_length, word_position, word_zipf
+    
+
+    Parameters
+    ----------
+    metadata : TYPE
+        DESCRIPTION.
+    feature_list : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    design_matrices : TYPE
+        DESCRIPTION.
+    feature_values : TYPE
+        DESCRIPTION.
+    feature_info : TYPE
+        DESCRIPTION.
+    feature_groups : TYPE
+        DESCRIPTION.
+
     '''
+    if not feature_list:
+        feature_list = ['letters', 'word_length', 'phone_string', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos', 'pos_simple', 'word_zipf', 'morpheme', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features']
     print(feature_list)
     num_samples = len(metadata.index)
     feature_values = []
@@ -115,7 +133,7 @@ def get_feature_style(feature_name):
     dict_prop = {}
 
     if not dict_prop: # default style and setting
-        dict_prop['color'] = 'k'
+        dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = True
@@ -166,21 +184,21 @@ def get_feature_style(feature_name):
     #####################################
     # WORD POSITION
     if feature_name == 'word_position':
-        dict_prop['color'] = 'k'
+        dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False
     
     # LAST WORD
     if feature_name == 'is_last_word':
-        dict_prop['color'] = 'k'
+        dict_prop['color'] = 'grey'
         dict_prop['ls'] = '--'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False
     
     # FIRST WORD
     if feature_name == 'is_first_word':
-        dict_prop['color'] = 'k'
+        dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-.'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False

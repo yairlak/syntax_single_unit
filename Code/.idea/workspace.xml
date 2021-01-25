@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="21ede227-c8e2-4337-9853-48a4b11f2d6a" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/Cluster.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/cluster_linux.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/cluster_mac.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/cluster_maci.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxCSC.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxCSC.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxEV.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxEV.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxSE.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxSE.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxTT.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Mat2NlxTT.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatCSC_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatCSC_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatEV_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatEV_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatSpike_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatSpike_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatVT_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/binaries/Nlx2MatVT_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/filelist_wc.xlj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/README.pdf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster_64.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster_linux.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster_linux64.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster_mac.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/SPC/cluster_maci.exe" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux1.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux2.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux3.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux4.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/figs/wave_clus_aux5.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxCSC.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxCSC.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxEV.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxEV.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxSE.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxSE.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxTT.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Mat2NlxTT.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatCSC_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatCSC_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatEV_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatEV_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatSpike_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatSpike_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatVT_v3.mexa64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/binaries/Nlx2MatVT_v3.mexmaci64" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/set_parameters_ui.fig" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/wave_clus_font/35191___.TTF" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/Code.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/GAT_perm_collect.log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/GAT_permutations.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/GAT_permutations_collect.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/generate_ERP_plots.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/main_gat.log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/main_temporal_generalization.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GAT/main_temporal_generalization_with_signficance_calc.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Main/generate_spikes_CSC_files_from_wave_clus_output.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Main/main_analyze_single_unit.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Extract_Events.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_1.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_10.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_11.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_12.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_13.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_14.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_15.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_16.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_17.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_18.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_19.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_2.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_20.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_21.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_22.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_23.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_24.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_25.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_26.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_27.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_28.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_29.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_3.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_30.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_4.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_5.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_6.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_7.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_8.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Logs/log_CHANNEL_9.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Plotting_Ripples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Readme" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunRipples.log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_1.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_10.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_11.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_12.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_13.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_14.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_15.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_16.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_17.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_18.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_19.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_2.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_20.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_21.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_22.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_23.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_24.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_25.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_26.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_27.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_28.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_29.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_3.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_30.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_4.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_5.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_6.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_7.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_8.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/RunScripts/run_CHANNEL_9.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/Store_Events.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/collectripples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/conncomp1d.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/event_detection.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/evtdetect/conncomp1d.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/evtdetect/event_detection.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/evtdetect/sigDetectThres.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/filterSignal.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/filterchannels.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/main_Ripples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/plotripples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/rippletriggeredSignal.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/rippletriggeredraster.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/run_PlotRipples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/run_Ripples.log" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/run_Ripples.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/run_jobs.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Ripples/sigDetectThres.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SU_functions/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SU_functions/analyses.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SU_functions/load_data.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SU_functions/load_settings_params.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SU_functions/read_logs_and_comparisons.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clusters_electrode_montage.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_1.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_101.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_106.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_11.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_111.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_116.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_121.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_126.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_21.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_26.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_31.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_36.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_41.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_46.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_51.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_56.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_61.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_66.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_71.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_76.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_81.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_86.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_91.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/Logs/log_CHANNEL_96.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_1.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_101.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_106.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_11.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_111.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_116.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_121.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_126.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_21.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_26.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_31.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_36.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_41.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_46.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_51.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_56.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_61.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_66.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_71.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_76.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_81.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_86.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_91.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/RunScripts/run_CHANNEL_96.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq (copie).py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/main_macro.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/macro_contacts_analysis/run_jobs.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/HTML_raster_figures.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/clusters_electrode_montage.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/Copy_of_create_raw_data.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/buildStringFromStruct.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/create_epochs_and_events.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/create_raw_data.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/generate_HTML_comparison.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_condition_numbers.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_condition_numbers_old.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_condition_times.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_condition_times_old.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_file_name_curr_run.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/get_trial_info.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/load_settings_params.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/old/get_condition_numbers_old.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/old/get_condition_times_old.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/functions/old/load_settings_params_old.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/main_spike_trains_to_python.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Python/run_main_spike_trains_to_python.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/analyze_end_of_sentence_response.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/analyze_single_word_responses.asv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/analyze_single_word_responses.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/buildStringFromStruct.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/calc_PSTH.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/calc_behav_performance.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/generate_HTML_comparison.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/generate_HTML_curr_comparison.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/generate_raster_figures.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/generate_raster_figures_singles.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/generate_rasters_from_spike_trains.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/get_condition_numbers.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/get_condition_times.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/get_file_name_curr_run.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/get_trial_info.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/load_settings_params.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/plotSpikeRaster.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/functions/raster_generator.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/main_spike_trains_to_rasters.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/HTML_rasters_blocks.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/HTML_rasters_key_presses.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/HTML_rasters_main.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/HTML_rasters_values.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/run_main.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/run_main_short.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/old/run_main_single.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/read_stimulus_order_from_log.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/run_main_comparison_file.asv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spikeTrains_to_Rasters/run_main_comparison_file.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/1failedChannels.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/GetBadFrequencies.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/GetPower.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/Get_spikes_CSC_notch2k_ariel_mat.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/amp_detect.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/ariel_do_clustering_csc.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/create_spike_matrices.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/create_spike_matrices_batch.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/enforce_ref_period.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/find_temp.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/fix_wavedec.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/getRelevantChannelsWithTimesfiles.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/int_spikes.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/print_cpu_time.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/print_date.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/run_cluster.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/set_joint_parameters_CSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/w_pre_post_by_sr.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/functions/wave_features.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/getRawCSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/Mat2NlxCSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/Mat2NlxSE.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/Mat2NlxTT.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/compile.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/getRawCSCData.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/getRawCSCTimestamps.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/getRawSE.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/getRawTTLs.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/putRawCSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/putRawEV.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/putRawEV_verify.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/putRawTT.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/FileDataBucket.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/FileDataBucket.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/GeneralOperations.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/GeneralOperations.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Mat2NlxCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Mat2NlxEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Mat2NlxSE.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Mat2NlxTT.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatEVInclude.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatSpike.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatVTInclude.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx2MatVt.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx_Code.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx_Code.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx_DataTypes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx_Error.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/Nlx_ObjNames.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorCSC.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorEV.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorSpike.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorSpike.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorVT.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/ProcessorVT.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/StdString.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeBuf.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeCSCBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeEventBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeMClustTSBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeSEBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeSTBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeTSBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeTTBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/TimeVideoBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/compatibility.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/compatibility32.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/Neuralynx_pipeline/releaseDec2015/source/compatibility64.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Do_clustering.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Force_files/ML_gaussian.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Force_files/build_templates.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Force_files/fit_gaussian.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Force_files/force_membership_wc.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Force_files/nearest_neighbor.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Get_spikes.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/Get_spikes_pol.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/amp_detect.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/amp_detect_pol.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/find_temp.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/fix_filter.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/fix_wavedec.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/index_detect_pol.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/int_spikes.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/int_spikes_pol.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/readInData.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/run_cluster.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/spike_alignment.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/spike_detection_filter.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/test_ks.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/update_parameters.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Batch_files/wave_features.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/Plot_all_features.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/Plot_amplitudes.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/Plot_continuous_data.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/Plot_polytrode.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/draw_histograms.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/mark_clusters_temperature_diagram.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/plot_spikes.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/plot_spikes_aux.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux1.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux2.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux3.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux4.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Gui_functions/wave_clus_aux5.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/intch_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/mat_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/nc5_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/ncs_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/pl2ch_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/supported_wc_extensions.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/Raw_data_readers/tdtch_wc_reader.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/main_spike_sorting.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/Mat2NlxCSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/Mat2NlxSE.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/Mat2NlxTT.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/README" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/compile.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/getRawCSCData.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/getRawCSCTimestamps.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/getRawSE.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/getRawTTLs.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/putRawCSC.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/putRawEV.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/putRawEV_verify.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/putRawTT.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/FileDataBucket.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/FileDataBucket.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/GeneralOperations.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/GeneralOperations.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Mat2NlxCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Mat2NlxEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Mat2NlxSE.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Mat2NlxTT.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatEVInclude.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatSpike.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatVTInclude.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx2MatVt.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx_Code.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx_Code.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx_DataTypes.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx_Error.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/Nlx_ObjNames.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorCSC.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorCSC.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorEV.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorEV.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorSpike.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorSpike.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorVT.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/ProcessorVT.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/StdString.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeBuf.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeCSCBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeEventBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeMClustTSBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeSEBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeSTBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeTSBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeTTBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/TimeVideoBuf.cpp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/compatibility.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/compatibility32.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/releaseDec2015/source/compatibility64.h" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/set_parameters.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/set_parameters_DEFAULT.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/set_parameters_ui.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/tools/parse_data_NSx.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/tools/parse_data_int.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/tools/parse_data_pl2.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/tools/parse_data_tdt.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spike_sorting/wave_clus-testing/wave_clus.m" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/.idea/modules.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/.idea/time_frequency_macro.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/time_frequency_macro/main_time_freq_macro.py" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="main_analyze_single_unit.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main/main_analyze_single_unit.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="515">
+              <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#93#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="analyses.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SU_functions/analyses.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="load_settings_params.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SU_functions/load_settings_params.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="648">
+              <caret line="39" column="23" lean-forward="false" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>event_id_temp</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/main_macro.py" />
+        <option value="$PROJECT_DIR$/functions/read_comparison_file.py" />
+        <option value="$PROJECT_DIR$/SU_functions/__init__.py" />
+        <option value="$PROJECT_DIR$/SU_functions/read_logs_and_comparisons" />
+        <option value="$PROJECT_DIR$/main_analyze_single_unit.py" />
+        <option value="$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq.py" />
+        <option value="$PROJECT_DIR$/time_frequency/main_epoch_macro_with_time_freq.py" />
+        <option value="$PROJECT_DIR$/time_frequency/high_gamma.py" />
+        <option value="$PROJECT_DIR$/SU_functions/high_gamma.py" />
+        <option value="$PROJECT_DIR$/SU_functions/read_logs_and_comparisons.py" />
+        <option value="$PROJECT_DIR$/SU_functions/load_data.py" />
+        <option value="$PROJECT_DIR$/Main/generate_spikes_CSC_files_from_wave_clus_output.py" />
+        <option value="$PROJECT_DIR$/Main/main_analyze_single_unit.py" />
+        <option value="$PROJECT_DIR$/SU_functions/load_settings_params.py" />
+        <option value="$PROJECT_DIR$/SU_functions/analyses.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="292" />
+    <option name="y" value="24" />
+    <option name="width" value="1400" />
+    <option name="height" value="1028" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+              <item name="Main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Code" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Code" type="462c0819:PsiDirectoryNode" />
+              <item name="SU_functions" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="Python" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/time_frequency" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/SU_functions" />
+      <recent name="$PROJECT_DIR$/time_frequency" />
+      <recent name="$PROJECT_DIR$/Main" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.main_analyze_single_unit">
+    <configuration name="generate_spikes_CSC_files_from_wave_clus_output" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/volatile/anaconda2/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Main" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Code" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main/generate_spikes_CSC_files_from_wave_clus_output.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="main_analyze_single_unit" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/volatile/anaconda2/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Code" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main/main_analyze_single_unit.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="main_epoch_macro_with_time_freq" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/volatile/anaconda2/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/macro_contacts_analysis" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Code" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="main_macro" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Code" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main_macro.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="Python.main_macro" />
+      <item index="1" class="java.lang.String" itemvalue="Python.main_epoch_macro_with_time_freq" />
+      <item index="2" class="java.lang.String" itemvalue="Python.main_analyze_single_unit" />
+      <item index="3" class="java.lang.String" itemvalue="Python.generate_spikes_CSC_files_from_wave_clus_output" />
+    </list>
+    <recent_temporary>
+      <list size="4">
+        <item index="0" class="java.lang.String" itemvalue="Python.main_analyze_single_unit" />
+        <item index="1" class="java.lang.String" itemvalue="Python.generate_spikes_CSC_files_from_wave_clus_output" />
+        <item index="2" class="java.lang.String" itemvalue="Python.main_epoch_macro_with_time_freq" />
+        <item index="3" class="java.lang.String" itemvalue="Python.main_macro" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21ede227-c8e2-4337-9853-48a4b11f2d6a" name="Default" comment="" />
+      <created>1512031374868</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1512031374868</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="65" y="-4" width="2495" height="1444" extended-state="6" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2492986" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32286996" sideWeight="0.52064127" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910448" sideWeight="0.48897797" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32286996" sideWeight="0.4793587" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991913" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910448" sideWeight="0.4985972" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Main/main_analyze_single_unit.py</url>
+          <line>94</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="183" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Main/main_analyze_single_unit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/analyses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/generate_spikes_CSC_files_from_wave_clus_output.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="31" column="28" lean-forward="false" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/read_logs_and_comparisons.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1476">
+          <caret line="83" column="61" lean-forward="true" selection-start-line="83" selection-start-column="61" selection-end-line="83" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/analyses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="45" column="32" lean-forward="false" selection-start-line="45" selection-start-column="32" selection-end-line="45" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/load_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="522">
+          <caret line="32" column="15" lean-forward="false" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/load_settings_params.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/main_analyze_single_unit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="90" column="112" lean-forward="false" selection-start-line="90" selection-start-column="112" selection-end-line="90" selection-end-column="112" />
+          <folding>
+            <element signature="e#0#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_macro.py" />
+    <entry file="file://$PROJECT_DIR$/time_frequency_macro/main_time_freq_macro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-734">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/read_comparison_file.py" />
+    <entry file="file://$PROJECT_DIR$/SU_functions/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/macro_contacts_analysis/main_epoch_macro_with_time_freq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2394">
+          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/numpy/core/shape_base.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="1025" column="0" lean-forward="false" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/read_logs_and_comparisons.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="83" column="61" lean-forward="false" selection-start-line="83" selection-start-column="61" selection-end-line="83" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/load_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="526">
+          <caret line="32" column="15" lean-forward="false" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/generate_spikes_CSC_files_from_wave_clus_output.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="35" column="22" lean-forward="true" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/load_settings_params.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="39" column="23" lean-forward="false" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SU_functions/analyses.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/main_analyze_single_unit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#93#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

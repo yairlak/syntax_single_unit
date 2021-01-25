@@ -1,0 +1,26 @@
+# LAUNCH ALL COMBINATIONS:
+
+
+# DATA
+patient: ['479_11 479_25 482 487 505 515']
+data-type: ['macro macro macro macro macro macro', 'micro micro micro micro micro micro', 'spike spike spike spike spike spike']
+filter: ['gaussian-kernel gaussian-kernel gaussian-kernel gaussian-kernel gaussian-kernel gaussian-kernel', 'high-gamma high-gamma high-gamma high-gamma high-gamma high-gamma']
+probe-name: ['LHSG-LSTG-RSTG-RPSTG-RASTG-LMTG-RPMTG']
+
+# QUERY
+comparison-name: ['consonant_vowels']
+comparison-name-test: [null]
+block-type: ['auditory']
+block-type-test: [null]
+level: ['phone']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+
+# GENERAL
+vmin: [null]
+vmax: [null]
+classifier: ['logistic']
+tmin: [-0.2]
+tmax: [1.3]
+decimate: [5]
+

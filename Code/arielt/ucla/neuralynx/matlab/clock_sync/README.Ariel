@@ -1,0 +1,9 @@
+If there are 30ms gaps (diff(timestamps)) consistently along the recording (to be identified in a manual comparison of the data), run:
+
+clock_sync(false, 'events_log', 0, false, '');  % to create: cheetah_event_times_bit?.log
+rm_30ms_extra_events;
+clock_sync(false, 'events_log', 0, false, '');
+
+
+-- Ariel.
+2018-03-19.

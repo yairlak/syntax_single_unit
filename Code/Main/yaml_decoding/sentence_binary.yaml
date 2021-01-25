@@ -1,0 +1,35 @@
+# LAUNCH ALL COMBINATIONS:
+#
+comparison-name: ['embedding', 'declarative_questions', 'decl_quest_len2']
+comparison-name-test: [null]
+patient: ['479_11', '479_25', '482', '487', '493', '502', '504', '505', '510', '513', '515']
+block-type: ['visual', 'auditory']
+block-type-test: [null]
+#data-type: ['spike']
+#filter: ['gaussian-kernel']
+data-type: ['micro']
+filter: ['gaussian-kernel']
+level: ['sentence_offset']
+probe-name: [null]
+#probe-name: ['LOBI', 'RMH', 'LFGP', 'LSTG', 'RPC', 'RFSG', 'RPMTG', 'RPSTG', 'LEC', 'LIP', 'LAC', 'ROF', 'LOF', 'LHSG', 'LMI', 'LMTG', 'RIFAC', 'LO', 'REC', 'RAC', 'RASTG', 'RA', 'LFSG', 'LAI', 'RAH', 'RSTG', 'RTO', 'LFGA', 'LMH', 'RIO', 'LA', 'LIO', 'RPHG', 'LAH', 'LAF', 'LPHG', 'LPSM', 'LSM', 'LIF', 'RAI']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+classifier: ['logistic']
+vmin: [null]
+vmax: [null]
+tmin: [-1.5]
+tmax: [1.]
+decimate: [20]
+#
+
+#patient_504
+#['LA', 'LAH', 'LAI', 'LEC', 'LIF', 'LMI', 'LOF', 'LPHG', 'RAH', 'REC']
+#----------------------------------------------------------------------------------------------------
+#patient_505
+#['LA', 'LAH', 'LEC', 'LFGA', 'LFGP', 'LHSG', 'LOBI', 'LOF', 'LSTG', 'RAH', 'RSTG']
+#----------------------------------------------------------------------------------------------------
+#patient_510
+#!!! - Micro and macro electrode names are not the same - !!!
+#micro: ['LA', 'LAF', 'LAH', 'LAI', 'LOF', 'LPC', 'LPSM', 'LSM', 'RA', 'RAH', 'RAI', 'ROF', 'RPSM']
+#macro: ['LA', 'LAF', 'LAH', 'LIA', 'LOF', 'LPC', 'LPSM', 'LSM', 'RA', 'RAH', 'RIA', 'ROF', 'RPSM']
+

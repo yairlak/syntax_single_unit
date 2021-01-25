@@ -1,0 +1,23 @@
+#!/bin/csh -f
+
+# Author: Ariel Tankus.
+# Created: 15.03.2005.
+# Modified: 24.04.2009.  Option for generic basename.
+
+
+if ($#argv < 1) then
+    set basename = mouse_recording
+else
+    set basename = $1
+endif
+
+./relative_mouse_events.perl $basename.log >! ${basename}_relative.log
+if (!(-s ${basename}_relative.log)) then  # ensure file is not empty.
+    exit 1
+endif
+d2u ${basename}_relative.log > /dev/null       # remove "converting from
+                                             # DOS to Unix..." message
+
+# 2017-09-07: was: awk '($2 == "CHEATAH_SIGNAL") || ($2 == "CHEETAH_SIGNAL") {print $1}' \
+awk '($3 == "CHEATAH_SIGNAL") || ($3 == "CHEETAH_SIGNAL") || ($2 == "CHEETAH_SIGNAL") {print $1}' \
+    ${basename}_relative.log >! ${basename}_times_relative.txt

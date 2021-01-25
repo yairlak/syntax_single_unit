@@ -1,0 +1,14 @@
+Data/
+Figures/
+Notes/
+Paradigm/
+pptx/
+*.log
+*.out
+*.err
+*.ns5
+*.ns3
+*.nev
+*.ncs
+*.fif
+*.mat

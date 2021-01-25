@@ -1,0 +1,20 @@
+# LAUNCH ALL COMBINATIONS:
+#
+comparison-name: ['pos_first', 'pos', 'word_zipf', 'word_length']
+comparison-name-test: [null]
+patient: ['479_11', '479_25', '493', '502', '505', '515']
+block-type: ['visual']
+block-type-test: [null]
+data-type: ['macro', 'micro', 'spike']
+filter: ['gaussian-kernel', 'high-gamma']
+level: ['word']
+probe-name: ['RPMTG', 'LMTG', 'RFSG', 'LFSG', 'LFGA', 'LFGP']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+classifier: ['logistic']
+vmin: [null]
+vmax: [null]
+tmin: [-0.2]
+tmax: [1.2]
+decimate: [10]
+#

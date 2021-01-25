@@ -1,0 +1,63 @@
+# LAUNCH ALL COMBINATIONS:
+#
+comparison-name: ['word_zipf', 'word_length', 'word_string']
+comparison-name-test: [null]
+patient: ['493', '502', '505', '515']
+block-type: ['visual']
+block-type-test: [null]
+data-type: ['micro', 'spike']
+filter: ['gaussian-kernel', 'gaussian-kernel-25', 'high-gamma']
+level: ['word']
+probe-name: ['RFSG', 'LFSG', 'LFGA', 'LFGP']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+classifier: ['logistic']
+vmin: [null]
+vmax: [null]
+tmin: [-0.1]
+tmax: [0.7]
+decimate: [10]
+
+    #    --patient 493 --data-type micro --filter gaussian-kernel --probe-name RFSG --patient 502 --data-type micro --filter gaussian-kernel --probe-name RFSG LFSG --patient 505 --data-type micro --filter gaussian-kernel --probe-name LFGA LFGP --patient 515 --data-type micro --filter gaussian-kernel --probe-name LFSG RFSG --patient 493 --data-type spike --filter gaussian-kernel --probe-name RFSG --patient 502 --data-type spike --filter gaussian-kernel --probe-name RFSG LFSG --patient 505 --data-type spike --filter gaussian-kernel --probe-name LFGA LFGP --patient 515 --data-type spike --filter gaussian-kernel --probe-name LFSG --patient 502 --data-type macro --filter gaussian-kernel --probe-name RFSG LFSG --patient 505 --data-type macro --filter gaussian-kernel --probe-name LFGP --patient 515 --data-type macro --filter gaussian-kernel --probe-name LFSG RFSG --c
+
+#patient_479_11
+#['LAH', 'LSTG', 'RASTG', 'RIFAC', 'RPC', 'RPMTG', 'RPSTG', 'RTO']
+#----------------------------------------------------------------------------------------------------
+#patient_479_25
+#['LAH', 'LSTG', 'RASTG', 'RIFAC', 'RPC', 'RPMTG', 'RPSTG', 'RTO']
+#----------------------------------------------------------------------------------------------------
+#patient_482
+#['LA', 'LAH', 'LEC', 'LIO', 'LIP', 'LO', 'LPHG', 'LSTG', 'RAH', 'REC', 'RIO']
+#----------------------------------------------------------------------------------------------------
+#patient_487
+#['LA', 'LAH', 'LEC', 'LOF', 'LPHG', 'LSTG', 'RA', 'RAH', 'REC', 'ROF']
+#----------------------------------------------------------------------------------------------------
+#patient_493
+#['LA', 'LAH', 'LEC', 'LOF', 'LPHG', 'RA', 'RAH', 'REC', 'RFSG', 'ROF']
+#----------------------------------------------------------------------------------------------------
+#Macros also include ROF and RAF - see Notes/log_summary.txt (2020Mar02)
+#patient_502
+#!!! - Micro and macro electrode names are not the same - !!!
+#micro: ['LA', 'LAC', 'LAF', 'LEC', 'LFSG', 'LMH', 'LOF', 'RA', 'RAC', 'REC', 'RFSG', 'RMH']
+#macro: ['LA1.ncs', 'LA2.ncs', 'LA3.ncs', 'LA4.ncs', 'LA5.ncs', 'LA6.ncs', 'LA7.ncs', 'LA8.ncs', 'LAC1.ncs', 'LAC2.ncs', 'LAC3.ncs', 'LAC4.ncs', 'LAC5.ncs', 'LAC6.ncs', 'LAC7.ncs', 'LAC8.ncs', 'LAF1.ncs', 'LAF2.ncs', 'LAF3.ncs', 'LAF4.ncs', 'LAF5.ncs', 'LAF6.ncs', 'LAF7.ncs', 'LEC1.ncs', 'LEC2.ncs', 'LEC3.ncs', 'LEC4.ncs', 'LEC5.ncs', 'LEC6.ncs', 'LEC7.ncs', 'LEC8.ncs', 'LFSG1.ncs', 'LFSG2.ncs', 'LFSG3.ncs', 'LFSG4.ncs', 'LFSG5.ncs', 'LFSG6.ncs', 'LFSG7.ncs', 'LMH1.ncs', 'LMH2.ncs', 'LMH3.ncs', 'LMH4.ncs', 'LMH5.ncs', 'LMH6.ncs', 'LMH7.ncs', 'LMH8.ncs', 'LOF1.ncs', 'LOF2.ncs', 'LOF3.ncs', 'LOF4.ncs', 'LOF5.ncs', 'LOF6.ncs', 'LOF7.ncs', 'LOF8.ncs', 'RA1.ncs', 'RA2.ncs', 'RA3.ncs', 'RA4.ncs', 'RA5.ncs', 'RA6.ncs', 'RA7.ncs', 'RA8.ncs', 'RAC1.ncs', 'RAC2.ncs', 'RAC3.ncs', 'RAC4.ncs', 'RAC5.ncs', 'RAC6.ncs', 'RAC7.ncs', 'RAC8.ncs', 'RAF1.ncs', 'RAF2.ncs', 'RAF3.ncs', 'RAF4.ncs', 'RAF5.ncs', 'RAF6.ncs', 'RAF7.ncs', 'RAF8.ncs', 'REC1.ncs', 'REC2.ncs', 'REC3.ncs', 'REC4.ncs', 'REC5.ncs', 'REC6.ncs', 'REC7.ncs', 'REC8.ncs', 'RFSG1.ncs', 'RFSG2.ncs', 'RFSG3.ncs', 'RFSG4.ncs', 'RFSG5.ncs', 'RFSG6.ncs', 'RFSG7.ncs', 'RMH1.ncs', 'RMH2.ncs', 'RMH3.ncs', 'RMH4.ncs', 'RMH5.ncs', 'RMH6.ncs', 'RMH7.ncs', 'RMH8.ncs', 'ROF1.ncs', 'ROF2.ncs', 'ROF3.ncs', 'ROF4.ncs', 'ROF5.ncs', 'ROF6.ncs', 'ROF7.ncs', 'ROF8.ncs']
+#----------------------------------------------------------------------------------------------------
+#patient_504
+#['LA', 'LAH', 'LAI', 'LEC', 'LIF', 'LMI', 'LOF', 'LPHG', 'RAH', 'REC']
+#----------------------------------------------------------------------------------------------------
+#patient_505
+#['LA', 'LAH', 'LEC', 'LFGA', 'LFGP', 'LHSG', 'LOBI', 'LOF', 'LSTG', 'RAH', 'RSTG']
+#----------------------------------------------------------------------------------------------------
+#patient_510
+#!!! - Micro and macro electrode names are not the same - !!!
+#micro: ['LA', 'LAF', 'LAH', 'LAI', 'LOF', 'LPC', 'LPSM', 'LSM', 'RA', 'RAH', 'RAI', 'ROF', 'RPSM']
+#macro: ['LA', 'LAF', 'LAH', 'LIA', 'LOF', 'LPC', 'LPSM', 'LSM', 'RA', 'RAH', 'RIA', 'ROF', 'RPSM']
+#----------------------------------------------------------------------------------------------------
+#patient_513
+#['LA', 'LAC', 'LAH', 'LAI', 'LOF', 'LPHG', 'RA', 'RAC', 'RAH', 'ROF', 'RPHG']
+#----------------------------------------------------------------------------------------------------
+#patient_515
+#['LA', 'LFSG', 'LMTG', 'LOF', 'LPHG', 'LSTG', 'RA', 'RAH', 'RFSG', 'ROF']
+#----------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------
+#{'RPC', 'LAH', 'LAI', 'LIO', 'RAH', 'LEC', 'RA', 'LMTG', 'LFGA', 'RPMTG', 'LO', 'LFSG', 'LOF', 'LPHG', 'LOBI', 'LSTG', 'LHSG', 'LA', 'LFGP', 'RSTG', 'LIF', 'ROF', 'LIP', 'RAC', 'RPSTG', 'LMI', 'RPHG', 'RIFAC', 'RFSG', 'RTO', 'LAC', 'REC', 'RIO', 'RASTG'}
+#

@@ -1,0 +1,22 @@
+# LAUNCH ALL COMBINATIONS:
+#
+#comparison-name: ['manner_of_articulation', 'place_of_articulation', 'sonority']
+comparison-name: ['manner_of_articulation', 'place_of_articulation']
+comparison-name-test: [null]
+patient: ['479_11', '479_25', '482', '487', '505', '515']
+#patient: ['515']
+block-type: ['auditory']
+block-type-test: [null]
+data-type: ['macro', 'micro', 'spike']
+filter: ['gaussian-kernel', 'gaussian-kernel-25', 'high-gamma']
+level: ['phone']
+probe-name: ['LHSG', 'LSTG', 'RSTG', 'RPSTG', 'RASTG', 'LMTG', 'RPMTG']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+vmin: [null]
+vmax: [null]
+classifier: ['logistic']
+tmin: [-0.15]
+tmax: [0.8]
+decimate: [4]
+

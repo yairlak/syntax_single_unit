@@ -135,9 +135,12 @@ for epochs in epochs_list:
             scores[feature_name]['std'] = []
         
             # REMOVE COLUMNS OF GIVEN FEATURE FROM DESIGN MATRIX
-            if feature_name != 'full':
+            if feature_name == 'full':
+                X_reduced = X.copy()
+            else:
                 st, ed = feature_info[feature_name]['IXs']
                 X_reduced = np.delete(X, range(st,ed), 1)
+                
             
             # LOOP OVER TIME POINTS
             for i_t, _ in enumerate(tqdm(times)):

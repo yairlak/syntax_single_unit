@@ -3,7 +3,7 @@ import sys, os, glob, warnings
 from utils import load_settings_params
 
 
-def get_probe_names(patient, micro_macro, path2data='../../Data/UCLA/'):
+def get_probe_names(patient, micro_macro, path2data='../../../Data/UCLA/'):
     path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', micro_macro, 'CSC_mat', 'channel_numbers_to_names.txt')
     try:
         with open(path2channel_names, 'r') as f:

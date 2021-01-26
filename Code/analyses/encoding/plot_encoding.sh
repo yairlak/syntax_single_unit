@@ -24,15 +24,6 @@ read PROBES
 echo "Which models (e.g., ridge lasso)?"
 read MODEL_TYPE
 
-echo "Type starting point (e.g., 0 or -0.05)?"
-read TMIN
-
-echo "Type end point (e.g., 0.4 or 0.5)?"
-read TMAX
-
-echo "Which fetures (e.g., letters word_length phone_string is_first_word is_last_word word_position tense pos_simple word_zipf morph_complex grammatical_number embedding wh_subj_obj dec_quest semantic_features)?"
-read FEATURES
-
 echo "Type query for epochs"
 read QUERY
 
@@ -95,11 +86,7 @@ for patient in $PATIENTS; do
 
 
                     #CMD='python /neurospin/unicog/protocols/intracranial/Syntax_with_Fried/Code/Main/encoding_model.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --block-type '$BLOCK' --feature-list'
-                    CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/encoding/encoding.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --feature-list'
-
-                    for feature in $FEATURES; do
-                        CMD+=' '$feature
-                    done
+                    CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/encoding/plot_encoding.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --model-type '$MODEL_TYPE' --query '$QUERY 
 
                     output_log='logs/rsa_'$model_type-$min_trials-$time_window-$num_bins-$T'.out'
                     error_log='logs/rsa_'$model_type-$min_trials-$time_window-$num_bins-$T'.err'

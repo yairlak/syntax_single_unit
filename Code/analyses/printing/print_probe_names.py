@@ -1,9 +1,10 @@
-import os, argparse
+import sys, os, argparse
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
+sys.path.append('../')
 from pprint import pprint
-from functions import data_manip, utils
+from utils import data_manip, utils
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--patient', action='append', default=[])
@@ -14,6 +15,7 @@ args=parser.parse_args()
 if not args.patient:
     args.patient = ['479_11', '479_25', '482', '487', '493', '502', '504', '505', '510', '513', '515']
 
+print(args)
 names_from_all_patients = []
 for patient in args.patient:
     probe_names_micro, channel_names_micro = utils.get_probe_names(patient, 'micro')
@@ -26,6 +28,7 @@ for patient in args.patient:
                 print('!!! - Micro and macro electrode names are not the same - !!!')
                 print('micro:', probe_names_micro)
                 print('macro:', probe_names_macro)
+                names_from_all_patients.extend(probe_names_micro)
             else:
                 print(probe_names_micro)
                 names_from_all_patients.extend(probe_names_micro)

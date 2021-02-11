@@ -131,9 +131,8 @@ for epochs in epochs_list:
             print(f'\nComputing scores for full model or without feature: {feature_name}')
             # INIT SCORES DICT
             scores[feature_name] = {}
-            scores[feature_name]['mean'] = []
-            scores[feature_name]['std'] = []
-        
+            scores[feature_name] = []
+            
             # REMOVE COLUMNS OF GIVEN FEATURE FROM DESIGN MATRIX
             if feature_name == 'full':
                 X_reduced = X.copy()
@@ -147,8 +146,7 @@ for epochs in epochs_list:
                 # SCORE
                 nested_scores = cross_val_score(model, X=X_reduced, y=y[:, i_t], cv=outer_cv)  
                 # APPEND                    
-                scores[feature_name]['mean'].append(nested_scores)
-                scores[feature_name]['std'].append(nested_scores)
+                scores[feature_name].append(nested_scores)
             
         
         ########

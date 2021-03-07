@@ -10,8 +10,8 @@ import os, argparse, re, sys, glob
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
-#sys.path.append('..')
-from functions import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
+sys.path.append('..')
+from utils import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
 import mne
 from mne.io import _merge_info
 import numpy as np
@@ -31,7 +31,6 @@ parser.add_argument('--dont-overwrite', default=False, action='store_true')
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
-
 
 if args.data_type == 'spike' and args.filter=='high-gamma':
     raise('no need to epoch spike with high-gamma filtering')
@@ -141,6 +140,9 @@ for ch in range(data.shape[1]):
 ########
 # SAVE #
 ########
+if not os.path.exists(settings.path2epoch_data):
+    os.makedirs(settings.path2epoch_data)
+
 fname = '%s_%s_%s_%s-epo.fif' % (args.patient, args.data_type, args.filter, args.level)
 epochs.save(os.path.join(settings.path2epoch_data, fname), split_size='1.8GB', overwrite=(not args.dont_overwrite))
 print('epochs saved to: %s' % os.path.join(settings.path2epoch_data, fname))

@@ -1,8 +1,5 @@
-import os, glob
 import numpy as np
 import mne
-from scipy import io
-from functions import convert_to_mne
 
 def compute_time_freq(channel_num, channel_name, channel_data, channel_type, events, event_id, metadata, settings, params):
     print('Analyzing high-gamma for channel ' + str(channel_num))
@@ -23,7 +20,7 @@ def compute_time_freq(channel_num, channel_name, channel_data, channel_type, eve
     raw.notch_filter(params.line_frequency, filter_length='auto', phase='zero')
 
     print('Epoching data...')
-    from collections import Counter
+    # from collections import Counter
     u, c = np.unique(events[:, 0], return_counts=True)
     #print(raw.first_samp)
     #print(events[:, 0])

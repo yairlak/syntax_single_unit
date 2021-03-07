@@ -2,6 +2,7 @@ import numpy as np
 import pickle, os
 import math
 from wordfreq import word_frequency, zipf_frequency
+import pandas as pd
 #from nltk import ngrams
 
 def read_log(block, settings):
@@ -75,8 +76,10 @@ def prepare_metadata(log_all_blocks, settings, params):
             metadata['chronological_order'].append(cnt); cnt += 1
             metadata['event_time'].append((int(curr_block_events['event_time'][i]) - settings.time0) / 1e6)
             metadata['block'].append(curr_block_events['block'][i])
-            metadata['first_phone'].append(curr_block_events['first_phone'][i])
-            metadata['phone_position'].append(int(curr_block_events['phone_position'][i]))
+            is_first_phone = curr_block_events['first_phone'][i]
+            metadata['first_phone'].append(is_first_phone)
+            phone_pos = int(curr_block_events['phone_position'][i])
+            metadata['phone_position'].append(phone_pos)
             metadata['phone_string'].append(curr_block_events['phone_string'][i])
             word_string = curr_block_events['word_string'][i]
             if word_string[-1] == '?' or word_string[-1] == '.':
@@ -88,7 +91,7 @@ def prepare_metadata(log_all_blocks, settings, params):
             #print(word_string, type(word_freq), type(word_zipf))
             metadata['word_freq'].append(word_freq)
             metadata['word_zipf'].append(word_zipf)
-            if curr_block_events['phone_string'][i] != 'END_OF_WAV': # ADD FEATURES FROM XLS FILE
+            if curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos==1: # ADD FEATURES FROM XLS FILE
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
@@ -99,11 +102,33 @@ def prepare_metadata(log_all_blocks, settings, params):
                 metadata['morpheme'].append(word2features[word_string][0])
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
+            elif curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and is_first_phone: 
+                metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
+                metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
+                metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
+                metadata['dec_quest'].append(-999)
+                metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
+                metadata['pos'].append(word2features_new[sn][wp]['pos'])
+                metadata['wh_subj_obj'].append(-999)
+                metadata['morpheme'].append(word2features[word_string][0])
+                metadata['morpheme_type'].append(int(word2features[word_string][1]))
+                metadata['word_type'].append(word2features[word_string][2])
+            elif curr_block_events['phone_string'][i] != 'END_OF_WAV' and not is_first_phone: 
+                metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
+                metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
+                metadata['word_length'].append(-1)
+                metadata['dec_quest'].append(-999)
+                metadata['grammatical_number'].append(-999)
+                metadata['pos'].append('-')
+                metadata['wh_subj_obj'].append(-999)
+                metadata['morpheme'].append('-')
+                metadata['morpheme_type'].append('-')
+                metadata['word_type'].append('-')
             else: # END-OF-WAV
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(-1)
-                metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
+                metadata['dec_quest'].append(-999)
                 metadata['grammatical_number'].append(-999)
                 metadata['pos'].append('-')
                 metadata['wh_subj_obj'].append(-999)
@@ -200,12 +225,34 @@ def extend_metadata(metadata):
     #print(sorted(glove.keys()))
     X = []
     for i_w, w in enumerate(metadata['word_string']):
-        if metadata['word_length'][i_w]>1:
+        if list(metadata['word_length'])[i_w]>1:
             vec = glove[w]
         else:
             vec = np.zeros(25)
         X.append(vec)
     metadata['semantic_features'] = X            
+    
+    # PHONOLOGICAL FEATURES
+    phones = metadata['phone_string']
+    fn_phonologica_features = '../features/phone.csv'
+    df_phonological_features = pd.read_csv(fn_phonologica_features)
+    phonological_features = list(df_phonological_features)
+    phonological_features.remove('PHONE')
+    # for phonological_feature in phonological_features:
+    #     print(phonological_feature)
+    feature_values = []
+    for ph in phones:
+        if ph not in [-1, 'END_OF_WAV']:
+            ph = ''.join([s for s in ph if not s.isdigit()]) # remove digits at the end if exist
+            # feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph][phonological_feature]
+            feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph]
+            feature_values.append(feature_value.values[0][1::])
+        else:
+            feature_values.append(np.zeros((1, len(phonological_features))))
+    metadata['phonological_features'] = feature_values
+    # feature_values = np.vstack(feature_values)
+    # feature_values = pd.DataFrame(data=feature_values, columns=phonological_features)
+    # metadata = pd.concat((metadata, feature_values), axis=1)
     
     return metadata
 

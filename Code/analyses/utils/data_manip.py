@@ -506,8 +506,8 @@ def load_neural_data(args):
             if args.decimate: epochs.decimate(args.decimate)
 
         metadata = epochs.metadata
-        metadata['word_start'] = metadata.apply(lambda row: row['word_string'][0], axis=1)
-        metadata['word_end'] = metadata.apply(lambda row: row['word_string'][-1], axis=1)
+        # metadata['word_start'] = metadata.apply(lambda row: row['word_string'][0], axis=1)
+        # metadata['word_end'] = metadata.apply(lambda row: row['word_string'][-1], axis=1)
         epochs.metadata = metadata
         epochs_list.append(epochs)
 

@@ -23,9 +23,9 @@ from sklearn.preprocessing import RobustScaler
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='479_11', help='Patient number')
+parser.add_argument('--patient', default='502', help='Patient number')
 parser.add_argument('--data-type', default='micro', help='macro/micro/spike')
-parser.add_argument('--filter', default='raw', help='raw/high-gamma/gaussian-kernel')
+parser.add_argument('--filter', default='gaussian-kernel', help='raw/high-gamma/gaussian-kernel')
 parser.add_argument('--level', default='sentence_onset', choices=['sentence_onset', 'sentence_offset', 'word', 'phone'], help='sentence_onset/sentence_offset/word/phone level')
 parser.add_argument('--dont-overwrite', default=False, action='store_true')
 args = parser.parse_args()
@@ -46,35 +46,30 @@ params = load_settings_params.Params(args.patient)
 preferences = load_settings_params.Preferences()
 pprint(preferences.__dict__); pprint(settings.__dict__); pprint(params.__dict__)
 
-print('Metadata: Loading features and comparisons from Excel files...')
-features = read_logs_and_features.load_features(settings)
-
 print('Logs: Reading experiment log files from experiment...')
 log_all_blocks = {}
 for block in blocks:
     log = read_logs_and_features.read_log(block, settings)
     log_all_blocks[block] = log
+print('Preparing meta-data')
+metadata = read_logs_and_features.prepare_metadata(log_all_blocks, settings, params)
 
-print('Loading POS tags for all words in the lexicon')
-word2pos = read_logs_and_features.load_POS_tags(settings)
 
 ##########
 # EVENTS #
 ##########
 
-print('Preparing meta-data')
-metadata = read_logs_and_features.prepare_metadata(log_all_blocks, settings, params)
 if args.level == 'sentence_onset':
     metadata = metadata.loc[((metadata['block'].isin([1,3,5]))&(metadata['word_position']==1)) | ((metadata['block'].isin([2,4,6]))&(metadata['word_position']==1)&(metadata['phone_position'] == 1))] 
     tmin, tmax = (-1, 3.5)
 elif args.level == 'sentence_offset':
-    metadata = metadata.loc[(metadata['word_position'] == -1)] # filter metadata to only sentence-offset events
+    metadata = metadata.loc[(metadata['word_position'] == 0)] # filter metadata to only sentence-offset events
     tmin, tmax = (-3.5, 1.5)
 elif args.level == 'word':
-    metadata = metadata.loc[((metadata['first_phone'] == 1) | (metadata['first_phone'] == -1)) & (metadata['word_position']>0)] # filter metadata to only word-onset events (first-phone==-1 (visual blocks))
+    metadata = metadata.loc[((metadata['first_phone'] == 1) & (metadata['block'].isin([2,4,6]))) | ((metadata['block'].isin([1,3,5])) & (metadata['word_position']>0))] # filter metadata to only word-onset events (first-phone==-1 (visual blocks))
     tmin, tmax = (-0.6, 1.5)
 elif args.level == 'phone':
-    metadata = metadata.loc[(metadata['block'].isin([2,4,6]))] # filter metadata to only phone-onset events in auditory blocks
+    metadata = metadata.loc[(metadata['block'].isin([2,4,6])) & (metadata['phone_position']>0)] # filter metadata to only phone-onset events in auditory blocks
     tmin, tmax = (-0.3, 1.2)
 else:
     raise('Unknown level type (sentence_onset/sentence_offset/word/phone)')

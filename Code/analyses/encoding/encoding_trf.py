@@ -25,18 +25,19 @@ from utils.features import get_features
 
 parser = argparse.ArgumentParser(description='Train an encoding model on neural data')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'], help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=['micro'], help='electrode type')
+parser.add_argument('--patient', action='append', default=[], help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
 # parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='sentence_onset', help='')
-parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=['gaussian-kernel'], help='')
-parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=[], help='')
+parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
 parser.add_argument('--channe-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY
-parser.add_argument('--query', default=['block in [1,3,5]'], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
+parser.add_argument('--query', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 # parser.add_argument('--feature-list', default=['word_length', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos_simple', 'word_zipf', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features', 'letters'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
-parser.add_argument('--feature-list', default=['is_first_word', 'is_last_word', 'word_zipf', 'letters', 'grammatical_number'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
+# word_length word_position tense pos_simple morph_complex embedding wh_subj_obj semantic_features
+parser.add_argument('--feature-list', default=[], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
 parser.add_argument('--label-from-metadata', default=[], help='Field name in metadata that will be used to generate labels for the different classes. If empty, condition_names in comparison will be used')
 parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
 # MODEL
@@ -48,7 +49,7 @@ parser.add_argument('--tmin', default=-0.6, type=float, help='')
 parser.add_argument('--tmax', default=0.8, type=float, help='')
 parser.add_argument('--tmin_rf', default=-0.1, type=float, help='')
 parser.add_argument('--tmax_rf', default=0.7, type=float, help='')
-parser.add_argument('--decimate', default=10, type=float, help='If not empty, (for speed) decimate data by the provided factor.')
+parser.add_argument('--decimate', default=0, type=float, help='If not empty, (for speed) decimate data by the provided factor.')
 # PATHS
 parser.add_argument('--path2output', default=os.path.join('..', '..', '..', 'Output', 'encoding_models'), help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--dont-overwrite', default=False, action='store_true', help="If True then file will be overwritten")
@@ -61,7 +62,7 @@ args = parser.parse_args()
 args.patient = ['patient_' + p for p in  args.patient]
 args.block_type = 'both' # allow only querying
 print('args\n', args)
-assert len(args.patient)==len(args.data_type)==len(args.filter)==len(args.probe_name)
+assert len(args.patient)==len(args.data_type)==len(args.filter)
 # FNAME
 list_args2fname = ['patient', 'data_type', 'filter', 'model_type', 'query', 'probe_name']
 args2fname = args.__dict__.copy()
@@ -154,7 +155,7 @@ for feature_name in ['full'] + args.feature_list: # LOOP OVER FEATURE NAMES (E.G
     y_sentence = np.transpose(y_sentence, [2, 0, 1]) # num_timepoints X num_channels X num_trials
     y_word = epochs_word.get_data()
     y_word = np.transpose(y_word, [2, 0, 1])
-    print('Target variable dimenstions:', y_sentence.shape)
+
     
     ##############
     # INIT MODEL #
@@ -192,6 +193,8 @@ for feature_name in ['full'] + args.feature_list: # LOOP OVER FEATURE NAMES (E.G
     # SCORE #
     #########    
     print(f'Split {i_split+1}/{args.n_folds_outer}')
+    print('Input variable dimenstions:', X_sentence_reduced.shape)
+    print('Target variable dimenstions:', y_sentence.shape)
     rf_sentence.fit(X_sentence_reduced, y_sentence)
     rf_word.fit(X_word_reduced[:,:2,:], y_word[:,:2,:])
     y_pred = rf_sentence.predict(X_word_reduced)

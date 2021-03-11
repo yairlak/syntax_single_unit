@@ -13,24 +13,24 @@ from sklearn.metrics import r2_score
 from operator import itemgetter
 from pprint import pprint
 from utils.read_logs_and_features import extend_metadata
-from utils import comparisons, load_settings_params
+from utils import comparisons, load_settings_params, data_manip
 from utils.utils import probename2picks, rescale, update_queries, pick_responsive_channels
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
-parser.add_argument('--patient', default='479_11', help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], default='micro', help='electrode type')
+parser.add_argument('--patient', default='493', help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], default='macro', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='sentence_onset', help='')
-parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], default='high-gamma', help='')
+parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], default='gaussian-kernel', help='')
 parser.add_argument('--probe-name', default=[], nargs='*', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
-parser.add_argument('--comparison-name', default=[], help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='all_trials', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
-parser.add_argument('--tmin', default=[], type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
-parser.add_argument('--tmax', default=[], type=float, help='crop window')
+parser.add_argument('--tmin', default=None, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
+parser.add_argument('--tmax', default=None, type=float, help='crop window')
 parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
 parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default='zscore', help='Type of baseline method')
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
@@ -65,9 +65,10 @@ print('Loading settings...')
 settings = load_settings_params.Settings(args.patient)
 
 # LOAD
-fname = '%s_%s_%s_%s-epo.fif' % (args.patient, args.data_type, args.filter, args.level)
-epochs = mne.read_epochs(os.path.join(settings.path2epoch_data, fname), preload=True)
+# fname = '%s_%s_%s_%s-epo.fif' % (args.patient, args.data_type, args.filter, args.level)
+# epochs = mne.read_epochs(os.path.join(settings.path2epoch_data, fname), preload=True)
 #epochs.metadata = extend_metadata(epochs.metadata)
+epochs = data_manip.load_neural_data(args)[0]
 
 # COMPARISON
 comparisons = comparisons.comparison_list()
@@ -137,11 +138,11 @@ for ch, ch_name in enumerate(epochs.ch_names):
     # output filename of figure
     str_comparison = '_'.join([tup[0] for tup in comparison['queries']])
     if not args.save2:
-        fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s.png' % (args.patient, args.data_type, args.level, args.filter, ch_name, args.block_type, args.comparison_name, '_'.join(comparison['sort']))
+        fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s.png' % (args.patient[0], args.data_type[0], args.level, args.filter[0], ch_name, args.block_type, args.comparison_name, '_'.join(comparison['sort']))
         if args.responsive_channels_only:
-            dname_fig = os.path.join(settings.path2figures, 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)
+            dname_fig = os.path.join(settings.path2figures, 'Comparisons', 'responsive', args.comparison_name, args.patient[0], 'ERPs', args.data_type[0])
         else:
-            dname_fig = os.path.join(settings.path2figures, 'Comparisons', args.comparison_name, args.patient, 'ERPs', args.data_type)
+            dname_fig = os.path.join(settings.path2figures, 'Comparisons', args.comparison_name, args.patient[0], 'ERPs', args.data_type[0])
         if not os.path.exists(dname_fig):
             os.makedirs(dname_fig)
         fname_fig = os.path.join(dname_fig, fname_fig)

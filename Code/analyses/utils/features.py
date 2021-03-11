@@ -25,7 +25,7 @@ def get_features(metadata, feature_list):
 
     '''
     if not feature_list:
-        feature_list = ['letters', 'word_length', 'phone_string', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos', 'pos_simple', 'word_zipf', 'morpheme', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features']
+        feature_list = ['letters', 'word_length', 'phone_string', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos', 'pos_simple', 'word_zipf', 'morpheme', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features', 'phonological_features']
     print(feature_list)
     num_samples = len(metadata.index)
     feature_values = []
@@ -62,10 +62,22 @@ def get_features(metadata, feature_list):
         if feature_name == 'semantic_features':
             values = metadata[feature_name]
             st = len(feature_values)
-            values_unique = ['semantic-dim-' + str(i) for i in range(1, 26)]
+            values_unique = [feature_name + '-' + str(i) for i in range(1, 26)]
             feature_values.extend(values_unique)
             num_features = len(values_unique)
         
+        #########################
+        # PHONOLOGICAL FEATURES #
+        #########################
+        elif feature_name == 'phonological_features':
+            values = metadata[feature_name]
+            st = len(feature_values)
+            values_unique = 'DORSAL,CORONAL,LABIAL,HIGH,FRONT,LOW,BACK,PLOSIVE,FRICATIVE,SYLLABIC,NASAL,VOICED,OBSTRUENT,SONORANT,SIBILANTS'.split(',')
+            values_unique = [w.lower().capitalize() for w in values_unique]
+            values_unique = [feature_name + '-' + w for w in values_unique]
+            feature_values.extend(values_unique)
+            num_features = len(values_unique)
+            
         #####################
         # LETTER   FEATURES #
         #####################
@@ -76,7 +88,7 @@ def get_features(metadata, feature_list):
             print(values_unique)
             num_features = len(values_unique)
             st = len(feature_values) 
-            feature_values.extend(values_unique)
+            
             values = []
             for w in metadata['word_string']:
                 row_vector = np.zeros((1, num_features))
@@ -84,7 +96,8 @@ def get_features(metadata, feature_list):
                 IXs = [values_unique.index(l) for l in curr_letters]
                 row_vector[0, IXs] = 1
                 values.append(row_vector)
-
+            values_unique = ['letter-' +  w for w in values_unique]
+            feature_values.extend(values_unique)
         ######################
         # ALL OTHER FEATURES #
         ######################
@@ -94,19 +107,21 @@ def get_features(metadata, feature_list):
             st = len(feature_values)
             if dict_prop['one-hot']: # ONE-HOT ENCODING OF FEATURE
                 num_features = len(values_unique)
+                values_unique = [feature_name +'-' + str(w) for w in values_unique]
                 feature_values.extend(values_unique)
             else: # A SINGLE CONTINUOUS FEATURE
                 num_features = 1
                 feature_values.extend([feature_name])
+                values_unique = [feature_name]
         
         ed = len(feature_values)
         design_matrix = np.zeros((num_samples, num_features))
         for i_sample, curr_value in enumerate(values):
             row_vector = np.zeros((1, num_features))
-            if feature_name in ['semantic_features', 'letters']:
+            if feature_name in ['semantic_features', 'letters', 'phonological_features']:
                 row_vector = curr_value
             elif dict_prop['one-hot']:
-                IX = values_unique.index(curr_value)
+                IX = values_unique.index(feature_name +'-' + str(curr_value))
                 row_vector[0, IX] = 1
             else:
                 row_vector[0,0] = curr_value
@@ -209,7 +224,7 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = False
+        dict_prop['one-hot'] = True
     
     # EMBEDDING
     if feature_name == 'embedding':
@@ -223,7 +238,7 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-.'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = False
+        dict_prop['one-hot'] = True
     
     # DECLARATIVE VS. QUESTIONS
     if feature_name == 'dec_quest':
@@ -251,10 +266,16 @@ def get_feature_style(feature_name):
     # PHONE STRING
     if feature_name == 'phone_string':
         dict_prop['color'] = 'm'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = '--'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = True
     
+    if feature_name == 'phonological_features':
+        dict_prop['color'] = 'm'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
+        
     #####################################
     # SEMANTICS
     if feature_name == 'semantic_features':

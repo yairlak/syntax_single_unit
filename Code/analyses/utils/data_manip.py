@@ -443,17 +443,19 @@ def load_neural_data(args):
         try:
             settings = load_settings_params.Settings(patient)
             fname = '%s_%s_%s_%s-epo.fif' % (patient, data_type, filt, args.level)
+            fname = os.path.join(settings.path2epoch_data, fname)
             print(fname)
-            epochs = mne.read_epochs(os.path.join(settings.path2epoch_data, fname), preload=True)
+            epochs = mne.read_epochs(fname, preload=True)
             if 'block_type' in args.__dict__:
                 if args.block_type == 'auditory':
                     epochs = epochs['block in [2, 4, 6]'] 
                 elif args.block_type == 'visual':
                     epochs = epochs['block in [1, 3, 5]']
             epochs.metadata = extend_metadata(epochs.metadata) # EXTEND METADATA
-        except: # Data not found
+        except Exception as e: # Data not found
             print(args.__dict__)
-            print(f'WARNING: data not found for {patient} {data_type} {filt} {args.level}: {fname}')
+            print(fname, str(e))
+            # print(f'WARNING: data not found for {patient} {data_type} {filt} {args.level}: {fname}')
             continue
         
         if 'query' in args.__dict__.keys() and args.query:
@@ -466,40 +468,46 @@ def load_neural_data(args):
             epochs.crop(args.tmin, args.tmax)
 
         # PICK
-        if args.probe_name:
-            probe_name = args.probe_name[p]
-            picks = probename2picks(probe_name, epochs.ch_names, data_type)
-        elif args.channel_name:
-            channel_names = args.channel_name[p]
-            picks = channel_names
-        elif args.channel_num:
-            picks = args.channel_num[p]
+        picks = None
+        if 'probe_name' in args:
+            if args.probe_name:
+                probe_name = args.probe_name[p]
+                picks = probename2picks(probe_name, epochs.ch_names, data_type)
+        if 'channel_name' in args:
+            if args.channel_name:
+                channel_names = args.channel_name[p]
+                picks = channel_names
+        if 'channel_num' in args:
+            if args.channel_num:
+                picks = args.channel_num[p]
         print('picks:', picks)
-        if not picks:
-            continue
+        # if not picks:
+        #     continue
 
         epochs.pick(picks)
 
         # RESPONSIVE CHANNELS
-        if args.responsive_channels_only:
-            if args.block_type_test: # pick significant channels from both modalities
-                block_types = list(set([args.block_type, args.block_type_test]))
-            else:
-                block_types = [args.block_type] # In next line, list is expected with all block types
-            picks = pick_responsive_channels(epochs.ch_names, patient, data_type, filt, block_types , p_value=0.05)
-            if picks:
-                epochs.pick_channels(picks)
-            else:
-                print(f'WARNING: No responsive channels were found for {patient} {data_type} {filt} {probe_name}')
-                continue
+        if 'responsive_channels_only' in args:
+            if args.responsive_channels_only:
+                if args.block_type_test: # pick significant channels from both modalities
+                    block_types = list(set([args.block_type, args.block_type_test]))
+                else:
+                    block_types = [args.block_type] # In next line, list is expected with all block types
+                picks = pick_responsive_channels(epochs.ch_names, patient, data_type, filt, block_types , p_value=0.05)
+                if picks:
+                    epochs.pick_channels(picks)
+                else:
+                    print(f'WARNING: No responsive channels were found for {patient} {data_type} {filt} {probe_name}')
+                    continue
 
 
         # DECIMATE
-        if args.decimate: epochs.decimate(args.decimate)
+        if 'decimate' in args:
+            if args.decimate: epochs.decimate(args.decimate)
 
         metadata = epochs.metadata
-        metadata['word_start'] = metadata.apply(lambda row: row['word_string'][0], axis=1)
-        metadata['word_end'] = metadata.apply(lambda row: row['word_string'][-1], axis=1)
+        # metadata['word_start'] = metadata.apply(lambda row: row['word_string'][0], axis=1)
+        # metadata['word_end'] = metadata.apply(lambda row: row['word_string'][-1], axis=1)
         epochs.metadata = metadata
         epochs_list.append(epochs)
 

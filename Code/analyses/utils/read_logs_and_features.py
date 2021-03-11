@@ -2,6 +2,7 @@ import numpy as np
 import pickle, os
 import math
 from wordfreq import word_frequency, zipf_frequency
+import pandas as pd
 #from nltk import ngrams
 
 def read_log(block, settings):
@@ -31,9 +32,9 @@ def read_log(block, settings):
         lines = [l for l in lines if l[1] == 'DISPLAY_TEXT' and l[2] != 'OFF']
         events['event_time'] = [l[0] for l in lines]
         events['block'] = len(events['event_time']) * [block]
-        events['first_phone'] = len(events['event_time']) * [-1] # not relevant for visual blocks
-        events['phone_position'] = len(events['event_time']) * [-1] # not relevant for visual blocks
-        events['phone_string'] = len(events['event_time']) * [-1]  # not relevant for visual blocks
+        events['first_phone'] = len(events['event_time']) * [0] # not relevant for visual blocks
+        events['phone_position'] = len(events['event_time']) * [0] # not relevant for visual blocks
+        events['phone_string'] = len(events['event_time']) * ['']  # not relevant for visual blocks
         events['word_position'] = [int(l[4]) for l in lines]
         events['word_string'] = [l[5] for l in lines]
         events['stimulus_number'] = [int(l[3]) for l in lines]
@@ -43,7 +44,6 @@ def read_log(block, settings):
 
 def prepare_metadata(log_all_blocks, settings, params):
     '''
-
     :param log_all_blocks: list len = #blocks
     :param features: numpy
     :param settings:
@@ -68,6 +68,7 @@ def prepare_metadata(log_all_blocks, settings, params):
         for i in range(len(curr_block_events['event_time'])):
             sn = int(curr_block_events['stimulus_number'][i])
             wp = int(curr_block_events['word_position'][i])
+            if wp == -1: wp = 0
             #print(sn, wp)
             #print(word2features_new[sn])
             metadata['stimulus_number'].append(sn)
@@ -75,20 +76,26 @@ def prepare_metadata(log_all_blocks, settings, params):
             metadata['chronological_order'].append(cnt); cnt += 1
             metadata['event_time'].append((int(curr_block_events['event_time'][i]) - settings.time0) / 1e6)
             metadata['block'].append(curr_block_events['block'][i])
-            metadata['first_phone'].append(curr_block_events['first_phone'][i])
-            metadata['phone_position'].append(int(curr_block_events['phone_position'][i]))
+            is_first_phone = curr_block_events['first_phone'][i]
+            if is_first_phone==-1: is_first_phone=0
+            metadata['first_phone'].append(is_first_phone)
+            phone_pos = int(curr_block_events['phone_position'][i])
+            metadata['phone_position'].append(phone_pos)
             metadata['phone_string'].append(curr_block_events['phone_string'][i])
             word_string = curr_block_events['word_string'][i]
             if word_string[-1] == '?' or word_string[-1] == '.':
                 word_string = word_string[0:-1]
             word_string = word_string.lower()
+            if word_string == '-': word_string = ''
             metadata['word_string'].append(word_string)
             word_freq = word_frequency(word_string, 'en')
             word_zipf = zipf_frequency(word_string, 'en')
             #print(word_string, type(word_freq), type(word_zipf))
-            metadata['word_freq'].append(word_freq)
-            metadata['word_zipf'].append(word_zipf)
-            if curr_block_events['phone_string'][i] != 'END_OF_WAV': # ADD FEATURES FROM XLS FILE
+            # ADD FEATURES FROM XLS FILE
+            sentence_onset = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos==1) or (phone_pos==0)
+            middle_word_onset = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and is_first_phone) or (curr_block_events['block'][i] in [1,3,5])
+            middle_phone = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and (not is_first_phone) and (curr_block_events['block'][i] in [2,4,6]))
+            if sentence_onset: # ADD WORD AND- SENTENCE-LEVEL FEATURES
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
@@ -99,45 +106,81 @@ def prepare_metadata(log_all_blocks, settings, params):
                 metadata['morpheme'].append(word2features[word_string][0])
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
-            else: # END-OF-WAV
+                metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
+                metadata['word_freq'].append(word_freq)
+                metadata['word_zipf'].append(word_zipf)
+            elif middle_word_onset: # ADD WORD-LEVEL FEATURES
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
-                metadata['word_length'].append(-1)
-                metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
-                metadata['grammatical_number'].append(-999)
-                metadata['pos'].append('-')
-                metadata['wh_subj_obj'].append(-999)
-                metadata['morpheme'].append('-')
-                metadata['morpheme_type'].append('-')
-                metadata['word_type'].append('-')
+                metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
+                metadata['dec_quest'].append(0)
+                metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
+                metadata['pos'].append(word2features_new[sn][wp]['pos'])
+                metadata['wh_subj_obj'].append(0)
+                metadata['morpheme'].append(word2features[word_string][0])
+                metadata['morpheme_type'].append(int(word2features[word_string][1]))
+                metadata['word_type'].append(word2features[word_string][2])
+                metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
+                metadata['word_freq'].append(word_freq)
+                metadata['word_zipf'].append(word_zipf)
+            elif middle_phone: # NO WORD/SENTENCE-LEVEL FEATURES
+                metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
+                metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
+                metadata['word_length'].append(0)
+                metadata['dec_quest'].append(0)
+                metadata['grammatical_number'].append(0)
+                metadata['pos'].append('')
+                metadata['wh_subj_obj'].append(0)
+                metadata['morpheme'].append('')
+                metadata['morpheme_type'].append('')
+                metadata['word_type'].append('')
+                metadata['last_word'].append(False)
+                metadata['word_freq'].append(0)
+                metadata['word_zipf'].append(0)
+            elif curr_block_events['phone_string'][i] == 'END_OF_WAV': # END-OF-WAV
+                metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
+                metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
+                metadata['word_length'].append(0)
+                metadata['dec_quest'].append(0)
+                metadata['grammatical_number'].append(0)
+                metadata['pos'].append('')
+                metadata['wh_subj_obj'].append(0)
+                metadata['morpheme'].append('')
+                metadata['morpheme_type'].append('')
+                metadata['word_type'].append('')
+                metadata['last_word'].append(False)
+                metadata['word_freq'].append(0)
+                metadata['word_zipf'].append(0)
+                metadata['phone_position'][-1] = 0
+            else:
+                raise('Unknown log value')
             
-            metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
             
-            # SINCE ONLY IN THE AUDITORY LOGS THERE'S END-OF-WAVE (WORD_POSITION=-1),
+            # SINCE ONLY IN THE AUDITORY LOGS THERE'S END-OF-WAV (WORD_POSITION=0),
             # WE ADD HERE ANOTHER ROW FOR END OF SENTENCE FOR VISUAL BLOCKS (OFFSET OF LAST WORD)
             if metadata['last_word'][-1] and metadata['block'][-1] in [1, 3, 5]:
                 metadata['chronological_order'].append(cnt); cnt += 1
                 t = metadata['event_time'][-1] + params.word_ON_duration*1e-3
                 metadata['event_time'].append(t)
-                metadata['block'].append(block)
+                metadata['block'].append(curr_block_events['block'][i])
                 metadata['first_phone'].append(0)
-                metadata['phone_position'].append(-1)
-                metadata['phone_string'].append('-')
+                metadata['phone_position'].append(0)
+                metadata['phone_string'].append('')
                 metadata['stimulus_number'].append(int(curr_block_events['stimulus_number'][i]))
-                metadata['word_position'].append(-1)
+                metadata['word_position'].append(0)
                 metadata['word_string'].append('.')
-                metadata['pos'].append('-')
-                metadata['morpheme'].append('-')
-                metadata['morpheme_type'].append('-')
-                metadata['word_type'].append('-')
-                metadata['word_freq'].append(-999)
-                metadata['word_zipf'].append(-999)
+                metadata['pos'].append('')
+                metadata['morpheme'].append('')
+                metadata['morpheme_type'].append('')
+                metadata['word_type'].append('')
+                metadata['word_freq'].append(0)
+                metadata['word_zipf'].append(0)
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
-                metadata['word_length'].append(-1)
-                metadata['dec_quest'].append(-999)
-                metadata['grammatical_number'].append(-999)
-                metadata['wh_subj_obj'].append(-999)
+                metadata['word_length'].append(0)
+                metadata['dec_quest'].append(0)
+                metadata['grammatical_number'].append(0)
+                metadata['wh_subj_obj'].append(0)
                 metadata['last_word'].append(False)
 
     return pd.DataFrame(metadata)
@@ -162,7 +205,7 @@ def extend_metadata(metadata):
             tense = dict_tense[pos[-1]]
             if tense == 'passive': tense = 'past' # HACK: all passive forms are in past
         else: # not a verb
-            tense = '-'
+            tense = ''
         tenses.append(tense)
     metadata['tense'] = tenses
     
@@ -200,12 +243,34 @@ def extend_metadata(metadata):
     #print(sorted(glove.keys()))
     X = []
     for i_w, w in enumerate(metadata['word_string']):
-        if metadata['word_length'][i_w]>1:
+        if list(metadata['word_length'])[i_w]>1:
             vec = glove[w]
         else:
             vec = np.zeros(25)
         X.append(vec)
     metadata['semantic_features'] = X            
+    
+    # PHONOLOGICAL FEATURES
+    phones = metadata['phone_string']
+    fn_phonologica_features = '../features/phone.csv'
+    df_phonological_features = pd.read_csv(fn_phonologica_features)
+    phonological_features = list(df_phonological_features)
+    phonological_features.remove('PHONE')
+    # for phonological_feature in phonological_features:
+    #     print(phonological_feature)
+    feature_values = []
+    for ph in phones:
+        if ph and ph!=-1:
+            ph = ''.join([s for s in ph if not s.isdigit()]) # remove digits at the end if exist
+            # feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph][phonological_feature]
+            feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph]
+            feature_values.append(feature_value.values[0][1::])
+        else:
+            feature_values.append(np.zeros((1, len(phonological_features))))
+    metadata['phonological_features'] = feature_values
+    # feature_values = np.vstack(feature_values)
+    # feature_values = pd.DataFrame(data=feature_values, columns=phonological_features)
+    # metadata = pd.concat((metadata, feature_values), axis=1)
     
     return metadata
 
@@ -352,16 +417,16 @@ def load_word_features(settings, word_features_filename='word_features.xlsx', wo
 
 
         # add for word_position=-1 (end of sentence):
-        if -1 not in word2features_new[s].keys():
-            word2features_new[s][-1]= {}
-            word2features_new[s][-1]['sentence_string'] = row['sentence_string']
+        if 0 not in word2features_new[s].keys():
+            word2features_new[s][0]= {}
+            word2features_new[s][0]['sentence_string'] = row['sentence_string']
             for f in row.keys():
                 if f in ['word_string', 'pos']:
-                    word2features_new[s][-1][f] = ''
+                    word2features_new[s][0][f] = ''
                 elif f == 'sentence_string':
                     pass
                 else:
-                    word2features_new[s][-1][f] = -999
+                    word2features_new[s][0][f] = 0
 
     return word2features, word2features_new
 
@@ -388,167 +453,3 @@ def load_comparisons_and_features(settings):
     features = {'headers': headers, 'fields': fields}
     
     return comparison_list, features
-
-
-class LogSingleUnit:
-    def __init__(self, settings, block):
-        self.log_filename = settings.log_name_beginning + str(block) + '.log'
-
-    def append_log(self):
-        with open(os.path.join(settings.path2data, self.log_filename)) as f:
-            self.log_content = f.readlines()
-            # remove whitespace characters like `\n` at the end of each line
-            self.log_content = [x.strip() for x in self.log_content]
-
-    def read_and_parse_log(self, settings):
-        with open(os.path.join(settings.path2log, self.log_filename)) as f:
-            log_content = [line.split() for line in f]
-
-        # Find all event types (DISPLAY_TEXT, FIXATION, KEY_PRESS, etc.)
-        event_types_in_paradigm_log = [i[1] for i in log_content]
-        event_types_in_paradigm_log = list(set().union(event_types_in_paradigm_log, event_types_in_paradigm_log))
-
-        # For each event type, extract onset times and stimulus information
-        event_types_added = []
-        for event_type in event_types_in_paradigm_log:
-            if event_type == 'DISPLAY_TEXT':
-                setattr(self, event_type + '_WORDS_ON_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append(event_type + '_WORDS_ON_TIMES')
-                setattr(self, event_type + '_WORD_NUM',
-                        [i[2] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append(event_type + '_WORD_NUM')
-                setattr(self, event_type + '_SENTENCE_NUM',
-                        [i[3] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append(event_type + '_SENTENCE_NUM')
-                setattr(self, event_type + '_WORD_SERIAL_NUM',
-                        [i[4] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append(event_type + '_WORD_SERIAL_NUM')
-                setattr(self, event_type + '_WORD_STRING',
-                        [i[5] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append(event_type + '_WORD_STRING')
-                setattr(self, 'FIRST_WORD_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] != 'OFF' if i[4] == '1'])
-                event_types_added.append('FIRST_WORD_TIMES')
-                setattr(self, 'SENTENCE_NUM', [i[3] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append('SENTENCE_NUM')
-                setattr(self, 'WORD_SERIAL_NUM', [i[4] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append('WORD_SERIAL_NUM')
-                self.SENTENCE_NUM_ORDER = [];
-                last_sent = []
-                for i in self.SENTENCE_NUM:
-                    if i != last_sent:
-                        self.SENTENCE_NUM_ORDER.append(int(i))
-                        last_sent = i
-                event_types_added.append('SENTENCE_NUM_ORDER')
-                setattr(self, event_type + '_OFF_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] == 'OFF'])  # WORD-IMAGE IS 'OFF'
-                event_types_added.append(event_type + '_OFF_TIMES')
-
-                setattr(self, 'WORD_STRING', [i[5] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append('WORD_STRING')
-                setattr(self, 'WORDS_ON_TIMES', [i[0] for i in log_content if event_type == i[1] and i[2] != 'OFF'])
-                event_types_added.append('WORDS_ON_TIMES')
-
-                sentences_start, sentences_end, sentences_length = get_sentences_start_end_length(
-                    self.SENTENCE_NUM_ORDER, settings)
-                setattr(self, 'FIRST_WORD_TIMES1', [i[0] for i in log_content if event_type == i[1] and i[2] != 'OFF' if
-                                                    int(i[2]) in sentences_start.values()])
-                event_types_added.append('FIRST_WORD_TIMES1')  # SANITY CHECK: FIRST_WORD_TIMES=FIRST_WORD_TIMES1
-                setattr(self, 'LAST_WORD_TIMES', [i[0] for i in log_content if event_type == i[1] and i[2] != 'OFF' if
-                                                  int(i[2]) in sentences_end.values()])
-                event_types_added.append('LAST_WORD_TIMES')
-
-                word_strings_parsed = [s[0:-1] if s[-1] in ['.', '?'] else s for s in self.WORD_STRING]
-                num_letters = [len(s) for s in word_strings_parsed]
-                setattr(self, 'num_letters', num_letters)
-                event_types_added.append('num_letters')
-
-            elif event_type == 'AUDIO_PLAYBACK_ONSET':
-                setattr(self, event_type + '_WORDS_ON_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append(event_type + '_WORDS_ON_TIMES')
-                setattr(self, event_type + '_WORD_NUM',
-                        [i[2] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append(event_type + '_WORD_NUM')
-                setattr(self, event_type + '_WAV_FILE',
-                        [i[3] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append('SENTENCE_NUM')
-                setattr(self, event_type + '_WORD_SERIAL_NUM',
-                        [i[4] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append(event_type + '_WORD_SERIAL_NUM')
-                setattr(self, event_type + '_WORD_STRING',
-                        [i[5] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append(event_type + '_WORD_STRING')
-
-                setattr(self, 'FIRST_WORD_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] != '_' if i[4] == '1'])
-                event_types_added.append('FIRST_WORD_TIMES')
-                setattr(self, 'SENTENCE_NUM',
-                        [i[3].split('.')[0] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append(event_type + '_SENTENCE_NUM')
-                setattr(self, 'WORD_SERIAL_NUM', [i[4] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append('WORD_SERIAL_NUM')
-
-                self.SENTENCE_NUM_ORDER = [];
-                last_sent = []
-                for i in self.SENTENCE_NUM:
-                    if i != last_sent:
-                        self.SENTENCE_NUM_ORDER.append(int(i))
-                        last_sent = i
-                event_types_added.append('SENTENCE_NUM_ORDER')
-
-                setattr(self, 'END_WAV_TIMES', [i[0] for i in log_content if event_type == i[1] and i[2] == '_'])
-                event_types_added.append('END_WAV_TIMES')
-
-                setattr(self, 'WORD_STRING', [i[5] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append('WORD_STRING')
-
-                sentences_start, sentences_end, sentences_length = get_sentences_start_end_length(
-                    self.SENTENCE_NUM_ORDER, settings)
-                setattr(self, 'FIRST_WORD_TIMES1', [i[0] for i in log_content if event_type == i[1] and i[2] != '_' if
-                                                    int(i[2]) in sentences_start.values()])
-                event_types_added.append('FIRST_WORD_TIMES1')  # SANITY CHECK: FIRST_WORD_TIMES=FIRST_WORD_TIMES1
-                setattr(self, 'LAST_WORD_TIMES', [i[0] for i in log_content if event_type == i[1] and i[2] != '_' if
-                                                  int(i[2]) in sentences_end.values()])
-                event_types_added.append('LAST_WORD_TIMES')
-                setattr(self, 'WORDS_ON_TIMES', [i[0] for i in log_content if event_type == i[1] and i[2] != '_'])
-                event_types_added.append('WORDS_ON_TIMES')
-
-                setattr(self, 'sentences_start', sentences_start)
-                setattr(self, 'sentences_end', sentences_end)
-                setattr(self, 'sentences_length', sentences_length)
-
-                word_strings_parsed = [s[0:-1] if s[-1] in ['.', '?'] else s for s in
-                                       self.AUDIO_PLAYBACK_ONSET_WORD_STRING]
-
-                num_letters = [len(s) for s in word_strings_parsed]
-                setattr(self, 'num_letters', num_letters)
-                event_types_added.append('num_letters')
-
-            elif event_type == 'KEY_PRESS':
-                setattr(self, event_type + '_SPACE_TIMES',
-                        [i[0] for i in log_content if event_type == i[1] and i[2] == 'space'])
-                event_types_added.append(event_type + '_SPACE_TIMES')
-                list_of_key_press_times = [];
-                previous_key_press_time = 0.
-                for cnt, i in enumerate(log_content):
-                    if event_type == i[1] and i[2] == 'l' and np.abs(previous_key_press_time - float(
-                            i[0])) > 1e6:  # only if time between two key presses is greater than 1sec
-                        list_of_key_press_times.append(i[0])
-                        previous_key_press_time = float(i[0])
-                setattr(self, event_type + '_l_TIMES', list_of_key_press_times)
-                event_types_added.append(event_type + '_l_TIMES')
-
-                # sentences_start, sentences_end, sentences_length = get_sentences_start_end_length(self.SENTENCE_NUM_ORDER, settings)
-                # setattr(self, 'sentences_start', sentences_start)
-                # setattr(self, 'sentences_end', sentences_end)
-                # setattr(self, 'sentences_length', sentences_length)
-
-            else:
-                setattr(self, event_type + '_TIMES', [i[0] for i in log_content if event_type == i[1]])
-                event_types_added.append(event_type + '_TIMES')
-
-        setattr(self, 'event_types', event_types_added)
-
-        return self

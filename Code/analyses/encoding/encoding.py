@@ -128,9 +128,8 @@ for epochs in epochs_list:
         scores = {}
         # LOOP OVER FEATURE NAMES (E.G., WORD_LENGTH, WORD_ZIPF,...)
         for feature_name in args.feature_list + ['full']:
-            print(f'\nComputing scores for full model or without feature: {feature_name}')
+            print(f'\nComputing scores for full model without feature: {feature_name}')
             # INIT SCORES DICT
-            scores[feature_name] = {}
             scores[feature_name] = []
             
             # REMOVE COLUMNS OF GIVEN FEATURE FROM DESIGN MATRIX

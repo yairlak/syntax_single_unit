@@ -111,7 +111,11 @@ def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, se
         #if filt == 'high-gamma':
         #    sfreq = 1000;
         #else:
-        sfreq = params.sfreq_raw
+        if data_type == 'micro':
+            sfreq = params.sfreq_raw
+        elif data_type == 'macro':
+            sfreq = params.sfreq_macro
+
         info = mne.create_info(ch_names=[channel_name], sfreq=sfreq, ch_types=[ch_type])
         raw = mne.io.RawArray(channel_data, info)
     elif data_type == 'spike':

@@ -10,8 +10,8 @@ import os, argparse, re, sys, glob
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
-#sys.path.append('..')
-from functions import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
+sys.path.append('..')
+from utils import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
 import mne
 from mne.io import _merge_info
 import numpy as np

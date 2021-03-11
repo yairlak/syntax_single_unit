@@ -21,7 +21,6 @@ from scipy import signal
 from scipy import stats
 from sklearn.preprocessing import RobustScaler
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default='502', help='Patient number')
 parser.add_argument('--data-type', default='micro', help='macro/micro/spike')

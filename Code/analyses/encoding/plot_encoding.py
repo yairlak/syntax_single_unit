@@ -24,6 +24,7 @@ from utils.data_manip import load_neural_data
 from utils.features import get_features
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy
 
 parser = argparse.ArgumentParser(description='Train an encoding model on neural data')
 # DATA
@@ -106,10 +107,10 @@ for epochs in epochs_list:
             scores_full = np.asarray(scores['full']['mean'])
             scores_reduced = np.asarray(scores[feature_name]['mean'])
             r2_full_mean = np.mean(scores_full, axis=1)
-            r2_full_std = np.std(scores_full, axis=1)
+            r2_full_sem = scipy.stats.sem(scores_full, axis=1)
             r2_reduced_mean = np.mean(scores_reduced, axis=1)
             effect_size_mean =  r2_full_mean - r2_reduced_mean
-            effect_size_std = np.std(scores_full - scores_reduced, axis=1)
+            effect_size_sem = scipy.stats.sem(scores_full - scores_reduced, axis=1)
             
             if feature_info[feature_name]['color']:
                 color = feature_info[feature_name]['color']
@@ -126,7 +127,7 @@ for epochs in epochs_list:
             
             ax.plot(times*1e3, effect_size_mean, color=color, ls=ls, lw=lw, label=feature_name)
             print(feature_name, color)
-            ax.fill_between(times*1e3, effect_size_mean + effect_size_std, effect_size_mean - effect_size_std , color=color, alpha=0.2)
+            ax.fill_between(times*1e3, effect_size_mean + effect_size_sem, effect_size_mean - effect_size_sem , color=color, alpha=0.2)
 
         ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(num_features/40)))
         ax.set_xlabel('Time (msec)', fontsize=20)
@@ -142,7 +143,7 @@ for epochs in epochs_list:
         ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
         ax2.set_ylabel('Coefficient of determination ($R^2$)', color=color, fontsize=20)  # we already handled the x-label with ax1
         ax2.plot(times*1e3, r2_full_mean, color=color, lw=3)
-        ax2.fill_between(times*1e3, r2_full_mean+r2_full_std, r2_full_mean-r2_full_std, color=color, alpha=0.2)
+        ax2.fill_between(times*1e3, r2_full_mean+r2_full_sem, r2_full_mean-r2_full_sem, color=color, alpha=0.2)
         ax2.tick_params(axis='y', labelcolor=color)
         ax2.set_ylim((0, 1)) 
         plt.subplots_adjust(right=0.6)

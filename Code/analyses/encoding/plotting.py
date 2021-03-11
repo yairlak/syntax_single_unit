@@ -9,7 +9,7 @@ Created on Wed Mar 10 18:55:06 2021
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_rf_coefs(results, i_channel, ch_name, feature_info, args):
+def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     rf = results['full']['rf_sentence']['split-0']
     times_rf = rf.delays_*1000/rf.sfreq
     coefs = rf.coef_[i_channel, :, :]
@@ -30,13 +30,15 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args):
     
     feature_names = feature_info.keys()
     for i_feature, feature_name in enumerate(feature_names):
-        IXs = feature_info[feature_name]['IXs']
-        coef_curr_feature = np.max(coefs[IXs[0]:IXs[1], :], axis=0)
-        
         color, ls, lw = get_curve_style(feature_name, feature_info)
-        
-        ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_name)
-        # ax.fill_between(times*1e3, effect_size_mean + effect_size_std, effect_size_mean - effect_size_std , color=color, alpha=0.2)
+        st, ed = feature_info[feature_name]['IXs']
+        if group:
+            coef_curr_feature = np.max(coefs[st:ed, :], axis=0)
+            ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_name)
+        else:
+            for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
+                coef_curr_feature = coefs[st+i_value, :]
+                ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_value)
     
     ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(len(feature_names)/40)))
     ax.set_xlabel('Time (msec)', fontsize=20)
@@ -78,8 +80,8 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     
     ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(len(feature_names)/40)))
     ax.set_xlabel('Time (msec)', fontsize=20)
-    ax.set_ylabel(r'Beta', fontsize=20)
-    ax.set_ylim((0, None)) 
+    ax.set_ylabel(r'$\Delta R^2$', fontsize=20)
+    ax.set_ylim((0, 0.5)) 
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')

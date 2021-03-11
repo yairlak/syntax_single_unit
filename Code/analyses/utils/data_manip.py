@@ -2,12 +2,84 @@ import os, glob, sys
 import numpy as np
 import mne
 from scipy import io
+from sklearn.preprocessing import RobustScaler
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+sys.path.append('..')
+from utils import load_settings_params, read_logs_and_features
+
 
 def get_channel_nums(path2rawdata):
     CSC_files = glob.glob(os.path.join(path2rawdata, 'micro', 'CSC_mat', 'CSC?.mat')) + \
                 glob.glob(os.path.join(path2rawdata, 'micro', 'CSC_mat', 'CSC??.mat')) + \
                 glob.glob(os.path.join(path2rawdata, 'micro', 'CSC_mat', 'CSC???.mat'))
     return [int(os.path.basename(s)[3:-4]) for s in CSC_files]
+
+
+def get_events(patient, level):
+    blocks = range(1,7)
+    sfreq = 1000 # All data types (micro/macro/spike) are downsamplled to 1000Hz by generate_mne_raw.py
+    
+    #TODO: add log to power
+    
+    print('Loading settings, params and preferences...')
+    settings = load_settings_params.Settings(patient)
+    params = load_settings_params.Params(patient)
+    # preferences = load_settings_params.Preferences()
+    # pprint(preferences.__dict__); pprint(settings.__dict__); pprint(params.__dict__)
+    
+    print('Logs: Reading experiment log files from experiment...')
+    log_all_blocks = {}
+    for block in blocks:
+        log = read_logs_and_features.read_log(block, settings)
+        log_all_blocks[block] = log
+    print('Preparing meta-data')
+    metadata = read_logs_and_features.prepare_metadata(log_all_blocks, settings, params)
+
+    if level == 'sentence_onset':
+        metadata = metadata.loc[((metadata['block'].isin([1,3,5]))&(metadata['word_position']==1)) | ((metadata['block'].isin([2,4,6]))&(metadata['word_position']==1)&(metadata['phone_position'] == 1))] 
+        # tmin, tmax = (-1, 3.5)
+    elif level == 'sentence_offset':
+        metadata = metadata.loc[(metadata['word_position'] == 0)] # filter metadata to only sentence-offset events
+        # tmin, tmax = (-3.5, 1.5)
+    elif level == 'word':
+        metadata = metadata.loc[((metadata['first_phone'] == 1) & (metadata['block'].isin([2,4,6]))) | ((metadata['block'].isin([1,3,5])) & (metadata['word_position']>0))] # filter metadata to only word-onset events (first-phone==-1 (visual blocks))
+        # tmin, tmax = (-0.6, 1.5)
+    elif level == 'phone':
+        metadata = metadata.loc[(metadata['block'].isin([2,4,6])) & (metadata['phone_position']>0)] # filter metadata to only phone-onset events in auditory blocks
+        # tmin, tmax = (-0.3, 1.2)
+    else:
+        raise('Unknown level type (sentence_onset/sentence_offset/word/phone)')
+    metadata.sort_values(by='event_time')
+    
+    # First column of events object
+    times_in_sec = sorted(metadata['event_time'].values)
+    min_diff_sec = np.min(np.diff(times_in_sec))
+    print(min_diff_sec)
+    print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
+    curr_times = sfreq * metadata['event_time'].values # convert from sec to samples.
+    curr_times = np.expand_dims(curr_times, axis=1)
+    
+    # Second column
+    second_column = np.zeros((len(curr_times), 1))
+    
+    # Third column
+    event_numbers = 100 * metadata['block'].values  # For each block, the event_ids are ordered within a range of 100 numbers block1: 101-201, block2: 201-300, etc.
+    event_type_names = ['block_' + str(i) for i in metadata['block'].values]
+    event_numbers = np.expand_dims(event_numbers, axis=1)
+    
+    # EVENT object: concatenate all three columns together (then change to int and sort)
+    events = np.hstack((curr_times, second_column, event_numbers))
+    events = events.astype(int)
+    sort_IX = np.argsort(events[:, 0], axis=0)
+    events = events[sort_IX, :]
+    # EVENT_ID dictionary: mapping block names to event numbers
+    event_id = dict([(event_type_name, event_number[0]) for event_type_name, event_number in zip(event_type_names, event_numbers)])
+
+
+
+    return events, event_id, metadata
 
 
 def get_probes2channels(patients, flag_get_channels_with_spikes=True):
@@ -442,14 +514,63 @@ def load_neural_data(args):
     from utils.utils import probename2picks, pick_responsive_channels
     from utils.read_logs_and_features import extend_metadata
     # LOAD
+    
+    if isinstance(args.patient, str): # in case a list patient is not provided
+        args.patient = [args.patient]
+    if isinstance(args.data_type, str):
+        args.data_type = [args.data_type]
+    if isinstance(args.filter, str):
+        args.filter = [args.filter]
     epochs_list = []
     for p, (patient, data_type, filt) in enumerate(zip(args.patient, args.data_type, args.filter)):
         try:
             settings = load_settings_params.Settings(patient)
-            fname = '%s_%s_%s_%s-epo.fif' % (patient, data_type, filt, args.level)
-            fname = os.path.join(settings.path2epoch_data, fname)
-            print(fname)
-            epochs = mne.read_epochs(fname, preload=True)
+            ###################
+            # Load RAW object #
+            ###################
+            fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
+            raw = mne.io.read_raw_fif(os.path.join(settings.path2rawdata, fname_raw), preload=True)
+            print(raw)
+            print(raw.ch_names)
+    
+            ##########
+            # EVENTS #
+            ##########
+            events, event_id, metadata = get_events(patient, args.level)
+            
+            ############
+            # EPOCHING #
+            ############
+            # First epoch then filter if needed
+            print(raw.first_samp)
+            print(events)
+            #reject = {'seeg':4e3}
+            
+            if args.level == 'sentence_onset':
+                tmin, tmax = (-1, 3.5)
+            elif args.level == 'sentence_offset':
+                tmin, tmax = (-3.5, 1.5)
+            elif args.level == 'word':
+                tmin, tmax = (-0.6, 1.5)
+            elif args.level == 'phone':
+                tmin, tmax = (-0.3, 1.2)
+
+            epochs = mne.Epochs(raw, events, event_id, tmin, tmax, metadata=metadata, baseline=None, preload=True, reject=None)
+            print(epochs)
+            #print(np.sum(epochs._data, axis=2))
+            if any(epochs.drop_log):
+                print('Dropped:')
+                print(epochs.drop_log)
+            
+            
+            ############################
+            # Robust Scaling Transform #
+            ############################
+            data = epochs.copy().get_data()
+            for ch in range(data.shape[1]):
+                transformer = RobustScaler().fit(np.transpose(data[:,ch,:]))
+                epochs._data[:,ch,:] = np.transpose(transformer.transform(np.transpose(data[:,ch,:])))
+
             if 'block_type' in args.__dict__:
                 if args.block_type == 'auditory':
                     epochs = epochs['block in [2, 4, 6]'] 
@@ -458,7 +579,7 @@ def load_neural_data(args):
             epochs.metadata = extend_metadata(epochs.metadata) # EXTEND METADATA
         except Exception as e: # Data not found
             print(args.__dict__)
-            print(fname, str(e))
+            print(fname_raw, str(e))
             # print(f'WARNING: data not found for {patient} {data_type} {filt} {args.level}: {fname}')
             continue
         
@@ -467,10 +588,11 @@ def load_neural_data(args):
             epochs = epochs[args.query]
         print('Epochs after possible querying:')
         print(epochs)
+        
         # CROP
         if ('tmin' in args.__dict__.keys()) and ('tmax' in args.__dict__.keys()):
-            epochs.crop(args.tmin, args.tmax)
-
+            epochs = epochs.crop(tmin=args.tmin, tmax=args.tmax)
+            
         # PICK
         picks = None
         if 'probe_name' in args:

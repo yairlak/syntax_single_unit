@@ -1,7 +1,7 @@
 import os, glob, argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='479_11', type=str)
+parser.add_argument('--patient', default='530', type=str)
 parser.add_argument('--hospital', default='UCLA', type=str)
 parser.add_argument('--blocks', action='append', default=[], type=str)
 args = parser.parse_args()
@@ -152,6 +152,7 @@ for log_fn in sorted(logs_fns):
             phones = [p for p in phones if not p['text'] in silence_strings]
             phones = add_words_to_which_phones_belong(words, phones)
             # generate new lines of log
+            print(curr_line)
             curr_onset_time = int(curr_line[0])
             stimulus_number = int(curr_line[2][0:-4])
             new_log_lines = generate_new_log_lines(phones, curr_onset_time, stimulus_number)

@@ -1,0 +1,1001 @@
+Namespace(data_type='spike', filter='gaussian-kernel-50', patient='patient_479_11', sfreq_downsample=1000)
+Loading settings, params and preferences...
+{'comparisons': range(110, 111),
+ 'comparisons_file': 'comparisons.xlsx',
+ 'features_file': 'sentence_features.xlsx',
+ 'hospital': 'UCLA',
+ 'load_line_filtered_resampled_epoch_object': False,
+ 'log_name_beginning': 'new_with_phones_events_log_in_cheetah_clock_part',
+ 'overwrite_existing_output_files': True,
+ 'path2epoch_data': '../../../Data/UCLA/patient_479_11/Epochs',
+ 'path2figures': '../../../Figures',
+ 'path2log': '../../../Data/UCLA/patient_479_11/Logs',
+ 'path2output': '../../../Output',
+ 'path2patient_folder': '../../../Data/UCLA/patient_479_11',
+ 'path2rawdata': '../../../Data/UCLA/patient_479_11/Raw',
+ 'path2stimuli': '../../../Paradigm',
+ 'patient': 'patient_479_11',
+ 'recording_device': 'Neuralynx',
+ 'sentences_start_end_filename': 'sentences_start_end_dict.pkl',
+ 'stimuli_file': 'features En_02 sentences.xlsx',
+ 'stimuli_text_file': 'sentences_Eng_rand_En02.txt',
+ 'time0': 1489760586848367,
+ 'timeend': 1489763746079099,
+ 'word2pos_file': 'word2POS.pkl',
+ 'word_features_file': 'word_features.xlsx',
+ 'word_features_file2': 'word_features_new.xlsx'}
+{'SOA': 500,
+ 'baseline_period': 500,
+ 'downsampling_sfreq': 512,
+ 'iter_freqs': [('High-Gamma', 70, 151, 10)],
+ 'line_frequency': 60,
+ 'patient': 'patient_479_11',
+ 'sfreq_macro': 40000,
+ 'sfreq_raw': 40000,
+ 'sfreq_spikes': 1000,
+ 'smooth_time_freq': 0,
+ 'temporal_resolution': 0.05,
+ 'tmax': 1.2,
+ 'tmin': -0.6,
+ 'window_ed': 250,
+ 'window_st': 50,
+ 'word_OFF_duration': 300,
+ 'word_ON_duration': 200,
+ 'ylim_PSTH': 20}
+Number of channel 63: dict_values(['GA1-LAH1', 'GA1-LAH2', 'GA1-LAH3', 'GA1-LAH4', 'GA1-LAH5', 'GA1-LAH6', 'GA1-LAH7', 'GA1-LAH8', 'GA2-LSTG1', 'GA2-LSTG2', 'GA2-LSTG3', 'GA2-LSTG4', 'GA2-LSTG5', 'GA2-LSTG6', 'GA2-LSTG7', 'GA2-LSTG8', 'GA3-RIFAC2', 'GA3-RIFAC3', 'GA3-RIFAC4', 'GA3-RIFAC5', 'GA3-RIFAC6', 'GA3-RIFAC7', 'GA3-RIFAC8', 'GA4-RPC1', 'GA4-RPC2', 'GA4-RPC3', 'GA4-RPC4', 'GA4-RPC5', 'GA4-RPC6', 'GA4-RPC7', 'GA4-RPC8', 'GB1-RASTG1', 'GB1-RASTG2', 'GB1-RASTG3', 'GB1-RASTG4', 'GB1-RASTG5', 'GB1-RASTG6', 'GB1-RASTG7', 'GB1-RASTG8', 'GB2-RPSTG1', 'GB2-RPSTG2', 'GB2-RPSTG3', 'GB2-RPSTG4', 'GB2-RPSTG5', 'GB2-RPSTG6', 'GB2-RPSTG7', 'GB2-RPSTG8', 'GB3-RPMTG1', 'GB3-RPMTG2', 'GB3-RPMTG3', 'GB3-RPMTG4', 'GB3-RPMTG5', 'GB3-RPMTG6', 'GB3-RPMTG7', 'GB3-RPMTG8', 'GB4-RTO1', 'GB4-RTO2', 'GB4-RTO3', 'GB4-RTO4', 'GB4-RTO5', 'GB4-RTO6', 'GB4-RTO7', 'GB4-RTO8'])
+Current channel: GA1-LAH1 (1)
+Loading spike cluster data
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+Current channel: GA1-LAH2 (2)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GA1-LAH3 (3)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(3, 3159231)
+Current channel: GA1-LAH4 (4)
+Loading spike cluster data
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(2, 3159231)
+Current channel: GA1-LAH5 (5)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(3, 3159231)
+Current channel: GA1-LAH6 (6)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GA1-LAH7 (7)
+Loading spike cluster data
+found cluster
+Creating RawArray with float64 data, n_channels=1, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(1, 3159231)
+Current channel: GA1-LAH8 (8)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+Current channel: GA2-LSTG1 (9)
+Loading spike cluster data
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(2, 3159231)
+Current channel: GA2-LSTG2 (10)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GA2-LSTG3 (11)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GA2-LSTG4 (12)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GA2-LSTG5 (13)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(3, 3159231)
+Current channel: GA2-LSTG6 (14)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GA2-LSTG7 (15)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+Current channel: GA2-LSTG8 (16)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GA3-RIFAC2 (17)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+Current channel: GA3-RIFAC3 (18)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GA3-RIFAC4 (19)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(5, 3159231)
+Current channel: GA3-RIFAC5 (20)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+Current channel: GA3-RIFAC6 (21)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GA3-RIFAC7 (22)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GA3-RIFAC8 (23)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GA4-RPC1 (24)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(9, 3159231)
+Current channel: GA4-RPC2 (25)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=13, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(13, 3159231)
+Current channel: GA4-RPC3 (26)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=15, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(15, 3159231)
+Current channel: GA4-RPC4 (27)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(3, 3159231)
+Current channel: GA4-RPC5 (28)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(5, 3159231)
+Current channel: GA4-RPC6 (29)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GA4-RPC7 (30)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=16, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(16, 3159231)
+Current channel: GA4-RPC8 (31)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(9, 3159231)
+Current channel: GB1-RASTG1 (32)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=11, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(11, 3159231)
+Current channel: GB1-RASTG2 (33)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=10, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(10, 3159231)
+Current channel: GB1-RASTG3 (34)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(5, 3159231)
+Current channel: GB1-RASTG4 (35)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GB1-RASTG5 (36)
+Loading spike cluster data
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(2, 3159231)
+Current channel: GB1-RASTG6 (37)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GB1-RASTG7 (38)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=10, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(10, 3159231)
+Current channel: GB1-RASTG8 (39)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GB2-RPSTG1 (40)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=28, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(28, 3159231)
+Current channel: GB2-RPSTG2 (41)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(9, 3159231)
+Current channel: GB2-RPSTG3 (42)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(9, 3159231)
+Current channel: GB2-RPSTG4 (43)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GB2-RPSTG5 (44)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=13, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(13, 3159231)
+Current channel: GB2-RPSTG6 (45)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(7, 3159231)
+Current channel: GB2-RPSTG7 (46)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=17, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(17, 3159231)
+Current channel: GB2-RPSTG8 (47)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=16, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(16, 3159231)
+Current channel: GB3-RPMTG1 (48)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=10, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(10, 3159231)
+Current channel: GB3-RPMTG2 (49)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GB3-RPMTG3 (50)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(8, 3159231)
+Current channel: GB3-RPMTG4 (51)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(3, 3159231)
+Current channel: GB3-RPMTG5 (52)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=10, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(10, 3159231)
+Current channel: GB3-RPMTG6 (53)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(5, 3159231)
+Current channel: GB3-RPMTG7 (54)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=14, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(14, 3159231)
+Current channel: GB3-RPMTG8 (55)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(4, 3159231)
+Current channel: GB4-RTO1 (56)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=12, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(12, 3159231)
+Current channel: GB4-RTO2 (57)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=16, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(16, 3159231)
+Current channel: GB4-RTO3 (58)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=13, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(13, 3159231)
+Current channel: GB4-RTO4 (59)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+Current channel: GB4-RTO5 (60)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=16, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(16, 3159231)
+Current channel: GB4-RTO6 (61)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(9, 3159231)
+Current channel: GB4-RTO7 (62)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=14, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(14, 3159231)
+Current channel: GB4-RTO8 (63)
+Loading spike cluster data
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3159231
+    Range : 0 ... 3159230 =      0.000 ...  3159.230 secs
+Ready.
+1000.0
+(6, 3159231)
+<RawArray | 505 x 3159231 (3159.2 s), ~11.89 GB, data loaded>
+['p_g1_1_LAH', 'p_g2_1_LAH', 'p_g1_2_LAH', 'p_g2_2_LAH', 'p_g3_2_LAH', 'p_g4_2_LAH', 'p_g1_3_LAH', 'p_g2_3_LAH', 'p_g3_3_LAH', 'p_g1_4_LAH', 'p_g2_4_LAH', 'p_g1_5_LAH', 'p_g2_5_LAH', 'p_g3_5_LAH', 'n_g1_6_LAH', 'n_g5_6_LAH', 'n_g6_6_LAH', 'p_g1_6_LAH', 'p_g2_6_LAH', 'p_g3_6_LAH', 'p_g4_6_LAH', 'p_g5_6_LAH', 'p_g1_7_LAH', 'n_g3_8_LAH', 'n_g4_8_LAH', 'p_g1_8_LAH', 'p_g2_8_LAH', 'p_g3_8_LAH', 'p_g4_8_LAH', 'n_g1_9_LSTG', 'p_g1_9_LSTG', 'n_g1_10_LSTG', 'p_g1_10_LSTG', 'p_g2_10_LSTG', 'p_g3_10_LSTG', 'p_g4_10_LSTG', 'p_g5_10_LSTG', 'p_g6_10_LSTG', 'p_g7_10_LSTG', 'n_g1_11_LSTG', 'n_g2_11_LSTG', 'n_g3_11_LSTG', 'n_g4_11_LSTG', 'p_g1_11_LSTG', 'p_g2_11_LSTG', 'p_g3_11_LSTG', 'p_g4_11_LSTG', 'n_g1_12_LSTG', 'n_g2_12_LSTG', 'n_g3_12_LSTG', 'n_g4_12_LSTG', 'p_g1_12_LSTG', 'p_g2_12_LSTG', 'p_g3_12_LSTG', 'n_g1_13_LSTG', 'n_g2_13_LSTG', 'p_g1_13_LSTG', 'n_g1_14_LSTG', 'n_g2_14_LSTG', 'n_g3_14_LSTG', 'p_g1_14_LSTG', 'n_g1_15_LSTG', 'n_g2_15_LSTG', 'n_g3_15_LSTG', 'p_g1_15_LSTG', 'p_g2_15_LSTG', 'p_g4_15_LSTG', 'n_g1_16_LSTG', 'n_g2_16_LSTG', 'n_g3_16_LSTG', 'p_g1_16_LSTG', 'p_g2_16_LSTG', 'p_g3_16_LSTG', 'p_g4_16_LSTG', 'p_g5_16_LSTG', 'n_g1_17_RIFAC', 'n_g2_17_RIFAC', 'n_g3_17_RIFAC', 'p_g1_17_RIFAC', 'p_g2_17_RIFAC', 'p_g3_17_RIFAC', 'n_g1_18_RIFAC', 'n_g2_18_RIFAC', 'n_g3_18_RIFAC', 'p_g1_18_RIFAC', 'n_g1_19_RIFAC', 'n_g2_19_RIFAC', 'p_g1_19_RIFAC', 'p_g3_19_RIFAC', 'p_g4_19_RIFAC', 'n_g1_20_RIFAC', 'n_g2_20_RIFAC', 'p_g1_20_RIFAC', 'p_g2_20_RIFAC', 'p_g3_20_RIFAC', 'p_g4_20_RIFAC', 'n_g1_21_RIFAC', 'p_g1_21_RIFAC', 'p_g2_21_RIFAC', 'p_g3_21_RIFAC', 'n_g1_22_RIFAC', 'n_g2_22_RIFAC', 'n_g3_22_RIFAC', 'p_g1_22_RIFAC', 'p_g2_22_RIFAC', 'p_g3_22_RIFAC', 'p_g4_22_RIFAC', 'n_g1_23_RIFAC', 'n_g2_23_RIFAC', 'n_g3_23_RIFAC', 'n_g4_23_RIFAC', 'n_g5_23_RIFAC', 'p_g1_23_RIFAC', 'p_g4_23_RIFAC', 'n_g1_24_RPC', 'n_g2_24_RPC', 'n_g3_24_RPC', 'n_g4_24_RPC', 'n_g5_24_RPC', 'p_g1_24_RPC', 'p_g2_24_RPC', 'p_g3_24_RPC', 'p_g4_24_RPC', 'n_g1_25_RPC', 'n_g2_25_RPC', 'n_g3_25_RPC', 'n_g4_25_RPC', 'n_g5_25_RPC', 'n_g6_25_RPC', 'p_g1_25_RPC', 'p_g2_25_RPC', 'p_g3_25_RPC', 'p_g4_25_RPC', 'p_g5_25_RPC', 'p_g6_25_RPC', 'p_g7_25_RPC', 'n_g1_26_RPC', 'n_g2_26_RPC', 'n_g3_26_RPC', 'n_g4_26_RPC', 'n_g5_26_RPC', 'n_g6_26_RPC', 'n_g7_26_RPC', 'n_g8_26_RPC', 'p_g1_26_RPC', 'p_g2_26_RPC', 'p_g3_26_RPC', 'p_g4_26_RPC', 'p_g5_26_RPC', 'p_g6_26_RPC', 'p_g7_26_RPC', 'n_g1_27_RPC', 'n_g2_27_RPC', 'p_g1_27_RPC', 'n_g1_28_RPC', 'n_g2_28_RPC', 'n_g3_28_RPC', 'n_g4_28_RPC', 'p_g1_28_RPC', 'n_g1_29_RPC', 'n_g2_29_RPC', 'p_g1_29_RPC', 'p_g2_29_RPC', 'p_g3_29_RPC', 'p_g4_29_RPC', 'p_g5_29_RPC', 'n_g1_30_RPC', 'n_g2_30_RPC', 'n_g3_30_RPC', 'n_g4_30_RPC', 'n_g5_30_RPC', 'n_g6_30_RPC', 'n_g7_30_RPC', 'n_g8_30_RPC', 'n_g9_30_RPC', 'p_g1_30_RPC', 'p_g2_30_RPC', 'p_g3_30_RPC', 'p_g4_30_RPC', 'p_g5_30_RPC', 'p_g6_30_RPC', 'p_g7_30_RPC', 'n_g1_31_RPC', 'n_g2_31_RPC', 'n_g3_31_RPC', 'n_g4_31_RPC', 'p_g1_31_RPC', 'p_g2_31_RPC', 'p_g3_31_RPC', 'p_g4_31_RPC', 'p_g5_31_RPC', 'n_g1_32_RASTG', 'n_g2_32_RASTG', 'n_g3_32_RASTG', 'n_g4_32_RASTG', 'n_g5_32_RASTG', 'n_g6_32_RASTG', 'p_g1_32_RASTG', 'p_g2_32_RASTG', 'p_g3_32_RASTG', 'p_g5_32_RASTG', 'p_g6_32_RASTG', 'n_g1_33_RASTG', 'n_g2_33_RASTG', 'n_g3_33_RASTG', 'n_g4_33_RASTG', 'n_g5_33_RASTG', 'p_g1_33_RASTG', 'p_g2_33_RASTG', 'p_g3_33_RASTG', 'p_g4_33_RASTG', 'p_g5_33_RASTG', 'n_g1_34_RASTG', 'n_g2_34_RASTG', 'p_g1_34_RASTG', 'p_g4_34_RASTG', 'p_g5_34_RASTG', 'n_g1_35_RASTG', 'n_g2_35_RASTG', 'n_g3_35_RASTG', 'p_g1_35_RASTG', 'n_g1_36_RASTG', 'p_g1_36_RASTG', 'n_g1_37_RASTG', 'n_g2_37_RASTG', 'n_g3_37_RASTG', 'n_g4_37_RASTG', 'n_g5_37_RASTG', 'p_g1_37_RASTG', 'p_g2_37_RASTG', 'p_g3_37_RASTG', 'n_g1_38_RASTG', 'n_g2_38_RASTG', 'n_g3_38_RASTG', 'n_g4_38_RASTG', 'n_g5_38_RASTG', 'n_g6_38_RASTG', 'n_g7_38_RASTG', 'p_g1_38_RASTG', 'p_g2_38_RASTG', 'p_g3_38_RASTG', 'n_g1_39_RASTG', 'n_g2_39_RASTG', 'n_g3_39_RASTG', 'p_g1_39_RASTG', 'n_g1_40_RPSTG', 'n_g2_40_RPSTG', 'n_g3_40_RPSTG', 'n_g4_40_RPSTG', 'n_g5_40_RPSTG', 'n_g6_40_RPSTG', 'n_g7_40_RPSTG', 'n_g8_40_RPSTG', 'n_g9_40_RPSTG', 'n_g10_40_RPSTG', 'n_g11_40_RPSTG', 'n_g12_40_RPSTG', 'n_g13_40_RPSTG', 'n_g14_40_RPSTG', 'n_g15_40_RPSTG', 'n_g16_40_RPSTG', 'n_g17_40_RPSTG', 'n_g18_40_RPSTG', 'n_g19_40_RPSTG', 'n_g20_40_RPSTG', 'n_g21_40_RPSTG', 'n_g22_40_RPSTG', 'n_g23_40_RPSTG', 'n_g24_40_RPSTG', 'p_g1_40_RPSTG', 'p_g2_40_RPSTG', 'p_g3_40_RPSTG', 'p_g4_40_RPSTG', 'n_g1_41_RPSTG', 'n_g2_41_RPSTG', 'n_g3_41_RPSTG', 'n_g4_41_RPSTG', 'n_g5_41_RPSTG', 'n_g6_41_RPSTG', 'n_g7_41_RPSTG', 'p_g1_41_RPSTG', 'p_g2_41_RPSTG', 'n_g1_42_RPSTG', 'n_g2_42_RPSTG', 'n_g3_42_RPSTG', 'n_g4_42_RPSTG', 'n_g5_42_RPSTG', 'n_g6_42_RPSTG', 'p_g1_42_RPSTG', 'p_g2_42_RPSTG', 'p_g3_42_RPSTG', 'n_g1_43_RPSTG', 'n_g2_43_RPSTG', 'n_g3_43_RPSTG', 'p_g1_43_RPSTG', 'p_g2_43_RPSTG', 'p_g3_43_RPSTG', 'p_g4_43_RPSTG', 'n_g1_44_RPSTG', 'n_g2_44_RPSTG', 'n_g3_44_RPSTG', 'n_g4_44_RPSTG', 'n_g5_44_RPSTG', 'n_g6_44_RPSTG', 'p_g1_44_RPSTG', 'p_g2_44_RPSTG', 'p_g3_44_RPSTG', 'p_g4_44_RPSTG', 'p_g5_44_RPSTG', 'p_g6_44_RPSTG', 'p_g7_44_RPSTG', 'n_g1_45_RPSTG', 'n_g2_45_RPSTG', 'p_g1_45_RPSTG', 'p_g2_45_RPSTG', 'p_g3_45_RPSTG', 'p_g4_45_RPSTG', 'p_g5_45_RPSTG', 'n_g1_46_RPSTG', 'n_g2_46_RPSTG', 'n_g3_46_RPSTG', 'n_g4_46_RPSTG', 'n_g5_46_RPSTG', 'n_g6_46_RPSTG', 'n_g7_46_RPSTG', 'n_g8_46_RPSTG', 'n_g9_46_RPSTG', 'p_g1_46_RPSTG', 'p_g2_46_RPSTG', 'p_g3_46_RPSTG', 'p_g4_46_RPSTG', 'p_g5_46_RPSTG', 'p_g6_46_RPSTG', 'p_g7_46_RPSTG', 'p_g8_46_RPSTG', 'n_g1_47_RPSTG', 'n_g2_47_RPSTG', 'n_g3_47_RPSTG', 'n_g4_47_RPSTG', 'n_g5_47_RPSTG', 'n_g6_47_RPSTG', 'p_g1_47_RPSTG', 'p_g2_47_RPSTG', 'p_g3_47_RPSTG', 'p_g4_47_RPSTG', 'p_g5_47_RPSTG', 'p_g6_47_RPSTG', 'p_g7_47_RPSTG', 'p_g8_47_RPSTG', 'p_g9_47_RPSTG', 'p_g10_47_RPSTG', 'n_g1_48_RPMTG', 'n_g2_48_RPMTG', 'n_g3_48_RPMTG', 'n_g4_48_RPMTG', 'n_g5_48_RPMTG', 'n_g6_48_RPMTG', 'n_g7_48_RPMTG', 'p_g1_48_RPMTG', 'p_g2_48_RPMTG', 'p_g3_48_RPMTG', 'n_g1_49_RPMTG', 'n_g2_49_RPMTG', 'n_g3_49_RPMTG', 'n_g4_49_RPMTG', 'n_g5_49_RPMTG', 'n_g6_49_RPMTG', 'n_g7_49_RPMTG', 'p_g8_49_RPMTG', 'n_g1_50_RPMTG', 'n_g2_50_RPMTG', 'n_g3_50_RPMTG', 'n_g4_50_RPMTG', 'n_g5_50_RPMTG', 'n_g6_50_RPMTG', 'n_g7_50_RPMTG', 'n_g8_50_RPMTG', 'n_g1_51_RPMTG', 'n_g2_51_RPMTG', 'n_g3_51_RPMTG', 'n_g1_52_RPMTG', 'n_g2_52_RPMTG', 'n_g3_52_RPMTG', 'n_g4_52_RPMTG', 'n_g5_52_RPMTG', 'p_g1_52_RPMTG', 'p_g2_52_RPMTG', 'p_g3_52_RPMTG', 'p_g4_52_RPMTG', 'p_g5_52_RPMTG', 'n_g1_53_RPMTG', 'p_g1_53_RPMTG', 'p_g2_53_RPMTG', 'p_g3_53_RPMTG', 'p_g9_53_RPMTG', 'n_g1_54_RPMTG', 'n_g2_54_RPMTG', 'n_g3_54_RPMTG', 'n_g4_54_RPMTG', 'n_g5_54_RPMTG', 'n_g6_54_RPMTG', 'n_g7_54_RPMTG', 'n_g8_54_RPMTG', 'n_g9_54_RPMTG', 'n_g10_54_RPMTG', 'n_g11_54_RPMTG', 'n_g12_54_RPMTG', 'n_g13_54_RPMTG', 'n_g14_54_RPMTG', 'n_g1_55_RPMTG', 'n_g2_55_RPMTG', 'n_g3_55_RPMTG', 'p_g6_55_RPMTG', 'n_g1_56_RTO', 'n_g2_56_RTO', 'n_g3_56_RTO', 'n_g4_56_RTO', 'p_g1_56_RTO', 'p_g2_56_RTO', 'p_g3_56_RTO', 'p_g4_56_RTO', 'p_g5_56_RTO', 'p_g6_56_RTO', 'p_g7_56_RTO', 'p_g8_56_RTO', 'n_g1_57_RTO', 'n_g2_57_RTO', 'n_g3_57_RTO', 'n_g4_57_RTO', 'n_g5_57_RTO', 'n_g6_57_RTO', 'p_g1_57_RTO', 'p_g2_57_RTO', 'p_g3_57_RTO', 'p_g4_57_RTO', 'p_g5_57_RTO', 'p_g6_57_RTO', 'p_g7_57_RTO', 'p_g8_57_RTO', 'p_g9_57_RTO', 'p_g10_57_RTO', 'n_g1_58_RTO', 'n_g2_58_RTO', 'n_g3_58_RTO', 'n_g4_58_RTO', 'n_g5_58_RTO', 'n_g6_58_RTO', 'p_g1_58_RTO', 'p_g2_58_RTO', 'p_g3_58_RTO', 'p_g4_58_RTO', 'p_g5_58_RTO', 'p_g6_58_RTO', 'p_g7_58_RTO', 'n_g1_59_RTO', 'n_g2_59_RTO', 'p_g1_59_RTO', 'p_g2_59_RTO', 'p_g3_59_RTO', 'p_g4_59_RTO', 'n_g1_60_RTO', 'n_g2_60_RTO', 'n_g3_60_RTO', 'n_g4_60_RTO', 'n_g5_60_RTO', 'p_g1_60_RTO', 'p_g2_60_RTO', 'p_g3_60_RTO', 'p_g4_60_RTO', 'p_g5_60_RTO', 'p_g6_60_RTO', 'p_g7_60_RTO', 'p_g8_60_RTO', 'p_g9_60_RTO', 'p_g10_60_RTO', 'p_g11_60_RTO', 'n_g1_61_RTO', 'n_g2_61_RTO', 'n_g3_61_RTO', 'p_g1_61_RTO', 'p_g2_61_RTO', 'p_g3_61_RTO', 'p_g4_61_RTO', 'p_g5_61_RTO', 'p_g6_61_RTO', 'n_g1_62_RTO', 'n_g2_62_RTO', 'n_g3_62_RTO', 'n_g4_62_RTO', 'n_g5_62_RTO', 'n_g6_62_RTO', 'p_g1_62_RTO', 'p_g2_62_RTO', 'p_g3_62_RTO', 'p_g4_62_RTO', 'p_g5_62_RTO', 'p_g6_62_RTO', 'p_g7_62_RTO', 'p_g8_62_RTO', 'n_g1_63_RTO', 'n_g2_63_RTO', 'p_g1_63_RTO', 'p_g2_63_RTO', 'p_g3_63_RTO', 'p_g4_63_RTO']
+smoothing data with %1.2f sec window
+Overwriting existing file.
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw.fif
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw-1.fif
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw-2.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw-2.fif [done]
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw-1.fif [done]
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw.fif [done]
+Raw fif saved to: ../../../Data/UCLA/patient_479_11/Raw/patient_479_11_spike_gaussian-kernel-50-raw.fif

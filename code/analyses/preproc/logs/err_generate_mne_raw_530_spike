@@ -1,0 +1,13 @@
+nohup: les entrées sont ignorées
+../utils/data_manip.py:256: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  classes =  f_sort_cat['classes'].value
+../utils/data_manip.py:257: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  index = f_sort_cat['index'].value
+../utils/data_manip.py:258: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  matches = f_sort_cat['matches'].value
+../utils/data_manip.py:259: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  groups = f_sort_cat['groups'].value
+../utils/data_manip.py:261: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  types = f_sort_cat['types'].value # -1: artifact, 0: unassigned, 1: MU, 2: SU
+../utils/data_manip.py:286: H5pyDeprecationWarning: dataset.value has been deprecated. Use dataset[()] instead.
+  curr_spike_times = f_all_spikes[sign]['times'].value[IXs]

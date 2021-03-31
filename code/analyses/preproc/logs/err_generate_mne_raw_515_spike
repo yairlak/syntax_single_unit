@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/preproc/generate_raw.py", line 112, in <module>
+    print(raw)
+NameError: name 'raw' is not defined

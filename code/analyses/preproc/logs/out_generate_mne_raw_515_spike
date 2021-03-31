@@ -1,0 +1,367 @@
+Namespace(data_type='spike', filter='gaussian-kernel-50', patient='patient_515', sfreq_downsample=1000)
+Loading settings, params and preferences...
+{'comparisons': range(110, 111),
+ 'comparisons_file': 'comparisons.xlsx',
+ 'features_file': 'sentence_features.xlsx',
+ 'hospital': 'UCLA',
+ 'load_line_filtered_resampled_epoch_object': False,
+ 'log_name_beginning': 'new_with_phones_events_log_in_cheetah_clock_part',
+ 'overwrite_existing_output_files': True,
+ 'path2epoch_data': '../../../Data/UCLA/patient_515/Epochs',
+ 'path2figures': '../../../Figures',
+ 'path2log': '../../../Data/UCLA/patient_515/Logs',
+ 'path2output': '../../../Output',
+ 'path2patient_folder': '../../../Data/UCLA/patient_515',
+ 'path2rawdata': '../../../Data/UCLA/patient_515/Raw',
+ 'path2stimuli': '../../../Paradigm',
+ 'patient': 'patient_515',
+ 'recording_device': 'BlackRock',
+ 'sentences_start_end_filename': 'sentences_start_end_dict.pkl',
+ 'stimuli_file': 'features En_02 sentences.xlsx',
+ 'stimuli_text_file': 'sentences_Eng_rand_En02.txt',
+ 'time0': 0,
+ 'time0_macro': 1572893698749401,
+ 'timeend': 4000000000.0,
+ 'timeend_macro': 1572896703932195,
+ 'word2pos_file': 'word2POS.pkl',
+ 'word_features_file': 'word_features.xlsx',
+ 'word_features_file2': 'word_features_new.xlsx'}
+{'SOA': 500,
+ 'baseline_period': 500,
+ 'downsampling_sfreq': 512,
+ 'iter_freqs': [('High-Gamma', 70, 151, 10)],
+ 'line_frequency': 60,
+ 'patient': 'patient_515',
+ 'sfreq_macro': 2000,
+ 'sfreq_raw': 32000,
+ 'sfreq_spikes': 1000,
+ 'smooth_time_freq': 0,
+ 'temporal_resolution': 0.05,
+ 'tmax': 1.2,
+ 'tmin': -0.6,
+ 'window_ed': 250,
+ 'window_st': 50,
+ 'word_OFF_duration': 300,
+ 'word_ON_duration': 200,
+ 'ylim_PSTH': 20}
+Number of channel 80: dict_values(['GA1-RAH1', 'GA1-RAH2', 'GA1-RAH3', 'GA1-RAH4', 'GA1-RAH5', 'GA1-RAH6', 'GA1-RAH7', 'GA1-RAH8', 'GA2-RA1', 'GA2-RA2', 'GA2-RA3', 'GA2-RA4', 'GA2-RA5', 'GA2-RA6', 'GA2-RA7', 'GA2-RA8', 'GA3-ROF1', 'GA3-ROF2', 'GA3-ROF3', 'GA3-ROF4', 'GA3-ROF5', 'GA3-ROF6', 'GA3-ROF7', 'GA3-ROF8', 'GA4-RFSG1', 'GA4-RFSG2', 'GA4-RFSG3', 'GA4-RFSG4', 'GA4-RFSG5', 'GA4-RFSG6', 'GA4-RFSG7', 'GA4-RFSG8', 'GB1-LPHG1', 'GB1-LPHG2', 'GB1-LPHG3', 'GB1-LPHG4', 'GB1-LPHG5', 'GB1-LPHG6', 'GB1-LPHG7', 'GB1-LPHG8', 'GB2-LA1', 'GB2-LA2', 'GB2-LA3', 'GB2-LA4', 'GB2-LA5', 'GB2-LA6', 'GB2-LA7', 'GB2-LA8', 'GB3-LOF1', 'GB3-LOF2', 'GB3-LOF3', 'GB3-LOF4', 'GB3-LOF5', 'GB3-LOF6', 'GB3-LOF7', 'GB3-LOF8', 'GB4-LFSG1', 'GB4-LFSG2', 'GB4-LFSG3', 'GB4-LFSG4', 'GB4-LFSG5', 'GB4-LFSG6', 'GB4-LFSG7', 'GB4-LFSG8', 'GC1-LSTG1', 'GC1-LSTG2', 'GC1-LSTG3', 'GC1-LSTG4', 'GC1-LSTG5', 'GC1-LSTG6', 'GC1-LSTG7', 'GC1-LSTG8', 'GC2-LMTG1', 'GC2-LMTG2', 'GC2-LMTG3', 'GC2-LMTG4', 'GC2-LMTG5', 'GC2-LMTG6', 'GC2-LMTG7', 'GC2-LMTG8'])
+Current channel: GA1-RAH1 (1)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 1
+Current channel: GA1-RAH2 (2)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 2
+Current channel: GA1-RAH3 (3)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 3
+Current channel: GA1-RAH4 (4)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 4
+Current channel: GA1-RAH5 (5)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 5
+Current channel: GA1-RAH6 (6)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 6
+Current channel: GA1-RAH7 (7)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 7
+Current channel: GA1-RAH8 (8)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 8
+Current channel: GA2-RA1 (9)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 9
+Current channel: GA2-RA2 (10)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 10
+Current channel: GA2-RA3 (11)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 11
+Current channel: GA2-RA4 (12)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 12
+Current channel: GA2-RA5 (13)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 13
+Current channel: GA2-RA6 (14)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 14
+Current channel: GA2-RA7 (15)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 15
+Current channel: GA2-RA8 (16)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 16
+Current channel: GA3-ROF1 (17)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 17
+Current channel: GA3-ROF2 (18)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 18
+Current channel: GA3-ROF3 (19)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 19
+Current channel: GA3-ROF4 (20)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 20
+Current channel: GA3-ROF5 (21)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 21
+Current channel: GA3-ROF6 (22)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 22
+Current channel: GA3-ROF7 (23)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 23
+Current channel: GA3-ROF8 (24)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 24
+Current channel: GA4-RFSG1 (25)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 25
+Current channel: GA4-RFSG2 (26)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 26
+Current channel: GA4-RFSG3 (27)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 27
+Current channel: GA4-RFSG4 (28)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 28
+Current channel: GA4-RFSG5 (29)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 29
+Current channel: GA4-RFSG6 (30)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 30
+Current channel: GA4-RFSG7 (31)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 31
+Current channel: GA4-RFSG8 (32)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 32
+Current channel: GB1-LPHG1 (33)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 33
+Current channel: GB1-LPHG2 (34)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 34
+Current channel: GB1-LPHG3 (35)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 35
+Current channel: GB1-LPHG4 (36)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 36
+Current channel: GB1-LPHG5 (37)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 37
+Current channel: GB1-LPHG6 (38)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 38
+Current channel: GB1-LPHG7 (39)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 39
+Current channel: GB1-LPHG8 (40)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 40
+Current channel: GB2-LA1 (41)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 41
+Current channel: GB2-LA2 (42)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 42
+Current channel: GB2-LA3 (43)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 43
+Current channel: GB2-LA4 (44)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 44
+Current channel: GB2-LA5 (45)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 45
+Current channel: GB2-LA6 (46)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 46
+Current channel: GB2-LA7 (47)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 47
+Current channel: GB2-LA8 (48)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 48
+Current channel: GB3-LOF1 (49)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 49
+Current channel: GB3-LOF2 (50)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 50
+Current channel: GB3-LOF3 (51)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 51
+Current channel: GB3-LOF4 (52)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 52
+Current channel: GB3-LOF5 (53)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 53
+Current channel: GB3-LOF6 (54)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 54
+Current channel: GB3-LOF7 (55)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 55
+Current channel: GB3-LOF8 (56)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 56
+Current channel: GB4-LFSG1 (57)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 57
+Current channel: GB4-LFSG2 (58)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 58
+Current channel: GB4-LFSG3 (59)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 59
+Current channel: GB4-LFSG4 (60)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 60
+Current channel: GB4-LFSG5 (61)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 61
+Current channel: GB4-LFSG6 (62)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 62
+Current channel: GB4-LFSG7 (63)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 63
+Current channel: GB4-LFSG8 (64)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 64
+Current channel: GC1-LSTG1 (65)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 65
+Current channel: GC1-LSTG2 (66)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 66
+Current channel: GC1-LSTG3 (67)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 67
+Current channel: GC1-LSTG4 (68)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 68
+Current channel: GC1-LSTG5 (69)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 69
+Current channel: GC1-LSTG6 (70)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 70
+Current channel: GC1-LSTG7 (71)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 71
+Current channel: GC1-LSTG8 (72)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 72
+Current channel: GC2-LMTG1 (73)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 73
+Current channel: GC2-LMTG2 (74)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 74
+Current channel: GC2-LMTG3 (75)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 75
+Current channel: GC2-LMTG4 (76)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 76
+Current channel: GC2-LMTG5 (77)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 77
+Current channel: GC2-LMTG6 (78)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 78
+Current channel: GC2-LMTG7 (79)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 79
+Current channel: GC2-LMTG8 (80)
+Loading spike cluster data
+None or more than a single combinato h5 was found
+No spikes in channel: 80

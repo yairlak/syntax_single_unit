@@ -96,7 +96,7 @@ from GUI_mark_word_onsets/, launch:
 - Sampling frequency should be printed during the previous stage. Update these in `functions/load_settings_params.py`
 ### Get channel names: copy the following file to /CSC_mat folder and run it
 Code/Utils/spike_sorting/get_channel_names.py
-### Rename ncs files to csc.ncs format: copy the following to /ncs folder and run it
+### Rename ncs files to csc.ncs format: copy the following to /ncs folder and run it (required for SPIKE SORTING with Combinato)
 Code/Utils/spike_sorting/rename_channel_names_to_CSCs.py
 
 # SPIKE SORTING        

@@ -1,0 +1,35 @@
+Namespace(SOA=500, baseline=[], baseline_mode='zscore', block_type=[], channel_name=[], channel_num=[], comparison_name='all_trials', data_type='macro', dont_write=False, filter='gaussian-kernel-25', fixed_constraint=[], level='sentence_offset', no_title=False, patient='patient_487', probe_name=[], remove_outliers=False, responsive_channels_only=False, save2=[], smooth_raster=0.002, sort_key=['sentence_length'], tmax=None, tmin=None, vmax=2.5, vmin=-2.5, window_ed=450, window_st=50, word_ON_duration=250, y_tick_step=30, yticklabels_fontsize=14, yticklabels_sortkey=[])
+Loading settings...
+Opening raw data file ../../../Data/UCLA/patient_487/Raw/patient_487_macro_gaussian-kernel-25-raw.fif...
+    Range : 0 ... 3720191 =      0.000 ...  3720.191 secs
+Ready.
+<Raw | patient_487_macro_gaussian-kernel-25-raw.fif, 63 x 3720192 (3720.2 s), ~125 kB, data not loaded>
+['LA1-LA2', 'LA2-LA3', 'LA3-LA4', 'LA4-LA5', 'LA5-LA6', 'LA6-LA7', 'LAH1-LAH2', 'LAH2-LAH3', 'LAH3-LAH4', 'LAH4-LAH5', 'LAH5-LAH6', 'LAH6-LAH7', 'LEC1-LEC2', 'LEC2-LEC3', 'LEC3-LEC4', 'LEC4-LEC5', 'LEC5-LEC6', 'LEC6-LEC7', 'LOF1-LOF2', 'LOF2-LOF3', 'LOF3-LOF4', 'LOF4-LOF5', 'LOF5-LOF6', 'LOF6-LOF7', 'LOF7-LOF8', 'LPHG1-LPHG2', 'LPHG2-LPHG3', 'LPHG3-LPHG4', 'LPHG4-LPHG5', 'LPHG5-LPHG6', 'LPHG6-LPHG7', 'LSTG1-LSTG2', 'LSTG2-LSTG3', 'LSTG3-LSTG4', 'LSTG4-LSTG5', 'LSTG5-LSTG6', 'LSTG6-LSTG7', 'RA1-RA2', 'RA2-RA3', 'RA3-RA4', 'RA4-RA5', 'RA5-RA6', 'RA6-RA7', 'RA7-RA8', 'RAH1-RAH2', 'RAH2-RAH3', 'RAH3-RAH4', 'RAH4-RAH5', 'RAH5-RAH6', 'RAH6-RAH7', 'REC1-REC2', 'REC2-REC3', 'REC3-REC4', 'REC4-REC5', 'REC5-REC6', 'REC6-REC7', 'ROF1-ROF2', 'ROF2-ROF3', 'ROF3-ROF4', 'ROF4-ROF5', 'ROF5-ROF6', 'ROF6-ROF7', 'ROF7-ROF8']
+Loading settings, params and preferences...
+Logs: Reading experiment log files from experiment...
+Preparing meta-data
+1.6949180000001434
+min diff in msec: 1694.92
+0
+[[ 238395       0     100]
+ [ 241228       0     100]
+ [ 244595       0     100]
+ ...
+ [3629116       0     600]
+ [3631199       0     600]
+ [3633280       0     600]]
+912 matching events found
+No baseline correction applied
+Adding metadata with 22 columns
+0 projection items activated
+Loading data for 912 events and 5001 original time points ...
+0 bad epochs dropped
+<Epochs  |   912 events (all good), -3.5 - 1.5 sec, baseline off, ~2.14 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+{'patient': 'patient_487', 'data_type': 'macro', 'level': 'sentence_offset', 'filter': 'gaussian-kernel-25', 'probe_name': [], 'channel_name': [], 'channel_num': [], 'responsive_channels_only': False, 'comparison_name': 'all_trials', 'block_type': [], 'fixed_constraint': [], 'tmin': None, 'tmax': None, 'baseline': [], 'baseline_mode': 'zscore', 'SOA': 500, 'word_ON_duration': 250, 'remove_outliers': False, 'no_title': False, 'yticklabels_sortkey': [], 'yticklabels_fontsize': 14, 'dont_write': False, 'sort_key': ['sentence_length'], 'y_tick_step': 30, 'window_st': 50, 'window_ed': 450, 'vmin': -2.5, 'vmax': 2.5, 'smooth_raster': 0.002, 'save2': []}
+patient_487_macro_gaussian-kernel-25-raw.fif index 0 is out of bounds for axis 0 with size 0

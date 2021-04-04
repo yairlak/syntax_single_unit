@@ -1,0 +1,951 @@
+Namespace(data_type='macro', filter='high-gamma', patient='patient_487', sfreq_downsample=1000)
+Loading settings, params and preferences...
+{'comparisons': range(110, 111),
+ 'comparisons_file': 'comparisons.xlsx',
+ 'features_file': 'sentence_features.xlsx',
+ 'hospital': 'UCLA',
+ 'load_line_filtered_resampled_epoch_object': False,
+ 'log_name_beginning': 'new_with_phones_events_log_in_cheetah_clock_part',
+ 'overwrite_existing_output_files': True,
+ 'path2epoch_data': '../../../Data/UCLA/patient_487/Epochs',
+ 'path2figures': '../../../Figures',
+ 'path2log': '../../../Data/UCLA/patient_487/Logs',
+ 'path2output': '../../../Output',
+ 'path2patient_folder': '../../../Data/UCLA/patient_487',
+ 'path2rawdata': '../../../Data/UCLA/patient_487/Raw',
+ 'path2stimuli': '../../../Paradigm',
+ 'patient': 'patient_487',
+ 'recording_device': 'Neuralynx',
+ 'sentences_start_end_filename': 'sentences_start_end_dict.pkl',
+ 'stimuli_file': 'features En_02 sentences.xlsx',
+ 'stimuli_text_file': 'sentences_Eng_rand_En02.txt',
+ 'time0': 1502557237931999,
+ 'timeend': 1502560879821412,
+ 'word2pos_file': 'word2POS.pkl',
+ 'word_features_file': 'word_features.xlsx',
+ 'word_features_file2': 'word_features_new.xlsx'}
+{'SOA': 500,
+ 'baseline_period': 500,
+ 'downsampling_sfreq': 512,
+ 'iter_freqs': [('High-Gamma', 70, 151, 10)],
+ 'line_frequency': 60,
+ 'patient': 'patient_487',
+ 'sfreq_macro': 2000,
+ 'sfreq_raw': 40000,
+ 'sfreq_spikes': 1000,
+ 'smooth_time_freq': 0,
+ 'temporal_resolution': 0.05,
+ 'tmax': 1.2,
+ 'tmin': -0.6,
+ 'window_ed': 250,
+ 'window_st': 50,
+ 'word_OFF_duration': 300,
+ 'word_ON_duration': 200,
+ 'ylim_PSTH': 20}
+Number of channel 73: dict_values(['LA1', 'LA2', 'LA3', 'LA4', 'LA5', 'LA6', 'LA7', 'LAH1', 'LAH2', 'LAH3', 'LAH4', 'LAH5', 'LAH6', 'LAH7', 'LEC1', 'LEC2', 'LEC3', 'LEC4', 'LEC5', 'LEC6', 'LEC7', 'LOF1', 'LOF2', 'LOF3', 'LOF4', 'LOF5', 'LOF6', 'LOF7', 'LOF8', 'LPHG1', 'LPHG2', 'LPHG3', 'LPHG4', 'LPHG5', 'LPHG6', 'LPHG7', 'LSTG1', 'LSTG2', 'LSTG3', 'LSTG4', 'LSTG5', 'LSTG6', 'LSTG7', 'RA1', 'RA2', 'RA3', 'RA4', 'RA5', 'RA6', 'RA7', 'RA8', 'RAH1', 'RAH2', 'RAH3', 'RAH4', 'RAH5', 'RAH6', 'RAH7', 'REC1', 'REC2', 'REC3', 'REC4', 'REC5', 'REC6', 'REC7', 'ROF1', 'ROF2', 'ROF3', 'ROF4', 'ROF5', 'ROF6', 'ROF7', 'ROF8'])
+Current channel: LA1 (1)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC1.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:14', '__version__': '1.0', '__globals__': [], 'data': array([[-241, -236, -210, ...,  477,  525,  510]], dtype=int16), 'file_name': array(['LA1.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+Current channel: LA2 (2)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC2.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:16', '__version__': '1.0', '__globals__': [], 'data': array([[ 22,  14, -18, ..., 431, 467, 481]], dtype=int16), 'file_name': array(['LA2.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LA3 (3)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC3.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:17', '__version__': '1.0', '__globals__': [], 'data': array([[-125,  -86, -108, ...,  295,  329,  351]], dtype=int16), 'file_name': array(['LA3.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LA4 (4)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC4.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:19', '__version__': '1.0', '__globals__': [], 'data': array([[-110,  -94,  -81, ...,  225,  245,  253]], dtype=int16), 'file_name': array(['LA4.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=    Rang    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LA5 (5)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC5.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:21', '__version__': '1.0', '__globals__': [], 'data': array([[-80, -55, -42, ..., 106, 136, 171]], dtype=int16), 'file_name': array(['LA5.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LA6 (6)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC6.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:23', '__version__': '1.0', '__globals__': [], 'data': array([[-1807, -1789, -1718, ...,  2854,  2865,  2747]], dtype=int16), 'file_name': array(['LA6.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LA7 (7)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC7.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:25', '__version__': '1.0', '__globals__': [], 'data': array([[171, 176, 169, ..., 220, 269, 323]], dtype=int16), 'file_name': array(['LA7.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH1 (8)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC8.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:27', '__version__': '1.0', '__globals__': [], 'data': array([[1249, 1207, 1195, ...,  598,  614,  590]], dtype=int16), 'file_name': array(['LAH1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH2 (9)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC9.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:29', '__version__': '1.0', '__globals__': [], 'data': array([[217, 247, 267, ..., 237, 279, 306]], dtype=int16), 'file_name': array(['LAH2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH3 (10)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC10.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:32', '__version__': '1.0', '__globals__': [], 'data': array([[379, 422, 475, ..., 112, 129, 164]], dtype=int16), 'file_name': array(['LAH3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+R2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH4 (11)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC11.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:34', '__version__': '1.0', '__globals__': [], 'data': array([[-175, -187, -124, ...,   91,  148,  172]], dtype=int16), 'file_name': array(['LAH4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.12000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH5 (12)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC12.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:35', '__version__': '1.0', '__globals__': [], 'data': array([[-273, -235, -233, ...,   73,  118,  154]], dtype=int16), 'file_name': array(['LAH5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH6 (13)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC13.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:37', '__version__': '1.0', '__globals__': [], 'data': array([[137, 142, 138, ..., 291, 321, 351]], dtype=int16), 'file_name': array(['LAH6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LAH7 (14)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC14.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:40', '__version__': '1.0', '__globals__': [], 'data': array([[391, 393, 373, ..., 342, 375, 407]], dtype=int16), 'file_name': array(['LAH7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC1 (15)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC15.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:42', '__version__': '1.0', '__globals__': [], 'data': array([[197, 209, 197, ..., -42,   3, -30]], dtype=int16), 'file_name': array(['LEC1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC2 (16)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC16.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:45', '__version__': '1.0', '__globals__': [], 'data': array([[337, 333, 320, ..., -12,   5,  -4]], dtype=int16), 'file_name': array(['LEC2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC3 (17)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC17.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:46', '__version__': '1.0', '__globals__': [], 'data': array([[1556, 1609, 1662, ...,  -69,  -46,  -44]], dtype=int16), 'file_name': array(['LEC3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC4 (18)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC18.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:48', '__version__': '1.0', '__globals__': [], 'data': array([[-1567, -1397, -1282, ...,  -162,  -117,  -100]], dtype=int16), 'file_name': array(['LEC4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC5 (19)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC19.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:51', '__version__': '1.0', '__globals__': [], 'data': array([[-633, -539, -451, ..., -130, -117, -114]], dtype=int16), 'file_name': array(['LEC5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC6 (20)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC20.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:53', '__version__': '1.0', '__globals__': [], 'data': array([[-257, -175, -134, ..., -201, -150, -143]], dtype=int16), 'file_name': array(['LEC6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LEC7 (21)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC21.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:54', '__version__': '1.0', '__globals__': [], 'data': array([[216, 220, 275, ..., 376, 449, 495]], dtype=int16), 'file_name': array(['LEC7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF1 (22)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC22.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:56', '__version__': '1.0', '__globals__': [], 'data': array([[113, 109, 110, ..., 125, 103, 152]], dtype=int16), 'file_name': array(['LOF1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF2 (23)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC23.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:36:59', '__version__': '1.0', '__globals__': [], 'data': array([[154, 190, 181, ..., 157, 121, 160]], dtype=int16), 'file_name': array(['LOF2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF3 (24)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC24.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:01', '__version__': '1.0', '__globals__': [], 'data': array([[153, 189, 207, ..., 135,  89, 137]], dtype=int16), 'file_name': array(['LOF3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF4 (25)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC25.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:04', '__version__': '1.0', '__globals__': [], 'data': array([[158, 182, 211, ..., 131, 135, 162]], dtype=int16), 'file_name': array(['LOF4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF5 (26)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC26.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:05', '__version__': '1.0', '__globals__': [], 'data': array([[ 116,  153,  180, ..., 3197, 3167, 3039]], dtype=int16), 'file_name': array(['LOF5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF6 (27)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC27.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:07', '__version__': '1.0', '__globals__': [], 'data': array([[ 55,  73, 103, ..., -55, -52, -13]], dtype=int16), 'file_name': array(['LOF6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF7 (28)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC28.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:09', '__version__': '1.0', '__globals__': [], 'data': array([[-161, -137, -141, ...,  -55,  -60,  -14]], dtype=int16), 'file_name': array(['LOF7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LOF8 (29)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC29.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:11', '__version__': '1.0', '__globals__': [], 'data': array([[ 89, 130, 133, ..., -31, -32, -14]], dtype=int16), 'file_name': array(['LOF8.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG1 (30)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC30.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:13', '__version__': '1.0', '__globals__': [], 'data': array([[-99, -69, -54, ...,  44,  77,  78]], dtype=int16), 'file_name': array(['LPHG1.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG2 (31)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC31.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:14', '__version__': '1.0', '__globals__': [], 'data': array([[-129, -122,  -97, ...,  139,  179,  183]], dtype=int16), 'file_name': array(['LPHG2.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG3 (32)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC32.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:16', '__version__': '1.0', '__globals__': [], 'data': array([[-285, -271, -267, ...,  123,  155,  190]], dtype=int16), 'file_name': array(['LPHG3.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG4 (33)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC33.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:19', '__version__': '1.0', '__globals__': [], 'data': array([[-337, -323, -326, ...,   28,   86,  104]], dtype=int16), 'file_name': array(['LPHG4.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG5 (34)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC34.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:20', '__version__': '1.0', '__globals__': [], 'data': array([[-356, -342, -327, ...,  -37,   13,   27]], dtype=int16), 'file_name': array(['LPHG5.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG6 (35)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC35.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:22', '__version__': '1.0', '__globals__': [], 'data': array([[-84, -91, -45, ..., 147, 206, 242]], dtype=int16), 'file_name': array(['LPHG6.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LPHG7 (36)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC36.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:24', '__version__': '1.0', '__globals__': [], 'data': array([[137, 114, 113, ..., 258, 295, 338]], dtype=int16), 'file_name': array(['LPHG7.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG1 (37)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC37.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:26', '__version__': '1.0', '__globals__': [], 'data': array([[-241, -223, -171, ...,  339,  373,  430]], dtype=int16), 'file_name': array(['LSTG1.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG2 (38)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC38.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:29', '__version__': '1.0', '__globals__': [], 'data': array([[-482, -478, -427, ...,  412,  461,  515]], dtype=int16), 'file_name': array(['LSTG2.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG3 (39)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC39.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:30', '__version__': '1.0', '__globals__': [], 'data': array([[-597, -571, -533, ...,  165,  166,  248]], dtype=int16), 'file_name': array(['LSTG3.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG4 (40)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC40.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:32', '__version__': '1.0', '__globals__': [], 'data': array([[ 38,  17,  29, ..., 265, 290, 380]], dtype=int16), 'file_name': array(['LSTG4.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG5 (41)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC41.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:34', '__version__': '1.0', '__globals__': [], 'data': array([[122,  98,  62, ..., 284, 375, 512]], dtype=int16), 'file_name': array(['LSTG5.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG6 (42)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC42.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:36', '__version__': '1.0', '__globals__': [], 'data': array([[154, 137, 123, ..., 179, 238, 399]], dtype=int16), 'file_name': array(['LSTG6.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: LSTG7 (43)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC43.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:40', '__version__': '1.0', '__globals__': [], 'data': array([[163, 141, 134, ..., 149, 223, 377]], dtype=int16), 'file_name': array(['LSTG7.ncs'], dtype='<U9'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA1 (44)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC44.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:42', '__version__': '1.0', '__globals__': [], 'data': array([[-585, -571, -587, ..., -204, -183, -206]], dtype=int16), 'file_name': array(['RA1.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA2 (45)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC45.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:44', '__version__': '1.0', '__globals__': [], 'data': array([[-614, -590, -605, ...,  -88,  -73,  -84]], dtype=int16), 'file_name': array(['RA2.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA3 (46)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC46.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:46', '__version__': '1.0', '__globals__': [], 'data': array([[-549, -524, -558, ...,  -84,  -48,  -49]], dtype=int16), 'file_name': array(['RA3.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA4 (47)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC47.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:48', '__version__': '1.0', '__globals__': [], 'data': array([[-592, -573, -581, ...,   19,   16,   42]], dtype=int16), 'file_name': array(['RA4.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA5 (48)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC48.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:51', '__version__': '1.0', '__globals__': [], 'data': array([[-712, -696, -710, ...,  -29,   -4,    2]], dtype=int16), 'file_name': array(['RA5.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA6 (49)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC49.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:53', '__version__': '1.0', '__globals__': [], 'data': array([[-682, -691, -722, ...,  -92,  -56,  -28]], dtype=int16), 'file_name': array(['RA6.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA7 (50)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC50.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:55', '__version__': '1.0', '__globals__': [], 'data': array([[-425, -436, -454, ...,  297,  320,  355]], dtype=int16), 'file_name': array(['RA7.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RA8 (51)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC51.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:56', '__version__': '1.0', '__globals__': [], 'data': array([[148, 114,  62, ..., 307, 309, 311]], dtype=int16), 'file_name': array(['RA8.ncs'], dtype='<U7'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH1 (52)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC52.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:37:59', '__version__': '1.0', '__globals__': [], 'data': array([[2724, 2731, 2724, ...,   61,  116,  133]], dtype=int16), 'file_name': array(['RAH1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH2 (53)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC53.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:00', '__version__': '1.0', '__globals__': [], 'data': array([[163, 173, 140, ..., 250, 308, 304]], dtype=int16), 'file_name': array(['RAH2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH3 (54)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC54.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:02', '__version__': '1.0', '__globals__': [], 'data': array([[-517, -500, -523, ...,   41,   53,   48]], dtype=int16), 'file_name': array(['RAH3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH4 (55)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC55.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:04', '__version__': '1.0', '__globals__': [], 'data': array([[-501, -517, -554, ...,  -38,   20,   15]], dtype=int16), 'file_name': array(['RAH4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH5 (56)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC56.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:07', '__version__': '1.0', '__globals__': [], 'data': array([[-488, -490, -543, ..., -121,  -79, -112]], dtype=int16), 'file_name': array(['RAH5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH6 (57)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC57.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:09', '__version__': '1.0', '__globals__': [], 'data': array([[-429, -475, -499, ..., -131, -109,  -85]], dtype=int16), 'file_name': array(['RAH6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: RAH7 (58)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC58.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:10', '__version__': '1.0', '__globals__': [], 'data': array([[-386, -381, -472, ...,   10,   41,   44]], dtype=int16), 'file_name': array(['RAH7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC1 (59)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC59.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:13', '__version__': '1.0', '__globals__': [], 'data': array([[-366, -349, -383, ..., -391, -392, -363]], dtype=int16), 'file_name': array(['REC1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC2 (60)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC60.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:15', '__version__': '1.0', '__globals__': [], 'data': array([[-351, -327, -343, ..., -210, -193, -147]], dtype=int16), 'file_name': array(['REC2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC3 (61)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC61.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:18', '__version__': '1.0', '__globals__': [], 'data': array([[-435, -411, -465, ...,  -99, -100,  -70]], dtype=int16), 'file_name': array(['REC3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC4 (62)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC62.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:20', '__version__': '1.0', '__globals__': [], 'data': array([[-705, -710, -722, ...,  250,  234,  223]], dtype=int16), 'file_name': array(['REC4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC5 (63)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC63.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:22', '__version__': '1.0', '__globals__': [], 'data': array([[-862, -887, -915, ..., -164, -150, -128]], dtype=int16), 'file_name': array(['REC5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC6 (64)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC64.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:25', '__version__': '1.0', '__globals__': [], 'data': array([[-576, -581, -596, ...,   52,   68,  100]], dtype=int16), 'file_name': array(['REC6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: REC7 (65)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC65.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:26', '__version__': '1.0', '__globals__': [], 'data': array([[  8,  -2, -25, ..., 446, 471, 458]], dtype=int16), 'file_name': array(['REC7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF1 (66)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC66.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:28', '__version__': '1.0', '__globals__': [], 'data': array([[209, 208, 195, ..., 892, 599, 388]], dtype=int16), 'file_name': array(['ROF1.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF2 (67)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC67.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:30', '__version__': '1.0', '__globals__': [], 'data': array([[192, 152, 167, ..., 143, 150, 185]], dtype=int16), 'file_name': array(['ROF2.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF3 (68)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC68.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:33', '__version__': '1.0', '__globals__': [], 'data': array([[131, 151, 131, ...,  31,  58, 103]], dtype=int16), 'file_name': array(['ROF3.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF4 (69)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC69.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:36', '__version__': '1.0', '__globals__': [], 'data': array([[185, 209, 203, ...,  -6,   5,  29]], dtype=int16), 'file_name': array(['ROF4.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF5 (70)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC70.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:38', '__version__': '1.0', '__globals__': [], 'data': array([[241, 272, 237, ..., -43, -53, -20]], dtype=int16), 'file_name': array(['ROF5.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF6 (71)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC71.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:40', '__version__': '1.0', '__globals__': [], 'data': array([[232, 243, 217, ...,  51,   8,  46]], dtype=int16), 'file_name': array(['ROF6.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+Ready.
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF7 (72)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC72.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:42', '__version__': '1.0', '__globals__': [], 'data': array([[321, 366, 308, ...,  92,  38,  69]], dtype=int16), 'file_name': array(['ROF7.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7    Ran    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Current channel: ROF8 (73)
+Loading MACRO CSC data
+['../../../Data/UCLA/patient_487/Raw/macro/CSC_mat/CSC73.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: lun. mars 22 22:38:44', '__version__': '1.0', '__globals__': [], 'data': array([[246, 249, 211, ..., 121,  64, 107]], dtype=int16), 'file_name': array(['ROF8.ncs'], dtype='<U8'), 'samplingInterval': array([[0.5]])}
+Creating RawArray with float64 data, n_channels=1, n_times=7440384
+    Range : 0 ... 7440383 =      0.000 ...  3720.191 secs
+2000.0
+2000.0
+Resampling data 2000.00 -> 1000.00
+(1, 3720192)
+Applying Bipolar reference
+Bipolar channel added as "LA1-LA2".
+Bipolar channel added as "LA2-LA3".
+Bipolar channel added as "LA3-LA4".
+Bipolar channel added as "LA4-LA5".
+Bipolar channel added as "LA5-LA6".
+Bipolar channel added as "LA6-LA7".
+Bipolar channel added as "LAH1-LAH2".
+Bipolar channel added as "LAH2-LAH3".
+Bipolar channel added as "LAH3-LAH4".
+Bipolar channel added as "LAH4-LAH5".
+Bipolar channel added as "LAH5-LAH6".
+Bipolar channel added as "LAH6-LAH7".
+Bipolar channel added as "LEC1-LEC2".
+Bipolar channel added as "LEC2-LEC3".
+Bipolar channel added as "LEC3-LEC4".
+Bipolar channel added as "LEC4-LEC5".
+Bipolar channel added as "LEC5-LEC6".
+Bipolar channel added as "LEC6-LEC7".
+Bipolar channel added as "LOF1-LOF2".
+Bipolar channel added as "LOF2-LOF3".
+Bipolar channel added as "LOF3-LOF4".
+Bipolar channel added as "LOF4-LOF5".
+Bipolar channel added as "LOF5-LOF6".
+Bipolar channel added as "LOF6-LOF7".
+Bipolar channel added as "LOF7-LOF8".
+Bipolar channel added as "LPHG1-LPHG2".
+Bipolar channel added as "LPHG2-LPHG3".
+Bipolar channel added as "LPHG3-LPHG4".
+Bipolar channel added as "LPHG4-LPHG5".
+Bipolar channel added as "LPHG5-LPHG6".
+Bipolar channel added as "LPHG6-LPHG7".
+Bipolar channel added as "LSTG1-LSTG2".
+Bipolar channel added as "LSTG2-LSTG3".
+Bipolar channel added as "LSTG3-LSTG4".
+Bipolar channel added as "LSTG4-LSTG5".
+Bipolar channel added as "LSTG5-LSTG6".
+Bipolar channel added as "LSTG6-LSTG7".
+Bipolar channel added as "RA1-RA2".
+Bipolar channel added as "RA2-RA3".
+Bipolar channel added as "RA3-RA4".
+Bipolar channel added as "RA4-RA5".
+Bipolar channel added as "RA5-RA6".
+Bipolar channel added as "RA6-RA7".
+Bipolar channel added as "RA7-RA8".
+Bipolar channel added as "RAH1-RAH2".
+Bipolar channel added as "RAH2-RAH3".
+Bipolar channel added as "RAH3-RAH4".
+Bipolar channel added as "RAH4-RAH5".
+Bipolar channel added as "RAH5-RAH6".
+Bipolar channel added as "RAH6-RAH7".
+Bipolar channel added as "REC1-REC2".
+Bipolar channel added as "REC2-REC3".
+Bipolar channel added as "REC3-REC4".
+Bipolar channel added as "REC4-REC5".
+Bipolar channel added as "REC5-REC6".
+Bipolar channel added as "REC6-REC7".
+Bipolar channel added as "ROF1-ROF2".
+Bipolar channel added as "ROF2-ROF3".
+Bipolar channel added as "ROF3-ROF4".
+Bipolar channel added as "ROF4-ROF5".
+Bipolar channel added as "ROF5-ROF6".
+Bipolar channel added as "ROF6-ROF7".
+Bipolar channel added as "ROF7-<RawArr<RawArray | 63 x 3720192 (3720.2 s), ~1.75 GB, data loaded>
+['LA1-LA2', 'LA2-LA3', 'LA3-LA4', 'LA4-LA5', 'LA5-LA6', 'LA6-LA7', 'LAH1-LAH2', 'LAH2-LAH3', 'LAH3-LAH4', 'LAH4-LAH5', 'LAH5-LAH6', 'LAH6-LAH7', 'LEC1-LEC2', 'LEC2-LEC3', 'LEC3-LEC4', 'LEC4-LEC5', 'LEC5-LEC6', 'LEC6-LEC7', 'LOF1-LOF2', 'LOF2-LOF3', 'LOF3-LOF4', 'LOF4-LOF5', 'LOF5-LOF6', 'LOF6-LOF7', 'LOF7-LOF8', 'LPHG1-LPHG2', 'LPHG2-LPHG3', 'LPHG3-LPHG4', 'LPHG4-LPHG5', 'LPHG5-LPHG6', 'LPHG6-LPHG7', 'LSTG1-LSTG2', 'LSTG2-LSTG3', 'LSTG3-LSTG4', 'LSTG4-LSTG5', 'LSTG5-LSTG6', 'LSTG6-LSTG7', 'RA1-RA2', 'RA2-RA3', 'RA3-RA4', 'RA4-RA5', 'RA5-RA6', 'RA6-RA7', 'RA7-RA8', 'RAH1-RAH2', 'RAH2-RAH3', 'RAH3-RAH4', 'RAH4-RAH5', 'RAH5-RAH6', 'RAH6-RAH7', 'REC1-REC2', 'REC2-REC3', 'REC3-REC4', 'REC4-REC5', 'REC5-REC6', 'REC6-REC7', 'ROF1-ROF2', 'ROF2-ROF3', 'ROF3-ROF4', 'ROF4-ROF5', 'ROF5-ROF6', 'ROF6-ROF7', 'ROF7-ROF8']
+Setting up band-stop filter
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandstop filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower transition bandwidth: 0.50 Hz
+- Upper transition bandwidth: 0.50 Hz
+- Filter length: 6601 samples (6.601Filtering raw data in 1 contiguous segment
+Setting up high-pass filter at 0.05 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal highpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 0.05
+- Lower transition bandwidth: 0.05 Hz (-6 dB cutoff frequency: 0.03 Hz)
+- Filter length: 66001 samples (66.001 sec)
+
+Robust scaling
+Clipping
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_487/Raw/patient_487_macro_raw-raw.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_487/Raw/patient_487_macro_raw-raw.fif [done]
+Raw fif saved to: ../../../Data/UCLA/patient_487/Raw/patient_487_macro_raw-raw.fif
+edge: 70.00
+- Lower transition bandwidth: 17.50 Hz (-6 dB cutoff frequency: 61.25 Hz)
+- Upper passband edge: 76.00 Hz
+- Upper transition bandwidth: 19.00 Hz (-6 dB cutoff frequency: 85.50 Hz)
+- Filter length: 189 samples (0.189 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 76 - 83 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 76.00
+- Lower transition bandwidth: 19.00 Hz (-6 dB cutoff frequency: 66.50 Hz)
+- Upper passband edge: 83.00 Hz
+- Upper transition bandwidth: 20.75 Hz (-6 dB cutoff frequency: 93.38 Hz)
+- Filter length: 175 samples (0.175 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 83 - 93 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 83.00
+- Lower transition bandwidth: 20.75 Hz (-6 dB cutoff frequency: 72.62 Hz)
+- Upper passband edge: 92.60 Hz
+- Upper transition bandwidth: 23.15 Hz (-6 dB cutoff frequency: 104.17 Hz)
+- Filter length: 159 samples (0.159 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 93 - 1e+02 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 92.60
+- Lower transition bandwidth: 23.15 Hz (-6 dB cutoff frequency: 81.02 Hz)
+- Upper passband edge: 101.20 Hz
+- Upper transition bandwidth: 25.30 Hz (-6 dB cutoff frequency: 113.85 Hz)
+- Filter length: 143 samples (0.143 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 1e+02 - 1.1e+02 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 101.20
+- Lower transition bandwidth: 25.30 Hz (-6 dB cutoff frequency: 88.55 Hz)
+- Upper passband edge: 112.80 Hz
+- Upper transition bandwidth: 28.20 Hz (-6 dB cutoff frequency: 126.90 Hz)
+- Filter length: 131 samples (0.131 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 1.1e+02 - 1.2e+02 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 112.80
+- Lower transition bandwidth: 28.20 Hz (-6 dB cutoff frequency: 98.70 Hz)
+- Upper passband edge: 123.40 Hz
+- Upper transition bandwidth: 30.85 Hz (-6 dB cutoff frequency: 138.83 Hz)
+- Filter length: 117 samples (0.117 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 1.2e+02 - 1.4e+02 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 123.40
+- Lower transition bandwidth: 30.85 Hz (-6 dB cutoff frequency: 107.98 Hz)
+- Upper passband edge: 137.40 Hz
+- Upper transition bandwidth: 34.35 Hz (-6 dB cutoff frequency: 154.58 Hz)
+- Filter length: 107 samples (0.107 sec)
+
+Filtering raw data in 1 contiguous segment
+Setting up band-pass filter from 1.4e+02 - 1.5e+02 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal bandpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 137.40
+- Lower transition bandwidth: 34.35 Hz (-6 dB cutoff frequency: 120.23 Hz)
+- Upper passband edge: 150.60 Hz
+- Upper transition bandwidth: 37.65 Hz (-6 dB cutoff frequency: 169.42 Hz)
+- Filter length: 97 samples (0.097 sec)
+
+(8, 63, 3720192)
+Clip and PCA across bands
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_487/Raw/patient_487_macro_high-gamma-raw.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_487/Raw/patient_487_macro_high-gamma-raw.fif [done]
+Raw fif saved to: ../../../Data/UCLA/patient_487/Raw/patient_487_macro_high-gamma-raw.fif

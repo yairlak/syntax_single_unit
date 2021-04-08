@@ -124,9 +124,18 @@ class Params:
         if self.patient == 'patient_487': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # ??????????? Data sampling frequency [Hz]
+        if self.patient == 'patient_489': # Neuralynx
+            self.sfreq_raw = 40000  # Data sampling frequency [Hz]
+            self.sfreq_macro = -999  # ??????????? Data sampling frequency [Hz]
+        if self.patient == 'patient_491': # Neuralynx
+            self.sfreq_raw = 40000  # Data sampling frequency [Hz]
+            self.sfreq_macro = 2000  # Data sampling frequency [Hz]
         if self.patient == 'patient_493': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]
+        if self.patient == 'patient_496': # Neuralynx
+            self.sfreq_raw = 40000  # ?????Data sampling frequency [Hz]
+            self.sfreq_macro = 2000  # ??????Data sampling frequency [Hz]
         if self.patient == 'patient_502': # Neuralynx
             self.sfreq_raw = 32000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]

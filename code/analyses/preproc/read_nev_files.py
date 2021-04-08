@@ -12,8 +12,10 @@ parser.add_argument('--patient', default = '491')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
 args = parser.parse_args()
 
+# READ NEV FILE AND EXTRACT EVENT NUMBERS AND THE CORRESPONDING
+# EVENT TIMES. 
 
-def check_events(event_nums_zero, time_stamps):
+def get_event_times(event_nums_zero, time_stamps):
     assert len(event_nums_zero) == len(time_stamps)
     IX = 0
     dict_events = {}
@@ -22,7 +24,7 @@ def check_events(event_nums_zero, time_stamps):
         if block in [1, 3, 5]:
             num_events = 508 * 2 + num_non_stimulus_events# 508 word onset + offset
         elif block in [2,4,6]:
-            if int(args.patient) > 500:
+            if args.patient[0] != '4': #patient starts with 4 (before fix)
                 num_events = 152 * 2 + num_non_stimulus_events# 152 audio onset + offset of sentence
             else:
                 num_events = num_non_stimulus_events
@@ -53,6 +55,7 @@ if args.recording_system == 'Neuralynx':
     reader = io.NeuralynxIO(session_folder)
     blks = reader.read(lazy=False)
     #print('Sampling rate of signal:', reader._sigs_sampling_rate)
+    sfreq = params.sfreq_raw # FROM NOTES
     time0, timeend = reader.global_t_start, reader.global_t_stop
     internal_event_ids = reader.internal_event_ids
     IX2event_id = {IX:e_id for IX, (x, e_id) in enumerate(internal_event_ids)}
@@ -73,7 +76,7 @@ if args.recording_system == 'Neuralynx':
 elif args.recording_system == 'BlackRock':
     reader = io.BlackrockIO(nev_file)
     time0, timeend = reader._seg_t_starts, reader._seg_t_stops
-    sfreq = params.sfreq_raw # FROM NOTES
+    #sfreq = params.sfreq_raw # FROM NOTES
     sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
     events = reader.nev_data['NonNeural'][0]
     time_stamps = [int(e[0]/sfreq) for e in events] 
@@ -83,10 +86,17 @@ elif args.recording_system == 'BlackRock':
 plt.plot(time_stamps, event_nums_zero)
 plt.show()
 
+# REMOVE FALSE TRIGGERS
+# min_time_diff = 0.05 # sec
+# IX_false_triggers = [0] + [1 if (time_stamps[i_t]-time_stamps[i_t-1]<min_time_diff) and event_nums_zero[i_t] >0 and event_nums_zero[i_t-1]>0 else 0 for i_t in range(1, len(time_stamps))]
+# time_stamps = np.delete(time_stamps, np.where(IX_false_triggers))
+# event_nums_zero = np.delete(event_nums_zero, np.where(IX_false_triggers))
 
-dict_events = check_events(event_nums_zero, time_stamps)
+#
+dict_events = get_event_times(event_nums_zero, time_stamps)
 
 print(time0, timeend)
+print(f'Sampling frequency: {sfreq}')
 
 fn = f'events_patient_{args.patient}.pkl'
 with open(op.join(session_folder, fn), 'wb') as f:

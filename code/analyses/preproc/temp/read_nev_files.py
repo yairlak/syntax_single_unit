@@ -83,7 +83,7 @@ elif args.recording_system == 'BlackRock':
     event_nums = [e[4] for e in events] 
     event_nums_zero = event_nums - min(event_nums)
 
-plt.plot(time_stamps, event_nums)
+plt.plot(time_stamps, event_nums_zero)
 plt.show()
 
 # REMOVE FALSE TRIGGERS

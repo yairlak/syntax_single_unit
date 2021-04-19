@@ -1,0 +1,245 @@
+Namespace(SOA=500, baseline=[], baseline_mode='zscore', block_type=[], channel_name=[], channel_num=[], comparison_name='all_trials', data_type='macro', dont_write=False, filter='gaussian-kernel-25', fixed_constraint=[], level='sentence_onset', no_title=False, patient='patient_530', probe_name=[], remove_outliers=False, responsive_channels_only=False, save2=[], smooth_raster=0.002, sort_key=['sentence_length'], tmax=None, tmin=None, vmax=2.5, vmin=-2.5, window_ed=450, window_st=50, word_ON_duration=250, y_tick_step=30, yticklabels_fontsize=14, yticklabels_sortkey=[])
+Loading settings...
+Opening raw data file ../../../Data/UCLA/patient_530/Raw/patient_530_macro_gaussian-kernel-25-raw.fif...
+    Range : 0 ... 2514693 =      0.000 ...  2514.693 secs
+Ready.
+<Raw | patient_530_macro_gaussian-kernel-25-raw.fif, 63 x 2514694 (2514.7 s), ~127 kB, data not loaded>
+['CSC1-CSC2', 'CSC2-CSC3', 'CSC3-CSC4', 'CSC4-CSC5', 'CSC5-CSC6', 'CSC6-CSC7', 'CSC7-CSC8', 'CSC8-CSC9', 'CSC9-CSC10', 'CSC10-CSC11', 'CSC11-CSC12', 'CSC12-CSC13', 'CSC13-CSC14', 'CSC14-CSC15', 'CSC15-CSC16', 'CSC16-CSC17', 'CSC17-CSC18', 'CSC18-CSC19', 'CSC19-CSC20', 'CSC20-CSC21', 'CSC21-CSC22', 'CSC22-CSC23', 'CSC23-CSC24', 'CSC24-CSC25', 'CSC25-CSC26', 'CSC26-CSC27', 'CSC27-CSC28', 'CSC28-CSC29', 'CSC29-CSC30', 'CSC30-CSC31', 'CSC31-CSC32', 'CSC32-CSC33', 'CSC33-CSC34', 'CSC34-CSC35', 'CSC35-CSC36', 'CSC36-CSC37', 'CSC37-CSC38', 'CSC38-CSC39', 'CSC39-CSC40', 'CSC40-CSC41', 'CSC41-CSC42', 'CSC42-CSC43', 'CSC43-CSC44', 'CSC44-CSC45', 'CSC45-CSC46', 'CSC46-CSC47', 'CSC47-CSC48', 'CSC48-CSC49', 'CSC49-CSC50', 'CSC50-CSC51', 'CSC51-CSC52', 'CSC52-CSC53', 'CSC53-CSC54', 'CSC54-CSC55', 'CSC55-CSC56', 'CSC56-CSC57', 'CSC57-CSC58', 'CSC58-CSC59', 'CSC59-CSC60', 'CSC60-CSC61', 'CSC61-CSC62', 'CSC62-CSC63', 'CSC63-CSC64']
+Loading settings, params and preferences...
+Logs: Reading experiment log files from experiment...
+Preparing meta-data
+min diff in msec: 1761.37
+0
+[[ 119589       0     100]
+ [ 121372       0     100]
+ [ 124206       0     100]
+ ...
+ [2487971       0     600]
+ [2489924       0     600]
+ [2491955       0     600]]
+912 matching events found
+No baseline correction applied
+Adding metadata with 22 columns
+0 projection items activated
+Loading data for 912 events and 4701 original time points ...
+0 bad epochs dropped
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~2.01 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+Replacing existing metadata with 29 columns
+Epochs after possible querying:
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~2.01 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+picks: None
+Replacing existing metadata with 29 columns
+{'block_type': [],
+ 'colors': ['b', 'r'],
+ 'condition_names': ['Visual blocks', 'Auditory blocks'],
+ 'queries': ['word_position==1 and (block in [1, 3, 5])',
+             'word_position==1 and (block in [2, 4, 6])'],
+ 'sort': ['sentence_length', 'sentence_string'],
+ 'tmin_tmax': [-0.25, 2.75]}
+all_trials
+word_position==1 and (block in [1, 3, 5])
+word_position==1 and (block in [2, 4, 6])
+['sentence_length', 'sentence_string']
+----------------------------------------------------------------------------------------------------
+['CSC1-CSC2', 'CSC2-CSC3', 'CSC3-CSC4', 'CSC4-CSC5', 'CSC5-CSC6', 'CSC6-CSC7', 'CSC7-CSC8', 'CSC8-CSC9', 'CSC9-CSC10', 'CSC10-CSC11', 'CSC11-CSC12', 'CSC12-CSC13', 'CSC13-CSC14', 'CSC14-CSC15', 'CSC15-CSC16', 'CSC16-CSC17', 'CSC17-CSC18', 'CSC18-CSC19', 'CSC19-CSC20', 'CSC20-CSC21', 'CSC21-CSC22', 'CSC22-CSC23', 'CSC23-CSC24', 'CSC24-CSC25', 'CSC25-CSC26', 'CSC26-CSC27', 'CSC27-CSC28', 'CSC28-CSC29', 'CSC29-CSC30', 'CSC30-CSC31', 'CSC31-CSC32', 'CSC32-CSC33', 'CSC33-CSC34', 'CSC34-CSC35', 'CSC35-CSC36', 'CSC36-CSC37', 'CSC37-CSC38', 'CSC38-CSC39', 'CSC39-CSC40', 'CSC40-CSC41', 'CSC41-CSC42', 'CSC42-CSC43', 'CSC43-CSC44', 'CSC44-CSC45', 'CSC45-CSC46', 'CSC46-CSC47', 'CSC47-CSC48', 'CSC48-CSC49', 'CSC49-CSC50', 'CSC50-CSC51', 'CSC51-CSC52', 'CSC52-CSC53', 'CSC53-CSC54', 'CSC54-CSC55', 'CSC55-CSC56', 'CSC56-CSC57', 'CSC57-CSC58', 'CSC58-CSC59', 'CSC59-CSC60', 'CSC60-CSC61', 'CSC61-CSC62', 'CSC62-CSC63', 'CSC63-CSC64']
+CSC1-CSC2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC1-CSC2_[]_all_trials_sentence_length_sentence_string.png
+CSC2-CSC3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC2-CSC3_[]_all_trials_sentence_length_sentence_string.png
+CSC3-CSC4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC3-CSC4_[]_all_trials_sentence_length_sentence_string.png
+CSC4-CSC5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC4-CSC5_[]_all_trials_sentence_length_sentence_string.png
+CSC5-CSC6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC5-CSC6_[]_all_trials_sentence_length_sentence_string.png
+CSC6-CSC7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC6-CSC7_[]_all_trials_sentence_length_sentence_string.png
+CSC7-CSC8
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC7-CSC8_[]_all_trials_sentence_length_sentence_string.png
+CSC8-CSC9
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC8-CSC9_[]_all_trials_sentence_length_sentence_string.png
+CSC9-CSC10
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC9-CSC10_[]_all_trials_sentence_length_sentence_string.png
+CSC10-CSC11
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC10-CSC11_[]_all_trials_sentence_length_sentence_string.png
+CSC11-CSC12
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC11-CSC12_[]_all_trials_sentence_length_sentence_string.png
+CSC12-CSC13
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC12-CSC13_[]_all_trials_sentence_length_sentence_string.png
+CSC13-CSC14
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC13-CSC14_[]_all_trials_sentence_length_sentence_string.png
+CSC14-CSC15
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC14-CSC15_[]_all_trials_sentence_length_sentence_string.png
+CSC15-CSC16
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC15-CSC16_[]_all_trials_sentence_length_sentence_string.png
+CSC16-CSC17
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC16-CSC17_[]_all_trials_sentence_length_sentence_string.png
+CSC17-CSC18
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC17-CSC18_[]_all_trials_sentence_length_sentence_string.png
+CSC18-CSC19
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC18-CSC19_[]_all_trials_sentence_length_sentence_string.png
+CSC19-CSC20
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC19-CSC20_[]_all_trials_sentence_length_sentence_string.png
+CSC20-CSC21
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC20-CSC21_[]_all_trials_sentence_length_sentence_string.png
+CSC21-CSC22
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC21-CSC22_[]_all_trials_sentence_length_sentence_string.png
+CSC22-CSC23
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC22-CSC23_[]_all_trials_sentence_length_sentence_string.png
+CSC23-CSC24
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC23-CSC24_[]_all_trials_sentence_length_sentence_string.png
+CSC24-CSC25
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC24-CSC25_[]_all_trials_sentence_length_sentence_string.png
+CSC25-CSC26
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC25-CSC26_[]_all_trials_sentence_length_sentence_string.png
+CSC26-CSC27
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC26-CSC27_[]_all_trials_sentence_length_sentence_string.png
+CSC27-CSC28
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC27-CSC28_[]_all_trials_sentence_length_sentence_string.png
+CSC28-CSC29
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC28-CSC29_[]_all_trials_sentence_length_sentence_string.png
+CSC29-CSC30
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC29-CSC30_[]_all_trials_sentence_length_sentence_string.png
+CSC30-CSC31
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC30-CSC31_[]_all_trials_sentence_length_sentence_string.png
+CSC31-CSC32
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC31-CSC32_[]_all_trials_sentence_length_sentence_string.png
+CSC32-CSC33
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC32-CSC33_[]_all_trials_sentence_length_sentence_string.png
+CSC33-CSC34
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC33-CSC34_[]_all_trials_sentence_length_sentence_string.png
+CSC34-CSC35
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC34-CSC35_[]_all_trials_sentence_length_sentence_string.png
+CSC35-CSC36
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC35-CSC36_[]_all_trials_sentence_length_sentence_string.png
+CSC36-CSC37
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC36-CSC37_[]_all_trials_sentence_length_sentence_string.png
+CSC37-CSC38
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC37-CSC38_[]_all_trials_sentence_length_sentence_string.png
+CSC38-CSC39
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC38-CSC39_[]_all_trials_sentence_length_sentence_string.png
+CSC39-CSC40
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC39-CSC40_[]_all_trials_sentence_length_sentence_string.png
+CSC40-CSC41
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC40-CSC41_[]_all_trials_sentence_length_sentence_string.png
+CSC41-CSC42
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC41-CSC42_[]_all_trials_sentence_length_sentence_string.png
+CSC42-CSC43
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC42-CSC43_[]_all_trials_sentence_length_sentence_string.png
+CSC43-CSC44
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC43-CSC44_[]_all_trials_sentence_length_sentence_string.png
+CSC44-CSC45
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC44-CSC45_[]_all_trials_sentence_length_sentence_string.png
+CSC45-CSC46
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC45-CSC46_[]_all_trials_sentence_length_sentence_string.png
+CSC46-CSC47
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC46-CSC47_[]_all_trials_sentence_length_sentence_string.png
+CSC47-CSC48
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC47-CSC48_[]_all_trials_sentence_length_sentence_string.png
+CSC48-CSC49
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC48-CSC49_[]_all_trials_sentence_length_sentence_string.png
+CSC49-CSC50
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC49-CSC50_[]_all_trials_sentence_length_sentence_string.png
+CSC50-CSC51
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC50-CSC51_[]_all_trials_sentence_length_sentence_string.png
+CSC51-CSC52
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC51-CSC52_[]_all_trials_sentence_length_sentence_string.png
+CSC52-CSC53
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC52-CSC53_[]_all_trials_sentence_length_sentence_string.png
+CSC53-CSC54
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC53-CSC54_[]_all_trials_sentence_length_sentence_string.png
+CSC54-CSC55
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC54-CSC55_[]_all_trials_sentence_length_sentence_string.png
+CSC55-CSC56
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC55-CSC56_[]_all_trials_sentence_length_sentence_string.png
+CSC56-CSC57
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC56-CSC57_[]_all_trials_sentence_length_sentence_string.png
+CSC57-CSC58
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC57-CSC58_[]_all_trials_sentence_length_sentence_string.png
+CSC58-CSC59
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC58-CSC59_[]_all_trials_sentence_length_sentence_string.png
+CSC59-CSC60
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC59-CSC60_[]_all_trials_sentence_length_sentence_string.png
+CSC60-CSC61
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC60-CSC61_[]_all_trials_sentence_length_sentence_string.png
+CSC61-CSC62
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC61-CSC62_[]_all_trials_sentence_length_sentence_string.png
+CSC62-CSC63
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC62-CSC63_[]_all_trials_sentence_length_sentence_string.png
+CSC63-CSC64
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/macro/ERP_trialwise_patient_530_macro_sentence_onset_gaussian-kernel-25_CSC63-CSC64_[]_all_trials_sentence_length_sentence_string.png

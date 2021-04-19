@@ -19,7 +19,7 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 parser.add_argument('--patient', default='505', help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], default='macro', help='electrode type')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike', 'microphone'], default='macro', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='sentence_onset', help='')
 parser.add_argument('--filter', default='gaussian-kernel-25', help='')
 parser.add_argument('--probe-name', default=[], nargs='*', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
@@ -65,9 +65,6 @@ print('Loading settings...')
 settings = load_settings_params.Settings(args.patient)
 
 # LOAD
-# fname = '%s_%s_%s_%s-epo.fif' % (args.patient, args.data_type, args.filter, args.level)
-# epochs = mne.read_epochs(os.path.join(settings.path2epoch_data, fname), preload=True)
-#epochs.metadata = extend_metadata(epochs.metadata)
 epochs = data_manip.load_neural_data(args)[0]
 
 # COMPARISON
@@ -128,13 +125,13 @@ else: #baseline high-gamma (e.g., to dB)
 # CROP
 if args.tmin and args.tmax:
     epochs.crop(args.tmin, args.tmax)
-else:
-    if args.filter == 'high-gamma': # remove boundary effects
-        epochs.crop(min(epochs.times) + 0.1, max(epochs.times) - 0.1)
+#else:
+    #if args.filter == 'high-gamma': # remove boundary effects
+    #    epochs.crop(min(epochs.times) + 0.1, max(epochs.times) - 0.1)
 
 for ch, ch_name in enumerate(epochs.ch_names):
     print(ch_name)
-    if ch_name == 'MICROPHONE': continue
+    #if ch_name == 'MICROPHONE': continue
     # output filename of figure
     str_comparison = '_'.join([tup[0] for tup in comparison['queries']])
     if not args.save2:

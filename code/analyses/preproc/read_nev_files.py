@@ -6,7 +6,8 @@ from neo import io
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+# READ EVENTS FROM NEV FILES AND STORE THEM IN A PKL
+# ALSO PRINTS THE BEIGNNING AND END TIMES OF THE FILES (time0, timeend)
 parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default = '491')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')

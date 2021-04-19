@@ -1,0 +1,1007 @@
+Namespace(data_type='spike', filter='raw', patient='patient_489', sfreq_downsample=1000)
+Loading settings, params and preferences...
+{'comparisons': range(110, 111),
+ 'comparisons_file': 'comparisons.xlsx',
+ 'features_file': 'sentence_features.xlsx',
+ 'hospital': 'UCLA',
+ 'load_line_filtered_resampled_epoch_object': False,
+ 'log_name_beginning': 'new_with_phones_events_log_in_cheetah_clock_part',
+ 'overwrite_existing_output_files': True,
+ 'path2epoch_data': '../../../Data/UCLA/patient_489/Epochs',
+ 'path2figures': '../../../Figures',
+ 'path2log': '../../../Data/UCLA/patient_489/Logs',
+ 'path2output': '../../../Output',
+ 'path2patient_folder': '../../../Data/UCLA/patient_489',
+ 'path2rawdata': '../../../Data/UCLA/patient_489/Raw',
+ 'path2stimuli': '../../../Paradigm',
+ 'patient': 'patient_489',
+ 'recording_device': 'Neuralynx',
+ 'sentences_start_end_filename': 'sentences_start_end_dict.pkl',
+ 'stimuli_file': 'features En_02 sentences.xlsx',
+ 'stimuli_text_file': 'sentences_Eng_rand_En02.txt',
+ 'time0': 1509370518387992,
+ 'timeend': 1509373524588960,
+ 'word2pos_file': 'word2POS.pkl',
+ 'word_features_file': 'word_features.xlsx',
+ 'word_features_file2': 'word_features_new.xlsx'}
+{'SOA': 500,
+ 'baseline_period': 500,
+ 'downsampling_sfreq': 512,
+ 'iter_freqs': [('High-Gamma', 70, 151, 10)],
+ 'line_frequency': 60,
+ 'patient': 'patient_489',
+ 'sfreq_macro': 2000,
+ 'sfreq_raw': 40000,
+ 'sfreq_spikes': 1000,
+ 'smooth_time_freq': 0,
+ 'temporal_resolution': 0.05,
+ 'tmax': 1.2,
+ 'tmin': -0.6,
+ 'window_ed': 250,
+ 'window_st': 50,
+ 'word_OFF_duration': 300,
+ 'word_ON_duration': 200,
+ 'ylim_PSTH': 20}
+Number of channel 72: dict_values(['GA1-LEC1', 'GA1-LEC2', 'GA1-LEC3', 'GA1-LEC4', 'GA1-LEC5', 'GA1-LEC6', 'GA1-LEC7', 'GA1-LEC8', 'GA2-LMH1', 'GA2-LMH2', 'GA2-LMH3', 'GA2-LMH4', 'GA2-LMH5', 'GA2-LMH6', 'GA2-LMH7', 'GA2-LMH8', 'GA3-LA1', 'GA3-LA2', 'GA3-LA3', 'GA3-LA4', 'GA3-LA5', 'GA3-LA6', 'GA3-LA7', 'GA3-LA8', 'GA4-LPHG1', 'GA4-LPHG2', 'GA4-LPHG3', 'GA4-LPHG4', 'GA4-LPHG5', 'GA4-LPHG6', 'GA4-LPHG7', 'GA4-LPHG8', 'GB1-LOF1', 'GB1-LOF2', 'GB1-LOF3', 'GB1-LOF4', 'GB1-LOF5', 'GB1-LOF6', 'GB1-LOF7', 'GB1-LOF8', 'GB2-LSTG1', 'GB2-LSTG2', 'GB2-LSTG3', 'GB2-LSTG4', 'GB2-LSTG5', 'GB2-LSTG6', 'GB2-LSTG7', 'GB2-LSTG8', 'GB3-RAH1', 'GB3-RAH2', 'GB3-RAH3', 'GB3-RAH4', 'GB3-RAH5', 'GB3-RAH6', 'GB3-RAH7', 'GB3-RAH8', 'GB4-RPHG1', 'GB4-RPHG2', 'GB4-RPHG3', 'GB4-RPHG4', 'GB4-RPHG5', 'GB4-RPHG6', 'GB4-RPHG7', 'GB4-RPHG8', 'GC1-RSTG1', 'GC1-RSTG2', 'GC1-RSTG3', 'GC1-RSTG4', 'GC1-RSTG5', 'GC1-RSTG6', 'GC1-RSTG7', 'GC1-RSTG8'])
+Current channel: GA1-LEC1 (1)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC1/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+Current channel: GA1-LEC2 (2)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC2/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GA1-LEC3 (3)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC3/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GA1-LEC4 (4)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC4/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GA1-LEC5 (5)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC5/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GA1-LEC6 (6)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC6/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GA1-LEC7 (7)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC7/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=10, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(10, 3006201)
+Current channel: GA1-LEC8 (8)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC8/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GA2-LMH1 (9)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC9/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+Creating RawArray with float64 data, n_channels=1, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(1, 3006201)
+Current channel: GA2-LMH2 (10)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC10/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA2-LMH3 (11)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC11/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA2-LMH4 (12)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC12/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GA2-LMH5 (13)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC13/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA2-LMH6 (14)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC14/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(2, 3006201)
+Current channel: GA2-LMH7 (15)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC15/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GA2-LMH8 (16)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC16/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GA3-LA1 (17)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC17/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GA3-LA2 (18)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC18/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GA3-LA3 (19)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC19/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=12, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(12, 3006201)
+Current channel: GA3-LA4 (20)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC20/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GA3-LA5 (21)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC21/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GA3-LA6 (22)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC22/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GA3-LA7 (23)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC23/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA3-LA8 (24)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC24/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GA4-LPHG1 (25)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC25/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA4-LPHG2 (26)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC26/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA4-LPHG3 (27)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC27/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA4-LPHG4 (28)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC28/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA4-LPHG5 (29)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC29/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GA4-LPHG6 (30)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC30/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GA4-LPHG7 (31)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC31/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=2, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(2, 3006201)
+Current channel: GA4-LPHG8 (32)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC32/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB1-LOF1 (33)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC33/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB1-LOF2 (34)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC34/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GB1-LOF3 (35)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC35/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB1-LOF4 (36)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC36/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB1-LOF5 (37)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC37/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB1-LOF6 (38)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC38/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB1-LOF7 (39)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC39/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB1-LOF8 (40)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC40/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB2-LSTG1 (41)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC41/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB2-LSTG2 (42)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC42/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB2-LSTG3 (43)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC43/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+Creating RawArray with float64 data, n_channels=1, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(1, 3006201)
+Current channel: GB2-LSTG4 (44)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC44/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB2-LSTG5 (45)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC45/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GB2-LSTG6 (46)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC46/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GB2-LSTG7 (47)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC47/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+Creating RawArray with float64 data, n_channels=1, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(1, 3006201)
+Current channel: GB2-LSTG8 (48)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC48/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB3-RAH1 (49)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC49/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=8, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(8, 3006201)
+Current channel: GB3-RAH2 (50)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC50/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB3-RAH3 (51)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC51/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GB3-RAH4 (52)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC52/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GB3-RAH5 (53)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC53/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB3-RAH6 (54)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC54/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GB3-RAH7 (55)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC55/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB3-RAH8 (56)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC56/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB4-RPHG1 (57)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC57/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB4-RPHG2 (58)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC58/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GB4-RPHG3 (59)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC59/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=3, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(3, 3006201)
+Current channel: GB4-RPHG4 (60)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC60/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB4-RPHG5 (61)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC61/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GB4-RPHG6 (62)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC62/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GB4-RPHG7 (63)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC63/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GB4-RPHG8 (64)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC64/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=6, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(6, 3006201)
+Current channel: GC1-RSTG1 (65)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC65/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GC1-RSTG2 (66)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC66/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=13, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(13, 3006201)
+Current channel: GC1-RSTG3 (67)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC67/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(9, 3006201)
+Current channel: GC1-RSTG4 (68)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC68/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=7, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(7, 3006201)
+Current channel: GC1-RSTG5 (69)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC69/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=4, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(4, 3006201)
+Current channel: GC1-RSTG6 (70)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC70/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GC1-RSTG7 (71)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC71/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=5, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(5, 3006201)
+Current channel: GC1-RSTG8 (72)
+Loading spike cluster data
+../../../Data/UCLA/patient_489/Raw/micro/CSC_ncs/CSC72/sort_neg_yl2/sort_cat.h5 was not found!
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+found cluster
+Creating RawArray with float64 data, n_channels=9, n_times=3006201
+    Range : 0 ... 3006200 =      0.000 ...  3006.200 secs
+Ready.
+1000.0
+(9, 3006201)
+<RawArray | 378 x 3006201 (3006.2 s), ~8.47 GB, data loaded>
+['p_g1_1_LEC', 'p_g2_1_LEC', 'p_g3_1_LEC', 'p_g4_1_LEC', 'p_g5_1_LEC', 'p_g6_1_LEC', 'p_g1_2_LEC', 'p_g2_2_LEC', 'p_g3_2_LEC', 'p_g4_2_LEC', 'p_g5_2_LEC', 'p_g6_2_LEC', 'p_g1_3_LEC', 'p_g2_3_LEC', 'p_g3_3_LEC', 'p_g4_3_LEC', 'p_g5_3_LEC', 'p_g6_3_LEC', 'p_g7_3_LEC', 'p_g8_3_LEC', 'p_g1_4_LEC', 'p_g2_4_LEC', 'p_g3_4_LEC', 'p_g4_4_LEC', 'p_g5_4_LEC', 'p_g6_4_LEC', 'p_g1_5_LEC', 'p_g2_5_LEC', 'p_g3_5_LEC', 'p_g4_5_LEC', 'p_g5_5_LEC', 'p_g1_6_LEC', 'p_g2_6_LEC', 'p_g3_6_LEC', 'p_g4_6_LEC', 'p_g5_6_LEC', 'p_g1_7_LEC', 'p_g2_7_LEC', 'p_g3_7_LEC', 'p_g4_7_LEC', 'p_g5_7_LEC', 'p_g6_7_LEC', 'p_g7_7_LEC', 'p_g8_7_LEC', 'p_g9_7_LEC', 'p_g10_7_LEC', 'p_g1_8_LEC', 'p_g2_8_LEC', 'p_g3_8_LEC', 'p_g4_8_LEC', 'p_g5_8_LEC', 'p_g6_8_LEC', 'p_g7_8_LEC', 'p_g8_8_LEC', 'p_g1_9_LMH', 'p_g1_10_LMH', 'p_g2_10_LMH', 'p_g3_10_LMH', 'p_g4_10_LMH', 'p_g1_11_LMH', 'p_g2_11_LMH', 'p_g3_11_LMH', 'p_g4_11_LMH', 'p_g1_12_LMH', 'p_g2_12_LMH', 'p_g3_12_LMH', 'p_g1_13_LMH', 'p_g2_13_LMH', 'p_g3_13_LMH', 'p_g4_13_LMH', 'p_g1_14_LMH', 'p_g2_14_LMH', 'p_g1_15_LMH', 'p_g2_15_LMH', 'p_g3_15_LMH', 'p_g4_15_LMH', 'p_g5_15_LMH', 'p_g1_16_LMH', 'p_g2_16_LMH', 'p_g3_16_LMH', 'p_g4_16_LMH', 'p_g5_16_LMH', 'p_g6_16_LMH', 'p_g7_16_LMH', 'p_g8_16_LMH', 'p_g1_17_LA', 'p_g2_17_LA', 'p_g3_17_LA', 'p_g4_17_LA', 'p_g5_17_LA', 'p_g6_17_LA', 'p_g7_17_LA', 'p_g8_17_LA', 'p_g1_18_LA', 'p_g2_18_LA', 'p_g3_18_LA', 'p_g4_18_LA', 'p_g5_18_LA', 'p_g6_18_LA', 'p_g1_19_LA', 'p_g2_19_LA', 'p_g3_19_LA', 'p_g4_19_LA', 'p_g5_19_LA', 'p_g6_19_LA', 'p_g7_19_LA', 'p_g8_19_LA', 'p_g9_19_LA', 'p_g10_19_LA', 'p_g11_19_LA', 'p_g12_19_LA', 'p_g1_20_LA', 'p_g2_20_LA', 'p_g3_20_LA', 'p_g1_21_LA', 'p_g2_21_LA', 'p_g3_21_LA', 'p_g4_21_LA', 'p_g5_21_LA', 'p_g6_21_LA', 'p_g7_21_LA', 'p_g1_22_LA', 'p_g2_22_LA', 'p_g3_22_LA', 'p_g4_22_LA', 'p_g5_22_LA', 'p_g6_22_LA', 'p_g7_22_LA', 'p_g8_22_LA', 'p_g1_23_LA', 'p_g2_23_LA', 'p_g3_23_LA', 'p_g4_23_LA', 'p_g1_24_LA', 'p_g2_24_LA', 'p_g3_24_LA', 'p_g4_24_LA', 'p_g5_24_LA', 'p_g6_24_LA', 'p_g1_25_LPHG', 'p_g2_25_LPHG', 'p_g3_25_LPHG', 'p_g4_25_LPHG', 'p_g1_26_LPHG', 'p_g2_26_LPHG', 'p_g3_26_LPHG', 'p_g4_26_LPHG', 'p_g1_27_LPHG', 'p_g2_27_LPHG', 'p_g3_27_LPHG', 'p_g4_27_LPHG', 'p_g1_28_LPHG', 'p_g2_28_LPHG', 'p_g3_28_LPHG', 'p_g4_28_LPHG', 'p_g1_29_LPHG', 'p_g2_29_LPHG', 'p_g3_29_LPHG', 'p_g4_29_LPHG', 'p_g5_29_LPHG', 'p_g6_29_LPHG', 'p_g7_29_LPHG', 'p_g1_30_LPHG', 'p_g2_30_LPHG', 'p_g3_30_LPHG', 'p_g4_30_LPHG', 'p_g1_31_LPHG', 'p_g2_31_LPHG', 'p_g1_32_LPHG', 'p_g2_32_LPHG', 'p_g3_32_LPHG', 'p_g1_33_LOF', 'p_g2_33_LOF', 'p_g3_33_LOF', 'p_g1_34_LOF', 'p_g2_34_LOF', 'p_g3_34_LOF', 'p_g4_34_LOF', 'p_g5_34_LOF', 'p_g1_35_LOF', 'p_g2_35_LOF', 'p_g3_35_LOF', 'p_g4_35_LOF', 'p_g1_36_LOF', 'p_g2_36_LOF', 'p_g3_36_LOF', 'p_g4_36_LOF', 'p_g5_36_LOF', 'p_g6_36_LOF', 'p_g7_36_LOF', 'p_g1_37_LOF', 'p_g2_37_LOF', 'p_g3_37_LOF', 'p_g4_37_LOF', 'p_g5_37_LOF', 'p_g6_37_LOF', 'p_g7_37_LOF', 'p_g1_38_LOF', 'p_g2_38_LOF', 'p_g3_38_LOF', 'p_g1_39_LOF', 'p_g2_39_LOF', 'p_g3_39_LOF', 'p_g1_40_LOF', 'p_g2_40_LOF', 'p_g3_40_LOF', 'p_g1_41_LSTG', 'p_g2_41_LSTG', 'p_g3_41_LSTG', 'p_g4_41_LSTG', 'p_g5_41_LSTG', 'p_g6_41_LSTG', 'p_g7_41_LSTG', 'p_g1_42_LSTG', 'p_g2_42_LSTG', 'p_g3_42_LSTG', 'p_g4_42_LSTG', 'p_g1_43_LSTG', 'p_g1_44_LSTG', 'p_g2_44_LSTG', 'p_g3_44_LSTG', 'p_g4_44_LSTG', 'p_g1_45_LSTG', 'p_g2_45_LSTG', 'p_g3_45_LSTG', 'p_g4_45_LSTG', 'p_g5_45_LSTG', 'p_g1_46_LSTG', 'p_g2_46_LSTG', 'p_g3_46_LSTG', 'p_g4_46_LSTG', 'p_g5_46_LSTG', 'p_g6_46_LSTG', 'p_g1_47_LSTG', 'p_g1_48_LSTG', 'p_g2_48_LSTG', 'p_g3_48_LSTG', 'p_g4_48_LSTG', 'p_g1_49_RAH', 'p_g2_49_RAH', 'p_g3_49_RAH', 'p_g4_49_RAH', 'p_g5_49_RAH', 'p_g6_49_RAH', 'p_g7_49_RAH', 'p_g8_49_RAH', 'p_g1_50_RAH', 'p_g2_50_RAH', 'p_g3_50_RAH', 'p_g4_50_RAH', 'p_g5_50_RAH', 'p_g6_50_RAH', 'p_g7_50_RAH', 'p_g1_51_RAH', 'p_g2_51_RAH', 'p_g3_51_RAH', 'p_g4_51_RAH', 'p_g5_51_RAH', 'p_g1_52_RAH', 'p_g2_52_RAH', 'p_g3_52_RAH', 'p_g4_52_RAH', 'p_g5_52_RAH', 'p_g6_52_RAH', 'p_g1_53_RAH', 'p_g2_53_RAH', 'p_g3_53_RAH', 'p_g4_53_RAH', 'p_g1_54_RAH', 'p_g2_54_RAH', 'p_g3_54_RAH', 'p_g4_54_RAH', 'p_g5_54_RAH', 'p_g6_54_RAH', 'p_g1_55_RAH', 'p_g2_55_RAH', 'p_g3_55_RAH', 'p_g4_55_RAH', 'p_g1_56_RAH', 'p_g2_56_RAH', 'p_g3_56_RAH', 'p_g4_56_RAH', 'p_g1_57_RPHG', 'p_g2_57_RPHG', 'p_g3_57_RPHG', 'p_g1_58_RPHG', 'p_g2_58_RPHG', 'p_g3_58_RPHG', 'p_g4_58_RPHG', 'p_g5_58_RPHG', 'p_g1_59_RPHG', 'p_g2_59_RPHG', 'p_g3_59_RPHG', 'p_g1_60_RPHG', 'p_g2_60_RPHG', 'p_g3_60_RPHG', 'p_g4_60_RPHG', 'p_g5_60_RPHG', 'p_g6_60_RPHG', 'p_g7_60_RPHG', 'p_g1_61_RPHG', 'p_g2_61_RPHG', 'p_g3_61_RPHG', 'p_g4_61_RPHG', 'p_g5_61_RPHG', 'p_g1_62_RPHG', 'p_g2_62_RPHG', 'p_g3_62_RPHG', 'p_g4_62_RPHG', 'p_g1_63_RPHG', 'p_g2_63_RPHG', 'p_g3_63_RPHG', 'p_g4_63_RPHG', 'p_g5_63_RPHG', 'p_g6_63_RPHG', 'p_g7_63_RPHG', 'p_g1_64_RPHG', 'p_g2_64_RPHG', 'p_g3_64_RPHG', 'p_g4_64_RPHG', 'p_g5_64_RPHG', 'p_g6_64_RPHG', 'p_g1_65_RSTG', 'p_g2_65_RSTG', 'p_g3_65_RSTG', 'p_g4_65_RSTG', 'p_g1_66_RSTG', 'p_g2_66_RSTG', 'p_g3_66_RSTG', 'p_g4_66_RSTG', 'p_g5_66_RSTG', 'p_g6_66_RSTG', 'p_g7_66_RSTG', 'p_g8_66_RSTG', 'p_g9_66_RSTG', 'p_g10_66_RSTG', 'p_g11_66_RSTG', 'p_g12_66_RSTG', 'p_g13_66_RSTG', 'p_g1_67_RSTG', 'p_g2_67_RSTG', 'p_g3_67_RSTG', 'p_g4_67_RSTG', 'p_g5_67_RSTG', 'p_g6_67_RSTG', 'p_g7_67_RSTG', 'p_g8_67_RSTG', 'p_g9_67_RSTG', 'p_g1_68_RSTG', 'p_g2_68_RSTG', 'p_g3_68_RSTG', 'p_g4_68_RSTG', 'p_g5_68_RSTG', 'p_g6_68_RSTG', 'p_g7_68_RSTG', 'p_g1_69_RSTG', 'p_g2_69_RSTG', 'p_g3_69_RSTG', 'p_g4_69_RSTG', 'p_g1_70_RSTG', 'p_g2_70_RSTG', 'p_g3_70_RSTG', 'p_g4_70_RSTG', 'p_g5_70_RSTG', 'p_g1_71_RSTG', 'p_g2_71_RSTG', 'p_g3_71_RSTG', 'p_g4_71_RSTG', 'p_g5_71_RSTG', 'p_g1_72_RSTG', 'p_g2_72_RSTG', 'p_g3_72_RSTG', 'p_g4_72_RSTG', 'p_g5_72_RSTG', 'p_g6_72_RSTG', 'p_g7_72_RSTG', 'p_g8_72_RSTG', 'p_g9_72_RSTG']
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw.fif
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw-1.fif
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw-2.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw-2.fif [done]
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw-1.fif [done]
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw.fif [done]
+Raw fif saved to: ../../../Data/UCLA/patient_489/Raw/patient_489_spike_raw-raw.fif

@@ -14,7 +14,17 @@ def comparison_list():
     comparisons['all_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_trials']['colors'] = ['b', 'r']
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
     comparisons['all_trials']['tmin_tmax'] = [-0.25, 2.75]
+
+# ALL TRIALS CHRONOLOGICAL ORDER
+    comparisons['all_trials_chrono'] = {}
+    comparisons['all_trials_chrono']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]
+    comparisons['all_trials_chrono']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_trials_chrono']['colors'] = ['b', 'r']
+    #comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    comparisons['all_trials_chrono']['sort'] = ['chronological_order']#, 'Question']
+    comparisons['all_trials_chrono']['tmin_tmax'] = [-0.25, 2.75]
 
 # ALL WORDS
     comparisons['all_words'] = {}

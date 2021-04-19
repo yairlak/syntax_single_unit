@@ -4,6 +4,7 @@ Notes/
 Paradigm/
 pptx/
 Output/
+HTMLs/
 *.log
 *.out
 *.err
@@ -13,3 +14,4 @@ Output/
 *.ncs
 *.fif
 *.mat
+*.html

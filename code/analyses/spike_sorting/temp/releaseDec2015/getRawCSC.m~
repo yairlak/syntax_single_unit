@@ -1,0 +1,17 @@
+clear all; close all; clc;
+
+%%
+Filename = fullfile('..', 'Data', 'Raw', 'LSTG1_0019.ncs');
+
+FieldSelection(1) = 1; %     1. Timestamps   
+FieldSelection(2) = 1; %     2. Sc Numbers
+FieldSelection(3) = 1; %     3. Cell Numbers
+FieldSelection(4) = 1; %     4. Params
+FieldSelection(5) = 1; %     5. Data Points
+
+ExtractHeader = 0;
+ExtractMode = 1;
+ModeArray=[]; %all.
+
+%this file can read SE and TT
+[TimestampVariable, ScNumbers, SamplesVariable] = Nlx2MatCSC_v3(Filename, FieldSelection, ExtractHeader, ExtractMode);

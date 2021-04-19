@@ -55,9 +55,10 @@ def get_events(patient, level, data_type, settings):
     metadata.sort_values(by='event_time')
     
     # First column of events object
+    #print(metadata['event_time'].values)
     times_in_sec = sorted(metadata['event_time'].values)
+    #print(times_in_sec)
     min_diff_sec = np.min(np.diff(times_in_sec))
-    print(min_diff_sec)
     print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
     curr_times = sfreq * metadata['event_time'].values # convert from sec to samples.
     curr_times = np.expand_dims(curr_times, axis=1)
@@ -171,18 +172,18 @@ def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, se
         return -
         MNE raw object with all channels
     '''
-    if data_type == 'micro' or  data_type == 'macro':
+    if data_type in ['micro', 'macro', 'microphone']:
         print('Loading %s CSC data' % data_type.upper())
         channel_data = load_CSC_file(settings.path2rawdata, data_type, filt, channel_num)
         if channel_num == 0: #MICROPHONE
-            ch_type = 'misc'
+            ch_type = 'seeg'
         else:
             #ch_type = 'seeg' if data_type == 'micro' else 'ecg'
             ch_type = 'seeg'
         #if filt == 'high-gamma':
         #    sfreq = 1000;
         #else:
-        if data_type == 'micro':
+        if data_type in ['micro', 'microphone']:
             sfreq = params.sfreq_raw
         elif data_type == 'macro':
             sfreq = params.sfreq_macro
@@ -220,7 +221,9 @@ def load_CSC_file(path2rawdata, data_type, filt, channel_num):
     #filt_str = ''
     #if filt == 'high-gamma':
     #    filt_str = 'HighGamma_'
-    CSC_file = glob.glob(os.path.join(path2rawdata, data_type, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
+    d = 'micro' if data_type == 'microphone' else data_type
+    print(os.path.join(path2rawdata, d, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
+    CSC_file = glob.glob(os.path.join(path2rawdata, d, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
     print(CSC_file)
     assert len(CSC_file)==1
     print(io.loadmat(CSC_file[0]))

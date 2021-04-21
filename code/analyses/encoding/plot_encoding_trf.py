@@ -40,7 +40,7 @@ parser.add_argument('--path2output', default=os.path.join('..', '..', '..', 'Out
 parser.add_argument('--path2figures', default=os.path.join('..', '..', '..', 'Figures', 'encoding_models'), help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--decimate', default=[], type=float, help='If not empty, (for speed) decimate data by the provided factor.')
 parser.add_argument('--model-type', default='ridge', choices=['ridge', 'lasso', 'standard']) 
-parser.add_argument('--ablation-method', default='zero', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
+parser.add_argument('--ablation-method', default='remove', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
 parser.add_argument('--query', default="block in [1,3,5]", help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 
 #############

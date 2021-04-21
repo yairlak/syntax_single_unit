@@ -17,7 +17,7 @@ def get_channel_nums(path2rawdata):
     return [int(os.path.basename(s)[3:-4]) for s in CSC_files]
 
 
-def get_events(patient, level, data_type, settings):
+def get_events(patient, level, data_type):
     blocks = range(1,7)
     sfreq = 1000 # All data types (micro/macro/spike) are downsamplled to 1000Hz by generate_mne_raw.py
     
@@ -423,7 +423,7 @@ def create_events_array(metadata):
     # EVENT object: concatenate all three columns together (then change to int and sort)
     events = np.hstack((curr_times, second_column, event_numbers))
     events = events.astype(int)
-    sort_IX = np.argsort(events[:, 0], axis=0)
+    sort_IX = np._argsort(events[:, 0], axis=0)
     events = events[sort_IX, :]
 
     # EVENT_ID dictionary: mapping block names to event numbers
@@ -436,7 +436,7 @@ def create_events_array(metadata):
 
 
 
-def load_epochs_data(args):
+def load_epochs_data(_args):
     '''
     Load epochs data from various patients or probe names and return in a list
     
@@ -504,7 +504,7 @@ def load_epochs_data(args):
     return epochs_list
 
 
-def load_neural_data(args):
+def load_neural_data(_args):
     '''
     Generate a epochs list with all neural data based on argparse-user choices 
     '''
@@ -514,18 +514,18 @@ def load_neural_data(args):
     from utils.read_logs_and_features import extend_metadata
     # LOAD
     
-    if isinstance(args.patient, str): # in case a patient list is not provided
-        patients = [args.patient]
+    if isinstance(_args.patient, str): # in case a patient list is not provided
+        patients = [_args.patient]
     else:
-        patients = args.patient
-    if isinstance(args.data_type, str):
-        data_types = [args.data_type]
+        patients = _args.patient
+    if isinstance(_args.data_type, str):
+        data_types = [_args.data_type]
     else:
-        data_types = args.data_type
-    if isinstance(args.filter, str):
-        filters = [args.filter]
+        data_types = _args.data_type
+    if isinstance(_args.filter, str):
+        filters = [_args.filter]
     else:
-        filters = args.filter
+        filters = _args.filter
 
     epochs_list = []
     for p, (patient, data_type, filt) in enumerate(zip(patients, data_types, filters)):
@@ -542,7 +542,7 @@ def load_neural_data(args):
             ##########
             # EVENTS #
             ##########
-            events, event_id, metadata = get_events(patient, args.level, data_type, settings)
+            events, event_id, metadata = get_events(patient, _args.level, data_type)
             
             ############
             # EPOCHING #
@@ -552,13 +552,13 @@ def load_neural_data(args):
             print(events)
             #reject = {'seeg':4e3}
             
-            if args.level == 'sentence_onset':
+            if _args.level == 'sentence_onset':
                 tmin, tmax = (-1.2, 3.5)
-            elif args.level == 'sentence_offset':
+            elif _args.level == 'sentence_offset':
                 tmin, tmax = (-3.5, 1.5)
-            elif args.level == 'word':
+            elif _args.level == 'word':
                 tmin, tmax = (-0.6, 1.5)
-            elif args.level == 'phone':
+            elif _args.level == 'phone':
                 tmin, tmax = (-0.3, 1.2)
 
             epochs = mne.Epochs(raw, events, event_id, tmin, tmax, metadata=metadata, baseline=None, preload=True, reject=None)
@@ -572,46 +572,47 @@ def load_neural_data(args):
             ############################
             # Robust Scaling Transform #
             ############################
-            data = epochs.copy().get_data()
-            for ch in range(data.shape[1]):
-                transformer = RobustScaler().fit(np.transpose(data[:,ch,:]))
-                epochs._data[:,ch,:] = np.transpose(transformer.transform(np.transpose(data[:,ch,:])))
+            if 'scale_epochs' in _args.__dict__.keys() and _args.scale_epochs:
+                data = epochs.copy().get_data()
+                for ch in range(data.shape[1]):
+                    transformer = RobustScaler().fit(np.transpose(data[:,ch,:]))
+                    epochs._data[:,ch,:] = np.transpose(transformer.transform(np.transpose(data[:,ch,:])))
 
-            if 'block_type' in args.__dict__:
-                if args.block_type == 'auditory':
+            if 'block_type' in _args.__dict__:
+                if _args.block_type == 'auditory':
                     epochs = epochs['block in [2, 4, 6]'] 
-                elif args.block_type == 'visual':
+                elif _args.block_type == 'visual':
                     epochs = epochs['block in [1, 3, 5]']
             epochs.metadata = extend_metadata(epochs.metadata) # EXTEND METADATA
         except Exception as e: # Data not found
-            print(args.__dict__)
+            print(_args.__dict__)
             print(fname_raw, str(e))
-            # print(f'WARNING: data not found for {patient} {data_type} {filt} {args.level}: {fname}')
+            # print(f'WARNING: data not found for {patient} {data_type} {filt} {_args.level}: {fname}')
             continue
         
-        if 'query' in args.__dict__.keys() and args.query:
-            print(args.query)
-            epochs = epochs[args.query]
+        if 'query' in _args.__dict__.keys() and _args.query:
+            print(_args.query)
+            epochs = epochs[_args.query]
         print('Epochs after possible querying:')
         print(epochs)
         
         # CROP
-        if ('tmin' in args.__dict__.keys()) and ('tmax' in args.__dict__.keys()):
-            epochs = epochs.crop(tmin=args.tmin, tmax=args.tmax)
+        if ('tmin' in _args.__dict__.keys()) and ('tmax' in _args.__dict__.keys()):
+            epochs = epochs.crop(tmin=_args.tmin, tmax=_args.tmax)
             
         # PICK
         picks = None
-        if 'probe_name' in args:
-            if args.probe_name:
-                probe_name = args.probe_name[p]
+        if 'probe_name' in _args:
+            if _args.probe_name:
+                probe_name = _args.probe_name[p]
                 picks = probename2picks(probe_name, epochs.ch_names, data_type)
-        if 'channel_name' in args:
-            if args.channel_name:
-                channel_names = args.channel_name[p]
+        if 'channel_name' in _args:
+            if _args.channel_name:
+                channel_names = _args.channel_name[p]
                 picks = channel_names
-        if 'channel_num' in args:
-            if args.channel_num:
-                picks = args.channel_num[p]
+        if 'channel_num' in _args:
+            if _args.channel_num:
+                picks = _args.channel_num[p]
         print('picks:', picks)
         # if not picks:
         #     continue
@@ -619,12 +620,12 @@ def load_neural_data(args):
         epochs.pick(picks)
 
         # RESPONSIVE CHANNELS
-        if 'responsive_channels_only' in args:
-            if args.responsive_channels_only:
-                if args.block_type_test: # pick significant channels from both modalities
-                    block_types = list(set([args.block_type, args.block_type_test]))
+        if 'responsive_channels_only' in _args:
+            if _args.responsive_channels_only:
+                if _args.block_type_test: # pick significant channels from both modalities
+                    block_types = list(set([_args.block_type, _args.block_type_test]))
                 else:
-                    block_types = [args.block_type] # In next line, list is expected with all block types
+                    block_types = [_args.block_type] # In next line, list is expected with all block types
                 picks = pick_responsive_channels(epochs.ch_names, patient, data_type, filt, block_types , p_value=0.05)
                 if picks:
                     epochs.pick_channels(picks)
@@ -634,13 +635,13 @@ def load_neural_data(args):
 
 
         # DECIMATE
-        if 'decimate' in args:
-            if args.decimate: epochs.decimate(args.decimate)
+        if 'decimate' in _args:
+            if _args.decimate: epochs.decimate(_args.decimate)
 
-        metadata = epochs.metadata
+        # metadata = epochs.metadata
         # metadata['word_start'] = metadata.apply(lambda row: row['word_string'][0], axis=1)
         # metadata['word_end'] = metadata.apply(lambda row: row['word_string'][-1], axis=1)
-        epochs.metadata = metadata
+        # epochs.metadata = metadata
         epochs_list.append(epochs)
 
     return epochs_list

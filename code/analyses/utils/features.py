@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def get_features(metadata, feature_list):
     '''
     
@@ -224,7 +223,7 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
+        dict_prop['one-hot'] = False
     
     # EMBEDDING
     if feature_name == 'embedding':
@@ -238,7 +237,7 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-.'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
+        dict_prop['one-hot'] = False
     
     # DECLARATIVE VS. QUESTIONS
     if feature_name == 'dec_quest':

@@ -194,17 +194,16 @@ def extend_metadata(metadata):
     ''' Add columns to metadata
     '''
     metadata = metadata.rename(columns={'last_word': 'is_last_word'})
-    for i_w, w in enumerate(metadata['word_string']): # FIX ORTHOGRAPHIC MISTAKES
-         if w.lower() == 'excercised': metadata.loc[i_w, 'word_string'] = 'exercised'
-         if w.lower() == 'heared': metadata.loc[i_w, 'word_string'] = 'heard'
-         if w.lower() == 'streched': metadata.loc[i_w, 'word_string'] = 'stretched'
-
+     # FIX ORTHOGRAPHIC MISTAKES
+    metadata['word_string'] = metadata['word_string'].replace({'excercised':'exercised', 'heared':'heard', 'streched':'stretched'})
+    
     # TENSE
     # LAST LETTER OF POS OF VERBS INDICATE THE TENSE (D - past, P - present, F - future, V - passive, I - infinitive-like, G - ing)
     poss = metadata['pos']
     tenses = []
     dict_tense = {'D':'past', 'P':'present', 'F':'future', 'V':'passive', 'I':'inf_like', 'G':'ing'}
-    for pos in poss:
+    for i_pos, pos in enumerate(poss):
+        # print(i_pos, pos)
         if pos.startswith('VB'):
             tense = dict_tense[pos[-1]]
             if tense == 'passive': tense = 'past' # HACK: all passive forms are in past

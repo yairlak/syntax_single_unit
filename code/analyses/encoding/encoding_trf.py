@@ -66,12 +66,13 @@ np.random.seed(1)
 # USER ARGS #
 #############
 args = parser.parse_args()
-args.patient = ['patient_' + p for p in  args.patient]
-args.block_type = 'both' # allow only querying
+args.patient = ['patient_' + p for p in args.patient]
+args.block_type = 'both'
 print('args\n', args)
-assert len(args.patient)==len(args.data_type)==len(args.filter)
+assert len(args.patient) == len(args.data_type) == len(args.filter)
 # FNAME
-list_args2fname = ['patient', 'data_type', 'filter', 'model_type', 'probe_name', 'ablation_method', 'query']
+list_args2fname = ['patient', 'data_type', 'filter', 'model_type',
+                   'probe_name', 'ablation_method', 'query']
 args2fname = args.__dict__.copy()
 fname = dict2filename(args2fname, '_', list_args2fname, '', True)
 print(fname)
@@ -90,21 +91,23 @@ metadata_audio = extend_metadata(metadata_phone)
 metadata_visual = metadata_word.query('block in [1, 3, 5]')
 metadata_visual = extend_metadata(metadata_visual)
 
-metadata_features = pd.concat([metadata_audio, metadata_visual], axis= 0)
+metadata_features = pd.concat([metadata_audio, metadata_visual], axis=0)
 metadata_features = metadata_features.sort_values(by='event_time')
 
-X_features, feature_names, feature_info, feature_groups = get_features(metadata_features, args.feature_list) # GET DESIGN MATRIX
+# CREATE DESIGN MATRIX
+X_features, feature_names, feature_info, feature_groups = \
+                        get_features(metadata_features, args.feature_list)
 num_samples, num_features = X_features.shape
 times_sec = metadata_features['event_time'].values
 times_samples = (times_sec * args.sfreq).astype(int)
-num_time_samples = int((times_sec[-1] + 10)*args.sfreq) # Last time point plus 10sec
+num_time_samples = int((times_sec[-1] + 10)*args.sfreq)  # add 10sec for RF
 X = np.zeros((num_time_samples, num_features))
 X[times_samples, :] = X_features
 
 #################################
 # STANDARIZE THE FEATURE MATRIX #
 #################################
-scaler = StandardScaler()#(with_std=False)
+scaler = StandardScaler()
 # EXCEPT FOR SENTENCE ONSET
 IX_sentence_onset = feature_names.index('is_first_word')
 sentence_onset = X[:, IX_sentence_onset]
@@ -126,10 +129,13 @@ args_temp.level = 'sentence_onset'
 epochs_neural_sentence = load_neural_data(args_temp)[0]
 del args_temp
 
-
-# epoch features to sentences
-epochs_features_sentence = mne.Epochs(raw_features, epochs_neural_sentence.events, tmin=epochs_neural_sentence.tmin, 
-                                      tmax=epochs_neural_sentence.tmax, metadata=epochs_neural_sentence.metadata, baseline=None)
+# Epoch features to sentences
+epochs_features_sentence = mne.Epochs(raw_features,
+                                      epochs_neural_sentence.events,
+                                      tmin=epochs_neural_sentence.tmin,
+                                      tmax=epochs_neural_sentence.tmax,
+                                      metadata=epochs_neural_sentence.metadata,
+                                      baseline=None)
 epochs_features_sentence = epochs_features_sentence[args.query]
 
 # DECIMATE
@@ -139,8 +145,10 @@ if args.decimate:
 sfreq_down_sampled = epochs_neural_sentence.info['sfreq']
 
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
-X_sentence = epochs_features_sentence.get_data().transpose([2,0,1]) # num_timepoints X num_epochs X num_features
-y_sentence = epochs_neural_sentence.get_data().transpose([2,0,1]) # num_timepoints X num_epochs X num_features
+# num_timepoints X num_epochs X num_features
+X_sentence = epochs_features_sentence.get_data().transpose([2, 0, 1])
+y_sentence = epochs_neural_sentence.get_data().transpose([2, 0, 1])
+
 
 def reduce_design_matrix(X, feature_name, feature_info, ablation_method):
     if feature_name == 'full':
@@ -148,23 +156,23 @@ def reduce_design_matrix(X, feature_name, feature_info, ablation_method):
     else:
         st, ed = feature_info[feature_name]['IXs']
         if ablation_method == 'remove':
-            X_reduced = np.delete(X, range(st,ed), 2)
+            X_reduced = np.delete(X, range(st, ed), 2)
         elif ablation_method == 'zero':
             X_reduced = X.copy()
             X_reduced[:, :, st:ed] = 0
         elif ablation_method == 'shuffle':
             X_reduced = X.copy()
             X_reduced_FOI = X_reduced[:, :, st:ed]
-            X_reduced_FOI[X_reduced_FOI!=0] = np.random.permutation(X_reduced_FOI[X_reduced_FOI!=0])
+            X_reduced_FOI[X_reduced_FOI != 0] = \
+                np.random.permutation(X_reduced_FOI[X_reduced_FOI != 0])
             X_reduced[:, :, st:ed] = X_reduced_FOI
     return X_reduced
-
 
 
 ##################
 # ENCODING MODEL #
 ##################
-results = {}    
+results = {}
 outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
 
 for i_split, (train, test) in enumerate(outer_cv.split(X_sentence.transpose([1,2,0]), y_sentence.transpose([1,2,0]))):

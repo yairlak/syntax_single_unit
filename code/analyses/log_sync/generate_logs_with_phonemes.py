@@ -1,7 +1,7 @@
 import os, glob, argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='496', type=str)
+parser.add_argument('--patient', default='530', type=str)
 parser.add_argument('--hospital', default='UCLA', type=str)
 parser.add_argument('--blocks', action='append', default=[], type=str)
 args = parser.parse_args()
@@ -13,11 +13,11 @@ if not args.blocks:
 args.patient = 'patient_' + args.patient
 
 # Paths
-path2logs = os.path.join('..', '..', 'Data', args.hospital, args.patient, 'Logs')
+path2logs = os.path.join('..', '..', '..', 'Data', args.hospital, args.patient, 'Logs')
 logs_fns = glob.glob(os.path.join(path2logs, 'events_log_in_cheetah_clock_part*.log'))
 logs_fns = [fn for fn in logs_fns if int(os.path.basename(fn)[32:33]) in args.blocks]
 
-path2stimuli = os.path.join('..', '..', 'Paradigm', 'Stimuli', 'Audio', 'normalized', 'resampled_16k')
+path2stimuli = os.path.join('..', '..', '..', 'Paradigm', 'Stimuli', 'Audio', 'normalized', 'resampled_16k')
 
 
 def get_curr_words_and_phones(curr_line, path2stimuli):

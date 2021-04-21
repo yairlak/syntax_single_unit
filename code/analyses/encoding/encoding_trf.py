@@ -47,7 +47,7 @@ parser.add_argument('--label-from-metadata', default=[], help='Field name in met
 parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
 # MODEL
 parser.add_argument('--model-type', default='ridge', choices=['ridge', 'ridge_laplacian', 'lasso', 'no-regularization']) 
-parser.add_argument('--ablation-method', default='zero', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
+parser.add_argument('--ablation-method', default='remove', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
 parser.add_argument('--n-folds-inner', default=2, type=int, help="cross-valdition")
 parser.add_argument('--n-folds-outer', default=2, type=int, help="cross-valdition")
 # MISC
@@ -128,7 +128,8 @@ del args_temp
 
 
 # epoch features to sentences
-epochs_features_sentence = mne.Epochs(raw_features, epochs_neural_sentence.events, tmin=epochs_neural_sentence.tmin, tmax=epochs_neural_sentence.tmax, metadata=epochs_neural_sentence.metadata, baseline=None)
+epochs_features_sentence = mne.Epochs(raw_features, epochs_neural_sentence.events, tmin=epochs_neural_sentence.tmin, 
+                                      tmax=epochs_neural_sentence.tmax, metadata=epochs_neural_sentence.metadata, baseline=None)
 epochs_features_sentence = epochs_features_sentence[args.query]
 
 # DECIMATE
@@ -154,7 +155,7 @@ def reduce_design_matrix(X, feature_name, feature_info, ablation_method):
         elif ablation_method == 'shuffle':
             X_reduced = X.copy()
             X_reduced_FOI = X_reduced[:, :, st:ed]
-            X_reduced_FOI[X_reduced_FOI>0] = np.random.permutation(X_reduced_FOI[X_reduced_FOI>0])
+            X_reduced_FOI[X_reduced_FOI!=0] = np.random.permutation(X_reduced_FOI[X_reduced_FOI!=0])
             X_reduced[:, :, st:ed] = X_reduced_FOI
     return X_reduced
 

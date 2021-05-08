@@ -16,10 +16,10 @@ echo "Which probes (e.g., RFSG LFSG LFGA RFGP)?"
 read PROBES
 
 echo "Which models (e.g., ridge lasso)?"
-read MODEL_TYPE
+read MODEL_TYPES
 
 echo "Which ablation method for evaluation (remove/zero/shuffle)?"
-read ABLATION_METHOD
+read ABLATION_METHODS
 
 echo "Word epoch tmin (e.g., 0 or -0.05)?"
 read TMIN
@@ -86,24 +86,29 @@ for patient in $PATIENTS; do
     for data_type in $DTYPES; do
          for filter in $FILTERS; do
              for probe_name in $PROBES; do
-    
-               CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/encoding/encoding_trf.py --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --ablation-method '$ABLATION_METHOD' --query '$QUERY' --feature-list'
+		     for model_type in $MODEL_TYPES; do
+			     for ablation_method in $ABLATION_METHODS; do
+		    
+			       CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/encoding/encoding_trf.py --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$model_type' --ablation-method '$ablation_method' --query '$QUERY' --feature-list'
 
-                for feature in $FEATURES; do
-                    CMD+=' '$feature
-                done
+				for feature in $FEATURES; do
+				    CMD+=' '$feature
+				done
 
-                output_log='logs/rf.out'
-                error_log='logs/rf.err'
-                job_name='rf'
+				output_log='logs/rf.out'
+				error_log='logs/rf.err'
+				job_name='rf'
 
-                if [ $CLUSTER -eq 1 ]
-                then
-                    echo $CMD | qsub -q $queue -N $job_name -l walltime=$walltime -o $output_log -e $error_log
-                else
-                    echo $CMD' 1>'$output_log' 2>'$error_log' &'
-                fi
-            done
-        done
-    done
+				if [ $CLUSTER -eq 1 ]
+				then
+				    echo $CMD | qsub -q $queue -N $job_name -l walltime=$walltime -o $output_log -e $error_log
+				else
+				    echo $CMD' 1>'$output_log' 2>'$error_log' &'
+				fi
+			    done
+			done
+		    done
+		done
+	done
 done
+

@@ -55,3 +55,4 @@ if args.spikes:
 print('-'*100)
 
 print(' '.join(list(set(names_from_all_patients))))
+print("', '".join(list(set(names_from_all_patients))))

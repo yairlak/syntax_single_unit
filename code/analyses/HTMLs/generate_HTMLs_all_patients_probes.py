@@ -22,7 +22,10 @@ print(args)
 per_probe_htmls = []
 for patient in args.patient:
     data_type_for_probe_names = 'micro' if args.data_type == 'spike' else args.data_type
-    probe_names, _ = utils.get_probe_names(patient, data_type_for_probe_names)
+    try:
+        probe_names, _ = utils.get_probe_names(patient, data_type_for_probe_names)
+    except:
+        continue
     print(patient, args.data_type, probe_names)
     # GET TEXT
     fn_htmls = []

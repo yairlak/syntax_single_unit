@@ -82,21 +82,33 @@ def get_events(patient, level, data_type):
     return events, event_id, metadata
 
 
+
+def get_file_probe_names(path2mat_folder, micro_macro):
+    with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt')) as f:
+        lines = f.readlines()
+    channel_numbers  = [l.strip().split('\t')[0] for l in lines]
+    file_names = [l.strip().split('\t')[1] for l in lines]
+    if micro_macro == 'micro':
+        probe_names = set([s[4:-5] for s in file_names if s.startswith('G')])
+    elif micro_macro == 'macro':
+        probe_names = set([s[:-5] for s in file_names])
+    return channel_numbers, file_names, probe_names
+
+def probe_in_patient(probe_name, patient):
+    patient = 'patient_' + str(patient)
+    path2functions = os.path.dirname(os.path.abspath(__file__))
+    path2microdata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'micro', 'CSC_mat')
+    _, _, probe_names_micro = get_file_probe_names(path2microdata_folder, 'micro')
+    #print(probe_name, probe_names_micro)
+    is_in_patient = probe_name in probe_names_micro
+    return is_in_patient
+
+
 def get_probes2channels(patients, flag_get_channels_with_spikes=True):
     '''
     input: patient (str)
     output: probes (dict) - key is the probe names; value is a list of lists (per patient), with channel numbers for micro or macro data. For example, probes['LSTG']['micro'] = [[25, 26, ...], [36, ..]]
     '''
-    def get_file_probe_names(path2mat_folder, micro_macro):
-        with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt')) as f:
-            lines = f.readlines()
-        channel_numbers  = [l.strip().split('\t')[0] for l in lines]
-        file_names = [l.strip().split('\t')[1] for l in lines]
-        if micro_macro == 'micro':
-            probe_names = set([s[4:-5] for s in file_names if s.startswith('G')])
-        elif micro_macro == 'macro':
-            probe_names = set([s[:-5] for s in file_names])
-        return channel_numbers, file_names, probe_names
 
     path2functions = os.path.dirname(os.path.abspath(__file__))
     sys.path.append(path2functions)

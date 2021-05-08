@@ -28,21 +28,23 @@ from utils.data_manip import load_neural_data, get_events
 
 parser = argparse.ArgumentParser(description='Train an encoding model on neural data')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'], help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=['micro'], help='electrode type')
+parser.add_argument('--patient', action='append', default=[], help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
 # parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='sentence_onset', help='')
-parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=['gaussian-kernel-10'], help='')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+parser.add_argument('--filter', action='append', default=[], help='raw/high-gamma/gaussian-kernel-xx')
+parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
 parser.add_argument('--channe-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 parser.add_argument('--sfreq', default=1000, help='Sampling frequency for both neural and feature data (must be identical).')
 # QUERY
-parser.add_argument('--query', default="block in [1,3,5]", help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
-parser.add_argument('--scale-epochs', default=True, action='store_true', help='If true, data is scaled (StandardScalar) after epoching')
+parser.add_argument('--query', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
+parser.add_argument('--scale-epochs', default=False, action='store_true', help='If true, data is scaled (StandardScalar) after epoching')
 # parser.add_argument('--feature-list', default=['word_length', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos_simple', 'word_zipf', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features', 'letters'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
+#parser.add_argument('--feature-list', default=['word_length', 'is_first_word', 'is_last_word', 'word_position', 'tense', 'pos_simple', 'word_zipf', 'morph_complex', 'grammatical_number', 'embedding', 'wh_subj_obj', 'dec_quest', 'semantic_features', 'phonological_features', 'letters'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
 # word_length word_position tense pos_simple morph_complex embedding wh_subj_obj semantic_features
-parser.add_argument('--feature-list', default=['is_first_word', 'is_last_word', 'phonological_features', 'word_zipf', 'pos_simple', 'grammatical_number'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
+#parser.add_argument('--feature-list', default=['is_first_word', 'is_last_word', 'phonological_features', 'word_zipf', 'pos_simple', 'grammatical_number'], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
+parser.add_argument('--feature-list', default=[], nargs='*', help='Comparison name from Code/Main/utils/comparisons.py')
 parser.add_argument('--label-from-metadata', default=[], help='Field name in metadata that will be used to generate labels for the different classes. If empty, condition_names in comparison will be used')
 parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
 # MODEL

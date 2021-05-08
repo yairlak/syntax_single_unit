@@ -1,9 +1,15 @@
 import argparse, os, re, sys, math
-from functions import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+sys.path.append('..')
+from utils import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
 from mne.io import _merge_info
 import numpy as np
 from pprint import pprint
-import pandas
+import pandas as pd
+from utils.read_logs_and_features import extend_metadata
+from utils.data_manip import get_events
 
 # GET METADATA BY READING THE LOGS FROM THE FOLLOWING PATIENT:
 patient = 'patient_479_11'
@@ -22,8 +28,20 @@ for block in range(1, 7):
     log_all_blocks[block] = log
 
 print('-'*100)
-metadata = read_logs_and_features.prepare_metadata(log_all_blocks, settings, params)
-metadata = read_logs_and_features.extend_metadata(metadata)
+_, _, metadata_phone = get_events(patient, 'phone', 'micro')
+_, _, metadata_word = get_events(patient, 'word', 'micro')
+
+metadata_audio = extend_metadata(metadata_phone)
+metadata_visual = metadata_word.query('block in [1, 3, 5]')
+metadata_visual = extend_metadata(metadata_visual)
+
+metadata = pd.concat([metadata_audio, metadata_visual], axis=0)
+metadata = metadata.sort_values(by='event_time')
+
+print(list(metadata))
+
+#metadata = read_logs_and_features.prepare_metadata(log_all_blocks, settings, params, 'micro')
+#metadata = read_logs_and_features.extend_metadata(metadata)
 for k in sorted(list(metadata)):
     if k == 'semantic_features': print(k, ' : not showing (too many values)'); continue
     k_values = list(set(metadata[k].values))

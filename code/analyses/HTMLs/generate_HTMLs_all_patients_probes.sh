@@ -9,7 +9,7 @@ do
     #for data_type in 'macro';
     do
         for filter in 'raw' 'gaussian-kernel-10' 'gaussian-kernel-25' 'high-gamma';
-        #for filter in 'gaussian-kernel-10' 'gaussian-kernel-25';
+        #for filter in 'gaussian-kernel-25';
         do
             #for level in 'sentence_onset' 'sentence_offset';
             for level in 'sentence_onset';

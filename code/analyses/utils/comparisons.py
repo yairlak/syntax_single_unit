@@ -115,7 +115,7 @@ def comparison_list():
 
 # Sentence type    
     comparisons['declarative_questions'] = {}
-    comparisons['declarative_questions']['queries'] = ["Declarative==1 and word_position==-1", "Question==1 and word_position==-1"]
+    comparisons['declarative_questions']['queries'] = ["dec_quest==0", "dec_quest==1"] # and word_position==-1"]
     comparisons['declarative_questions']['condition_names'] = ['Declarative', 'Question']
     comparisons['declarative_questions']['colors'] = ['b', 'g']
     
@@ -128,8 +128,9 @@ def comparison_list():
     
 # Embedding
     comparisons['embedding'] = {}
-    comparisons['embedding']['queries'] = ["Embedding==1 and word_position==-1", "Declarative==1 and sentence_length==5 and Embedding==0 and word_position==-1"]
-    comparisons['embedding']['condition_names'] = ['Embedding', 'Long_declarative']
+    #comparisons['embedding']['queries'] = ["Embedding==1 and word_position==-1", "Declarative==1 and sentence_length==5 and Embedding==0 and word_position==-1"]
+    comparisons['embedding']['queries'] = ["embedding==1", "embedding==0"]
+    comparisons['embedding']['condition_names'] = ['Embedded', 'Main']
     comparisons['embedding']['colors'] = ['b', 'g']
 
 # Number of letters
@@ -137,6 +138,13 @@ def comparison_list():
     comparisons['word_length']['queries'] = "num_letters"
     comparisons['word_length']['condition_names'] = []
     comparisons['word_length']['colors'] = []
+
+# Short vs. Long Words
+    comparisons['short_vs_long_words'] = {}
+    comparisons['short_vs_long_words']['queries'] = ["word_length<4 and word_length>1", "word_length>4"]
+    comparisons['short_vs_long_words']['condition_names'] = ['Short_word', 'Long_word']
+    comparisons['short_vs_long_words']['colors'] = ['b', 'g']
+    comparisons['short_vs_long_words']['sort'] = ['word_string']
 
 # Word string
     comparisons['word_string'] = {}

@@ -20,10 +20,9 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', choices=['raw', 'gaussian-kernel',
-                                         'gaussian-kernel-25', 'high-gamma'],
-                    action='append', default=['high-gamma'], help='')
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
+                    help='raw/gaussian-kernel-*/high-gamma')
 parser.add_argument('--level', choices=['phone', 'word',
                     'sentence-onset', 'sentence-offset'],
                     default='word')
@@ -112,6 +111,7 @@ DSMs = []
 linkage = 'complete'
 for ch, ch_name in enumerate(data.epochs[0].ch_names):
     DSM = squareform(pdist(X[:, ch, :], 'correlation'))
+    DSM[np.isnan(DSM)] = DSM[~np.isnan(DSM)].max()
     DSMs.append(DSM)
     ############################
     # CLUSTER CONFUSION MATRIX #

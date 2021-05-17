@@ -21,11 +21,10 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', choices=['raw', 'gaussian-kernel',
-                                         'gaussian-kernel-25', 'high-gamma'],
-                    action='append', default=['high-gamma'], help='')
-parser.add_argument('--probe-name', default=['LFSG'], nargs='*',
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['gaussian-kernel-25'],
+                    help='raw/gaussian-kernel-*/high-gamma')
+parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
 parser.add_argument('--channel-name', default=None, nargs='*', action='append',
@@ -110,7 +109,7 @@ data.epoch_data(level='sentence_onset',
                 verbose=True)
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
-y_sentence = data.epochs[0].copy().pick_types(seeg=True).get_data().\
+y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
 metadata_sentences = data.epochs[0].metadata
 # n_times, n_epochs, n_channels
@@ -186,8 +185,8 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                         verbose=False)
         X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
             transpose([2, 0, 1])
-        y_test_word = data.epochs[0].copy().pick_types(seeg=True).get_data().\
-            transpose([2, 0, 1])
+        y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
+            get_data().transpose([2, 0, 1])
         # n_times, n_epochs, n_channels
 
         times_word = data.epochs[0].times

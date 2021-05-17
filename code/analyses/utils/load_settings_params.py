@@ -50,14 +50,31 @@ class Settings():
             self.recording_device = 'Neuralynx'
             self.time0 =   1502557237931999
             self.timeend = 1502560879821412
+        if self.patient == 'patient_489': # Neuralynx
+            self.recording_device = 'Neuralynx'
+            self.time0 =   1509370518387992
+            self.timeend = 1509373524588960
+        if self.patient == 'patient_491': # Neuralynx
+            self.recording_device = 'Neuralynx'
+            self.time0 = 1516883742206926
+            self.timeend = 1516887905125476 # 1516887105125476
         if self.patient == 'patient_493': # Neuralynx
             self.recording_device = 'Neuralynx'
             self.time0 =   1520590966262873
             self.timeend = 1520594033849941
+        if self.patient == 'patient_495': # Neuralynx
+            self.recording_device = 'Neuralynx'
+            self.time0 =   1523884108129385  
+            self.timeend = 1523887025034338
+        if self.patient == 'patient_496': # Neuralynx
+            self.recording_device = 'Neuralynx'
+            self.time0 =   1527849733356681
+            self.timeend = 1527852382526117
         if self.patient == 'patient_502': # Neuralynx
             self.recording_device = 'Neuralynx'
             self.time0 = 1544197879836945
             self.timeend = 1544201196027613
+            self.time0_macro = self.time0 # time zero of MACRO (Neuralynx)
         if self.patient == 'patient_504': # BlackRock
             self.recording_device = 'BlackRock' # MICRO
             self.time0 =   0
@@ -109,7 +126,7 @@ class Params:
             self.sfreq_macro = 2000  # ??????????? Data sampling frequency [Hz]
         if self.patient == 'patient_489': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
-            self.sfreq_macro = -999  # ??????????? Data sampling frequency [Hz]
+            self.sfreq_macro = 2000  # Data sampling frequency [Hz]
         if self.patient == 'patient_491': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]
@@ -117,11 +134,11 @@ class Params:
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]
         if self.patient == 'patient_495': # Neuralynx
-            self.sfreq_raw = 40000  #???? Data sampling frequency [Hz]
-            self.sfreq_macro = 2000  #???? Data sampling frequency [Hz]
+            self.sfreq_raw = 40000  # Data sampling frequency [Hz]
+            self.sfreq_macro = 2000  # ????Data sampling frequency [Hz]
         if self.patient == 'patient_496': # Neuralynx
-            self.sfreq_raw = 40000  # ?????Data sampling frequency [Hz]
-            self.sfreq_macro = 2000  # ??????Data sampling frequency [Hz]
+            self.sfreq_raw = 40000  # Data sampling frequency [Hz]
+            self.sfreq_macro = 2000  # Data sampling frequency [Hz]
         if self.patient == 'patient_502': # Neuralynx
             self.sfreq_raw = 32000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]

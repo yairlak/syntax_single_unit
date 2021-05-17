@@ -14,16 +14,33 @@ def comparison_list():
     comparisons['all_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_trials']['colors'] = ['b', 'r']
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
     comparisons['all_trials']['tmin_tmax'] = [-0.25, 2.75]
+
+# ALL TRIALS CHRONOLOGICAL ORDER
+    comparisons['all_trials_chrono'] = {}
+    comparisons['all_trials_chrono']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]
+    comparisons['all_trials_chrono']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_trials_chrono']['colors'] = ['b', 'r']
+    #comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    comparisons['all_trials_chrono']['sort'] = ['chronological_order']#, 'Question']
+    comparisons['all_trials_chrono']['tmin_tmax'] = [-0.25, 2.75]
 
 # ALL WORDS
     comparisons['all_words'] = {}
     comparisons['all_words']['queries'] = ["word_string.str.len()>1"]
     comparisons['all_words']['condition_names'] = ['All words']
     comparisons['all_words']['colors'] = ['b']
+<<<<<<< HEAD
     comparisons['all_words']['sort'] = 'clustering'
     comparisons['all_words']['y-tick-step'] = 40
   
+=======
+    #comparisons['all_words']['sort'] = ['num_letters', 'word_position', 'word_string']
+    comparisons['all_words']['sort'] = 'clustering'
+    comparisons['all_words']['y-tick-step'] = 9
+    
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
 # Sanity checks:
     comparisons['first_last_word'] = {}
     comparisons['first_last_word']['queries'] = ["word_position==1", "last_word==True"]
@@ -105,7 +122,7 @@ def comparison_list():
 
 # Sentence type    
     comparisons['declarative_questions'] = {}
-    comparisons['declarative_questions']['queries'] = ["Declarative==1 and word_position==-1", "Question==1 and word_position==-1"]
+    comparisons['declarative_questions']['queries'] = ["dec_quest==0", "dec_quest==1"] # and word_position==-1"]
     comparisons['declarative_questions']['condition_names'] = ['Declarative', 'Question']
     comparisons['declarative_questions']['colors'] = ['b', 'g']
     
@@ -118,8 +135,9 @@ def comparison_list():
     
 # Embedding
     comparisons['embedding'] = {}
-    comparisons['embedding']['queries'] = ["Embedding==1 and word_position==-1", "Declarative==1 and sentence_length==5 and Embedding==0 and word_position==-1"]
-    comparisons['embedding']['condition_names'] = ['Embedding', 'Long_declarative']
+    #comparisons['embedding']['queries'] = ["Embedding==1 and word_position==-1", "Declarative==1 and sentence_length==5 and Embedding==0 and word_position==-1"]
+    comparisons['embedding']['queries'] = ["embedding==1", "embedding==0"]
+    comparisons['embedding']['condition_names'] = ['Embedded', 'Main']
     comparisons['embedding']['colors'] = ['b', 'g']
 
 # Number of letters
@@ -127,6 +145,13 @@ def comparison_list():
     comparisons['word_length']['queries'] = "num_letters"
     comparisons['word_length']['condition_names'] = []
     comparisons['word_length']['colors'] = []
+
+# Short vs. Long Words
+    comparisons['short_vs_long_words'] = {}
+    comparisons['short_vs_long_words']['queries'] = ["word_length<4 and word_length>1", "word_length>4"]
+    comparisons['short_vs_long_words']['condition_names'] = ['Short_word', 'Long_word']
+    comparisons['short_vs_long_words']['colors'] = ['b', 'g']
+    comparisons['short_vs_long_words']['sort'] = ['word_string']
 
 # Word string
     comparisons['word_string'] = {}

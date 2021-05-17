@@ -1,7 +1,6 @@
 
 
 # DOWNLOAD DATA 
-
 1. to list files on box: 'rclone lsd box:' 
 
 2. Put the raw files in 'Raw' subfolder of patient folder. Make sure that only a single event file (nev) exist (the one with the larger file size)
@@ -9,6 +8,7 @@ Organize into
 micro/ncs
 macro/ncs
 
+See also code/new_patient.py
 
 3. To transform raw to mat files, run: Spike_sorting/Neuralynx_pipeline/ncs2mat.m
 matlab -nodisplay -nojvm 

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/preproc/generate_raw.py", line 78, in <module>
+    curr_raw = data_manip.load_channel_data(args.data_type, args.filter, channel_num, channel_name, probe_name, settings, params)
+  File "../utils/data_manip.py", line 186, in load_channel_data
+    sfreq = params.sfreq_raw
+AttributeError: 'Params' object has no attribute 'sfreq_raw'

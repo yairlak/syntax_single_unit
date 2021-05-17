@@ -1,0 +1,2666 @@
+Namespace(SOA=500, baseline=[], baseline_mode='zscore', block_type=[], channel_name=[], channel_num=[], comparison_name='all_trials', data_type='spike', dont_write=False, filter='raw', fixed_constraint=[], level='sentence_onset', no_title=False, patient='patient_530', probe_name=[], remove_outliers=False, responsive_channels_only=False, save2=[], smooth_raster=0.002, sort_key=['sentence_length'], tmax=None, tmin=None, vmax=1, vmin=0, window_ed=450, window_st=50, word_ON_duration=250, y_tick_step=30, yticklabels_fontsize=14, yticklabels_sortkey=[])
+Loading settings...
+Opening raw data file ../../../Data/UCLA/patient_530/Raw/patient_530_spike_raw-raw.fif...
+    Range : 0 ... 1441999 =      0.000 ...  1441.999 secs
+Ready.
+Opening raw data file /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_530/Raw/patient_530_spike_raw-raw-1.fif...
+    Range : 1442000 ... 2883999 =   1442.000 ...  2883.999 secs
+Ready.
+Opening raw data file /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_530/Raw/patient_530_spike_raw-raw-2.fif...
+    Range : 2884000 ... 4000000 =   2884.000 ...  4000.000 secs
+Ready.
+<Raw | patient_530_spike_raw-raw.fif, 372 x 4000001 (4000.0 s), ~719 kB, data not loaded>
+['n_g1_1_REC', 'p_g1_1_REC', 'n_g1_2_REC', 'n_g2_2_REC', 'n_g3_2_REC', 'n_g4_2_REC', 'n_g1_4_REC', 'n_g2_4_REC', 'n_g3_4_REC', 'n_g1_6_REC', 'n_g2_6_REC', 'n_g1_7_REC', 'n_g2_7_REC', 'n_g1_8_REC', 'n_g2_8_REC', 'n_g1_9_RMH', 'n_g2_9_RMH', 'n_g3_9_RMH', 'n_g1_10_RMH', 'n_g2_10_RMH', 'n_g1_11_RMH', 'n_g1_12_RMH', 'n_g1_13_RMH', 'n_g2_13_RMH', 'n_g3_13_RMH', 'n_g4_13_RMH', 'p_g1_13_RMH', 'p_g2_13_RMH', 'n_g1_14_RMH', 'n_g2_14_RMH', 'p_g1_14_RMH', 'n_g1_15_RMH', 'n_g2_15_RMH', 'n_g3_15_RMH', 'n_g1_16_RMH', 'n_g2_16_RMH', 'n_g3_16_RMH', 'n_g4_16_RMH', 'n_g5_16_RMH', 'n_g1_17_ROF', 'n_g1_18_ROF', 'p_g1_18_ROF', 'n_g1_19_ROF', 'p_g1_19_ROF', 'n_g1_20_ROF', 'n_g2_20_ROF', 'n_g3_20_ROF', 'p_g1_20_ROF', 'n_g1_21_ROF', 'p_g1_21_ROF', 'n_g1_22_ROF', 'p_g1_22_ROF', 'n_g1_23_ROF', 'p_g1_23_ROF', 'n_g1_24_ROF', 'p_g1_24_ROF', 'n_g1_25_RAC', 'n_g2_25_RAC', 'n_g3_25_RAC', 'p_g1_25_RAC', 'n_g1_26_RAC', 'n_g2_26_RAC', 'n_g3_26_RAC', 'n_g4_26_RAC', 'n_g5_26_RAC', 'p_g1_26_RAC', 'p_g2_26_RAC', 'n_g1_27_RAC', 'n_g2_27_RAC', 'n_g3_27_RAC', 'p_g1_27_RAC', 'n_g1_28_RAC', 'n_g2_28_RAC', 'n_g3_28_RAC', 'p_g1_28_RAC', 'n_g1_29_RAC', 'n_g2_29_RAC', 'p_g1_29_RAC', 'n_g1_30_RAC', 'n_g2_30_RAC', 'p_g1_30_RAC', 'n_g1_31_RAC', 'n_g2_31_RAC', 'n_g3_31_RAC', 'p_g1_31_RAC', 'n_g1_32_RAC', 'n_g2_32_RAC', 'n_g3_32_RAC', 'p_g1_32_RAC', 'n_g1_33_LMH', 'n_g2_33_LMH', 'n_g3_33_LMH', 'n_g4_33_LMH', 'n_g5_33_LMH', 'n_g6_33_LMH', 'p_g1_33_LMH', 'n_g1_34_LMH', 'n_g2_34_LMH', 'n_g3_34_LMH', 'p_g1_34_LMH', 'p_g2_34_LMH', 'n_g1_35_LMH', 'n_g2_35_LMH', 'n_g3_35_LMH', 'p_g1_35_LMH', 'n_g1_36_LMH', 'p_g1_36_LMH', 'p_g2_36_LMH', 'n_g1_37_LMH', 'n_g2_37_LMH', 'n_g3_37_LMH', 'n_g4_37_LMH', 'p_g1_37_LMH', 'p_g2_37_LMH', 'n_g1_38_LMH', 'n_g2_38_LMH', 'p_g1_38_LMH', 'n_g1_39_LMH', 'n_g2_39_LMH', 'n_g3_39_LMH', 'p_g1_39_LMH', 'n_g1_40_LMH', 'n_g2_40_LMH', 'n_g3_40_LMH', 'p_g1_40_LMH', 'p_g2_40_LMH', 'n_g1_41_LEC', 'n_g2_41_LEC', 'n_g3_41_LEC', 'n_g4_41_LEC', 'n_g5_41_LEC', 'n_g6_41_LEC', 'n_g7_41_LEC', 'n_g8_41_LEC', 'p_g1_41_LEC', 'p_g2_41_LEC', 'n_g1_42_LEC', 'n_g2_42_LEC', 'n_g3_42_LEC', 'n_g4_42_LEC', 'n_g5_42_LEC', 'n_g6_42_LEC', 'p_g1_42_LEC', 'p_g2_42_LEC', 'n_g1_43_LEC', 'n_g2_43_LEC', 'n_g3_43_LEC', 'n_g4_43_LEC', 'n_g5_43_LEC', 'p_g1_43_LEC', 'n_g1_44_LEC', 'n_g2_44_LEC', 'n_g3_44_LEC', 'n_g4_44_LEC', 'n_g5_44_LEC', 'n_g6_44_LEC', 'n_g7_44_LEC', 'p_g1_44_LEC', 'n_g1_45_LEC', 'n_g2_45_LEC', 'n_g1_46_LEC', 'n_g2_46_LEC', 'n_g3_46_LEC', 'n_g4_46_LEC', 'n_g5_46_LEC', 'n_g6_46_LEC', 'p_g1_46_LEC', 'p_g2_46_LEC', 'p_g3_46_LEC', 'n_g1_47_LEC', 'n_g2_47_LEC', 'n_g3_47_LEC', 'n_g4_47_LEC', 'n_g5_47_LEC', 'n_g6_47_LEC', 'p_g1_47_LEC', 'p_g2_47_LEC', 'n_g1_48_LEC', 'n_g2_48_LEC', 'n_g3_48_LEC', 'n_g1_49_LOF', 'n_g2_49_LOF', 'p_g1_49_LOF', 'n_g1_52_LOF', 'n_g2_52_LOF', 'p_g1_52_LOF', 'n_g1_53_LOF', 'n_g1_54_LOF', 'n_g1_55_LOF', 'n_g1_56_LOF', 'n_g1_57_LAC', 'n_g2_57_LAC', 'n_g3_57_LAC', 'p_g1_57_LAC', 'p_g2_57_LAC', 'n_g1_58_LAC', 'n_g2_58_LAC', 'n_g3_58_LAC', 'n_g4_58_LAC', 'n_g5_58_LAC', 'n_g6_58_LAC', 'p_g1_58_LAC', 'p_g2_58_LAC', 'p_g3_58_LAC', 'n_g1_59_LAC', 'p_g1_59_LAC', 'n_g1_60_LAC', 'n_g2_60_LAC', 'n_g3_60_LAC', 'n_g4_60_LAC', 'n_g5_60_LAC', 'p_g1_60_LAC', 'p_g2_60_LAC', 'p_g3_60_LAC', 'p_g4_60_LAC', 'p_g5_60_LAC', 'n_g1_61_LAC', 'n_g2_61_LAC', 'n_g3_61_LAC', 'p_g1_61_LAC', 'p_g2_61_LAC', 'p_g3_61_LAC', 'n_g1_62_LAC', 'n_g2_62_LAC', 'n_g3_62_LAC', 'p_g1_62_LAC', 'n_g1_63_LAC', 'n_g2_63_LAC', 'n_g3_63_LAC', 'n_g4_63_LAC', 'p_g1_63_LAC', 'n_g1_64_LAC', 'n_g2_64_LAC', 'n_g3_64_LAC', 'n_g4_64_LAC', 'n_g5_64_LAC', 'n_g6_64_LAC', 'n_g7_64_LAC', 'p_g1_64_LAC', 'p_g2_64_LAC', 'n_g1_65_LA', 'n_g2_65_LA', 'n_g1_67_LA', 'n_g2_67_LA', 'p_g1_67_LA', 'n_g1_69_LA', 'n_g2_69_LA', 'n_g3_69_LA', 'n_g1_70_LA', 'n_g2_70_LA', 'n_g3_70_LA', 'n_g1_71_LA', 'n_g2_71_LA', 'n_g1_73_LHG', 'n_g2_73_LHG', 'n_g3_73_LHG', 'n_g4_73_LHG', 'n_g5_73_LHG', 'n_g6_73_LHG', 'p_g1_73_LHG', 'p_g2_73_LHG', 'n_g1_74_LHG', 'n_g2_74_LHG', 'n_g3_74_LHG', 'p_g1_74_LHG', 'n_g1_75_LHG', 'n_g2_75_LHG', 'n_g3_75_LHG', 'n_g4_75_LHG', 'p_g1_75_LHG', 'n_g1_76_LHG', 'n_g2_76_LHG', 'n_g3_76_LHG', 'n_g4_76_LHG', 'n_g1_77_LHG', 'n_g2_77_LHG', 'n_g3_77_LHG', 'n_g4_77_LHG', 'p_g1_77_LHG', 'n_g1_78_LHG', 'n_g2_78_LHG', 'n_g3_78_LHG', 'n_g4_78_LHG', 'p_g1_78_LHG', 'n_g1_79_LHG', 'n_g2_79_LHG', 'n_g3_79_LHG', 'n_g4_79_LHG', 'n_g5_79_LHG', 'n_g6_79_LHG', 'n_g7_79_LHG', 'n_g8_79_LHG', 'p_g1_79_LHG', 'n_g1_80_LHG', 'n_g2_80_LHG', 'n_g3_80_LHG', 'n_g4_80_LHG', 'p_g1_80_LHG', 'n_g1_81_LPI', 'n_g2_81_LPI', 'n_g3_81_LPI', 'n_g4_81_LPI', 'n_g5_81_LPI', 'p_g1_81_LPI', 'p_g2_81_LPI', 'n_g1_82_LPI', 'n_g2_82_LPI', 'n_g3_82_LPI', 'p_g1_82_LPI', 'p_g2_82_LPI', 'n_g1_83_LPI', 'n_g2_83_LPI', 'p_g1_83_LPI', 'n_g1_84_LPI', 'n_g2_84_LPI', 'n_g3_84_LPI', 'p_g1_84_LPI', 'p_g2_84_LPI', 'p_g3_84_LPI', 'n_g1_85_LPI', 'p_g1_85_LPI', 'p_g2_85_LPI', 'p_g3_85_LPI', 'n_g1_86_LPI', 'n_g2_86_LPI', 'p_g1_86_LPI', 'n_g1_87_LPI', 'n_g2_87_LPI', 'n_g3_87_LPI', 'p_g1_87_LPI', 'p_g2_87_LPI', 'n_g1_88_LPI', 'n_g2_88_LPI', 'n_g3_88_LPI', 'n_g4_88_LPI', 'p_g1_88_LPI', 'p_g2_88_LPI', 'p_g3_88_LPI', 'p_g4_88_LPI', 'n_g1_89_LFOP', 'n_g2_89_LFOP', 'p_g1_89_LFOP', 'p_g2_89_LFOP', 'n_g1_90_LFOP', 'n_g2_90_LFOP', 'n_g3_90_LFOP', 'p_g1_90_LFOP', 'p_g2_90_LFOP', 'n_g1_91_LFOP', 'n_g2_91_LFOP', 'p_g1_91_LFOP', 'n_g1_92_LFOP', 'p_g1_92_LFOP', 'p_g2_92_LFOP', 'n_g1_93_LFOP', 'n_g2_93_LFOP', 'n_g3_93_LFOP', 'p_g1_93_LFOP', 'p_g2_93_LFOP', 'n_g1_94_LFOP', 'n_g2_94_LFOP', 'p_g1_94_LFOP', 'p_g2_94_LFOP', 'p_g3_94_LFOP', 'n_g1_95_LFOP', 'n_g2_95_LFOP', 'n_g3_95_LFOP', 'n_g4_95_LFOP', 'p_g1_95_LFOP', 'n_g1_96_LFOP', 'n_g2_96_LFOP', 'p_g1_96_LFOP']
+Loading settings, params and preferences...
+Logs: Reading experiment log files from experiment...
+Preparing meta-data
+min diff in msec: 1761.37
+0
+[[ 119589       0     100]
+ [ 121372       0     100]
+ [ 124206       0     100]
+ ...
+ [2487971       0     600]
+ [2489924       0     600]
+ [2491955       0     600]]
+912 matching events found
+No baseline correction applied
+Adding metadata with 22 columns
+0 projection items activated
+Loading data for 912 events and 4701 original time points ...
+0 bad epochs dropped
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~11.88 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+Replacing existing metadata with 29 columns
+Epochs after possible querying:
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~11.88 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+picks: None
+Replacing existing metadata with 29 columns
+{'block_type': [],
+ 'colors': ['b', 'r'],
+ 'condition_names': ['Visual blocks', 'Auditory blocks'],
+ 'queries': ['word_position==1 and (block in [1, 3, 5])',
+             'word_position==1 and (block in [2, 4, 6])'],
+ 'sort': ['sentence_length', 'sentence_string'],
+ 'tmin_tmax': [-0.25, 2.75]}
+all_trials
+word_position==1 and (block in [1, 3, 5])
+word_position==1 and (block in [2, 4, 6])
+['sentence_length', 'sentence_string']
+----------------------------------------------------------------------------------------------------
+['n_g1_1_REC', 'p_g1_1_REC', 'n_g1_2_REC', 'n_g2_2_REC', 'n_g3_2_REC', 'n_g4_2_REC', 'n_g1_4_REC', 'n_g2_4_REC', 'n_g3_4_REC', 'n_g1_6_REC', 'n_g2_6_REC', 'n_g1_7_REC', 'n_g2_7_REC', 'n_g1_8_REC', 'n_g2_8_REC', 'n_g1_9_RMH', 'n_g2_9_RMH', 'n_g3_9_RMH', 'n_g1_10_RMH', 'n_g2_10_RMH', 'n_g1_11_RMH', 'n_g1_12_RMH', 'n_g1_13_RMH', 'n_g2_13_RMH', 'n_g3_13_RMH', 'n_g4_13_RMH', 'p_g1_13_RMH', 'p_g2_13_RMH', 'n_g1_14_RMH', 'n_g2_14_RMH', 'p_g1_14_RMH', 'n_g1_15_RMH', 'n_g2_15_RMH', 'n_g3_15_RMH', 'n_g1_16_RMH', 'n_g2_16_RMH', 'n_g3_16_RMH', 'n_g4_16_RMH', 'n_g5_16_RMH', 'n_g1_17_ROF', 'n_g1_18_ROF', 'p_g1_18_ROF', 'n_g1_19_ROF', 'p_g1_19_ROF', 'n_g1_20_ROF', 'n_g2_20_ROF', 'n_g3_20_ROF', 'p_g1_20_ROF', 'n_g1_21_ROF', 'p_g1_21_ROF', 'n_g1_22_ROF', 'p_g1_22_ROF', 'n_g1_23_ROF', 'p_g1_23_ROF', 'n_g1_24_ROF', 'p_g1_24_ROF', 'n_g1_25_RAC', 'n_g2_25_RAC', 'n_g3_25_RAC', 'p_g1_25_RAC', 'n_g1_26_RAC', 'n_g2_26_RAC', 'n_g3_26_RAC', 'n_g4_26_RAC', 'n_g5_26_RAC', 'p_g1_26_RAC', 'p_g2_26_RAC', 'n_g1_27_RAC', 'n_g2_27_RAC', 'n_g3_27_RAC', 'p_g1_27_RAC', 'n_g1_28_RAC', 'n_g2_28_RAC', 'n_g3_28_RAC', 'p_g1_28_RAC', 'n_g1_29_RAC', 'n_g2_29_RAC', 'p_g1_29_RAC', 'n_g1_30_RAC', 'n_g2_30_RAC', 'p_g1_30_RAC', 'n_g1_31_RAC', 'n_g2_31_RAC', 'n_g3_31_RAC', 'p_g1_31_RAC', 'n_g1_32_RAC', 'n_g2_32_RAC', 'n_g3_32_RAC', 'p_g1_32_RAC', 'n_g1_33_LMH', 'n_g2_33_LMH', 'n_g3_33_LMH', 'n_g4_33_LMH', 'n_g5_33_LMH', 'n_g6_33_LMH', 'p_g1_33_LMH', 'n_g1_34_LMH', 'n_g2_34_LMH', 'n_g3_34_LMH', 'p_g1_34_LMH', 'p_g2_34_LMH', 'n_g1_35_LMH', 'n_g2_35_LMH', 'n_g3_35_LMH', 'p_g1_35_LMH', 'n_g1_36_LMH', 'p_g1_36_LMH', 'p_g2_36_LMH', 'n_g1_37_LMH', 'n_g2_37_LMH', 'n_g3_37_LMH', 'n_g4_37_LMH', 'p_g1_37_LMH', 'p_g2_37_LMH', 'n_g1_38_LMH', 'n_g2_38_LMH', 'p_g1_38_LMH', 'n_g1_39_LMH', 'n_g2_39_LMH', 'n_g3_39_LMH', 'p_g1_39_LMH', 'n_g1_40_LMH', 'n_g2_40_LMH', 'n_g3_40_LMH', 'p_g1_40_LMH', 'p_g2_40_LMH', 'n_g1_41_LEC', 'n_g2_41_LEC', 'n_g3_41_LEC', 'n_g4_41_LEC', 'n_g5_41_LEC', 'n_g6_41_LEC', 'n_g7_41_LEC', 'n_g8_41_LEC', 'p_g1_41_LEC', 'p_g2_41_LEC', 'n_g1_42_LEC', 'n_g2_42_LEC', 'n_g3_42_LEC', 'n_g4_42_LEC', 'n_g5_42_LEC', 'n_g6_42_LEC', 'p_g1_42_LEC', 'p_g2_42_LEC', 'n_g1_43_LEC', 'n_g2_43_LEC', 'n_g3_43_LEC', 'n_g4_43_LEC', 'n_g5_43_LEC', 'p_g1_43_LEC', 'n_g1_44_LEC', 'n_g2_44_LEC', 'n_g3_44_LEC', 'n_g4_44_LEC', 'n_g5_44_LEC', 'n_g6_44_LEC', 'n_g7_44_LEC', 'p_g1_44_LEC', 'n_g1_45_LEC', 'n_g2_45_LEC', 'n_g1_46_LEC', 'n_g2_46_LEC', 'n_g3_46_LEC', 'n_g4_46_LEC', 'n_g5_46_LEC', 'n_g6_46_LEC', 'p_g1_46_LEC', 'p_g2_46_LEC', 'p_g3_46_LEC', 'n_g1_47_LEC', 'n_g2_47_LEC', 'n_g3_47_LEC', 'n_g4_47_LEC', 'n_g5_47_LEC', 'n_g6_47_LEC', 'p_g1_47_LEC', 'p_g2_47_LEC', 'n_g1_48_LEC', 'n_g2_48_LEC', 'n_g3_48_LEC', 'n_g1_49_LOF', 'n_g2_49_LOF', 'p_g1_49_LOF', 'n_g1_52_LOF', 'n_g2_52_LOF', 'p_g1_52_LOF', 'n_g1_53_LOF', 'n_g1_54_LOF', 'n_g1_55_LOF', 'n_g1_56_LOF', 'n_g1_57_LAC', 'n_g2_57_LAC', 'n_g3_57_LAC', 'p_g1_57_LAC', 'p_g2_57_LAC', 'n_g1_58_LAC', 'n_g2_58_LAC', 'n_g3_58_LAC', 'n_g4_58_LAC', 'n_g5_58_LAC', 'n_g6_58_LAC', 'p_g1_58_LAC', 'p_g2_58_LAC', 'p_g3_58_LAC', 'n_g1_59_LAC', 'p_g1_59_LAC', 'n_g1_60_LAC', 'n_g2_60_LAC', 'n_g3_60_LAC', 'n_g4_60_LAC', 'n_g5_60_LAC', 'p_g1_60_LAC', 'p_g2_60_LAC', 'p_g3_60_LAC', 'p_g4_60_LAC', 'p_g5_60_LAC', 'n_g1_61_LAC', 'n_g2_61_LAC', 'n_g3_61_LAC', 'p_g1_61_LAC', 'p_g2_61_LAC', 'p_g3_61_LAC', 'n_g1_62_LAC', 'n_g2_62_LAC', 'n_g3_62_LAC', 'p_g1_62_LAC', 'n_g1_63_LAC', 'n_g2_63_LAC', 'n_g3_63_LAC', 'n_g4_63_LAC', 'p_g1_63_LAC', 'n_g1_64_LAC', 'n_g2_64_LAC', 'n_g3_64_LAC', 'n_g4_64_LAC', 'n_g5_64_LAC', 'n_g6_64_LAC', 'n_g7_64_LAC', 'p_g1_64_LAC', 'p_g2_64_LAC', 'n_g1_65_LA', 'n_g2_65_LA', 'n_g1_67_LA', 'n_g2_67_LA', 'p_g1_67_LA', 'n_g1_69_LA', 'n_g2_69_LA', 'n_g3_69_LA', 'n_g1_70_LA', 'n_g2_70_LA', 'n_g3_70_LA', 'n_g1_71_LA', 'n_g2_71_LA', 'n_g1_73_LHG', 'n_g2_73_LHG', 'n_g3_73_LHG', 'n_g4_73_LHG', 'n_g5_73_LHG', 'n_g6_73_LHG', 'p_g1_73_LHG', 'p_g2_73_LHG', 'n_g1_74_LHG', 'n_g2_74_LHG', 'n_g3_74_LHG', 'p_g1_74_LHG', 'n_g1_75_LHG', 'n_g2_75_LHG', 'n_g3_75_LHG', 'n_g4_75_LHG', 'p_g1_75_LHG', 'n_g1_76_LHG', 'n_g2_76_LHG', 'n_g3_76_LHG', 'n_g4_76_LHG', 'n_g1_77_LHG', 'n_g2_77_LHG', 'n_g3_77_LHG', 'n_g4_77_LHG', 'p_g1_77_LHG', 'n_g1_78_LHG', 'n_g2_78_LHG', 'n_g3_78_LHG', 'n_g4_78_LHG', 'p_g1_78_LHG', 'n_g1_79_LHG', 'n_g2_79_LHG', 'n_g3_79_LHG', 'n_g4_79_LHG', 'n_g5_79_LHG', 'n_g6_79_LHG', 'n_g7_79_LHG', 'n_g8_79_LHG', 'p_g1_79_LHG', 'n_g1_80_LHG', 'n_g2_80_LHG', 'n_g3_80_LHG', 'n_g4_80_LHG', 'p_g1_80_LHG', 'n_g1_81_LPI', 'n_g2_81_LPI', 'n_g3_81_LPI', 'n_g4_81_LPI', 'n_g5_81_LPI', 'p_g1_81_LPI', 'p_g2_81_LPI', 'n_g1_82_LPI', 'n_g2_82_LPI', 'n_g3_82_LPI', 'p_g1_82_LPI', 'p_g2_82_LPI', 'n_g1_83_LPI', 'n_g2_83_LPI', 'p_g1_83_LPI', 'n_g1_84_LPI', 'n_g2_84_LPI', 'n_g3_84_LPI', 'p_g1_84_LPI', 'p_g2_84_LPI', 'p_g3_84_LPI', 'n_g1_85_LPI', 'p_g1_85_LPI', 'p_g2_85_LPI', 'p_g3_85_LPI', 'n_g1_86_LPI', 'n_g2_86_LPI', 'p_g1_86_LPI', 'n_g1_87_LPI', 'n_g2_87_LPI', 'n_g3_87_LPI', 'p_g1_87_LPI', 'p_g2_87_LPI', 'n_g1_88_LPI', 'n_g2_88_LPI', 'n_g3_88_LPI', 'n_g4_88_LPI', 'p_g1_88_LPI', 'p_g2_88_LPI', 'p_g3_88_LPI', 'p_g4_88_LPI', 'n_g1_89_LFOP', 'n_g2_89_LFOP', 'p_g1_89_LFOP', 'p_g2_89_LFOP', 'n_g1_90_LFOP', 'n_g2_90_LFOP', 'n_g3_90_LFOP', 'p_g1_90_LFOP', 'p_g2_90_LFOP', 'n_g1_91_LFOP', 'n_g2_91_LFOP', 'p_g1_91_LFOP', 'n_g1_92_LFOP', 'p_g1_92_LFOP', 'p_g2_92_LFOP', 'n_g1_93_LFOP', 'n_g2_93_LFOP', 'n_g3_93_LFOP', 'p_g1_93_LFOP', 'p_g2_93_LFOP', 'n_g1_94_LFOP', 'n_g2_94_LFOP', 'p_g1_94_LFOP', 'p_g2_94_LFOP', 'p_g3_94_LFOP', 'n_g1_95_LFOP', 'n_g2_95_LFOP', 'n_g3_95_LFOP', 'n_g4_95_LFOP', 'p_g1_95_LFOP', 'n_g1_96_LFOP', 'n_g2_96_LFOP', 'p_g1_96_LFOP']
+n_g1_1_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_1_REC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_1_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_1_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_2_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_2_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_2_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_2_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_2_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_2_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_2_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_2_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_4_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_4_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_4_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_4_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_4_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_4_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_6_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_6_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_6_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_6_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_7_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_7_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_7_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_7_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_8_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_8_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_8_REC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_8_REC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_9_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_9_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_9_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_9_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_9_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_9_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_10_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_10_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_10_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_10_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_11_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_11_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_12_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_12_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g4_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+p_g2_13_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_13_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_14_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_14_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_14_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_14_RMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_14_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_14_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_15_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_15_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_15_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_15_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_15_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_15_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_16_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_16_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_16_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_16_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_16_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_16_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g4_16_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_16_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g5_16_RMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_16_RMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_17_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_17_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_18_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_18_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_18_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_18_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_19_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_19_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_19_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_19_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_20_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_20_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g2_20_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_20_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g3_20_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_20_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_20_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_20_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_21_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_21_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_21_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_21_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_22_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_22_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_22_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_22_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_23_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_23_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_23_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_23_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_24_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_24_ROF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_24_ROF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_24_ROF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_25_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_25_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_25_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_25_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_25_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_25_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_25_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_25_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_26_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_26_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_27_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_27_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_27_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_27_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_27_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_27_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_27_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_27_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_28_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_28_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_28_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_28_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_28_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_28_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_28_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_28_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_29_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_29_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_29_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_29_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_29_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_29_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_30_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_30_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_30_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_30_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_30_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_30_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_31_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_31_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_31_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_31_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_31_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_31_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_31_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_31_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_32_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_32_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_32_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_32_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_32_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_32_RAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_32_RAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_32_RAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g4_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g5_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g6_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_33_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_33_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_34_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_34_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_34_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_34_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_34_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_34_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_34_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_34_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g2_34_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_34_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_35_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_35_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_35_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_35_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_35_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_35_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_35_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_35_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_36_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_36_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_36_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_36_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g2_36_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_36_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g4_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g2_37_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_37_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_38_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_38_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_38_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_38_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_38_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_38_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_39_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_39_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_39_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_39_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_39_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_39_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_39_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_39_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_40_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_40_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g2_40_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_40_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g3_40_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_40_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g1_40_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_40_LMH_[]_all_trials_sentence_length_sentence_string.png
+p_g2_40_LMH
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_40_LMH_[]_all_trials_sentence_length_sentence_string.png
+n_g1_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g7_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g7_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g8_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g8_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_41_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_41_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_42_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_42_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_43_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_43_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g7_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g7_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_44_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_44_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_45_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_45_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_45_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_45_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g3_46_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_46_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_47_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_47_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_48_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_48_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_48_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_48_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_48_LEC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_48_LEC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_49_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_49_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g2_49_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_49_LOF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_49_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_49_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_52_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_52_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g2_52_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_52_LOF_[]_all_trials_sentence_length_sentence_string.png
+p_g1_52_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_52_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_53_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_53_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_54_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_54_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_55_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_55_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_56_LOF
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_56_LOF_[]_all_trials_sentence_length_sentence_string.png
+n_g1_57_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_57_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_57_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_57_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_57_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_57_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_57_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_57_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_57_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_57_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g3_58_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_58_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_59_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_59_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_59_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_59_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g3_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g4_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g4_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g5_60_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g5_60_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g3_61_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_61_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_62_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_62_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_62_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_62_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_62_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_62_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_62_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_62_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_63_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_63_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_63_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_63_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_63_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_63_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_63_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_63_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_63_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_63_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g2_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g3_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g4_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g5_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g6_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g7_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g7_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g1_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+p_g2_64_LAC
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_64_LAC_[]_all_trials_sentence_length_sentence_string.png
+n_g1_65_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_65_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g2_65_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_65_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g1_67_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_67_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g2_67_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_67_LA_[]_all_trials_sentence_length_sentence_string.png
+p_g1_67_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_67_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g1_69_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_69_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g2_69_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_69_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g3_69_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_69_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g1_70_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_70_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g2_70_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_70_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g3_70_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_70_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g1_71_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_71_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g2_71_LA
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_71_LA_[]_all_trials_sentence_length_sentence_string.png
+n_g1_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g5_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g6_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g2_73_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_73_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_74_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_74_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_74_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_74_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_74_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_74_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_74_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_74_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_75_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_75_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_75_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_75_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_75_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_75_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_75_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_75_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_75_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_75_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_76_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_76_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_76_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_76_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_76_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_76_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_76_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_76_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_77_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_77_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_77_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_77_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_77_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_77_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_77_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_77_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_77_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_77_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_78_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_78_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_78_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_78_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_78_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_78_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_78_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_78_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_78_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_78_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g5_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g6_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g6_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g7_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g7_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g8_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g8_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_79_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_79_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_80_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_80_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g2_80_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_80_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g3_80_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_80_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g4_80_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_80_LHG_[]_all_trials_sentence_length_sentence_string.png
+p_g1_80_LHG
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_80_LHG_[]_all_trials_sentence_length_sentence_string.png
+n_g1_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g3_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g4_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g5_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g5_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_81_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_81_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_82_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_82_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_82_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_82_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g3_82_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_82_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_82_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_82_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_82_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_82_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_83_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_83_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_83_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_83_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_83_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_83_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g3_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g3_84_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_84_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_85_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_85_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_85_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_85_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_85_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_85_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g3_85_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_85_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_86_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_86_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_86_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_86_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_86_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_86_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_87_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_87_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_87_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_87_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g3_87_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_87_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_87_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_87_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_87_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_87_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g2_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g3_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g4_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g1_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g2_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g3_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+p_g4_88_LPI
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g4_88_LPI_[]_all_trials_sentence_length_sentence_string.png
+n_g1_89_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_89_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_89_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_89_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_89_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_89_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g2_89_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_89_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_90_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_90_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_90_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_90_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g3_90_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_90_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_90_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_90_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g2_90_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_90_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_91_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_91_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_91_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_91_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_91_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_91_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_92_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_92_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_92_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_92_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g2_92_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_92_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_93_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_93_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_93_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_93_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g3_93_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_93_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_93_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_93_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g2_93_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_93_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_94_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_94_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_94_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_94_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_94_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_94_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g2_94_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g2_94_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g3_94_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g3_94_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_95_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_95_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_95_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_95_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g3_95_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g3_95_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g4_95_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g4_95_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_95_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_95_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g1_96_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g1_96_LFOP_[]_all_trials_sentence_length_sentence_string.png
+n_g2_96_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_n_g2_96_LFOP_[]_all_trials_sentence_length_sentence_string.png
+p_g1_96_LFOP
+Number of trials from each query: [456, 456]
+456
+456
+456
+456
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_530/ERPs/spike/ERP_trialwise_patient_530_spike_sentence_onset_raw_p_g1_96_LFOP_[]_all_trials_sentence_length_sentence_string.png

@@ -1,0 +1,44 @@
+Namespace(data_type='micro', filter='gaussian-kernel-25', patient='patient_489', sfreq_downsample=1000)
+Loading settings, params and preferences...
+{'comparisons': range(110, 111),
+ 'comparisons_file': 'comparisons.xlsx',
+ 'features_file': 'sentence_features.xlsx',
+ 'hospital': 'UCLA',
+ 'load_line_filtered_resampled_epoch_object': False,
+ 'log_name_beginning': 'new_with_phones_events_log_in_cheetah_clock_part',
+ 'overwrite_existing_output_files': True,
+ 'path2epoch_data': '../../../Data/UCLA/patient_489/Epochs',
+ 'path2figures': '../../../Figures',
+ 'path2log': '../../../Data/UCLA/patient_489/Logs',
+ 'path2output': '../../../Output',
+ 'path2patient_folder': '../../../Data/UCLA/patient_489',
+ 'path2rawdata': '../../../Data/UCLA/patient_489/Raw',
+ 'path2stimuli': '../../../Paradigm',
+ 'patient': 'patient_489',
+ 'sentences_start_end_filename': 'sentences_start_end_dict.pkl',
+ 'stimuli_file': 'features En_02 sentences.xlsx',
+ 'stimuli_text_file': 'sentences_Eng_rand_En02.txt',
+ 'word2pos_file': 'word2POS.pkl',
+ 'word_features_file': 'word_features.xlsx',
+ 'word_features_file2': 'word_features_new.xlsx'}
+{'SOA': 500,
+ 'baseline_period': 500,
+ 'downsampling_sfreq': 512,
+ 'iter_freqs': [('High-Gamma', 70, 151, 10)],
+ 'line_frequency': 60,
+ 'patient': 'patient_489',
+ 'sfreq_spikes': 1000,
+ 'smooth_time_freq': 0,
+ 'temporal_resolution': 0.05,
+ 'tmax': 1.2,
+ 'tmin': -0.6,
+ 'window_ed': 250,
+ 'window_st': 50,
+ 'word_OFF_duration': 300,
+ 'word_ON_duration': 200,
+ 'ylim_PSTH': 20}
+Number of channel 73: dict_values(['MICROPHONE', 'GA1-LEC1', 'GA1-LEC2', 'GA1-LEC3', 'GA1-LEC4', 'GA1-LEC5', 'GA1-LEC6', 'GA1-LEC7', 'GA1-LEC8', 'GA2-LMH1', 'GA2-LMH2', 'GA2-LMH3', 'GA2-LMH4', 'GA2-LMH5', 'GA2-LMH6', 'GA2-LMH7', 'GA2-LMH8', 'GA3-LA1', 'GA3-LA2', 'GA3-LA3', 'GA3-LA4', 'GA3-LA5', 'GA3-LA6', 'GA3-LA7', 'GA3-LA8', 'GA4-LPHG1', 'GA4-LPHG2', 'GA4-LPHG3', 'GA4-LPHG4', 'GA4-LPHG5', 'GA4-LPHG6', 'GA4-LPHG7', 'GA4-LPHG8', 'GB1-LOF1', 'GB1-LOF2', 'GB1-LOF3', 'GB1-LOF4', 'GB1-LOF5', 'GB1-LOF6', 'GB1-LOF7', 'GB1-LOF8', 'GB2-LSTG1', 'GB2-LSTG2', 'GB2-LSTG3', 'GB2-LSTG4', 'GB2-LSTG5', 'GB2-LSTG6', 'GB2-LSTG7', 'GB2-LSTG8', 'GB3-RAH1', 'GB3-RAH2', 'GB3-RAH3', 'GB3-RAH4', 'GB3-RAH5', 'GB3-RAH6', 'GB3-RAH7', 'GB3-RAH8', 'GB4-RPHG1', 'GB4-RPHG2', 'GB4-RPHG3', 'GB4-RPHG4', 'GB4-RPHG5', 'GB4-RPHG6', 'GB4-RPHG7', 'GB4-RPHG8', 'GC1-RSTG1', 'GC1-RSTG2', 'GC1-RSTG3', 'GC1-RSTG4', 'GC1-RSTG5', 'GC1-RSTG6', 'GC1-RSTG7', 'GC1-RSTG8'])
+Current channel: GA1-LEC1 (1)
+Loading MICRO CSC data
+['../../../Data/UCLA/patient_489/Raw/micro/CSC_mat/CSC1.mat']
+{'__header__': b'MATLAB 5.0 MAT-file, Platform: GLNXA64, Created on: Sun Apr  4 11:13:12 2021', '__version__': '1.0', '__globals__': [], 'data': array([[-406, -391, -395, ..., 1255, 1237, 1221]], dtype=int16), 'file_name': array(['GA1-LEC1_0059.ncs'], dtype='<U17'), 'samplingInterval': array([[0.025]])}

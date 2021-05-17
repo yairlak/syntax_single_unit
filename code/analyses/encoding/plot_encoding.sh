@@ -9,20 +9,17 @@ read PATIENTS
 echo "Which signal types (micro macro spike)?"
 read DTYPES
 
-echo "Which level (sentence_onset sentence_offset word phone)?"
-read LEVELS
-
 echo "Which filter (raw gaussian-kernel gaussian-kernel-25 high-gamma)?"
 read FILTERS
 
 echo "Which probes (e.g., RFSG LFSG LFGA RFGP)?"
 read PROBES
 
-#echo "Which block (auditory or visual)?"
-#read BLOCK
-
 echo "Which models (e.g., ridge lasso)?"
-read MODEL_TYPE
+read MODEL_TYPES
+
+echo "Which ablation method for evaluation (remove/zero/shuffle)?"
+read ABLATION_METHODS
 
 echo "Type query for epochs"
 read QUERY
@@ -77,16 +74,15 @@ then
 fi
 
 
-
 for patient in $PATIENTS; do
     for data_type in $DTYPES; do
-         for level in $LEVELS; do
-             for filter in $FILTERS; do
-                 for probe_name in $PROBES; do
-
+         for filter in $FILTERS; do
+             for probe_name in $PROBES; do
+             for model_type in $MODEL_TYPES; do
+                 for ablation_method in $ABLATION_METHODS; do
 
                     #CMD='python /neurospin/unicog/protocols/intracranial/Syntax_with_Fried/Code/Main/encoding_model.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --tmin '$TMIN' --tmax '$TMAX' --model-type '$MODEL_TYPE' --query '$QUERY' --block-type '$BLOCK' --feature-list'
-                    CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/Code/analyses/encoding/plot_encoding.py --level '$level' --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --model-type '$MODEL_TYPE' --query '$QUERY 
+                    CMD='python /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/encoding/plot_encoding_trf.py --patient '$patient' --data-type '$data_type' --filter '$filter' --probe-name '$probe_name' --model-type '$model_type' --ablation-method '$ablation_method' --query '$QUERY 
 
                     output_log='logs/rsa_'$model_type-$min_trials-$time_window-$num_bins-$T'.out'
                     error_log='logs/rsa_'$model_type-$min_trials-$time_window-$num_bins-$T'.err'
@@ -101,6 +97,7 @@ for patient in $PATIENTS; do
                     fi
                 done
             done
+        done
         done
     done
 done

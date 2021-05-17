@@ -1,0 +1,247 @@
+Namespace(SOA=500, baseline=[], baseline_mode='zscore', block_type=[], channel_name=[], channel_num=[], comparison_name='all_trials', data_type='macro', dont_write=False, filter='high-gamma', fixed_constraint=[], level='sentence_onset', no_title=False, patient='patient_515', probe_name=[], remove_outliers=False, responsive_channels_only=False, save2=[], smooth_raster=0.0005, sort_key=['sentence_length'], tmax=None, tmin=None, vmax=2.5, vmin=-2.5, window_ed=450, window_st=50, word_ON_duration=250, y_tick_step=1, yticklabels_fontsize=14, yticklabels_sortkey=[])
+Loading settings...
+Opening raw data file ../../../Data/UCLA/patient_515/Raw/patient_515_macro_high-gamma-raw.fif...
+    Range : 0 ... 3005439 =      0.000 ...  3005.439 secs
+Ready.
+<Raw | patient_515_macro_high-gamma-raw.fif, 64 x 3005440 (3005.4 s), ~128 kB, data not loaded>
+['LA1-LA2', 'LA2-LA3', 'LA3-LA4', 'LA4-LA5', 'LA5-LA6', 'LA6-LA7', 'LFSG1-LFSG2', 'LFSG2-LFSG3', 'LFSG3-LFSG4', 'LFSG4-LFSG5', 'LFSG5-LFSG6', 'LFSG6-LFSG7', 'LMTG1-LMTG2', 'LMTG2-LMTG3', 'LMTG3-LMTG4', 'LMTG4-LMTG5', 'LMTG5-LMTG6', 'LMTG6-LMTG7', 'LOF1-LOF2', 'LOF2-LOF3', 'LOF3-LOF4', 'LOF4-LOF5', 'LOF5-LOF6', 'LOF6-LOF7', 'LOF7-LOF8', 'LPHG1-LPHG2', 'LPHG2-LPHG3', 'LPHG3-LPHG4', 'LPHG4-LPHG5', 'LPHG5-LPHG6', 'LPHG6-LPHG7', 'LSTG1-LSTG2', 'LSTG2-LSTG3', 'LSTG3-LSTG4', 'LSTG4-LSTG5', 'LSTG5-LSTG6', 'LSTG6-LSTG7', 'RA1-RA2', 'RA2-RA3', 'RA3-RA4', 'RA4-RA5', 'RA5-RA6', 'RA6-RA7', 'RA7-RA8', 'RAH1-RAH2', 'RAH2-RAH3', 'RAH3-RAH4', 'RAH4-RAH5', 'RAH5-RAH6', 'RAH6-RAH7', 'RAH7-RAH8', 'RFSG1-RFSG2', 'RFSG2-RFSG3', 'RFSG3-RFSG4', 'RFSG4-RFSG5', 'RFSG5-RFSG6', 'RFSG6-RFSG7', 'ROF1-ROF2', 'ROF2-ROF3', 'ROF3-ROF4', 'ROF4-ROF5', 'ROF5-ROF6', 'ROF6-ROF7', 'ROF7-ROF8']
+Loading settings, params and preferences...
+Logs: Reading experiment log files from experiment...
+Preparing meta-data
+min diff in msec: 1761.09
+0
+[[ 514912       0     100]
+ [ 516694       0     100]
+ [ 519528       0     100]
+ ...
+ [2994014       0     600]
+ [2995967       0     600]
+ [2997998       0     600]]
+912 matching events found
+No baseline correction applied
+Adding metadata with 22 columns
+0 projection items activated
+Loading data for 912 events and 4701 original time points ...
+0 bad epochs dropped
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~2.04 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+Replacing existing metadata with 29 columns
+Epochs after possible querying:
+<Epochs  |   912 events (all good), -1.2 - 3.5 sec, baseline off, ~2.04 GB, data loaded, with metadata,
+ 'block_1': 152
+ 'block_2': 152
+ 'block_3': 152
+ 'block_4': 152
+ 'block_5': 152
+ 'block_6': 152>
+picks: None
+{'block_type': [],
+ 'colors': ['b', 'r'],
+ 'condition_names': ['Visual blocks', 'Auditory blocks'],
+ 'queries': ['word_position==1 and (block in [1, 3, 5])',
+             'word_position==1 and (block in [2, 4, 6])'],
+ 'sort': ['sentence_length', 'sentence_string'],
+ 'tmin_tmax': [-0.25, 2.75]}
+all_trials
+word_position==1 and (block in [1, 3, 5])
+word_position==1 and (block in [2, 4, 6])
+['sentence_length', 'sentence_string']
+----------------------------------------------------------------------------------------------------
+['LA1-LA2', 'LA2-LA3', 'LA3-LA4', 'LA4-LA5', 'LA5-LA6', 'LA6-LA7', 'LFSG1-LFSG2', 'LFSG2-LFSG3', 'LFSG3-LFSG4', 'LFSG4-LFSG5', 'LFSG5-LFSG6', 'LFSG6-LFSG7', 'LMTG1-LMTG2', 'LMTG2-LMTG3', 'LMTG3-LMTG4', 'LMTG4-LMTG5', 'LMTG5-LMTG6', 'LMTG6-LMTG7', 'LOF1-LOF2', 'LOF2-LOF3', 'LOF3-LOF4', 'LOF4-LOF5', 'LOF5-LOF6', 'LOF6-LOF7', 'LOF7-LOF8', 'LPHG1-LPHG2', 'LPHG2-LPHG3', 'LPHG3-LPHG4', 'LPHG4-LPHG5', 'LPHG5-LPHG6', 'LPHG6-LPHG7', 'LSTG1-LSTG2', 'LSTG2-LSTG3', 'LSTG3-LSTG4', 'LSTG4-LSTG5', 'LSTG5-LSTG6', 'LSTG6-LSTG7', 'RA1-RA2', 'RA2-RA3', 'RA3-RA4', 'RA4-RA5', 'RA5-RA6', 'RA6-RA7', 'RA7-RA8', 'RAH1-RAH2', 'RAH2-RAH3', 'RAH3-RAH4', 'RAH4-RAH5', 'RAH5-RAH6', 'RAH6-RAH7', 'RAH7-RAH8', 'RFSG1-RFSG2', 'RFSG2-RFSG3', 'RFSG3-RFSG4', 'RFSG4-RFSG5', 'RFSG5-RFSG6', 'RFSG6-RFSG7', 'ROF1-ROF2', 'ROF2-ROF3', 'ROF3-ROF4', 'ROF4-ROF5', 'ROF5-ROF6', 'ROF6-ROF7', 'ROF7-ROF8']
+LA1-LA2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA1-LA2_[]_all_trials_sentence_length_sentence_string.png
+LA2-LA3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA2-LA3_[]_all_trials_sentence_length_sentence_string.png
+LA3-LA4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA3-LA4_[]_all_trials_sentence_length_sentence_string.png
+LA4-LA5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA4-LA5_[]_all_trials_sentence_length_sentence_string.png
+LA5-LA6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA5-LA6_[]_all_trials_sentence_length_sentence_string.png
+LA6-LA7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LA6-LA7_[]_all_trials_sentence_length_sentence_string.png
+LFSG1-LFSG2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG1-LFSG2_[]_all_trials_sentence_length_sentence_string.png
+LFSG2-LFSG3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG2-LFSG3_[]_all_trials_sentence_length_sentence_string.png
+LFSG3-LFSG4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG3-LFSG4_[]_all_trials_sentence_length_sentence_string.png
+LFSG4-LFSG5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG4-LFSG5_[]_all_trials_sentence_length_sentence_string.png
+LFSG5-LFSG6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG5-LFSG6_[]_all_trials_sentence_length_sentence_string.png
+LFSG6-LFSG7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LFSG6-LFSG7_[]_all_trials_sentence_length_sentence_string.png
+LMTG1-LMTG2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG1-LMTG2_[]_all_trials_sentence_length_sentence_string.png
+LMTG2-LMTG3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG2-LMTG3_[]_all_trials_sentence_length_sentence_string.png
+LMTG3-LMTG4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG3-LMTG4_[]_all_trials_sentence_length_sentence_string.png
+LMTG4-LMTG5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG4-LMTG5_[]_all_trials_sentence_length_sentence_string.png
+LMTG5-LMTG6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG5-LMTG6_[]_all_trials_sentence_length_sentence_string.png
+LMTG6-LMTG7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LMTG6-LMTG7_[]_all_trials_sentence_length_sentence_string.png
+LOF1-LOF2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF1-LOF2_[]_all_trials_sentence_length_sentence_string.png
+LOF2-LOF3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF2-LOF3_[]_all_trials_sentence_length_sentence_string.png
+LOF3-LOF4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF3-LOF4_[]_all_trials_sentence_length_sentence_string.png
+LOF4-LOF5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF4-LOF5_[]_all_trials_sentence_length_sentence_string.png
+LOF5-LOF6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF5-LOF6_[]_all_trials_sentence_length_sentence_string.png
+LOF6-LOF7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF6-LOF7_[]_all_trials_sentence_length_sentence_string.png
+LOF7-LOF8
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LOF7-LOF8_[]_all_trials_sentence_length_sentence_string.png
+LPHG1-LPHG2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG1-LPHG2_[]_all_trials_sentence_length_sentence_string.png
+LPHG2-LPHG3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG2-LPHG3_[]_all_trials_sentence_length_sentence_string.png
+LPHG3-LPHG4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG3-LPHG4_[]_all_trials_sentence_length_sentence_string.png
+LPHG4-LPHG5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG4-LPHG5_[]_all_trials_sentence_length_sentence_string.png
+LPHG5-LPHG6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG5-LPHG6_[]_all_trials_sentence_length_sentence_string.png
+LPHG6-LPHG7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LPHG6-LPHG7_[]_all_trials_sentence_length_sentence_string.png
+LSTG1-LSTG2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG1-LSTG2_[]_all_trials_sentence_length_sentence_string.png
+LSTG2-LSTG3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG2-LSTG3_[]_all_trials_sentence_length_sentence_string.png
+LSTG3-LSTG4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG3-LSTG4_[]_all_trials_sentence_length_sentence_string.png
+LSTG4-LSTG5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG4-LSTG5_[]_all_trials_sentence_length_sentence_string.png
+LSTG5-LSTG6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG5-LSTG6_[]_all_trials_sentence_length_sentence_string.png
+LSTG6-LSTG7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_LSTG6-LSTG7_[]_all_trials_sentence_length_sentence_string.png
+RA1-RA2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA1-RA2_[]_all_trials_sentence_length_sentence_string.png
+RA2-RA3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA2-RA3_[]_all_trials_sentence_length_sentence_string.png
+RA3-RA4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA3-RA4_[]_all_trials_sentence_length_sentence_string.png
+RA4-RA5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA4-RA5_[]_all_trials_sentence_length_sentence_string.png
+RA5-RA6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA5-RA6_[]_all_trials_sentence_length_sentence_string.png
+RA6-RA7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA6-RA7_[]_all_trials_sentence_length_sentence_string.png
+RA7-RA8
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RA7-RA8_[]_all_trials_sentence_length_sentence_string.png
+RAH1-RAH2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH1-RAH2_[]_all_trials_sentence_length_sentence_string.png
+RAH2-RAH3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH2-RAH3_[]_all_trials_sentence_length_sentence_string.png
+RAH3-RAH4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH3-RAH4_[]_all_trials_sentence_length_sentence_string.png
+RAH4-RAH5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH4-RAH5_[]_all_trials_sentence_length_sentence_string.png
+RAH5-RAH6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH5-RAH6_[]_all_trials_sentence_length_sentence_string.png
+RAH6-RAH7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH6-RAH7_[]_all_trials_sentence_length_sentence_string.png
+RAH7-RAH8
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RAH7-RAH8_[]_all_trials_sentence_length_sentence_string.png
+RFSG1-RFSG2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG1-RFSG2_[]_all_trials_sentence_length_sentence_string.png
+RFSG2-RFSG3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG2-RFSG3_[]_all_trials_sentence_length_sentence_string.png
+RFSG3-RFSG4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG3-RFSG4_[]_all_trials_sentence_length_sentence_string.png
+RFSG4-RFSG5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG4-RFSG5_[]_all_trials_sentence_length_sentence_string.png
+RFSG5-RFSG6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG5-RFSG6_[]_all_trials_sentence_length_sentence_string.png
+RFSG6-RFSG7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_RFSG6-RFSG7_[]_all_trials_sentence_length_sentence_string.png
+ROF1-ROF2
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF1-ROF2_[]_all_trials_sentence_length_sentence_string.png
+ROF2-ROF3
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF2-ROF3_[]_all_trials_sentence_length_sentence_string.png
+ROF3-ROF4
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF3-ROF4_[]_all_trials_sentence_length_sentence_string.png
+ROF4-ROF5
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF4-ROF5_[]_all_trials_sentence_length_sentence_string.png
+ROF5-ROF6
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF5-ROF6_[]_all_trials_sentence_length_sentence_string.png
+ROF6-ROF7
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF6-ROF7_[]_all_trials_sentence_length_sentence_string.png
+ROF7-ROF8
+Number of trials from each query: [456, 456]
+fig saved to: ../../../Figures/Comparisons/all_trials/patient_515/ERPs/macro/ERP_trialwise_patient_515_macro_sentence_onset_high-gamma_ROF7-ROF8_[]_all_trials_sentence_length_sentence_string.png

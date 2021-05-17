@@ -4,9 +4,9 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 sys.path.append('..')
 import mne
-from functions import classification, comparisons, load_settings_params
-from functions.data_manip import load_neural_data
-from functions.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+from utils import classification, comparisons, load_settings_params
+from utils.data_manip import load_neural_data
+from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, f_classif
@@ -35,7 +35,7 @@ parser.add_argument('--block-type', choices=['auditory', 'visual'], default='aud
 parser.add_argument('--block-type-test', choices=['auditory', 'visual', []], default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 parser.add_argument('--fixed-constraint-test', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
-parser.add_argument('--classifier', default='logistic', choices=['svc', 'logistic', 'ridge'], help='Specify a classifier type to be used')
+parser.add_argument('--classifier', default='ridge', choices=['svc', 'logistic', 'ridge'], help='Specify a classifier type to be used')
 parser.add_argument('--min-trials', default=10, type=float, help='Minimum number of trials from each class.')
 # MISC
 parser.add_argument('--tmin', default=[], type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
@@ -59,7 +59,7 @@ if args.probe_name: list_args2fname.append('probe_name')
 print(list_args2fname)
 
 if not args.path2figures:
-    args.path2figures = os.path.join('..', '..', 'Figures', 'Decoding')
+    args.path2figures = os.path.join('..', '..', '..', 'Figures', 'Decoding')
 print(args)
 
 

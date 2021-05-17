@@ -1,6 +1,6 @@
 
-patient='479_11 479_25 482 487 493 502 504 505 510 513 515'
-#patient='487'
+patient='479_11 479_25 482 487 489 493 502 504 505 510 513 515 530'
+#patient='530'
 
 #for comparison_name in 'all_end_trials' 'all_trials';
 for comparison_name in 'all_trials';
@@ -9,7 +9,7 @@ do
     #for data_type in 'macro';
     do
         for filter in 'raw' 'gaussian-kernel-10' 'gaussian-kernel-25' 'high-gamma';
-        #for filter in 'gaussian-kernel-10' 'gaussian-kernel-25';
+        #for filter in 'gaussian-kernel-25';
         do
             #for level in 'sentence_onset' 'sentence_offset';
             for level in 'sentence_onset';

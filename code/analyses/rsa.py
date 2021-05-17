@@ -2,9 +2,14 @@ import argparse, os, sys, pickle
 from utils.data_manip import DataHandler
 import mne
 from mne.decoding import (cross_val_multiscore, LinearModel, GeneralizingEstimator)
+<<<<<<< HEAD:code/analyses/rsa.py
 from utils import classification, comparisons, load_settings_params
 from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
 from functions import data_manip
+=======
+from utils import classification, comparisons, load_settings_params, data_manip
+from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c:code/analyses/rsa/rsa.py
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -34,6 +39,7 @@ import models # custom module with neural-network models (LSTM/GRU/CNN)
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
+<<<<<<< HEAD:code/analyses/rsa.py
 parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
@@ -42,20 +48,27 @@ parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'wor
                     default='word', help='')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-10'], action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+=======
+parser.add_argument('--patient', action='append', default=[], help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
+parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
+parser.add_argument('--filter', action='append', default=[], help='raw/gaussian-kernel/high-gamma/etc')
+parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c:code/analyses/rsa/rsa.py
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
 parser.add_argument('--channe-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY
-parser.add_argument('--comparison-name', default='first_last_word', help='Comparison name from Code/Main/functions/comparisons.py')
+parser.add_argument('--comparison-name', default='all_words', help='Comparison name from Code/Main/functions/comparisons.py')
 parser.add_argument('--comparison-name-test', default=[], help='Comparison name from Code/Main/functions/comparisons.py')
-parser.add_argument('--block-type', choices=['auditory', 'visual'], default='auditory', help='Block type will be added to the query in the comparison')
+parser.add_argument('--block-type', choices=['auditory', 'visual'], default='visual', help='Block type will be added to the query in the comparison')
 parser.add_argument('--block-type-test', choices=['auditory', 'visual', []], default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--query', default='block in [1,3,5]', help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 parser.add_argument('--fixed-constraint', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 parser.add_argument('--label-from-metadata', default=[], help='Field name in metadata that will be used to generate labels for the different classes. If empty, condition_names in comparison will be used')
 parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
 # MODEL
-parser.add_argument('--model-type', default='euclidean', choices=['euclidean', 'logistic', 'lstm', 'cnn']) # 'svc' and 'ridge' are omited since they don't implemnent predict_proba (although there's a work around, using their decision function and map is to probs with eg softmax)
+parser.add_argument('--model-type', default='logistic', choices=['euclidean', 'logistic', 'lstm', 'cnn']) # 'svc' and 'ridge' are omited since they don't implemnent predict_proba (although there's a work around, using their decision function and map is to probs with eg softmax)
 parser.add_argument('--cuda', default=False, action='store_true', help="If True then file will be overwritten")
 # MISC
 parser.add_argument('--vmin', default=None, type=float, help='')
@@ -63,7 +76,7 @@ parser.add_argument('--vmax', default=None, type=float, help='')
 parser.add_argument('--times', nargs='*', default=[0.1], type=float, help='')
 parser.add_argument('--time-window', default=0.5, type=float, help='')
 parser.add_argument('--num-bins', default=[], type=int, help='')
-parser.add_argument('--min-trials', default=15, type=float, help='Minimum number of trials from each class.')
+parser.add_argument('--min-trials', default=6, type=float, help='Minimum number of trials from each class.')
 parser.add_argument('--decimate', default=[], type=float, help='If not empty, (for speed) decimate data by the provided factor.')
 parser.add_argument('--path2figures', default=[], help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--dont-overwrite', default=False, action='store_true', help="If True then file will be overwritten")
@@ -86,14 +99,17 @@ np.random.seed(0)
 # Which args to have in fig filename
 list_args2fname = ['patient', 'data_type', 'filter', 'level', 'comparison_name', 'block_type', 'time_window', 'num_bins', 'min_trials', 'query']
 if args.block_type_test: list_args2fname += ['comparison_name_test', 'block_type_test']
-if args.probe_name: list_args2fname.append('probe_name')
+if args.probe_name:
+    list_args2fname.append('probe_name')
+elif args.channel_name:
+    list_args2fname.append('channel_name')
 if args.responsive_channels_only: list_args2fname += ['responsive_channels_only']
 print('args2fname', list_args2fname)
 
 if not args.path2figures:
-    args.path2figures = os.path.join('..', '..', 'Figures', 'RSA')
+    args.path2figures = os.path.join('..', '..', '..', 'Figures', 'RSA')
 if not args.path2output:
-    args.path2output = os.path.join('..', '..', 'Output', 'RSA')
+    args.path2output = os.path.join('..', '..', '..', 'Output', 'RSA')
 print('args\n', args)
 
 
@@ -441,7 +457,7 @@ for t in args.times:
         return dendro
     
     # PLOT DENDRO
-    fig = plt.figure(figsize=(20, 15))
+    fig = plt.figure(figsize=(40, 30))
     ax_dendro = fig.add_axes([0.09,0.1,0.2,0.8])
     dendro = plot_dendrogram(clustering, ax=ax_dendro, orientation='left')
     ax_dendro.set_xticks([])
@@ -496,6 +512,8 @@ for t in args.times:
     for sel, (color, label) in enumerate(zip(colors, labels)):
         ax.text(summary[sel, 0], summary[sel, 1], label, color=color, fontsize=10)
     ax.axis('off')
+    ax.set_xlim(summary[:, 0].min(), summary[:, 0].max())
+    ax.set_ylim(summary[:, 1].min(), summary[:, 1].max())
     plt.tight_layout()
     fname_fig_mds = os.path.join(args.path2figures, 'tSNE_' +args.model_type + '_' + fname_fig)
     fig.savefig(fname_fig_mds)

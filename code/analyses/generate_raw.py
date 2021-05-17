@@ -20,6 +20,7 @@ from sklearn.decomposition import PCA
 import scipy
 
 parser = argparse.ArgumentParser()
+<<<<<<< HEAD:code/analyses/generate_raw.py
 parser.add_argument('--patient', default='502', help='Patient number')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     default='spike', help='macro/micro/spike')
@@ -27,6 +28,12 @@ parser.add_argument('--filter', default='raw',
                     help='raw/gaussian-kernel-(window in ms)/high-gamma.')
 parser.add_argument('--sfreq-downsample',
                     default=1000, help='Downsampling frequency')
+=======
+parser.add_argument('--patient', default='479_11', help='Patient number')
+parser.add_argument('--data-type', choices = ['micro', 'macro', 'spike', 'microphone'], default='micro', help='macro/micro/spike')
+parser.add_argument('--filter', default='raw', help='raw/gaussian-kernel-(window in ms)/high-gamma.')
+parser.add_argument('--sfreq-downsample', default=1000, help='Downsampling frequency')
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c:code/analyses/preproc/generate_raw.py
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
@@ -38,7 +45,7 @@ pprint(settings.__dict__)
 pprint(params.__dict__)
 
 # PATHS
-if args.data_type == 'micro' or args.data_type == 'spike':
+if args.data_type in ['micro', 'spike', 'microphone']:
     path2CSC_mat = os.path.join(settings.path2rawdata, 'micro', 'CSC_mat')
 elif args.data_type == 'macro':
     path2CSC_mat = os.path.join(settings.path2rawdata, 'macro', 'CSC_mat')
@@ -54,7 +61,14 @@ channel_names_dict = dict(zip(map(int, [s.strip('\n').split('\t')[0]
                                for s in channel_names]))
 channel_nums = list(channel_names_dict.keys())
 if args.data_type == 'micro':
+<<<<<<< HEAD:code/analyses/generate_raw.py
     channel_nums = list(set(channel_nums) - set([0]))  # remove microphone (0)
+=======
+    channel_nums = list(set(channel_nums) - set([0])) # REMOVE channel 0 (MICROPHONE)
+elif args.data_type == 'microphone':
+    channel_nums = [0]
+    channel_names_dict = {}
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c:code/analyses/preproc/generate_raw.py
     channel_names_dict[0] = 'MICROPHONE'
 else:
     if 0 in channel_nums:
@@ -121,7 +135,7 @@ print(raw.ch_names)
 ###################
 # Basic FILTERING #
 ###################
-if args.data_type != 'spike':
+if args.data_type not in ['spike', 'microphone']:
     ################
     # NOTCH (line) #
     ################

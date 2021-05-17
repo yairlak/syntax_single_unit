@@ -292,10 +292,16 @@ def get_events(patient, level, data_type, verbose=False):
                                 settings, params)
     
     # First column of events object
+    #print(metadata['event_time'].values)
     times_in_sec = sorted(metadata['event_time'].values)
+    #print(times_in_sec)
     min_diff_sec = np.min(np.diff(times_in_sec))
+<<<<<<< HEAD
     if verbose:
         print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
+=======
+    print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
     curr_times = sfreq * metadata['event_time'].values # convert from sec to samples.
     curr_times = np.expand_dims(curr_times, axis=1)
     
@@ -318,6 +324,102 @@ def get_events(patient, level, data_type, verbose=False):
     return events, event_id, metadata
 
 
+<<<<<<< HEAD
+=======
+
+def get_file_probe_names(path2mat_folder, micro_macro):
+    with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt')) as f:
+        lines = f.readlines()
+    channel_numbers  = [l.strip().split('\t')[0] for l in lines]
+    file_names = [l.strip().split('\t')[1] for l in lines]
+    if micro_macro == 'micro':
+        probe_names = set([s[4:-5] for s in file_names if s.startswith('G')])
+    elif micro_macro == 'macro':
+        probe_names = set([s[:-5] for s in file_names])
+    return channel_numbers, file_names, probe_names
+
+def probe_in_patient(probe_name, patient):
+    patient = 'patient_' + str(patient)
+    path2functions = os.path.dirname(os.path.abspath(__file__))
+    path2microdata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'micro', 'CSC_mat')
+    _, _, probe_names_micro = get_file_probe_names(path2microdata_folder, 'micro')
+    #print(probe_name, probe_names_micro)
+    is_in_patient = probe_name in probe_names_micro
+    return is_in_patient
+
+
+def get_probes2channels(patients, flag_get_channels_with_spikes=True):
+    '''
+    input: patient (str)
+    output: probes (dict) - key is the probe names; value is a list of lists (per patient), with channel numbers for micro or macro data. For example, probes['LSTG']['micro'] = [[25, 26, ...], [36, ..]]
+    '''
+
+    path2functions = os.path.dirname(os.path.abspath(__file__))
+    sys.path.append(path2functions)
+    import load_settings_params
+    # First, find probe names from all patients
+    probe_names_all_patients = []
+    for patient in patients:
+        # MICRO CSC
+        path2microdata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'micro', 'CSC_mat')
+        channel_numbers_micro, file_names_micro, probe_names_micro = get_file_probe_names(path2microdata_folder, 'micro')
+        # MACRO CSC
+        path2macrodata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'macro', 'CSC_mat')
+        channel_numbers_macro, file_names_macro, probe_names_macro = get_file_probe_names(path2macrodata_folder, 'macro')
+        # COMPARE micro-macro
+        if not probe_names_micro == probe_names_macro:
+            print('%s: --- !!! Warning: not the same probe names in micro and macro !!! ---' % patient)
+            print('Micro probe names: %s' % probe_names_micro)
+            print('Macro probe names: %s' % probe_names_macro)
+        else:
+            pass
+            #print('%s: '%patient, probe_names_micro)
+        # UNIFY micro-macro
+        probe_names_micro_macro = list(set(list(set(probe_names_micro))+list(set(probe_names_macro))))
+        probe_names_all_patients.append(probe_names_micro_macro)
+    probe_names_all_patients = list(set([n for l in probe_names_all_patients for n in l]))
+
+    # Generate a dict with channel numbers of each probe per each patient.
+    probes = {}
+    probes['patients'] = []
+    probes['probe_names'] = {}
+    for patient in patients:
+        probes['patients'].append(patient)
+        # CHECK CHANNELS WITH SPIKES
+        settings = load_settings_params.Settings(patient)
+        if flag_get_channels_with_spikes:
+            channels_with_spikes = get_channels_with_spikes_from_combinato_sorted_h5(settings, ['pos']) # TODO: fox 'neg' case
+            channels_with_spikes = [sublist[0] for sublist in channels_with_spikes if (sublist[2]>0)|(sublist[3]>0)]
+        else:
+            channels_with_spikes = []
+        print('Channels with spikes for patient %s' % patient, channels_with_spikes)
+        for probe_name in probe_names_all_patients: # Take the union in case probe_names_micro != probe_names_macro
+            path2microdata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'micro', 'CSC_mat')
+            channel_numbers_micro, file_names_micro, probe_names_micro = get_file_probe_names(path2microdata_folder, 'micro')
+            path2macrodata_folder = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', patient, 'Raw', 'macro', 'CSC_mat')
+            channel_numbers_macro, file_names_macro, probe_names_macro = get_file_probe_names(path2macrodata_folder, 'macro')
+            channel_numbers_of_probe_micro = [int(ch) for (ch, fn) in zip(channel_numbers_micro, file_names_micro) if probe_name == fn[4:-5]]
+            channel_numbers_of_probe_macro = [int(ch) for (ch, fn) in zip(channel_numbers_macro, file_names_macro) if probe_name == fn[:-5]]
+            if probe_name not in probes['probe_names'].keys(): # a new probe was found - initialize patient list with channel numbers.
+                probes['probe_names'][probe_name] = {}
+                probes['probe_names'][probe_name]['micro'] = [] # list of lists (per patient), with which channel numbers belong to this probe
+                probes['probe_names'][probe_name]['macro'] = [] # list of lists (per patient), with which channel numbers belong to this probe
+                probes['probe_names'][probe_name]['spike'] = [] # list of lists (per patient), with which channel numbers have spikes
+                probes['probe_names'][probe_name]['patients'] = [] # which patients have this probe
+            #print(patient, probe_name, channel_numbers_of_probe_macro)
+            probes['probe_names'][probe_name]['micro'].append(channel_numbers_of_probe_micro)
+            probes['probe_names'][probe_name]['macro'].append(channel_numbers_of_probe_macro)
+            probes['probe_names'][probe_name]['spike'].append(list(set(channels_with_spikes).intersection(channel_numbers_of_probe_micro)))
+            if channel_numbers_of_probe_micro or channel_numbers_of_probe_macro:
+                probes['probe_names'][probe_name]['patients'].append(patient)
+    # MICROPHPNE to micro electrodes
+    probes['probe_names']['MICROPHONE'] = {}
+    probes['probe_names']['MICROPHONE']['micro'] = [0]
+
+
+
+    return probes
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
 
 
 def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, settings, params):
@@ -327,18 +429,18 @@ def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, se
         return -
         MNE raw object with all channels
     '''
-    if data_type == 'micro' or  data_type == 'macro':
+    if data_type in ['micro', 'macro', 'microphone']:
         print('Loading %s CSC data' % data_type.upper())
         channel_data = load_CSC_file(settings.path2rawdata, data_type, filt, channel_num)
         if channel_num == 0: #MICROPHONE
-            ch_type = 'misc'
+            ch_type = 'seeg'
         else:
             #ch_type = 'seeg' if data_type == 'micro' else 'ecg'
             ch_type = 'seeg'
         #if filt == 'high-gamma':
         #    sfreq = 1000;
         #else:
-        if data_type == 'micro':
+        if data_type in ['micro', 'microphone']:
             sfreq = params.sfreq_raw
         elif data_type == 'macro':
             sfreq = params.sfreq_macro
@@ -376,7 +478,9 @@ def load_CSC_file(path2rawdata, data_type, filt, channel_num):
     #filt_str = ''
     #if filt == 'high-gamma':
     #    filt_str = 'HighGamma_'
-    CSC_file = glob.glob(os.path.join(path2rawdata, data_type, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
+    d = 'micro' if data_type == 'microphone' else data_type
+    print(os.path.join(path2rawdata, d, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
+    CSC_file = glob.glob(os.path.join(path2rawdata, d, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
     print(CSC_file)
     assert len(CSC_file)==1
     print(io.loadmat(CSC_file[0]))
@@ -590,6 +694,7 @@ def create_events_array(metadata):
     return events, event_id
 
 
+<<<<<<< HEAD
 
 
 def load_neural_data(patient, data_type, filt, level,
@@ -738,6 +843,9 @@ def load_neural_data(patient, data_type, filt, level,
 
 
 def read_log(block, settings):
+=======
+def load_neural_data(_args):
+>>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
     '''
 
     :param block: (int) block number

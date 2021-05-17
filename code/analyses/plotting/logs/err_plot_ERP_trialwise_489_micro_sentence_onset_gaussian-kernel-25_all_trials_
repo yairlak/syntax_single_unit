@@ -1,0 +1,757 @@
+nohup: les entrées sont ignorées
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/plotting/plot_ERP_trialwise.py:281: RuntimeWarning: Cannot find channel coordinates in the supplied Evokeds. Not showing channel locations.
+  fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')

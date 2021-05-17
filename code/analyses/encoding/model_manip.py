@@ -9,6 +9,7 @@ Created on Mon Apr 19 17:29:59 2021
 import os, sys, copy
 import mne
 import numpy as np
+from TimeDelayingRidgeCV import TimeDelayingRidgeCV
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
@@ -20,42 +21,28 @@ from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import r2_score
 from tqdm import tqdm
 
+
 def train_TRF(X_train, y_train, sfreq_down_sampled, args):
     # DIMS
     n_timepoints, n_epochs, n_outputs = y_train.shape
-    
-    if args.model_type in ['ridge', 'lasso']:
-        alphas = np.logspace(-3, 8, 10)
-        if args.model_type == 'ridge':
-            estimator = linear_model.RidgeCV(alphas=alphas, alpha_per_target=True)
-        elif args.model_type == 'lasso':
-            estimator = linear_model.LassoCV()
-       
-        rf = ReceptiveField(args.tmin_rf, args.tmax_rf, sfreq_down_sampled, estimator=estimator, scoring='r2', n_jobs=-1) #feature_names=feature_values, 
-        rf.fit(X_train, y_train)
-    
+    if args.model_type == 'ridge':
+        alphas = np.logspace(-3, 8, 100)
+        estimator = linear_model.RidgeCV(alphas=alphas, alpha_per_target=True)
+    elif args.model_type == 'lasso':
+        alphas = np.logspace(-3, 8, 100)
+        estimator = linear_model.LassoCV()
     elif args.model_type == 'ridge_laplacian':
-        alphas = np.logspace(-3, 5, 10)
-        inner_cv = KFold(n_splits=args.n_folds_inner, shuffle=True, random_state=0)
-        scores = np.zeros((args.n_folds_inner, alphas.size, n_outputs))
-        models = [] # list (len=num_splits) of lists, each sublist its len is num_alphas with the corresponding TRF models
-        for i_split, (train, test) in enumerate(inner_cv.split(X_train.transpose([1, 2, 0]), y_train.transpose([1, 2, 0]))):     
-            models_curr_seed = []
-            for i_alpha, alpha in enumerate(alphas):
-                print(f'Fitting TRF with Laplacian regularization (alpha={alpha})')
-                estimator = TimeDelayingRidge(args.tmin_rf, args.tmax_rf, sfreq_down_sampled, reg_type=['laplacian', 'ridge'], alpha=alpha, n_jobs=-1)
-                rf = ReceptiveField(args.tmin_rf, args.tmax_rf, sfreq_down_sampled, estimator=estimator, scoring='r2', n_jobs=-1) #feature_names=feature_values,                 
-                rf.fit(X_train[:, train, :], y_train[:, train, :])
-                
-                # Make predictions about the model output, given input stimuli.
-                scores[i_split, i_alpha, :] = rf.score(X_train[:, test, :], y_train[:, test, :])
-                models_curr_seed.append(rf)
-            models.append(models_curr_seed)
-        
-        ix_best_alpha_lap = np.argmax(scores.mean(axis=0), axis=0) # average across seeds and pick maximal alpha per electrode (shape = n_outputs)
-        best_alpha = alphas[ix_best_alpha_lap]
-        print(f'Best alpha={best_alpha}')
-     
+        alphas = np.logspace(-3, 5, 3)
+        estimator = TimeDelayingRidgeCV(tmin=args.tmin_rf,
+                                        tmax=args.tmax_rf,
+                                        sfreq=sfreq_down_sampled,
+                                        alphas=alphas,
+                                        cv=args.n_folds_inner,
+                                        reg_type=['laplacian', 'ridge'],
+                                        alpha_per_target=True)
+    rf = ReceptiveField(args.tmin_rf, args.tmax_rf, sfreq_down_sampled,
+                        estimator=estimator, scoring='corrcoef', n_jobs=-1)
+    rf.fit(X_train, y_train)
     return rf
 
 

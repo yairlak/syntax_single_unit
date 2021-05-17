@@ -14,6 +14,7 @@ Created on Mon Jan 25 14:48:59 2021
 @author: yl254115
 """
 
+from TimeDelayingRidgeCV import TimeDelayingRidgeCV
 import argparse, os, sys, pickle
 from viz import plot_rf_coefs, plot_rf_r2
 abspath = os.path.abspath(__file__)
@@ -26,12 +27,20 @@ from utils.features import get_features
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 parser = argparse.ArgumentParser(description='Train an encoding model on neural data')
 # DATA
+<<<<<<< HEAD
 parser.add_argument('--patient', action='append', default=[], help='Patient string')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+=======
+parser.add_argument('--patient', action='append', default=['479_11'], help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=['gaussian-kernel-10'], help='')
+parser.add_argument('--probe-name', default=['LSTG'], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+>>>>>>> b88717b74cc288086bb88dd3d3d33e2d184da968
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
@@ -39,9 +48,15 @@ parser.add_argument('--responsive-channels-only', action='store_true', default=F
 parser.add_argument('--path2output', default=os.path.join('..', '..', '..', 'Output', 'encoding_models'), help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--path2figures', default=os.path.join('..', '..', '..', 'Figures', 'encoding_models'), help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--decimate', default=[], type=float, help='If not empty, (for speed) decimate data by the provided factor.')
+<<<<<<< HEAD
 parser.add_argument('--model-type', default='ridge', choices=['ridge', 'lasso', 'standard']) 
 parser.add_argument('--ablation-method', default='remove', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
 parser.add_argument('--query', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
+=======
+parser.add_argument('--model-type', default='ridge_laplacian', choices=['ridge', 'lasso', 'ridge_laplacian', 'standard']) 
+parser.add_argument('--ablation-method', default='shuffle', choices=['shuffle', 'remove', 'zero'], help='Method used to calcuated feature importance by reducing/ablating a feature family')
+parser.add_argument('--query', default="block in [2,4,6]", help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
+>>>>>>> b88717b74cc288086bb88dd3d3d33e2d184da968
 
 #############
 # USER ARGS #

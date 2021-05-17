@@ -1,4 +1,5 @@
 import argparse, os, glob, sys
+import pickle
 # Set current working directory to that of script
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -41,12 +42,12 @@ parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
 parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['sentence_length'], help='Keys to sort according')
-parser.add_argument('--y-tick-step', default=30, type=int, help='If sorted by key, set the yticklabels density')
+parser.add_argument('--y-tick-step', default=1, type=int, help='If sorted by key, set the yticklabels density')
 parser.add_argument('--window-st', default=50, type=int, help='Regression start-time window [msec]')
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
 parser.add_argument('--vmax', default=2.5, help='vmax of plot (default is in zscore, assuming baseline is zscore')
-parser.add_argument('--smooth-raster', default=0.002, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
+parser.add_argument('--smooth-raster', default=0.0005, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
 parser.add_argument('--save2', default=[], help='If empty saves figure to default folder')
 
 
@@ -156,9 +157,14 @@ for ch, ch_name in enumerate(epochs.ch_names):
         nums_trials_cumsum = np.cumsum(nums_trials)
         nums_trials_cumsum = [0] + nums_trials_cumsum.tolist()
         # Prepare subplots
-        fig, _ = plt.subplots(figsize=(15, 10))
-        num_queries = len(comparison['queries'])
-        height_ERP = int(np.ceil(sum(nums_trials)/num_queries))
+        if args.level == 'word':
+            fig, _ = plt.subplots(figsize=(30, 90))
+            num_queries = len(comparison['queries'])
+            height_ERP = int(np.ceil(sum(nums_trials)/num_queries)/3)
+        else:
+            fig, _ = plt.subplots(figsize=(15, 10))
+            num_queries = len(comparison['queries'])
+            height_ERP = int(np.ceil(sum(nums_trials)/num_queries))
         if num_queries > 1:
             spacing = int(np.ceil(0.1*sum(nums_trials)/num_queries))
         else:
@@ -185,23 +191,37 @@ for ch, ch_name in enumerate(epochs.ch_names):
             #####################
             # Sort if needed
             fields_for_sorting = []
-            for field in comparison['sort']:
-                fields_for_sorting.append(epochs[query].metadata[field])
-            if len(fields_for_sorting) == 1:
-                mylist = [(i, j) for (i, j) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0])]
-                IX = [i[0] for i in sorted(mylist, key=itemgetter(1))]
-                mylist_sorted = sorted(mylist, key=itemgetter(1))
-                yticklabels = [str(e[1]) for e in mylist_sorted]
-            elif len(fields_for_sorting) == 2:
-                mylist = [(i, j, k) for (i, j, k) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0], fields_for_sorting[1])]
-                IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2))]
-                mylist_sorted = sorted(mylist, key=itemgetter(1, 2))
-                yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
-            elif len(fields_for_sorting) == 3:
-                mylist = [(i, j, k, l) for (i, j, k, l) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0], fields_for_sorting[1], fields_for_sorting[2])]
-                IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2, 3))]
-                mylist_sorted = sorted(mylist, key=itemgetter(1, 2, 3))
-                yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
+
+            if comparison['sort'] == 'clustering':
+                word_strings = epochs[query].metadata['word_string']
+                fname = f'{args.patient}_{args.data_type}_high-gamma_{args.channel_name[0]}_block in [1,3,5].clu'
+                fname = f'../../../Output/clustering/{fname}'
+                _, _, dendro, words, _ , _= pickle.load(open(fname, 'rb'))
+                index = dendro['leaves']
+                word_order = np.asarray(words)[index]
+                IX, yticklabels = [], []
+                for target_w in word_order:
+                    IX_curr_word = [i for i, w in enumerate(word_strings) if w==target_w]
+                    IX.extend(IX_curr_word)
+                    yticklabels.extend([target_w]*len(IX_curr_word))
+            elif isinstance(comparison['sort'], list):
+                for field in comparison['sort']:
+                    fields_for_sorting.append(epochs[query].metadata[field])
+                if len(fields_for_sorting) == 1:
+                    mylist = [(i, j) for (i, j) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0])]
+                    IX = [i[0] for i in sorted(mylist, key=itemgetter(1))]
+                    mylist_sorted = sorted(mylist, key=itemgetter(1))
+                    yticklabels = [str(e[1]) for e in mylist_sorted]
+                elif len(fields_for_sorting) == 2:
+                    mylist = [(i, j, k) for (i, j, k) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0], fields_for_sorting[1])]
+                    IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2))]
+                    mylist_sorted = sorted(mylist, key=itemgetter(1, 2))
+                    yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
+                elif len(fields_for_sorting) == 3:
+                    mylist = [(i, j, k, l) for (i, j, k, l) in zip(range(len(fields_for_sorting[0])), fields_for_sorting[0], fields_for_sorting[1], fields_for_sorting[2])]
+                    IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2, 3))]
+                    mylist_sorted = sorted(mylist, key=itemgetter(1, 2, 3))
+                    yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
             data_curr_query = data_curr_query[IX, :] # sort data
             # plot query data
             ax = plt.subplot2grid((nrows, ncols+1), (nums_trials_cumsum[i_query]+spacing*i_query, 0), rowspan=height_query_data, colspan=10) # add axis to main figure
@@ -222,13 +242,17 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 im = ax.imshow(data_curr_query, interpolation='nearest', aspect='auto', cmap=cmap)
             ax.tick_params(axis='x', which='both', bottom='off', labelbottom='off')
             ax.set_xticks([])
-            if comparison['sort']:
+            if isinstance(comparison['sort'], list):
                 ax.set_yticks(range(0, len(fields_for_sorting[0]), args.y_tick_step))
 
                 #yticklabels = np.sort(fields_for_sorting[0])[::args.y_tick_step]
                 yticklabels = yticklabels[::args.y_tick_step]
                 if args.yticklabels_sortkey:
                     yticklabels = [l.split('-')[args.yticklabels_sortkey].capitalize() for l in yticklabels]
+                ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
+            elif comparison['sort'] == 'clustering':
+                ax.set_yticks(range(0, len(word_strings), args.y_tick_step))
+                yticklabels = yticklabels[::args.y_tick_step]
                 ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
             ax.set_ylabel(condition_name, fontsize=10, color=color)
             ax.axvline(x=0, color='k', ls='--', lw=1) 

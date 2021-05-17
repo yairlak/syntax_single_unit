@@ -1,11 +1,6 @@
-import sys, os, argparse
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
-sys.path.append('..')
-
+import os
 import numpy as np
-import glob, warnings
+import warnings
 from utils import load_settings_params
 
 

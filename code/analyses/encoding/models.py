@@ -106,7 +106,7 @@ class TimeDelayingRidgeCV(TimeDelayingRidge, RidgeCV):
 
                         self.intercept_ = 0.
 
-            else:  # Separately optimizes alpha for each output
+            else:  # Jointly optimizes alpha for all output
                 # gs = GridSearchCV(rf, parameters...
                 raise "Implementation error"
 

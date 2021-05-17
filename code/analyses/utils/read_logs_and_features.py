@@ -89,9 +89,13 @@ def prepare_metadata(log_all_blocks, settings, params, data_type):
             word_string = curr_block_events['word_string'][i]
             if word_string[-1] == '?' or word_string[-1] == '.':
                 word_string = word_string[0:-1]
-            word_string = word_string.lower()
             if word_string == '-': word_string = ''
+            if block in [2, 4, 6] and word_string:
+                word_string = word_string.lower()
+                if wp == 1:
+                    word_string = word_string.capitalize()
             metadata['word_string'].append(word_string)
+            word_string = word_string.lower()
             word_freq = word_frequency(word_string, 'en')
             word_zipf = zipf_frequency(word_string, 'en')
             #print(word_string, type(word_freq), type(word_zipf))
@@ -186,7 +190,6 @@ def prepare_metadata(log_all_blocks, settings, params, data_type):
                 metadata['grammatical_number'].append(0)
                 metadata['wh_subj_obj'].append(0)
                 metadata['last_word'].append(False)
-
     return pd.DataFrame(metadata)
 
 
@@ -247,7 +250,7 @@ def extend_metadata(metadata):
     X = []
     for i_w, w in enumerate(metadata['word_string']):
         if list(metadata['word_length'])[i_w]>1:
-            vec = glove[w]
+            vec = glove[w.lower()]
         else:
             vec = np.zeros(25)
         X.append(vec)

@@ -1,19 +1,17 @@
-# This script generates raw mne files (fif formant) from mat or combinato files:
-# - In the case of data-type = 'macro' bi-polar referencing is applied. 
+#  Generate raw mne files (fif formant) from mat or combinato files:
+# - In the case of data-type = 'macro' bi-polar referencing is applied.
 # - Notch filtering of line noise is performed.
-# - clipping using robustScalar transform is applied (but data is *not* scaled at this stage), by using -3 and 3 for lower/upper bounds.
-# - In the case of filter = 'gaussian-kernel', smoothing is applied before saving.
+# - clipping using robustScalar transform is applied
+#   (but data is *not* scaled at this stage),
+#   by using -3 and 3 for lower/upper bounds.
+# - In the case of filter = 'gaussian-kernel', smoothing is applied.
 # - The output is a raw mne object saved to Data/UCLA/patient_?/Raw/
 
-import os, argparse, re, sys, glob
-# Set current working directory to that of script
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
-sys.path.append('..')
-from utils import load_settings_params, read_logs_and_features, convert_to_mne, data_manip, analyses
+import os
+import argparse
+import re
+from utils import load_settings_params, data_manip
 import mne
-from mne.io import _merge_info
 import numpy as np
 from pprint import pprint
 from sklearn.preprocessing import RobustScaler
@@ -22,10 +20,13 @@ from sklearn.decomposition import PCA
 import scipy
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='479_11', help='Patient number')
-parser.add_argument('--data-type', choices = ['micro', 'macro', 'spike'], default='micro', help='macro/micro/spike')
-parser.add_argument('--filter', default='raw', help='raw/gaussian-kernel-(window in ms)/high-gamma.')
-parser.add_argument('--sfreq-downsample', default=1000, help='Downsampling frequency')
+parser.add_argument('--patient', default='502', help='Patient number')
+parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
+                    default='spike', help='macro/micro/spike')
+parser.add_argument('--filter', default='raw',
+                    help='raw/gaussian-kernel-(window in ms)/high-gamma.')
+parser.add_argument('--sfreq-downsample',
+                    default=1000, help='Downsampling frequency')
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
@@ -33,7 +34,8 @@ print(args)
 print('Loading settings, params and preferences...')
 settings = load_settings_params.Settings(args.patient)
 params = load_settings_params.Params(args.patient)
-pprint(settings.__dict__); pprint(params.__dict__)
+pprint(settings.__dict__)
+pprint(params.__dict__)
 
 # PATHS
 if args.data_type == 'micro' or args.data_type == 'spike':
@@ -42,22 +44,26 @@ elif args.data_type == 'macro':
     path2CSC_mat = os.path.join(settings.path2rawdata, 'macro', 'CSC_mat')
 
 # GET CHANNALS AND PROBE NAMES
-with open(os.path.join(path2CSC_mat, 'channel_numbers_to_names.txt')) as f_channel_names:
+with open(os.path.join(path2CSC_mat, 'channel_numbers_to_names.txt')) \
+        as f_channel_names:
     channel_names = f_channel_names.readlines()
 
-channel_names_dict = dict(zip(map(int, [s.strip('\n').split('\t')[0] for s in channel_names]), [s.strip('\n').split('\t')[1][:-4] for s in channel_names]))
+channel_names_dict = dict(zip(map(int, [s.strip('\n').split('\t')[0]
+                                        for s in channel_names]),
+                              [s.strip('\n').split('\t')[1][:-4]
+                               for s in channel_names]))
 channel_nums = list(channel_names_dict.keys())
 if args.data_type == 'micro':
-    channel_nums = list(set(channel_nums) - set([0])) # REMOVE channel 0 (MICROPHONE)
-    #channel_nums = list(set(channel_nums + [0])) # ADD channel 0 (MICROPHONE)
+    channel_nums = list(set(channel_nums) - set([0]))  # remove microphone (0)
     channel_names_dict[0] = 'MICROPHONE'
 else:
     if 0 in channel_nums:
-        channel_nums = list(set(channel_nums) - set([0])) # REMOVE channel 0 (MICROPHONE)
+        channel_nums = list(set(channel_nums) - set([0]))  # remove mic
         del channel_names_dict[0]
 
 channel_nums.sort()
-print('Number of channel %i: %s' % (len(channel_names_dict.values()), channel_names_dict.values()))
+print('Number of channel %i: %s'
+      % (len(channel_names_dict.values()), channel_names_dict.values()))
 
 
 # MERGE CHANNELS TO A SINGLE RAW

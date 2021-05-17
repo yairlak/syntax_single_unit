@@ -1,12 +1,9 @@
 import argparse, os, sys, pickle
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
-sys.path.append('..')
+from utils.data_manip import DataHandler
 import mne
 from mne.decoding import (cross_val_multiscore, LinearModel, GeneralizingEstimator)
-from functions import classification, comparisons, load_settings_params
-from functions.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+from utils import classification, comparisons, load_settings_params
+from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
 from functions import data_manip
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
@@ -37,9 +34,12 @@ import models # custom module with neural-network models (LSTM/GRU/CNN)
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'], help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=['micro'], help='electrode type')
-parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
+parser.add_argument('--patient', action='append', default=['502'],
+                    help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'],
+                    default='word', help='')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-10'], action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
@@ -97,13 +97,23 @@ if not args.path2output:
 print('args\n', args)
 
 
-########
-# DATA #
-########
-epochs_list = data_manip.load_neural_data(args)
-print(epochs_list[0])
+#############
+# LOAD DATA #
+#############
+data = DataHandler(args.patient, args.data_type, args.filter, None,
+                   args.probe_name, args.channel_name, args.channel_num,
+                   args.sfreq, args.feature_list)
+# Both neural and feature data into a single raw object
+data.load_raw_data()
+# GET SENTENCE-LEVEL DATA BEFORE SPLIT
+data.epoch_data(level='sentence_onset',
+                query=args.query_train,
+                decimate=args.decimate,
+                scale_epochs=False,
+                verbose=True)
+
 print('Channel names:')
-[print(e.ch_names) for e in epochs_list]
+[print(e.ch_names) for e in data.epochs]
 
 ######################
 # Queries TRAIN/TEST #
@@ -112,7 +122,8 @@ print('Channel names:')
 # COMPARISON
 comparisons = comparisons.comparison_list()
 comparison = comparisons[args.comparison_name].copy()
-comparison = update_queries(comparison, args.block_type, args.fixed_constraint, epochs_list[0].metadata)
+comparison = update_queries(comparison, args.block_type,
+                            args.fixed_constraint, data.epochs[0].metadata)
 print('Comparison:')
 print(comparison)
 
@@ -120,11 +131,13 @@ print(comparison)
 if args.comparison_name_test:
     comparison_test = comparisons[args.comparison_name_test].copy()
     if not args.block_type_test:
-        raise('block-type-test must be specified if comparison-name-test is provided')
-    comparison_test = update_queries(comparison_test, args.block_type_test, args.fixed_constraint_test)
+        raise('block-type-test is missing. Comparison-name-test was provided')
+    comparison_test = update_queries(comparison_test, args.block_type_test,
+                                     args.fixed_constraint_test)
 
 
-def prepare_data_for_classifier(epochs, comparison, pick_classes, field_for_labels=[]):
+def prepare_data_for_classifier(epochs, comparison, pick_classes,
+                                field_for_labels=[]):
     '''
     '''
     X = []; y = []; labels = []; cnt = 0

@@ -1,41 +1,25 @@
 import os, glob
 
 
-class Preferences:
-    def __init__(self):
-        self.save_features_for_classification = True
-
-        self.run_contrasts = False
-        self.run_POS = False
-        self.use_metadata_only = True
-        self.step = 100 # yticklabels step when sorting trials according to keys
-
-        # Classification
-        self.classification_use_single_unit_data = False
-        self.classification_use_micro_LFP_data = True
-        self.classification_use_marco_LFP_data = False
-
-
 class Settings():
     def __init__(self, patient):
         # PATIENT:
         self.hospital = 'UCLA'
         self.patient = patient
-        self.comparisons = range(110,111)
-        self.load_line_filtered_resampled_epoch_object = False
-        self.overwrite_existing_output_files = True # --- !!!!!! -----
-
         # PATHS
-        self.path2patient_folder = os.path.join('..', '..', '..', 'Data', self.hospital, self.patient)
-        self.path2log = os.path.join('..', '..', '..','Data', self.hospital, self.patient, 'Logs')
-        self.path2rawdata = os.path.join('..', '..', '..', 'Data', self.hospital, self.patient, 'Raw')
-        self.path2epoch_data = os.path.join('..', '..', '..', 'Data', self.hospital, self.patient, 'Epochs')
-        self.path2stimuli = os.path.join('..', '..', '..', 'Paradigm')
-        self.path2figures = os.path.join('..',  '..', '..', 'Figures')
-        self.path2output = os.path.join('..', '..', '..', 'Output')
+        self.path2patient_folder = os.path.join(
+            '..', '..', 'Data', self.hospital, self.patient)
+        self.path2log = os.path.join(
+            '..', '..', 'Data', self.hospital, self.patient, 'Logs')
+        self.path2rawdata = os.path.join(
+            '..', '..', 'Data', self.hospital, self.patient, 'Raw')
+        self.path2stimuli = os.path.join('..', '..', 'Paradigm')
+        self.path2figures = os.path.join('..', '..', 'Figures')
+        self.path2output = os.path.join('..', '..', 'Output')
 
         # Files info
-        self.log_name_beginning = 'new_with_phones_events_log_in_cheetah_clock_part'
+        self.log_name_beginning = \
+            'new_with_phones_events_log_in_cheetah_clock_part'
         self.stimuli_file = 'features En_02 sentences.xlsx'
         self.sentences_start_end_filename = 'sentences_start_end_dict.pkl'
         self.stimuli_text_file = 'sentences_Eng_rand_En02.txt'
@@ -45,7 +29,6 @@ class Settings():
         self.word_features_file2 = 'word_features_new.xlsx'
         self.word2pos_file = 'word2POS.pkl'
 
-        # Time of the beginning and end of the experiment (BlackRock time0 = 0; In Neurlaynx it is measured compared to 01/01/1970)
         # in MICROSEC
         if self.patient == 'patient_479_11': # Neuralynx
             self.recording_device = 'Neuralynx'

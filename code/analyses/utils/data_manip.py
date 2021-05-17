@@ -296,12 +296,8 @@ def get_events(patient, level, data_type, verbose=False):
     times_in_sec = sorted(metadata['event_time'].values)
     #print(times_in_sec)
     min_diff_sec = np.min(np.diff(times_in_sec))
-<<<<<<< HEAD
     if verbose:
         print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
-=======
-    print("min diff in msec: %1.2f" % (min_diff_sec * 1000))
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
     curr_times = sfreq * metadata['event_time'].values # convert from sec to samples.
     curr_times = np.expand_dims(curr_times, axis=1)
     
@@ -323,9 +319,6 @@ def get_events(patient, level, data_type, verbose=False):
 
     return events, event_id, metadata
 
-
-<<<<<<< HEAD
-=======
 
 def get_file_probe_names(path2mat_folder, micro_macro):
     with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt')) as f:
@@ -419,7 +412,6 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
 
 
     return probes
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
 
 
 def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, settings, params):
@@ -694,158 +686,7 @@ def create_events_array(metadata):
     return events, event_id
 
 
-<<<<<<< HEAD
-
-
-def load_neural_data(patient, data_type, filt, level,
-                     probe_name=None, channel_name=None, channel_num=None,
-                     tmin=None, tmax=None, decimate=None,
-                     query=None, block_type=None,
-                     scale_epochs=False, verbose=False):
-    '''
-    Parameters
-    ----------
-    patient : TYPE
-        DESCRIPTION.
-    data_type : TYPE
-        DESCRIPTION.
-    filt : TYPE
-        DESCRIPTION.
-    level : TYPE
-        DESCRIPTION.
-    probe_name : TYPE, optional
-        DESCRIPTION. The default is None.
-    channel_name : TYPE, optional
-        DESCRIPTION. The default is None.
-    channel_num : TYPE, optional
-        DESCRIPTION. The default is None.
-    tmin : TYPE, optional
-        DESCRIPTION. The default is None.
-    tmax : TYPE, optional
-        DESCRIPTION. The default is None.
-    decimate : TYPE, optional
-        DESCRIPTION. The default is None.
-    query : TYPE, optional
-        DESCRIPTION. The default is None.
-    block_type : TYPE, optional
-        DESCRIPTION. The default is None.
-    scale_epochs : TYPE, optional
-        DESCRIPTION. The default is False.
-    verbose : TYPE, optional
-        DESCRIPTION. The default is False.
-
-    Returns
-    -------
-    epochs_list : list
-        List of epochs
-
-    '''
-    import mne
-    from utils.utils import probename2picks  # pick_responsive_channels
-    # from utils.read_logs_and_features import extend_metadata
-
-    if isinstance(patient, str):  # in case a patient list is not provided
-        patients = [patient]
-    else:
-        patients = patient
-    if isinstance(data_type, str):
-        data_types = [data_type]
-    else:
-        data_types = data_type
-    if isinstance(filt, str):
-        filters = [filt]
-    else:
-        filters = filt
-
-    epochs_list = []
-    for p, (patient, data_type, filt) in enumerate(zip(patients,
-                                                       data_types,
-                                                       filters)):
-        settings = Settings(patient)
-        ###################
-        # Load RAW object #
-        ###################
-        fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
-        raw = mne.io.read_raw_fif(os.path.join(settings.path2rawdata,
-                                               fname_raw), preload=False)
-        if verbose:
-            print(raw, raw.ch_names)
-        ##########
-        # EVENTS #
-        ##########
-        events, event_id, metadata = get_events(patient, level, data_type)
-        ############
-        # EPOCHING #
-        ############
-        # First epoch then filter if needed
-        if verbose:
-            print(raw.first_samp, events)
-        if level == 'sentence_onset':
-            tmin, tmax = (-1.2, 3.5)
-        elif level == 'sentence_offset':
-            tmin, tmax = (-3.5, 1.5)
-        elif level == 'word':
-            tmin, tmax = (-1, 2)
-        elif level == 'phone':
-            tmin, tmax = (-0.3, 1.2)
-        epochs = mne.Epochs(raw, events, event_id, tmin, tmax,
-                            metadata=metadata, baseline=None,
-                            preload=True, reject=None)
-        if any(epochs.drop_log):
-            print('Dropped:')
-            print(epochs.drop_log)
-        ############################
-        # Robust Scaling Transform #
-        ############################
-        if scale_epochs:
-            data = epochs.copy().get_data()
-            for ch in range(data.shape[1]):
-                transformer = RobustScaler().fit(np.transpose(data[:, ch, :]))
-                epochs._data[:, ch, :] = \
-                    np.transpose(
-                        transformer.transform(np.transpose(data[:, ch, :])))
-
-        if block_type == 'auditory':
-            epochs = epochs['block in [2, 4, 6]']
-        elif block_type == 'visual':
-            epochs = epochs['block in [1, 3, 5]']
-        # EXTEND METADATA
-        epochs.metadata = extend_metadata(epochs.metadata)
-        # QUERY
-        if query:
-            epochs = epochs[query]
-        if verbose:
-            print(query)
-            print(epochs)
-        # CROP
-        if tmin and tmax:
-            epochs = epochs.crop(tmin=tmin, tmax=tmax)
-        # PICK
-        picks = None
-        if probe_name:
-            probe_name = probe_name[p]
-            picks = probename2picks(probe_name, epochs.ch_names, data_type)
-        if channel_name:
-            channel_names = channel_name[p]
-            picks = channel_names
-        if channel_num:
-            picks = channel_num[p]
-        if verbose:
-            print('picks:', picks)
-        epochs.pick(picks)
-        # DECIMATE
-        if decimate:
-            epochs.decimate(decimate)
-        # APPEND
-        epochs_list.append(epochs)
-
-    return epochs_list
-
-
-def read_log(block, settings):
-=======
 def load_neural_data(_args):
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
     '''
 
     :param block: (int) block number

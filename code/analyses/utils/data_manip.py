@@ -1268,3 +1268,40 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
 
 
     return probes
+
+
+def read_log(block, settings):
+    '''
+
+    :param block: (int) block number
+    :param settings: class instance of settings
+    :return: events (dict) with keys for event_times, block, phone/word/stimulus info
+    '''
+    log_fn = settings.log_name_beginning + str(block) + '.log'
+    with open(os.path.join(settings.path2log, log_fn)) as f:
+        lines = [l.strip('\n').split(' ') for l in f]
+
+    events = {}
+    if block in [2, 4, 6]:
+        lines = [l for l in lines if l[1]=='PHONE_ONSET']
+        events['event_time'] = [l[0] for l in lines]
+        events['block'] = len(events['event_time']) * [block]
+        events['first_phone'] = [int(l[2]) for l in lines]
+        events['phone_position'] = [int(l[3]) for l in lines]
+        events['phone_string'] = [l[6] for l in lines]
+        events['word_position'] = [int(l[4]) for l in lines]
+        events['word_string'] = [l[7] for l in lines]
+        events['stimulus_number'] = [int(l[5]) for l in lines]
+
+    elif block in [1, 3, 5]:
+        lines = [l for l in lines if l[1] == 'DISPLAY_TEXT' and l[2] != 'OFF']
+        events['event_time'] = [l[0] for l in lines]
+        events['block'] = len(events['event_time']) * [block]
+        events['first_phone'] = len(events['event_time']) * [0] # not relevant for visual blocks
+        events['phone_position'] = len(events['event_time']) * [0] # not relevant for visual blocks
+        events['phone_string'] = len(events['event_time']) * ['']  # not relevant for visual blocks
+        events['word_position'] = [int(l[4]) for l in lines]
+        events['word_string'] = [l[5] for l in lines]
+        events['stimulus_number'] = [int(l[3]) for l in lines]
+
+    return events

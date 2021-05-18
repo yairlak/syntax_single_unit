@@ -31,16 +31,10 @@ def comparison_list():
     comparisons['all_words']['queries'] = ["word_string.str.len()>1"]
     comparisons['all_words']['condition_names'] = ['All words']
     comparisons['all_words']['colors'] = ['b']
-<<<<<<< HEAD
+    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
     comparisons['all_words']['sort'] = 'clustering'
-    comparisons['all_words']['y-tick-step'] = 40
-  
-=======
-    #comparisons['all_words']['sort'] = ['num_letters', 'word_position', 'word_string']
-    comparisons['all_words']['sort'] = 'clustering'
-    comparisons['all_words']['y-tick-step'] = 9
-    
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
+    comparisons['all_words']['y-tick-step'] = 8
+
 # Sanity checks:
     comparisons['first_last_word'] = {}
     comparisons['first_last_word']['queries'] = ["word_position==1", "last_word==True"]

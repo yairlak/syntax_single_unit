@@ -21,8 +21,8 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['gaussian-kernel-25'],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['high-gamma'],
                     help='raw/gaussian-kernel-*/high-gamma')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
@@ -47,7 +47,7 @@ parser.add_argument('--feature-list',
                              'is_first_word'],
                     nargs='*',
                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
@@ -56,8 +56,8 @@ parser.add_argument('--model-type', default='ridge',
 parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=3, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=3, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -206,7 +206,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                                                 valid_samples,
                                                 args)
         results[feature_name]['scores_by_time'].append(scores_by_time)
-    del rf_sentence
+        del rf_sentence
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 
 ########
@@ -223,7 +223,7 @@ fname = dict2filename(args2fname, '_', list_args2fname, '', True)
 print(fname)
 if not os.path.exists(args.path2output):
     os.makedirs(args.path2output)
-ch_names = data.epochs[0].copy().pick_types(seeg=True).ch_names
+ch_names = data.epochs[0].copy().pick_types(seeg=True, eeg=True).ch_names
 fn = os.path.join(args.path2output, fname + '.pkl')
 with open(fn, 'wb') as f:
     pickle.dump([results, ch_names, args, data.feature_info], f)

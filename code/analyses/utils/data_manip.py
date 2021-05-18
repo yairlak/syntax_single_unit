@@ -59,6 +59,7 @@ class DataHandler:
                                                           fname_raw),
                                              preload=False)
             # PICK
+            print(raw_neural.get_data().max())
             picks = None
             if self.probe_name:
                 picks = probename2picks(self.probe_name[p],
@@ -82,6 +83,7 @@ class DataHandler:
                 raw_neural = raw_neural.add_channels([raw_features],
                                                      force_update_info=True)
             self.raws.append(raw_neural)
+            
 
         if verbose:
             print(self.raws)

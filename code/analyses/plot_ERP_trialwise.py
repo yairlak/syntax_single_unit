@@ -1,42 +1,35 @@
-import argparse, os, glob, sys
+import argparse
+import os
 import pickle
-# Set current working directory to that of script
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
-sys.path.append('..')
 import mne
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy import percentile
-from sklearn import linear_model
-from sklearn.metrics import r2_score
 from operator import itemgetter
 from pprint import pprint
-from utils.read_logs_and_features import extend_metadata
-from utils import comparisons, load_settings_params, data_manip
-from utils.utils import probename2picks, rescale, update_queries, pick_responsive_channels
+from utils import comparisons, load_settings_params
+from utils.data_manip import DataHandler
+from utils.utils import probename2picks, update_queries,\
+    pick_responsive_channels
 from scipy.ndimage import gaussian_filter1d
 
-parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
-<<<<<<< HEAD
+parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 parser.add_argument('--patient', default='502', help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], default='micro', help='electrode type')
-=======
-parser.add_argument('--patient', default='505', help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike', 'microphone'], default='macro', help='electrode type')
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c
-parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='sentence_onset', help='')
+parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
+                    default='micro', help='electrode type')
+parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
+                                        'word', 'phone'],
+                    default='word', help='')
 parser.add_argument('--filter', default='gaussian-kernel-10', help='')
-parser.add_argument('--probe-name', default=[], nargs='*', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=['GB4-RFSG2'], nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--probe-name', default=['RFSG'], nargs='*', type=str,
+                    help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 parser.add_argument('--comparison-name', default='all_words', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
-parser.add_argument('--tmin', default=None, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
-parser.add_argument('--tmax', default=None, type=float, help='crop window')
+parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
+parser.add_argument('--tmax', default=0.6, type=float, help='crop window')
 parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
 parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default='zscore', help='Type of baseline method')
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
@@ -71,16 +64,27 @@ print('Loading settings...')
 settings = load_settings_params.Settings(args.patient)
 
 # LOAD
-epochs = data_manip.load_neural_data(args)[0]
-
+data = DataHandler(args.patient, args.data_type, args.filter, None,
+                   args.probe_name, args.channel_name, args.channel_num,
+                   sfreq=1000)
+# Both neural and feature data into a single raw object
+data.load_raw_data()
+# GET SENTENCE-LEVEL DATA BEFORE SPLIT
+data.epoch_data(level=args.level,
+                query=None,
+                scale_epochs=False,
+                verbose=True)
+epochs = data.epochs[0]
 # COMPARISON
 comparisons = comparisons.comparison_list()
 comparison = comparisons[args.comparison_name].copy()
-comparison = update_queries(comparison, args.block_type, args.fixed_constraint, epochs.metadata)
+comparison = update_queries(comparison, args.block_type,
+                            args.fixed_constraint, epochs.metadata)
 pprint(comparison)
 
 print(args.comparison_name)
-for query in comparison['queries']: print(query)
+for query in comparison['queries']:
+    print(query)
 
 if 'sort' not in comparison.keys():
     comparison['sort'] = args.sort_key
@@ -163,9 +167,9 @@ for ch, ch_name in enumerate(epochs.ch_names):
         nums_trials_cumsum = [0] + nums_trials_cumsum.tolist()
         # Prepare subplots
         if args.level == 'word':
-            fig, _ = plt.subplots(figsize=(30, 90))
+            fig, _ = plt.subplots(figsize=(30, 100))
             num_queries = len(comparison['queries'])
-            height_ERP = int(np.ceil(sum(nums_trials)/num_queries)/3)
+            height_ERP = int(np.ceil(sum(nums_trials)/num_queries)/4)
         else:
             fig, _ = plt.subplots(figsize=(15, 10))
             num_queries = len(comparison['queries'])
@@ -199,8 +203,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
 
             if comparison['sort'] == 'clustering':
                 word_strings = epochs[query].metadata['word_string']
-                fname = f'{args.patient}_{args.data_type}_high-gamma_{args.channel_name[0]}_block in [1,3,5].clu'
-                fname = f'../../../Output/clustering/{fname}'
+                fname = f'{args.patient}_{args.data_type}_{args.filter}_{ch_name}_block in [1,3,5].clu'
+                fname = f'../../Output/clustering/{fname}'
                 _, _, dendro, words, _ , _= pickle.load(open(fname, 'rb'))
                 index = dendro['leaves']
                 word_order = np.asarray(words)[index]
@@ -304,14 +308,14 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 yticks = [-1.5, -1, 0, 1, 1.5]
             else:
                 label_y = 'IQR-scale'
-                ylim = [-3, 3]
+                ylim = [-10, 10]
                 yticks = [-3, -1.96, 0, 1.96, 3]
         #fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, picks=ch_name, axes=ax2, ylim={'eeg':ylim}, title='')
         fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
         ax2.legend(bbox_to_anchor=(1.05, 1), loc=2)
         ax2.set_ylabel(label_y, fontsize=16)
-        ax2.set_ylim(ylim)
-        ax2.set_yticks(yticks)
+        # ax2.set_ylim(ylim)
+        # ax2.set_yticks(yticks)
 
         #############
         # COLOR BAR #

@@ -8,6 +8,7 @@ Created on Fri May  7 14:07:38 2021
 from scipy.spatial.distance import pdist, squareform
 import argparse
 import os
+import pickle
 import datetime
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
@@ -20,13 +21,13 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['raw'],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['gaussian-kernel-10'],
                     help='raw/gaussian-kernel-*/high-gamma')
 parser.add_argument('--level', choices=['phone', 'word',
                     'sentence-onset', 'sentence-offset'],
                     default='word')
-parser.add_argument('--probe-name', default=['LFSG'], nargs='*',
+parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
 parser.add_argument('--channel-name', default=None, nargs='*', action='append',
@@ -37,7 +38,7 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query', default="(block in [1,3,5])",
+parser.add_argument('--query', default="block in [1,3,5]",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
 parser.add_argument('--min-trials', default=0,
@@ -50,7 +51,7 @@ parser.add_argument('--metric', default='correlation',
 # MISC
 parser.add_argument('--tmin', default=0.05, type=float,
                     help='Start time of word time window')
-parser.add_argument('--tmax', default=0.55, type=float,
+parser.add_argument('--tmax', default=0.35, type=float,
                     help='End time of word time window')
 # PATHS
 parser.add_argument('--path2figures',
@@ -109,7 +110,8 @@ X = np.asarray(X)
 n_words, n_channels, n_times = X.shape
 DSMs = []
 linkage = 'complete'
-for ch, ch_name in enumerate(data.epochs[0].ch_names):
+ch_names = data.epochs[0].ch_names
+for ch, ch_name in enumerate(ch_names):
     DSM = squareform(pdist(X[:, ch, :], 'correlation'))
     DSM[np.isnan(DSM)] = DSM[~np.isnan(DSM)].max()
     DSMs.append(DSM)
@@ -148,6 +150,11 @@ for ch, ch_name in enumerate(data.epochs[0].ch_names):
           os.path.join(args.path2figures, f'\nkernelPCA_2D_{fname_fig}') +
           os.path.join(args.path2figures, f'\nkernelPCA_3D_{fname_fig}'))
 
+    fname = f'{args.patient[0]}_{args.data_type[0]}_{args.filter[0]}_{ch_name}_{args.query}.clu'
+    fname = f'../../Output/clustering/{fname}'
+    with open(fname, 'wb') as f:
+        pickle.dump([DSM, clustering, dendro, labels, ch_name, args], f)
+
 # FOR ALL CHANNELS TOGETHER
 DSMs = np.asarray(DSMs)
 DSMs = np.sqrt((DSMs**2).sum(axis=0))
@@ -169,3 +176,4 @@ plt.close(fname_fig_2d)
 fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_{fname_fig}')
 fig_3d.savefig(fname_fig_3d)
 plt.close(fname_fig_3d)
+

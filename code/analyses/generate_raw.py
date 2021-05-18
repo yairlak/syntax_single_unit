@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default='502', help='Patient number')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     default='spike', help='macro/micro/spike')
-parser.add_argument('--filter', default='gaussian-kernel-25',
+parser.add_argument('--filter', default='gaussian-kernel-100',
                     help='raw/gaussian-kernel-(window in ms)/high-gamma.')
 parser.add_argument('--sfreq-downsample',
                     default=1000, help='Downsampling frequency')
@@ -161,6 +161,7 @@ if args.data_type not in ['spike', 'microphone']:
             raw_band_hilb = raw_band.copy()
             raw_band_hilb.apply_hilbert(envelope=True)
             # Z-SCORE
+            raw_band_hilb = np.log(raw_band_hilb)
             raw_band_hilb_zscore = scipy.stats.zscore(raw_band_hilb._data, axis=1) # num_channels X num_timepoints
             raw_eight_bands.append(raw_band_hilb_zscore)
         raw_eight_bands = np.asarray(raw_eight_bands) # 8-features (bands) X num_channels X num_timepoints
@@ -171,16 +172,14 @@ if args.data_type not in ['spike', 'microphone']:
         for i_channel in range(raw_eight_bands.shape[1]):
             data_curr_channel = raw_eight_bands[:, i_channel, :].transpose() # num_timepoints X 8-features (bands)
             # CLIP
-            transformer = RobustScaler().fit(data_curr_channel)
-            data_scaled = transformer.transform(data_curr_channel)
-            lower, upper = -3, 3
-            data_scaled[data_scaled>upper] = upper
-            data_scaled[data_scaled<lower] = lower
-            data_curr_channel_clipped = transformer.inverse_transform(data_scaled)
-
+            lower, upper = -3, 3 # zscore limits
+            data_curr_channel[data_curr_channel>upper] = upper
+            data_curr_channel[data_curr_channel<lower] = lower
+            raw._data[i_channel, :] = data_curr_channel.mean(axis=0)
+            
             # PCA
-            pca = PCA(n_components=1)
-            raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
+            #pca = PCA(n_components=1)
+            #raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
 
 ##########
 # SMOOTH #

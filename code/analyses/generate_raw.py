@@ -2,9 +2,7 @@
 # - In the case of data-type = 'macro' bi-polar referencing is applied.
 # - Notch filtering of line noise is performed.
 # - clipping using robustScalar transform is applied
-#   (but data is *not* scaled at this stage),
-#   by using -3 and 3 for lower/upper bounds.
-# - In the case of filter = 'gaussian-kernel', smoothing is applied.
+#   by using -5 and 5 for lower/upper bounds.
 # - The output is a raw mne object saved to Data/UCLA/patient_?/Raw/
 
 import os
@@ -21,10 +19,11 @@ import scipy
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default='502', help='Patient number')
-parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
+parser.add_argument('--data-type',
+                    choices=['micro', 'macro', 'spike', 'microphone'],
                     default='spike', help='macro/micro/spike')
-parser.add_argument('--filter', default='gaussian-kernel-100',
-                    help='raw/gaussian-kernel-(window in ms)/high-gamma.')
+parser.add_argument('--filter', default='raw',
+                    choices=['raw', 'high-gamma'])
 parser.add_argument('--sfreq-downsample',
                     default=1000, help='Downsampling frequency')
 args = parser.parse_args()
@@ -56,6 +55,10 @@ channel_nums = list(channel_names_dict.keys())
 if args.data_type == 'micro':
     channel_nums = list(set(channel_nums) - set([0]))  # remove microphone (0)
     channel_names_dict[0] = 'MICROPHONE'
+elif args.data_type == 'microphone':
+    channel_names_dict = {}
+    channel_nums = [0]
+    channel_names_dict[0] = 'MICROPHONE'
 else:
     if 0 in channel_nums:
         channel_nums = list(set(channel_nums) - set([0]))  # remove mic
@@ -68,7 +71,7 @@ print('Number of channel %i: %s'
 
 # MERGE CHANNELS TO A SINGLE RAW
 first_time = True
-#channel_nums = [1, 2] # for DEBUG
+#  channel_nums = [1, 2] # for DEBUG
 for channel_num in channel_nums:
     channel_name = channel_names_dict[channel_num]
     if channel_num == 0:
@@ -121,31 +124,26 @@ print(raw.ch_names)
 ###################
 # Basic FILTERING #
 ###################
-if args.data_type not in ['spike', 'microphone']:
+if args.data_type not in ['spike']:
     ################
     # NOTCH (line) #
     ################
     raw.notch_filter(np.arange(params.line_frequency, 5*params.line_frequency, params.line_frequency), fir_design='firwin') # notch filter
     raw.filter(0.05, None, fir_design='firwin') # High-pass filter
-    if args.filter.startswith('gaussian_kernel') or args.filter == 'raw':
-
-        ############################
-        # Robust Scaling Transform #
-        ############################
-        print("Robust scaling")
-        data = raw.copy().get_data()
-        transformer = RobustScaler().fit(data.T)
-        data_scaled = transformer.transform(data.T).T # num_channels X num_timepoints
+    if args.filter.startswith('gaussian-kernel') or args.filter == 'raw':
 
         ############
         # CLIPPING #
         ############
-        print("Clipping")
-        lower, upper = -3, 3
+        print("Clipping based on robust scaling")
+        data = raw.copy().get_data()
+        transformer = RobustScaler().fit(data.T)
+        data_scaled = transformer.transform(data.T).T # num_channels X num_timepoints
+        lower, upper = -5, 5
         data_scaled[data_scaled>upper] = upper
         data_scaled[data_scaled<lower] = lower
-        raw._data = transformer.inverse_transform(data_scaled.T).T # INVERSE TRANSFORM
-
+        raw._data = data_scaled
+        # raw._data = transformer.inverse_transform(data_scaled.T).T # INVERSE TRANSFORM
     elif args.filter=='high-gamma':
         print('Extracting high-gamma')
         bands_centers = [73.0, 79.5, 87.8, 96.9, 107.0, 118.1, 130.4, 144.0] # see e.g., Moses, Mesgarani..Chang, (2016)
@@ -160,9 +158,8 @@ if args.data_type not in ['spike', 'microphone']:
             # ANALYTIC SIGNAL (HILBERT)
             raw_band_hilb = raw_band.copy()
             raw_band_hilb.apply_hilbert(envelope=True)
-            # Z-SCORE
-            raw_band_hilb = np.log(raw_band_hilb)
-            raw_band_hilb_zscore = scipy.stats.zscore(raw_band_hilb._data, axis=1) # num_channels X num_timepoints
+            # LOG AND THEN Z-SCORE
+            raw_band_hilb_zscore = scipy.stats.zscore(np.log(raw_band_hilb._data), axis=1) # num_channels X num_timepoints
             raw_eight_bands.append(raw_band_hilb_zscore)
         raw_eight_bands = np.asarray(raw_eight_bands) # 8-features (bands) X num_channels X num_timepoints
         print(raw_eight_bands.shape)
@@ -172,27 +169,15 @@ if args.data_type not in ['spike', 'microphone']:
         for i_channel in range(raw_eight_bands.shape[1]):
             data_curr_channel = raw_eight_bands[:, i_channel, :].transpose() # num_timepoints X 8-features (bands)
             # CLIP
-            lower, upper = -3, 3 # zscore limits
+            lower, upper = -5, 5 # zscore limits
             data_curr_channel[data_curr_channel>upper] = upper
             data_curr_channel[data_curr_channel<lower] = lower
-            raw._data[i_channel, :] = data_curr_channel.mean(axis=0)
+            raw._data[i_channel, :] = data_curr_channel.mean(axis=1)
             
             # PCA
             #pca = PCA(n_components=1)
             #raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
 
-##########
-# SMOOTH #
-##########
-if args.filter.startswith('gaussian-kernel'): # smooth raw data
-    # get data and smooth
-    width_sec = int(args.filter.split('-')[-1])/1000 # Gaussian-kernal width in [sec]
-    print(f'smoothing data with %1.2f sec window')
-    data = raw.copy().get_data()
-    for ch in range(data.shape[0]): # Loop over channels
-        time_serie = data[ch, :]
-        data[ch, :] = gaussian_filter1d(time_serie, width_sec*raw.info['sfreq'])
-    raw._data = data
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
 raw.save(os.path.join(settings.path2rawdata, filename), overwrite=True)

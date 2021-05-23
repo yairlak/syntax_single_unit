@@ -14,13 +14,13 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 parser.add_argument('--patient', default='502', help='Patient string')
-parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
+parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='micro', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='word', help='')
 parser.add_argument('--filter', default='gaussian-kernel-10', help='')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*', type=str,
+parser.add_argument('--probe-name', default=[], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
@@ -280,6 +280,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 data_mean = np.expand_dims(data_mean, axis=0)
                 evoked_curr_query = mne.EvokedArray(data_mean, epochs[query].pick(ch_name).info, epochs.tmin, nave=num_trials)
             else:
+                print(epochs.ch_names, query, ch_name)
                 evoked_curr_query = epochs[query].pick(ch_name).average(method='median')
             evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
             evoked_dict[condition_name] = evoked_curr_query 

@@ -57,7 +57,7 @@ class DataHandler:
 
             raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
                                                           fname_raw),
-                                             preload=False)
+                                             preload=True)
             # PICK
             print(raw_neural.get_data().max())
             picks = None
@@ -329,17 +329,17 @@ def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, se
         return -
         MNE raw object with all channels
     '''
-    if data_type == 'micro' or  data_type == 'macro':
+    if data_type in ['micro', 'macro', 'microphone']:
         print('Loading %s CSC data' % data_type.upper())
         channel_data = load_CSC_file(settings.path2rawdata, data_type, filt, channel_num)
         if channel_num == 0: #MICROPHONE
-            ch_type = 'misc'
+            ch_type = 'seeg'
         else:
             ch_type = 'seeg'
         #if filt == 'high-gamma':
         #    sfreq = 1000;
         #else:
-        if data_type == 'micro':
+        if data_type in ['micro', 'microphone']:
             sfreq = params.sfreq_raw
         elif data_type == 'macro':
             sfreq = params.sfreq_macro
@@ -374,10 +374,10 @@ def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, se
 
 
 def load_CSC_file(path2rawdata, data_type, filt, channel_num):
-    #filt_str = ''
-    #if filt == 'high-gamma':
-    #    filt_str = 'HighGamma_'
-    CSC_file = glob.glob(os.path.join(path2rawdata, data_type, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
+    if data_type == 'microphone':
+        CSC_file = glob.glob(os.path.join(path2rawdata, 'MICROPHONE.mat'))
+    else:
+        CSC_file = glob.glob(os.path.join(path2rawdata, data_type, 'CSC_mat', 'CSC' + str(channel_num) + '.mat'))
     print(CSC_file)
     assert len(CSC_file)==1
     print(io.loadmat(CSC_file[0]))

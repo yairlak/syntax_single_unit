@@ -172,7 +172,7 @@ def probename2picks(probe_names, channel_names, data_type):
     data_type: str
     either 'micro', 'macro', or 'spike'
     '''
-    assert data_type in ['micro', 'macro', 'spike'], "Unrecognized data-type (must be 'micro', 'macro' or 'spike')"
+    assert data_type in ['micro', 'macro', 'spike', 'microphone'], "Unrecognized data-type (must be 'micro', 'macro' or 'spike')"
     
     if not isinstance(probe_names, list):
         probe_names = [str(probe_names)]

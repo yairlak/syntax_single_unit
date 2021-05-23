@@ -10,7 +10,7 @@ from .load_settings_params import Settings, Params
 from .features import build_feature_matrix_from_metadata
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
-
+from scipy.ndimage import gaussian_filter1d
 
 class DataHandler:
     def __init__(self, patient, data_type, filt, level,
@@ -59,7 +59,6 @@ class DataHandler:
                                                           fname_raw),
                                              preload=False)
             # PICK
-            print(raw_neural.get_data().max())
             picks = None
             if self.probe_name:
                 picks = probename2picks(self.probe_name[p],
@@ -91,19 +90,12 @@ class DataHandler:
 
     def epoch_data(self, level=None,
                    tmin=None, tmax=None, decimate=None, query=None,
-                   block_type=None, scale_epochs=False, verbose=False):
+                   block_type=None, scale_epochs=False, verbose=False,
+                   smooth=None):
         '''
-        Epoch each raw object in self.raw (list)
-
         Parameters
         ----------
-        level : TYPE
-            DESCRIPTION.
-        probe_name : TYPE, optional
-            DESCRIPTION. The default is None.
-        channel_name : TYPE, optional
-            DESCRIPTION. The default is None.
-        channel_num : TYPE, optional
+        level : TYPE, optional
             DESCRIPTION. The default is None.
         tmin : TYPE, optional
             DESCRIPTION. The default is None.
@@ -119,6 +111,8 @@ class DataHandler:
             DESCRIPTION. The default is False.
         verbose : TYPE, optional
             DESCRIPTION. The default is False.
+        smooth : float, optional
+            Smoothing window size in miliseconds. The default is None.
 
         Returns
         -------
@@ -192,12 +186,23 @@ class DataHandler:
                             transformer.transform(
                                 np.transpose(data[:, ch, :])))
 
+            if smooth:
+                width_sec = smooth/1000  # Gaussian-kernal width in [sec]
+                print(f'smoothing data with {width_sec} sec window')
+                data = epochs_neural.copy().get_data()
+                for ch in range(data.shape[1]):  # over channels
+                    for tr in range(data.shape[0]):  # over trials
+                        time_series = data[tr, ch, :]
+                        data[tr, ch, :] = gaussian_filter1d(
+                            time_series, width_sec*self.sfreq)
+                epochs_neural._data = data
+
             if self.feature_list:
                 # Put together neural and feature data
                 epochs_neural.add_channels([epochs_features])
-                # Hack to overcome MNE's seemingly bug in epochs.add_channels()
+                # Hack to overcome MNE's possible bug in epochs.add_channels()
                 epochs_neural.picks = np.concatenate((epochs_neural.picks,
-                                                       epochs_features.picks))
+                                                      epochs_features.picks))
             # APPEND
             self.epochs.append(epochs_neural)
 
@@ -833,8 +838,8 @@ def prepare_metadata(log_all_blocks, data_type, level, settings, params):
             word_zipf = zipf_frequency(word_string, 'en')
             #print(word_string, type(word_freq), type(word_zipf))
             # ADD FEATURES FROM XLS FILE
-            sentence_onset = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos==1) or (phone_pos==0)
-            middle_word_onset = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and is_first_phone) or (curr_block_events['block'][i] in [1,3,5])
+            sentence_onset = wp==1 and ((curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos==1) or (phone_pos==0))
+            middle_word_onset = wp!=1 and ((curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and is_first_phone) or (curr_block_events['block'][i] in [1,3,5]))
             middle_phone = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and (not is_first_phone) and (curr_block_events['block'][i] in [2,4,6]))
             if sentence_onset: # ADD WORD AND- SENTENCE-LEVEL FEATURES
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
@@ -940,7 +945,8 @@ def prepare_metadata(log_all_blocks, data_type, level, settings, params):
                                  (metadata['phone_position'] == 1))]
         # tmin, tmax = (-1, 3.5)
     elif level == 'sentence_offset':
-        metadata = metadata.loc[(metadata['word_position'] == 0)] 
+        # metadata = metadata.loc[(metadata['word_position'] == 0)]
+        metadata = metadata.loc[(metadata['last_word'] == 1)]
         # tmin, tmax = (-3.5, 1.5)
     elif level == 'word':
         # filter metadata to word-onset events, first-phone==-1 (visual blocks)
@@ -1044,7 +1050,7 @@ def extend_metadata(metadata):
     #     print(phonological_feature)
     feature_values = []
     for ph in phones:
-        if ph and ph!=-1:
+        if ph and ph not in [-1, 'END_OF_WAV']:
             ph = ''.join([s for s in ph if not s.isdigit()]) # remove digits at the end if exist
             # feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph][phonological_feature]
             feature_value = df_phonological_features.loc[df_phonological_features['PHONE'] == ph]

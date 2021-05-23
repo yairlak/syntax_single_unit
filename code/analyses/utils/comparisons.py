@@ -3,10 +3,12 @@ def comparison_list():
 
 # ALL TRIALS
     comparisons['all_end_trials'] = {}
-    comparisons['all_end_trials']['queries'] = ["word_position==-1 and (block in [1, 3, 5])", "word_position==-1 and (block in [2, 4, 6])"]
+    comparisons['all_end_trials']['queries'] = ["is_last_word==1 and (block in [1, 3, 5])", "is_last_word==1 and (block in [2, 4, 6])"]
     comparisons['all_end_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_end_trials']['colors'] = ['b', 'r']
     comparisons['all_end_trials']['sort'] = ['sentence_length', 'sentence_string']
+    comparisons['all_end_trials']['y-tick-step'] = 50
+    comparisons['all_end_trials']['tmin_tmax'] = [-3.5, 1]
 
 # ALL TRIALS
     comparisons['all_trials'] = {}
@@ -14,8 +16,9 @@ def comparison_list():
     comparisons['all_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_trials']['colors'] = ['b', 'r']
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    comparisons['all_trials']['y-tick-step'] = 50
     #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
-    comparisons['all_trials']['tmin_tmax'] = [-0.25, 2.75]
+    comparisons['all_trials']['tmin_tmax'] = [-0.25, 3.5]
 
 # ALL TRIALS CHRONOLOGICAL ORDER
     comparisons['all_trials_chrono'] = {}
@@ -28,12 +31,21 @@ def comparison_list():
 
 # ALL WORDS
     comparisons['all_words'] = {}
-    comparisons['all_words']['queries'] = ["word_string.str.len()>1"]
-    comparisons['all_words']['condition_names'] = ['All words']
-    comparisons['all_words']['colors'] = ['b']
+    comparisons['all_words']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])", "word_string.str.len()>1 and (block in [2, 4, 6])"]
+    comparisons['all_words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_words']['colors'] = ['b', 'r']
     #comparisons['all_words']['sort'] = ['word_length', 'word_string']
     comparisons['all_words']['sort'] = 'clustering'
     comparisons['all_words']['y-tick-step'] = 8
+
+# ALL WORDS
+    comparisons['all_words_visual'] = {}
+    comparisons['all_words_visual']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])"]
+    comparisons['all_words_visual']['condition_names'] = ['all_words_visual']
+    comparisons['all_words_visual']['colors'] = ['b']
+    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
+    comparisons['all_words_visual']['sort'] = 'clustering'
+    comparisons['all_words_visual']['y-tick-step'] = 8
 
 # Sanity checks:
     comparisons['first_last_word'] = {}

@@ -20,10 +20,11 @@ parser = argparse.ArgumentParser(description='Plot TRF results')
 parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['high-gamma'],
+                    default=['gaussian-kernel-25'],
                     help='raw/high-gamma/gaussian-kernel-*')
+parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')
@@ -48,7 +49,7 @@ parser.add_argument('--ablation-method', default='remove',
                         by reducing/ablating a feature family')
 parser.add_argument('--query_train', default="block in [1,3,5]")
 parser.add_argument('--query_test', default="block in [1,3,5]")
-parser.add_argument('--each-feature-value', default=False, action='store_true',
+parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 
@@ -63,9 +64,9 @@ args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
 print('args\n', args)
-list_args2fname = ['patient', 'data_type', 'filter', 'model_type',
-                   'probe_name', 'ablation_method', 'query_train',
-                   'each_feature_value']
+list_args2fname = ['patient', 'data_type', 'filter', 'smooth',
+                   'model_type', 'probe_name', 'ablation_method',
+                   'query_train', 'each_feature_value']
 if args.query_train != args.query_test:
     list_args2fname.extend(['query_test'])
 
@@ -81,8 +82,8 @@ fname = dict2filename(args2fname, '_', list_args2fname, '', True)
 results, ch_names, args_trf, feature_info = \
     pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
 print(args_trf)
-feature_names = list(feature_info.keys())
-num_features = len(feature_names)
+# feature_names = list(feature_info.keys())
+# num_features = len(feature_names)
 
 ############
 # PLOTTING #

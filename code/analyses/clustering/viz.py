@@ -63,17 +63,28 @@ def plot_DSM(DSM, labels, clustering):
     return fig, dendro
 
 
-def plot_manifold(DSM, labels, dendro):
-    kernel_pca = KernelPCA(n_components=2, kernel='precomputed',
-                           random_state=0)
+def plot_dim_reduction(DSM, labels, dendro, colors=None, method='kPCA'):
+
     S = 1-DSM
     index = dendro['leaves']
     S = S[:, index]  # reorder matrix based on hierarichal clustering
     S = S[index, :]  # reorder matrix based on hierarichal clustering
-    summary = kernel_pca.fit_transform(S)
+    labels = np.asarray(labels)[index].tolist()
+    if not colors:
+        colors = dendro['color_list']
+    else:
+        colors = np.asarray(colors)[index].tolist()
+    # Manifold learning
+    if method == 'kPCA':
+        kernel_pca = KernelPCA(n_components=2, kernel='precomputed',
+                               random_state=0)
+        summary = kernel_pca.fit_transform(S)
+    elif method == 'tSNE':
+        tsne = TSNE(n_components=2, metric='precomputed', random_state=0)
+        summary = tsne.fit_transform(DSM)
+
     # PLOT
     fig_2d, ax = plt.subplots(1, figsize=(40, 30))
-    colors = dendro['color_list']
     for sel, (color, label) in enumerate(zip(colors, labels)):
         ax.text(summary[sel, 0], summary[sel, 1],
                 label, color=color, fontsize=50)
@@ -81,13 +92,19 @@ def plot_manifold(DSM, labels, dendro):
     ax.set_xlim([np.min(summary[:, 0]), np.max(summary[:, 0])])
     ax.set_ylim([np.min(summary[:, 1]), np.max(summary[:, 1])])
 
-    kernel_pca = KernelPCA(n_components=3, kernel='precomputed',
-                           random_state=0)
-    summary = kernel_pca.fit_transform(S)
+    # Manifold learning
+    if method == 'kPCA':
+        kernel_pca = KernelPCA(n_components=3, kernel='precomputed',
+                               random_state=0)
+        summary = kernel_pca.fit_transform(S)
+    elif method == 'tSNE':
+        tsne = TSNE(n_components=3, metric='precomputed', random_state=0)
+        summary = tsne.fit_transform(DSM)
+
     # PLOT
     fig_3d, ax = plt.subplots(1, figsize=(40, 30))
     ax = plt.axes(projection='3d')
-    colors = dendro['color_list']
+
     for sel, (color, label) in enumerate(zip(colors, labels)):
         ax.text(summary[sel, 0], summary[sel, 1], summary[sel, 2],
                 label, color=color, fontsize=50)

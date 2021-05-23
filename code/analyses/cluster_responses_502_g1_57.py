@@ -100,13 +100,19 @@ assert len(data.epochs) == 1
 words = sorted(list(set(data.epochs[0].metadata['word_string'])))
 X = []
 labels = []
+colors = []
 for word in words:
     x_i = data.epochs[0][f'word_string=="{word}"'].crop(args.tmin, args.tmax).\
                         get_data()
     if x_i.shape[0] > args.min_trials:
         X.append(np.mean(x_i, axis=0))
         labels.append(word)
-
+        #  if 'y' in word or 'v' in word or 'k' in word or 'w' in word or 'W' in word or 'x' in word:
+        if 'w' in word or 'W' in word:
+            color = 'g'
+        else:
+            color = 'k'
+        colors.append(color)
 X = np.asarray(X)
 n_words, n_channels, n_times = X.shape
 DSMs = []
@@ -138,24 +144,24 @@ for ch, ch_name in enumerate(ch_names):
     ##############
     # KERNEL-PCA #
     ##############
-    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro,
+    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro, colors,
                                         method='kPCA')
-    fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_{fname_fig}')
+    fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_custom_{fname_fig}')
     fig_2d.savefig(fname_fig_2d)
     plt.close(fname_fig_2d)
-    fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_{fname_fig}')
+    fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_custom_{fname_fig}')
     fig_3d.savefig(fname_fig_3d)
     plt.close(fname_fig_3d)
 
     ########
     # tSNE #
     ########
-    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro,
+    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro, colors,
                                         method='tSNE')
-    fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_{fname_fig}')
+    fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_custom_{fname_fig}')
     fig_2d.savefig(fname_fig_2d)
     plt.close(fname_fig_2d)
-    fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_{fname_fig}')
+    fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_custom_{fname_fig}')
     fig_3d.savefig(fname_fig_3d)
     plt.close(fname_fig_3d)
 
@@ -183,18 +189,18 @@ fname_fig = dict2filename(args2fname, '_', list_args2fname, 'png', True)
 fig_DSM.savefig(os.path.join(args.path2figures, f'DSM_{fname_fig}'))
 plt.close(fig_DSM)
 
-fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, method='kPCA')
-fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_{fname_fig}')
+fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, colors, method='kPCA')
+fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_custom_2D_{fname_fig}')
 fig_2d.savefig(fname_fig_2d)
 plt.close(fname_fig_2d)
-fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_{fname_fig}')
+fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_custom_3D_{fname_fig}')
 fig_3d.savefig(fname_fig_3d)
 plt.close(fname_fig_3d)
 
-fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, method='tSNE')
-fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_{fname_fig}')
+fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, colors, method='tSNE')
+fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_custom_{fname_fig}')
 fig_2d.savefig(fname_fig_2d)
 plt.close(fname_fig_2d)
-fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_{fname_fig}')
+fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_custom_{fname_fig}')
 fig_3d.savefig(fname_fig_3d)
 plt.close(fname_fig_3d)

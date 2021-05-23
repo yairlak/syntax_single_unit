@@ -19,19 +19,19 @@ from pprint import pprint
 from data_manip import get_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '489')
+parser.add_argument('--patient', default = '491')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
-parser.add_argument('--refine-with-mic', action='store_true', default=True)
-parser.add_argument('--merge-logs', action='store_true', default=True)
+parser.add_argument('--refine-with-mic', action='store_true', default=False)
+parser.add_argument('--merge-logs', action='store_true', default=False)
 parser.add_argument('--viz', action='store_true', default=True)
 parser.add_argument('-v', '--verbose', action='store_true', default=False)
 args = parser.parse_args()
 pprint(args)
 
 settings = load_settings_params.Settings('patient_' + args.patient)
-logs_folder = op.join(settings.path2patient_folder, 'Logs')
+logs_folder = op.join('..', settings.path2patient_folder, 'Logs')
 params = load_settings_params.Params('patient_' + args.patient)
 
 #################

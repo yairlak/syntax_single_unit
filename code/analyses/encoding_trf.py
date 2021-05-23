@@ -15,15 +15,17 @@ from encoding.model_manip import reduce_design_matrix,\
                                  eval_TRF_across_epochs, train_TRF
 from utils.utils import dict2filename
 from utils.data_manip import DataHandler
+from sklearn.preprocessing import StandardScaler
 
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['high-gamma'],
-                    help='raw/gaussian-kernel-*/high-gamma')
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['gaussian-kernel-25'],
+                    help='raw/high-gamma')
+parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
@@ -47,7 +49,7 @@ parser.add_argument('--feature-list',
                              'is_first_word'],
                     nargs='*',
                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=False, action='store_true',
+parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
@@ -105,12 +107,16 @@ data.load_raw_data()
 data.epoch_data(level='sentence_onset',
                 query=args.query_train,
                 decimate=args.decimate,
-                scale_epochs=False,
+                smooth=args.smooth,
                 verbose=True)
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
 y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
+if args.data_type == 'spike':
+    scaler = StandardScaler()
+    for i_ch in range(y_sentence.shape[1]):
+        y_sentence[:, i_ch, :] = scaler.fit_transform(y_sentence[:, i_ch, :])
 metadata_sentences = data.epochs[0].metadata
 # n_times, n_epochs, n_channels
 
@@ -213,7 +219,7 @@ results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 # SAVE #
 ########
 # FNAME
-list_args2fname = ['patient', 'data_type', 'filter', 'model_type',
+list_args2fname = ['patient', 'data_type', 'filter', 'smooth', 'model_type',
                    'probe_name', 'ablation_method',
                    'query_train', 'each_feature_value']
 if args.query_train != args.query_test:

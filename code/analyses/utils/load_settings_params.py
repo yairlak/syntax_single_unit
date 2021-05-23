@@ -136,6 +136,9 @@ class Params:
         if self.patient == 'patient_495': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # ????Data sampling frequency [Hz]
+        if self.patient == 'patient_499': # Neuralynx
+            self.sfreq_raw = 32000  # Data sampling frequency [Hz]
+            self.sfreq_macro = 0  # ????Data sampling frequency [Hz]
         if self.patient == 'patient_496': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # Data sampling frequency [Hz]

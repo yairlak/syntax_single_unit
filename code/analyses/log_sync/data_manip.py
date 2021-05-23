@@ -11,54 +11,72 @@ sys.path.append('..')
 from utils import load_settings_params
 from neo import io
 import numpy as np
+import scipy.io as sio
+
 
 def get_events(args):
     settings = load_settings_params.Settings('patient_' + args.patient)
     params = load_settings_params.Params('patient_' + args.patient)
-    session_folder = os.path.join(settings.path2patient_folder, 'Raw', 'nev_files')
-    nev_files = glob.glob(session_folder + '/*.nev')
+    session_folder = os.path.join('..', settings.path2patient_folder, 'Raw', 'nev_files')
+    
+    nev_files = glob.glob(os.path.join(session_folder, 'Events.*'))
 
     event_nums_zero, time_stamps, IXs2nev = [], [], []
     duration_prev_nevs = 0 # For blackrock: needed to concat nev files. Adds the duration of the previous file(s)
     for i_nev, nev_file in enumerate(sorted(nev_files)):
         print(f'Reading {nev_file}')
-        if args.recording_system == 'Neuralynx':
+        if nev_file[-3:] == 'nev':
+            if args.recording_system == 'Neuralynx':
+                reader = io.NeuralynxIO(session_folder)
+                blks = reader.read(lazy=False)
+                #print('Sampling rate of signal:', reader._sigs_sampling_rate)
+                sfreq = params.sfreq_raw # FROM NOTES
+                time0, timeend = reader.global_t_start, reader.global_t_stop
+                # internal_event_ids = reader.internal_event_ids
+                # IX2event_id = {IX:e_id for IX, (x, e_id) in enumerate(internal_event_ids[1:])}
+                
+                events_times, events_ids = [], []
+                for segment in blks[0].segments:
+                    event_times_mat = segment.events
+                    for neo_event_times in event_times_mat:
+                        ttl = int(neo_event_times.name.split('ttl=')[-1])
+                        #if IX2event_id[IX] in event_id.values():
+                        times = np.asarray(neo_event_times.times)
+                        events_times.extend(times) # in SECONDS
+                        events_ids.extend([ttl] * len(times))
+                events_ids = np.asarray(events_ids) 
+                events_times = np.asarray(events_times)
+                print(f'Number of events in nev {nev_file}: {len(events_times)}')
+                IX_chrono = events_times.argsort()
+                time_stamps.extend(events_times[IX_chrono])
+                event_nums_zero.extend(events_ids[IX_chrono])
+                print('time0, timeend = ', time0, timeend)
+                del reader, blks, segment
+            elif args.recording_system == 'BlackRock':
+                reader = io.BlackrockIO(nev_file)
+                time0, timeend = reader._seg_t_starts[0], reader._seg_t_stops[0]
+                #sfreq = params.sfreq_raw # FROM NOTES
+                sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
+                events = reader.nev_data['NonNeural'][0]
+                events_times = duration_prev_nevs + np.asarray([float(e[0]/sfreq) for e in events])
+                time_stamps.extend(events_times)
+                event_nums = [e[4] for e in events] 
+                event_nums_zero.extend(event_nums - min(event_nums))
+        elif nev_file[-3:] == 'mat':
+            events = sio.loadmat(nev_file)
+            time_stamps = events['timeStamps'][0, :]
+            event_nums_zero = event_nums = events['TTLs'][0, :]
+            # get time0, timeend and sfreq from ncs files
             reader = io.NeuralynxIO(session_folder)
             blks = reader.read(lazy=False)
             #print('Sampling rate of signal:', reader._sigs_sampling_rate)
             sfreq = params.sfreq_raw # FROM NOTES
             time0, timeend = reader.global_t_start, reader.global_t_stop
-            # internal_event_ids = reader.internal_event_ids
-            # IX2event_id = {IX:e_id for IX, (x, e_id) in enumerate(internal_event_ids[1:])}
-            
-            events_times, events_ids = [], []
-            for segment in blks[0].segments:
-                event_times_mat = segment.events
-                for neo_event_times in event_times_mat:
-                    ttl = int(neo_event_times.name.split('ttl=')[-1])
-                    #if IX2event_id[IX] in event_id.values():
-                    times = np.asarray(neo_event_times.times)
-                    events_times.extend(times) # in SECONDS
-                    events_ids.extend([ttl] * len(times))
-            events_ids = np.asarray(events_ids) 
-            events_times = np.asarray(events_times)
-            print(f'Number of events in nev {nev_file}: {len(events_times)}')
-            IX_chrono = events_times.argsort()
-            time_stamps.extend(events_times[IX_chrono])
-            event_nums_zero.extend(events_ids[IX_chrono])
-            print('time0, timeend = ', time0, timeend)
-            del reader, blks, segment
-        elif args.recording_system == 'BlackRock':
-            reader = io.BlackrockIO(nev_file)
-            time0, timeend = reader._seg_t_starts[0], reader._seg_t_stops[0]
-            #sfreq = params.sfreq_raw # FROM NOTES
-            sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
-            events = reader.nev_data['NonNeural'][0]
-            events_times = duration_prev_nevs + np.asarray([float(e[0]/sfreq) for e in events])
-            time_stamps.extend(events_times)
-            event_nums = [e[4] for e in events] 
-            event_nums_zero.extend(event_nums - min(event_nums))
-        duration_prev_nevs += timeend
+            time_stamps = time_stamps - time0
+        else:
+            raise(f'Unrcognized event file: {nev_file}')
+        if timeend:
+            duration_prev_nevs += timeend
     assert len(event_nums_zero) == len(time_stamps)
     
     return time_stamps, event_nums_zero, time0, timeend, sfreq
@@ -74,7 +92,7 @@ def read_logs(time_stamps, event_nums_zero, time0, args):
     dict_events = {}
     IX_time_stamps = 0
     cnt_log = 0
-    fns_logs = sorted(glob.glob(logs_folder + '/events_log_????-??-??_??-??-??.log'))
+    fns_logs = sorted(glob.glob(os.path.join('..', logs_folder, 'events_log_????-??-??_??-??-??.log')))
     fns_logs_with_CHEETAH = []
     num_triggers_per_log = []
     for fn_log in fns_logs:

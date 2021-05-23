@@ -124,7 +124,7 @@ def butter_bandpass(lowcut, highcut, fs, order=1):
 
 def load_microphone_data(t_estimated_sec, args, dt=2):
     settings = load_settings_params.Settings('patient_' + args.patient)
-    path2mic = os.path.join(settings.path2patient_folder, 'Raw', 'microphone')
+    path2mic = os.path.join('..', settings.path2patient_folder, 'Raw', 'microphone')
 
     # LOAD MIC DATA
     mic = sio.loadmat(os.path.join(path2mic, 'MICROPHONE.mat'))

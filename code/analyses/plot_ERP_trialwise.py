@@ -13,19 +13,20 @@ from utils.utils import probename2picks, update_queries,\
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
-parser.add_argument('--patient', default='502', help='Patient string')
-parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    default='micro', help='electrode type')
+parser.add_argument('--patient', default='491', help='Patient string')
+parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
+                    default='microphone', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
-                    default='word', help='')
-parser.add_argument('--filter', default='gaussian-kernel-10', help='')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*', type=str,
+                    default='sentence_onset', help='')
+parser.add_argument('--filter', default='raw', help='')
+parser.add_argument('--smooth', default=None, help='')
+parser.add_argument('--probe-name', default=[], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
-parser.add_argument('--comparison-name', default='all_words', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='all_trials_chrono', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
@@ -40,7 +41,7 @@ parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
 parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['sentence_length'], help='Keys to sort according')
-parser.add_argument('--y-tick-step', default=1, type=int, help='If sorted by key, set the yticklabels density')
+parser.add_argument('--y-tick-step', default=40, type=int, help='If sorted by key, set the yticklabels density')
 parser.add_argument('--window-st', default=50, type=int, help='Regression start-time window [msec]')
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
@@ -73,6 +74,7 @@ data.load_raw_data()
 data.epoch_data(level=args.level,
                 query=None,
                 scale_epochs=False,
+                smooth=args.smooth,
                 verbose=True)
 epochs = data.epochs[0]
 # COMPARISON
@@ -145,7 +147,11 @@ for ch, ch_name in enumerate(epochs.ch_names):
     # output filename of figure
     str_comparison = '_'.join([tup[0] for tup in comparison['queries']])
     if not args.save2:
-        fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s.png' % (args.patient, args.data_type, args.level, args.filter, ch_name, args.block_type, args.comparison_name, '_'.join(comparison['sort']))
+        if isinstance(comparison['sort'], list):
+            comparison_str = '_'.join(comparison['sort'])
+        else:
+            comparison_str = comparison['sort']
+        fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s_%s.png' % (args.patient, args.data_type, args.level, args.filter, args.smooth, ch_name, args.block_type, args.comparison_name, comparison_str)
         if args.responsive_channels_only:
             dname_fig = os.path.join(settings.path2figures, 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)
         else:
@@ -203,7 +209,10 @@ for ch, ch_name in enumerate(epochs.ch_names):
 
             if comparison['sort'] == 'clustering':
                 word_strings = epochs[query].metadata['word_string']
-                fname = f'{args.patient}_{args.data_type}_{args.filter}_{ch_name}_block in [1,3,5].clu'
+                if args.data_type == 'spike':
+                    fname = f'{args.patient}_{args.data_type}_gaussian-kernel-25_{args.smooth}_{ch_name}_block in [1,3,5].clu'
+                else:
+                    fname = f'{args.patient}_{args.data_type}_{args.filter}_{args.smooth}_{ch_name}_block in [1,3,5].clu'
                 fname = f'../../Output/clustering/{fname}'
                 _, _, dendro, words, _ , _= pickle.load(open(fname, 'rb'))
                 index = dendro['leaves']
@@ -308,14 +317,14 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 yticks = [-1.5, -1, 0, 1, 1.5]
             else:
                 label_y = 'IQR-scale'
-                ylim = [-10, 10]
+                ylim = [-3, 3]
                 yticks = [-3, -1.96, 0, 1.96, 3]
         #fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, picks=ch_name, axes=ax2, ylim={'eeg':ylim}, title='')
         fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, linestyles=linestyles_dict, picks=ch_name, axes=ax2, title='')
         ax2.legend(bbox_to_anchor=(1.05, 1), loc=2)
         ax2.set_ylabel(label_y, fontsize=16)
-        # ax2.set_ylim(ylim)
-        # ax2.set_yticks(yticks)
+        ax2.set_ylim(ylim)
+        ax2.set_yticks(yticks)
 
         #############
         # COLOR BAR #
@@ -340,6 +349,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
         ########
         # SAVE #
         ########
+        plt.tight_layout()
         plt.savefig(fname_fig)
         print('fig saved to: %s' % fname_fig)
         plt.close()

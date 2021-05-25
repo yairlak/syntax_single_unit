@@ -3,19 +3,19 @@ addpath(genpath('releaseDec2015'))
 addpath(genpath('NPMK-5.5.0.0'))
 
 %%
-patient = 'patient_479_25';
+patient = 'patient_499';
 recording_system = 'Neuralynx'; % Neuralynx / BlackRock
 
 %% paths
 base_folder = ['/neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/', patient];
-output_path = fullfile(base_folder, 'Raw');
+output_path = fullfile(base_folder, 'Raw', 'microphone');
 
 %%
 %
 switch recording_system
         case 'Neuralynx'
             % Extract raw data and save into MAT files
-            ncs_files = dir(fullfile(base_folder, 'Raw', 'MICROPHONE.ncs'));
+            ncs_files = dir(fullfile(base_folder, 'Raw', 'microphone', 'MICROPHONE.ncs'));
             
             for ncs_file_name=ncs_files'
                 %

@@ -70,6 +70,10 @@ class Settings():
             self.recording_device = 'Neuralynx'
             self.time0 =   1527849733356681
             self.timeend = 1527852382526117
+        if self.patient == 'patient_499': # Neuralynx
+            self.recording_device = 'Neuralynx'
+            self.time0 =   1537885333004000
+            self.timeend = 1537888557286674
         if self.patient == 'patient_502': # Neuralynx
             self.recording_device = 'Neuralynx'
             self.time0 = 1544197879836945

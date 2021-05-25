@@ -289,6 +289,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 data_mean = np.expand_dims(data_mean, axis=0)
                 evoked_curr_query = mne.EvokedArray(data_mean, epochs[query].pick(ch_name).info, epochs.tmin, nave=num_trials)
             else:
+                print(epochs.ch_names, query, ch_name)
                 evoked_curr_query = epochs[query].pick(ch_name).average(method='median')
             evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
             evoked_dict[condition_name] = evoked_curr_query 

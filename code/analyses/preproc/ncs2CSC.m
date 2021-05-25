@@ -2,9 +2,9 @@ clear; close all; clc;
 addpath(genpath('releaseDec2015'), genpath('NPMK-5.5.0.0'), genpath('functions'))
 
 %%
-patient = 'patient_483';
+patient = 'patient_499';
 elec_type = 'micro'; % micro / macro
-recording_system = 'BlackRock'; % Neuralynx / BlackRock
+recording_system = 'Neuralynx'; % Neuralynx / BlackRock
 
 %% pathsls 
 base_folder = ['/neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/', patient];

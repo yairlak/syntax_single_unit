@@ -19,11 +19,11 @@ from pprint import pprint
 from data_manip import get_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '491')
+parser.add_argument('--patient', default = '487')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
-parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
+parser.add_argument('--IXs-block-logs', default=[0,2,3,4,5,6], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
-parser.add_argument('--refine-with-mic', action='store_true', default=True)
+parser.add_argument('--refine-with-mic', action='store_true', default=False)
 parser.add_argument('--merge-logs', action='store_true', default=True)
 parser.add_argument('--viz', action='store_true', default=True)
 parser.add_argument('-v', '--verbose', action='store_true', default=True)
@@ -39,6 +39,8 @@ params = load_settings_params.Params('patient_' + args.patient)
 #################
 
 time_stamps, event_nums_zero, time0, timeend, sfreq = get_events(args)
+print(f'Start time {time0}, End time {timeend}')
+
 # Plot TTLs
 fig, ax = plt.subplots()
 ax.plot(time_stamps, event_nums_zero, color='b')
@@ -138,7 +140,7 @@ for i_log in dict_events.keys():
             else:
                 t_estimated = t_regress
                 
-            new_log_lines.append(f'{t_estimated} {l_end}')
+            new_log_lines.append(f'{t_estimated-time0*1e6} {l_end}')
         # SAVE
         fn_log_new = op.join(logs_folder, f'events_log_in_cheetah_clock_part{cnt_log+1}.log')
         with open(fn_log_new, 'w') as f:

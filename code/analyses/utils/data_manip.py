@@ -15,7 +15,7 @@ from scipy.ndimage import gaussian_filter1d
 class DataHandler:
     def __init__(self, patient, data_type, filt, level,
                  probe_name, channel_name, channel_num,
-                 sfreq, feature_list=None):
+                 feature_list=None):
         # MAKE SURE patient, data_type and filt are all lists
         if isinstance(patient, str):
             patient = [patient]
@@ -30,7 +30,6 @@ class DataHandler:
         self.probe_name = probe_name
         self.channel_name = channel_name
         self.channel_num = channel_num
-        self.sfreq = sfreq
         self.feature_list = feature_list
 
     def load_raw_data(self, verbose=False):
@@ -58,6 +57,9 @@ class DataHandler:
             raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
                                                           fname_raw),
                                              preload=True)
+            # SAMPLING FREQUENCY
+            self.sfreq = raw_neural.info['sfreq']
+
             # PICK
             picks = None
             if self.probe_name:
@@ -73,7 +75,7 @@ class DataHandler:
             raw_neural.pick(picks)
 
             if self.feature_list:
-                metadata_features = get_metadata_features(patient, data_type)
+                metadata_features = get_metadata_features(patient, data_type, self.sfreq)
                 raw_features, self.feature_names,\
                     self.feature_info, self.feature_groups = \
                     get_raw_features(metadata_features, self.feature_list,
@@ -127,7 +129,7 @@ class DataHandler:
         for p, (patient, data_type) in enumerate(zip(self.patient,
                                                      self.data_type)):
             ##########
-            events, event_id, metadata = get_events(patient, level, data_type)
+            events, event_id, metadata = get_events(patient, level, data_type, self.sfreq)
             ############
             # EPOCHING #
             ############
@@ -207,7 +209,7 @@ class DataHandler:
             self.epochs.append(epochs_neural)
 
 
-def get_metadata_features(patient, data_type):
+def get_metadata_features(patient, data_type, sfreq):
     '''
     Generate metadata with features for patient
 
@@ -225,8 +227,8 @@ def get_metadata_features(patient, data_type):
 
     '''
 
-    _, _, metadata_phone = get_events(patient, 'phone', data_type)
-    _, _, metadata_word = get_events(patient, 'word', data_type)
+    _, _, metadata_phone = get_events(patient, 'phone', data_type, sfreq)
+    _, _, metadata_word = get_events(patient, 'word', data_type, sfreq)
     metadata_audio = extend_metadata(metadata_phone)
     metadata_visual = metadata_word.query('block in [1, 3, 5]')
     metadata_visual = extend_metadata(metadata_visual)
@@ -276,9 +278,9 @@ def get_channel_nums(path2rawdata):
     return [int(os.path.basename(s)[3:-4]) for s in CSC_files]
 
 
-def get_events(patient, level, data_type, verbose=False):
+def get_events(patient, level, data_type, sfreq, verbose=False):
     blocks = range(1, 7)
-    sfreq = 1000  # Data types downsamplled to 1000Hz by generate_mne_raw.py
+    #sfreq = 1000  # Data types downsamplled to 1000Hz by generate_mne_raw.py
 
     #TODO: add log to power
     
@@ -812,11 +814,12 @@ def prepare_metadata(log_all_blocks, data_type, level, settings, params):
             metadata['stimulus_number'].append(sn)
             metadata['word_position'].append(wp)
             metadata['chronological_order'].append(cnt); cnt += 1
-            if data_type == 'macro' and settings.recording_device == 'BlackRock': # If micro/macro recorded with different devices
-                time0 = settings.time0_macro
-            else:
-                time0 = settings.time0
-            metadata['event_time'].append((int(curr_block_events['event_time'][i]) - time0) / 1e6)
+            #if data_type == 'macro' and settings.recording_device == 'BlackRock': # If micro/macro recorded with different devices
+            #    time0 = settings.time0_macro
+            #else:
+            #    time0 = settings.time0
+            #metadata['event_time'].append((int(curr_block_events['event_time'][i]) - time0) / 1e6)
+            metadata['event_time'].append(int(float(curr_block_events['event_time'][i])) / 1e6)
             metadata['block'].append(curr_block_events['block'][i])
             is_first_phone = curr_block_events['is_first_phone'][i]
             if is_first_phone==-1: is_first_phone=0

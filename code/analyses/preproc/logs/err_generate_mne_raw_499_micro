@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/generate_raw.py", line 46, in <module>
+    with open(os.path.join(path2CSC_mat, 'channel_numbers_to_names.txt')) \
+FileNotFoundError: [Errno 2] No such file or directory: '../../Data/UCLA/patient_499/Raw/micro/CSC_mat/channel_numbers_to_names.txt'

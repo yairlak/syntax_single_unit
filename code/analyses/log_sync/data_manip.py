@@ -20,7 +20,8 @@ def get_events(args):
     session_folder = os.path.join('..', settings.path2patient_folder, 'Raw', 'nev_files')
     
     nev_files = glob.glob(os.path.join(session_folder, 'Events.*'))
-
+    assert len(nev_files) > 0
+    
     event_nums_zero, time_stamps, IXs2nev = [], [], []
     duration_prev_nevs = 0 # For blackrock: needed to concat nev files. Adds the duration of the previous file(s)
     for i_nev, nev_file in enumerate(sorted(nev_files)):
@@ -96,6 +97,7 @@ def read_logs(time_stamps, event_nums_zero, time0, args):
     fns_logs_with_CHEETAH = []
     num_triggers_per_log = []
     for fn_log in fns_logs:
+        print(fn_log)
         with open(fn_log, 'r') as f:
             lines_log = f.readlines()
         str_CHEETAH = 'CHEETAH_SIGNAL SENT_AFTER_TIME'
@@ -132,7 +134,7 @@ def read_logs(time_stamps, event_nums_zero, time0, args):
                 times_device = np.asarray(times_device) + 30
             dict_events[cnt_log]['times_device'] = np.asarray(list(map(int, 1e6*(np.asarray(times_device) + time0)))).reshape(-1, 1)  # to MICROSEC
             dict_events[cnt_log]['IXs2event_nums_zero'] = np.asarray(IXs2event_nums_zero)
-            print(dict_events[cnt_log]['IXs2event_nums_zero'])
+            #print(dict_events[cnt_log]['IXs2event_nums_zero'])
             assert dict_events[cnt_log]['times_device'].size == dict_events[cnt_log]['times_log'].size
             cnt_log += 1
     return dict_events

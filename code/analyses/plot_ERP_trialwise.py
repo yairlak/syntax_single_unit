@@ -13,7 +13,7 @@ from utils.utils import probename2picks, update_queries,\
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
-parser.add_argument('--patient', default='491', help='Patient string')
+parser.add_argument('--patient', default='479_25', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='microphone', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
@@ -35,6 +35,7 @@ parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply 
 parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default='zscore', help='Type of baseline method')
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
 parser.add_argument('--word-ON-duration', default=250, help='Duration for which word word presented in the RSVP [msec]')
+parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 parser.add_argument('--remove-outliers', action="store_true", default=False, help='Remove outliers based on percentile 25 and 75')
 parser.add_argument('--no-title', action="store_true", default=False)
 parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
@@ -66,14 +67,13 @@ settings = load_settings_params.Settings(args.patient)
 
 # LOAD
 data = DataHandler(args.patient, args.data_type, args.filter, None,
-                   args.probe_name, args.channel_name, args.channel_num,
-                   sfreq=1000)
+                   args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data()
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,
-                scale_epochs=False,
+                scale_epochs=args.scale_epochs,
                 smooth=args.smooth,
                 verbose=True)
 epochs = data.epochs[0]

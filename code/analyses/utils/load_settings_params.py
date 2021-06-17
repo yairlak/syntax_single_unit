@@ -36,7 +36,7 @@ class Settings():
             self.timeend = 1489763746079099 # microsec
         if self.patient == 'patient_479_25': # Neuralynx
             self.recording_device = 'Neuralynx'
-            self.time0 =   1490191924102607
+            self.time0 =   1490191760897622
             self.timeend = 1490194591354836
         if self.patient == 'patient_480': # BlackRock
             self.recording_device = 'BlackRock'

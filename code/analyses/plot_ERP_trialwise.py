@@ -62,9 +62,6 @@ if args.data_type == 'spike':
     args.vmax = 1
 print(args)
 
-print('Loading settings...')
-settings = load_settings_params.Settings(args.patient)
-
 # LOAD
 data = DataHandler(args.patient, args.data_type, args.filter, None,
                    args.probe_name, args.channel_name, args.channel_num)
@@ -153,9 +150,9 @@ for ch, ch_name in enumerate(epochs.ch_names):
             comparison_str = comparison['sort']
         fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s_%s.png' % (args.patient, args.data_type, args.level, args.filter, args.smooth, ch_name, args.block_type, args.comparison_name, comparison_str)
         if args.responsive_channels_only:
-            dname_fig = os.path.join(settings.path2figures, 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)
+            dname_fig = os.path.join('..', '..', 'Figures', 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)
         else:
-            dname_fig = os.path.join(settings.path2figures, 'Comparisons', args.comparison_name, args.patient, 'ERPs', args.data_type)
+            dname_fig = os.path.join('..', '..', 'Figures', 'Comparisons', args.comparison_name, args.patient, 'ERPs', args.data_type)
         if not os.path.exists(dname_fig):
             os.makedirs(dname_fig)
         fname_fig = os.path.join(dname_fig, fname_fig)

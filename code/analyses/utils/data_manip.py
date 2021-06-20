@@ -11,6 +11,7 @@ from .features import build_feature_matrix_from_metadata
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
 from scipy.ndimage import gaussian_filter1d
+import neo
 
 class DataHandler:
     def __init__(self, patient, data_type, filt, level,
@@ -51,7 +52,7 @@ class DataHandler:
                                                            self.filter)):
             self.raws = []  # list of raw MNE objects
             # Load RAW object
-            path2rawdata = f'../../Data/UCLA/{patient}/Raw'
+            path2rawdata = f'../../Data/UCLA/{patient}/Raw/mne'
             fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
 
             raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
@@ -268,38 +269,28 @@ def get_raw_features(metadata_features, feature_list, num_time_samples, sfreq):
     return raw_features, feature_names, feature_info, feature_groups
 
 
-def get_channel_nums(path2rawdata):
-    CSC_files = glob.glob(os.path.join(path2rawdata,
-                                       'micro', 'CSC_mat', 'CSC?.mat')) + \
-                glob.glob(os.path.join(path2rawdata,
-                                       'micro', 'CSC_mat', 'CSC??.mat')) + \
-                glob.glob(os.path.join(path2rawdata,
-                                       'micro', 'CSC_mat', 'CSC???.mat'))
-    return [int(os.path.basename(s)[3:-4]) for s in CSC_files]
-
-
 def get_events(patient, level, data_type, sfreq, verbose=False):
     blocks = range(1, 7)
     #sfreq = 1000  # Data types downsamplled to 1000Hz by generate_mne_raw.py
 
     #TODO: add log to power
     
-    settings = Settings(patient)
     params = Params(patient)
     # preferences = load_settings_params.Preferences()
     # pprint(preferences.__dict__); pprint(settings.__dict__); pprint(params.__dict__)
     
     if verbose:
         print('Reading logs from experiment...')
+    path2log = os.path.join('..', '..', 
+                            'Data', 'UCLA', patient, 'Logs')
     log_all_blocks = {}
     for block in blocks:
-        log = read_log(block, settings)
+        log = read_log(block, path2log)
         log_all_blocks[block] = log
     if verbose:
         print('Preparing meta-data')
-    metadata = prepare_metadata(log_all_blocks, data_type, level,
-                                settings, params)
-    
+    metadata = prepare_metadata(log_all_blocks, data_type, level)
+
     # First column of events object
     times_in_sec = sorted(metadata['event_time'].values)
     min_diff_sec = np.min(np.diff(times_in_sec))
@@ -327,7 +318,107 @@ def get_events(patient, level, data_type, sfreq, verbose=False):
     return events, event_id, metadata
 
 
+def generate_mne_raw(data_type, from_mat, path2rawdata):
+    
+    # Path to data
+    path2data = os.path.join(path2rawdata, data_type)
+    if from_mat:
+        path2data = os.path.join(path2data, 'mat')
+    print(f'Loading data from: {path2data}')
+    
+    # Extract raw data
+    if from_mat:
+        channel_data, ch_names, sfreq = get_data_from_mat(data_type, path2data)
+    else:
+        channel_data, ch_names, sfreq = get_data_from_ncs_or_ns(data_type, path2data)
+    
+    n_channels = channel_data.shape[0]
+    ch_types = ['seeg'] * n_channels
+    info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
+    raw = mne.io.RawArray(channel_data, info)
 
+    return raw
+
+
+def get_data_from_mat(data_type, path2data):
+     
+    if data_type == 'microphone':
+        CSC_files = glob.glob(os.path.join(path2data, 'MICROPHONE.mat'))
+        assert len(CSC_files) == 1
+    else:
+        CSC_files = glob.glob(os.path.join(path2data, 'CSC?.mat')) + \
+                    glob.glob(os.path.join(path2data, 'CSC??.mat')) + \
+                    glob.glob(os.path.join(path2data, 'CSC???.mat'))
+        assert len(CSC_files) > 0
+        CSC_nums = [int(os.path.basename(s)[3:-4]) for s in CSC_files]
+        IX = np.argsort(CSC_nums)
+        CSC_files = np.asarray(CSC_files)[IX]
+
+    channel_data, ch_names = [], []
+    for i_ch, CSC_file in enumerate(CSC_files):
+        curr_channel_data = io.loadmat(CSC_file)    
+        sfreq = int(1e3/curr_channel_data['samplingInterval'])
+        channel_data.append(curr_channel_data['data'])
+        if 'channelName' in curr_channel_data:
+            ch_name = curr_channel_data['channelName']
+        else:
+            ch_name = os.path.basename(CSC_file)[:-4]
+        ch_names.append(ch_name)
+        print(f'Processing file: {ch_name} ({i_ch+1}/{len(CSC_files)}), sfreq = {sfreq} Hz')
+    channel_data = np.vstack(channel_data)
+
+    return channel_data, ch_names, sfreq
+
+
+def get_data_from_ncs_or_ns(data_type, path2data):
+    if data_type == 'microphone':
+        # Assume that if this function was entered for microphone
+        # Then it's neurlanyx. Otherwise, the flag --from-mat should be used
+        recording_system = 'Neuralynx'
+    else:
+        recording_system = identify_recording_system(path2data)
+    if recording_system == 'Neuralynx':
+        reader = neo.io.NeuralynxIO(dirname=path2data)
+        time0, timeend = reader.global_t_start, reader.global_t_stop
+        sfreq = reader._sigs_sampling_rate
+        print(f'Neural files: Start time {time0}, End time {timeend}')
+        print(f'Sampling rate [Hz]: {sfreq}')
+        blks = reader.read(lazy=True)
+        channels = reader.header['signal_channels']
+        n_channels = len(channels)
+        ch_names = [channel[0] for channel in channels]
+        channel_nums = [channel[1] for channel in channels]
+        print('Number of channel %i: %s'
+                      % (len(ch_names), ch_names))
+
+        channel_data = []
+        for i_segment, segment in enumerate(blks[0].segments):
+            print(i_segment)
+            anasig = segment.analogsignals[0].load()
+            channel_data.append(np.asarray(anasig))
+            del anasig
+        channel_data = np.vstack(channel_data).T
+        del blks
+    elif recording_system == 'BlackRock':
+        raise('Implementation error')
+
+    return channel_data, ch_names, sfreq
+
+
+def identify_recording_system(path2data):
+    neural_files = glob.glob(os.path.join(path2data, '*.n*'))
+    print(neural_files)
+    if len(neural_files)>1:
+        recording_system = 'Neuralynx'
+        assert len(neural_files[0][-3:]) == 'ncs'
+    elif len(neural_files)==1:
+        recording_system = 'BlackRock'
+        assert len(neural_files[0][-3:]) == 2
+    else:
+        print(f'No neural files found: {path2data}')
+        raise()
+
+    return recording_system
 
 def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, settings, params):
     ''' Generate mne raw object from channel number(s), for either micro/macro/spike data.
@@ -745,17 +836,16 @@ def load_neural_data(patient, data_type, filt, level,
     return epochs_list
 
 
-def read_log(block, settings):
+def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_cheetah_clock_part'):
     '''
 
     :param block: (int) block number
-    :param settings: class instance of settings
     :return: events (dict) with keys for event_times, block, phone/word/stimulus info
     '''
-    log_fn = settings.log_name_beginning + str(block) + '.log'
-    with open(os.path.join(settings.path2log, log_fn)) as f:
+    log_fn = log_name_beginning + str(block) + '.log'
+    with open(os.path.join(path2log, log_fn)) as f:
         lines = [l.strip('\n').split(' ') for l in f]
-
+    
     events = {}
     if block in [2, 4, 6]:
         lines = [l for l in lines if l[1]=='PHONE_ONSET']
@@ -782,17 +872,14 @@ def read_log(block, settings):
     return events
 
 
-def prepare_metadata(log_all_blocks, data_type, level, settings, params):
+def prepare_metadata(log_all_blocks, data_type, level):
     '''
     :param log_all_blocks: list len = #blocks
     :param features: numpy
-    :param settings:
-    :param params:
     :return: metadata: list
     '''
-    import pandas as pd
-
-    word2features, word2features_new = load_word_features(settings)
+    word_ON_duration = 200 # [msec]
+    word2features, word2features_new = load_word_features()
     #print(word2features_new)
     num_blocks = len(log_all_blocks)
 
@@ -913,7 +1000,7 @@ def prepare_metadata(log_all_blocks, data_type, level, settings, params):
             if metadata['last_word'][-1] and metadata['block'][-1] in [1, 3, 5]:
                 metadata['chronological_order'].append(cnt)
                 cnt += 1
-                t = metadata['event_time'][-1] + params.word_ON_duration*1e-3
+                t = metadata['event_time'][-1] + word_ON_duration*1e-3
                 metadata['event_time'].append(t)
                 metadata['block'].append(curr_block_events['block'][i])
                 metadata['is_first_phone'].append(0)
@@ -1169,10 +1256,11 @@ def load_POS_tags(settings):
         word2pos['stretched'] = word2pos['streched']
     return word2pos
 
-def load_word_features(settings, word_features_filename='word_features.xlsx', word_features_filename_new = 'word_features_new.xlsx'):
-    import pandas
+def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
+                       word_features_filename='word_features.xlsx',
+                       word_features_filename_new = 'word_features_new.xlsx'):
     word2features = {}
-    sheet = pandas.read_excel(os.path.join(settings.path2stimuli, word_features_filename))
+    sheet = pd.read_excel(os.path.join(path2stimuli, word_features_filename))
     words = sheet['word_string']
     morphemes = sheet['morpheme']
     morpheme_types = sheet['morpheme_type']
@@ -1191,7 +1279,7 @@ def load_word_features(settings, word_features_filename='word_features.xlsx', wo
     
     ##
     word2features_new = {}
-    sheet = pandas.read_excel(os.path.join(settings.path2stimuli, word_features_filename_new))
+    sheet = pd.read_excel(os.path.join(path2stimuli, word_features_filename_new))
     sheet = sheet.loc[:, ~sheet.columns.str.contains('^Unnamed')]
     for i, row in sheet.iterrows():
         s = row['stimulus_number']

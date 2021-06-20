@@ -41,46 +41,7 @@ print(args)
 path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
                                     f'{args.patient}', 'Raw')
 
-if args.data_type == 'microphone':
-    path2data = os.path.join(path2rawdata, args.data_type)
-else:
-    path2data = os.path.join(path2rawdata, args.data_type, 'ncs')
-
-if args.from_mat:
-    raise('Implementation Error')
-    channel_data = scipy.io.loadmat(os.path.join(path2rawdata, args.data_type, 'MICROPHONE.mat'))['data']
-    sfreq = 32000
-    info = mne.create_info(ch_names=['MIC'], sfreq=sfreq, ch_types=['seeg'])
-    raw = mne.io.RawArray(channel_data, info)
-else:
-    reader = NeuralynxIO(dirname=path2data)
-    time0, timeend = reader.global_t_start, reader.global_t_stop
-    print(f'Start time {time0}, End time {timeend}')
-    print(f'Sampling rate [Hz]: {reader._sigs_sampling_rate}')
-    blks = reader.read(lazy=True)
-    channels = reader.header['signal_channels']
-    n_channels = len(channels)
-    ch_names = [channel[0] for channel in channels]
-    channel_nums = [channel[1] for channel in channels]
-    print('Number of channel %i: %s'
-                  % (len(ch_names), ch_names))
-
-    channel_data = []
-    for i_segment, segment in enumerate(blks[0].segments):
-        print(i_segment)
-        anasig = segment.analogsignals[0].load()
-        channel_data.append(np.asarray(anasig))
-        del anasig
-    channel_data = np.vstack(channel_data).T
-    del blks
-
-    if args.data_type in ['micro', 'macro', 'microphone']:
-        print('Loading %s CSC data' % args.data_type.upper())
-        ch_types = ['seeg'] * n_channels
-        sfreq = reader._sigs_sampling_rate
-        info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
-        raw = mne.io.RawArray(channel_data, info)
-        del channel_data
+raw = data_manip.generate_mne_raw(args.data_type, args.from_mat, path2rawdata)
 
 if args.data_type != 'microphone':
     # Downsample
@@ -167,6 +128,6 @@ if args.data_type not in ['spike', 'microphone']:
 
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
-raw.save(os.path.join(path2rawdata, filename), overwrite=True)
+raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
 print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
 

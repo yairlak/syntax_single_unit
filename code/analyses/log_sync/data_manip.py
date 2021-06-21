@@ -15,10 +15,10 @@ import scipy.io as sio
 
 
 def read_events(args):
-    settings = load_settings_params.Settings('patient_' + args.patient)
-    params = load_settings_params.Params('patient_' + args.patient)
-    session_folder = os.path.join('..', settings.path2patient_folder, 'Raw', 'nev_files')
-    
+    session_folder = os.path.join('..', '..', '..',
+                                  'Data', 'UCLA', 'patient_' + args.patient,
+                                  'Raw', 'nev_files')
+    print(session_folder)
     nev_files = glob.glob(os.path.join(session_folder, 'Events.*'))
     assert len(nev_files) > 0
     
@@ -27,13 +27,12 @@ def read_events(args):
     for i_nev, nev_file in enumerate(sorted(nev_files)):
         print(f'Reading {nev_file}')
         if nev_file[-3:] == 'nev':
-            print('nev file')
             if args.recording_system == 'Neuralynx':
                 reader = io.NeuralynxIO(session_folder)
+                sfreq = reader.get_signal_sampling_rate(0)
                 blks = reader.read(lazy=False)
-                sfreq = params.sfreq_raw # FROM NOTES
                 time0, timeend = reader.global_t_start, reader.global_t_stop
-                
+                print(time0, timeend, sfreq) 
                 events_times, events_ids = [], []
                 for segment in blks[0].segments:
                     event_times_mat = segment.events
@@ -82,6 +81,8 @@ def read_events(args):
                 reader = io.BlackrockIO(nev_files[0])
                 time0, timeend = reader._seg_t_starts[0], reader._seg_t_stops[0]
                 sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
+                #if args.patient == '483':
+                #    time0 = 219.52783333333332
         else:
             raise(f'Unrcognized event file: {nev_file}')
         if timeend:
@@ -93,15 +94,13 @@ def read_events(args):
 
 def read_logs(time_stamps, event_nums_zero, time0, args):
     
-    
-    settings = load_settings_params.Settings('patient_' + args.patient)
-    params = load_settings_params.Params('patient_' + args.patient)
-    logs_folder = os.path.join(settings.path2patient_folder, 'Logs')
+    logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
+                               'patient_' + args.patient, 'Logs')
     
     dict_events = {}
     IX_time_stamps = 0
     cnt_log = 0
-    fns_logs = sorted(glob.glob(os.path.join('..', logs_folder, 'events_log_????-??-??_??-??-??.log')))
+    fns_logs = sorted(glob.glob(os.path.join(logs_folder, 'events_log_????-??-??_??-??-??.log')))
     fns_logs_with_CHEETAH = []
     num_triggers_per_log = []
     for fn_log in fns_logs:
@@ -182,3 +181,4 @@ def _todict(matobj):
         else:
             dict[strg] = elem
     return dict
+

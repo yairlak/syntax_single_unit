@@ -442,6 +442,10 @@ def get_data_from_ncs_or_ns(data_type, path2data):
         channel_data = np.vstack(channel_data).T
         del blks
     elif recording_system == 'BlackRock':
+        reader = io.BlackrockIO(path2data)
+        sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
+        print(sfreq)
+        print(dir(reader))
         raise('Implementation error')
 
     return channel_data, ch_names, sfreq

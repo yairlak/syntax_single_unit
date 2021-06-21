@@ -79,8 +79,6 @@ def get_events(args):
                 reader = io.BlackrockIO(nev_files[0])
                 time0, timeend = reader._seg_t_starts[0], reader._seg_t_stops[0]
                 sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
-                if args.patient == '483':
-                    time0 = 219.52783333333332
         else:
             raise(f'Unrcognized event file: {nev_file}')
         if timeend:

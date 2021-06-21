@@ -74,6 +74,7 @@ for i_log in dict_events.keys():
     time_stamps_all.extend(times_device)
 model_all = LinearRegression()
 
+print(len(times_log_all), len(time_stamps_all))
 assert len(times_log_all) > 0 and len(time_stamps_all) > 0
 model_all.fit(times_log_all, time_stamps_all)
 r2score_all = model_all.score(times_log_all, time_stamps_all)

@@ -41,6 +41,7 @@ params = load_settings_params.Params('patient_' + args.patient)
 #################
 
 time_stamps, event_nums_zero, time0, timeend, sfreq = get_events(args)
+print(f'time0 = {time0}, timeend = {timeend}, sfreq = {sfreq}')
 
 # Plot TTLs
 fig, ax = plt.subplots()
@@ -62,7 +63,6 @@ dict_events = read_logs(time_stamps, event_nums_zero, time0, args)
 ##################################
 # REGRESS EVENT ON CHEETAH TIMES #
 ##################################
-
 
 # RUN REGRESSION FIRST FOR ALL LOGS MERGED TOGETHER
 times_log_all, time_stamps_all = [], []

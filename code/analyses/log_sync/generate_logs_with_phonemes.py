@@ -1,7 +1,7 @@
 import os, glob, argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='483', type=str)
+parser.add_argument('--patient', default='495', type=str)
 parser.add_argument('--hospital', default='UCLA', type=str)
 parser.add_argument('--blocks', action='append', default=[], type=str)
 args = parser.parse_args()

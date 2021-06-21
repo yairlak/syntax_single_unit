@@ -36,7 +36,7 @@ class Settings():
             self.timeend = 1489763746079099 # microsec
         if self.patient == 'patient_479_25': # Neuralynx
             self.recording_device = 'Neuralynx'
-            self.time0 =   1490191924102607
+            self.time0 =   1490191760897622
             self.timeend = 1490194591354836
         if self.patient == 'patient_480': # BlackRock
             self.recording_device = 'BlackRock'
@@ -46,6 +46,10 @@ class Settings():
             self.recording_device = 'Neuralynx'
             self.time0 =   1493480044627211
             self.timeend = 1493482901125264
+        if self.patient == 'patient_483': #
+            self.recording_device = 'BlackRock'
+            self.time0 =   0
+            self.timeend = 4000 * 1e6
         if self.patient == 'patient_487': # Neuralynx
             self.recording_device = 'Neuralynx'
             self.time0 =   1502557237931999
@@ -125,6 +129,9 @@ class Params:
         if self.patient == 'patient_482': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 40000  # Data sampling frequency [Hz]
+        if self.patient == 'patient_483': # Neuralynx
+            self.sfreq_raw = 30000  # Data sampling frequency [Hz]
+            self.sfreq_macro = 30000  # Data sampling frequency [Hz]
         if self.patient == 'patient_487': # Neuralynx
             self.sfreq_raw = 40000  # Data sampling frequency [Hz]
             self.sfreq_macro = 2000  # ??????????? Data sampling frequency [Hz]

@@ -24,9 +24,9 @@ from sklearn.preprocessing import normalize
 def remove_outliers(times_log, times_device, i_log, args):
     
     # 483
-    if args.patient == '483' and i_log == 0:
-        times_log = times_log[3:]
-        times_device = times_device[3:]
+    #if args.patient == '483' and i_log == 0:
+    #    times_log = times_log[3:]
+    #    times_device = times_device[3:]
     # if args.patient == '483' and i_log == 1:
     #     times_log = times_log[1:]
     #     times_device = times_device[1:]

@@ -63,7 +63,7 @@ fi
 for PATIENT in $PATIENTS; do
     for DTYPE in $DTYPES; do
         for FILTER in $FILTERS; do
-            path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/preproc/"
+            path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
             filename_py="generate_raw.py --patient "$PATIENT" --data-type "$DTYPE" --filter "$FILTER
             output_log='logs/out_generate_mne_raw_'$PATIENT'_'$DTYPE
             error_log='logs/err_generate_mne_raw_'$PATIENT'_'$DTYPE

@@ -16,18 +16,20 @@ import numpy as np
 from sklearn.linear_model import LinearRegression, HuberRegressor
 from misc import remove_outliers, load_microphone_data, load_auditory_stimulus, find_max_cross_corr_microphone, plot_cross_correlation
 from pprint import pprint
-from data_manip import get_events, read_logs
+from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default = '483')
-parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
+parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='BlackRock')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
-parser.add_argument('--refine-with-mic', action='store_true', default=True)
-parser.add_argument('--merge-logs', action='store_true', default=True)
+parser.add_argument('--refine-with-mic', action='store_true', default=False)
+parser.add_argument('--merge-logs', action='store_true', default=False)
 parser.add_argument('--viz', action='store_true', default=True)
-parser.add_argument('-v', '--verbose', action='store_true', default=True)
+parser.add_argument('-v', '--verbose', action='store_true', default=False)
 args = parser.parse_args()
+if isinstance(args.IXs_block_logs, str):
+    args.IXs_block_logs = eval(args.IXs_block_logs)
 pprint(args)
 
 settings = load_settings_params.Settings('patient_' + args.patient)
@@ -38,7 +40,8 @@ params = load_settings_params.Params('patient_' + args.patient)
 # Read NEV file #
 #################
 
-time_stamps, event_nums_zero, time0, timeend, sfreq = get_events(args)
+time_stamps, event_nums_zero, time0, timeend, sfreq = read_events(args)
+
 # Plot TTLs
 fig, ax = plt.subplots()
 ax.plot(time_stamps, event_nums_zero, color='b')
@@ -70,6 +73,8 @@ for i_log in dict_events.keys():
     times_log_all.extend(times_log)
     time_stamps_all.extend(times_device)
 model_all = LinearRegression()
+
+assert len(times_log_all) > 0 and len(time_stamps_all) > 0
 model_all.fit(times_log_all, time_stamps_all)
 r2score_all = model_all.score(times_log_all, time_stamps_all)
 print('R^2 all logs: ', r2score_all)
@@ -88,7 +93,7 @@ for i_log in dict_events.keys():
     
     model = LinearRegression().fit(times_log, times_device)
     r2score = model.score(times_log, times_device)
-    print(f'R^2 log {i_log + 1}: ', r2score)
+    print(f'R^2 log IX = {i_log}: ', r2score)
    
     if i_log in args.IXs_block_logs:
         fig, ax = plt.subplots(1)
@@ -138,7 +143,7 @@ for i_log in dict_events.keys():
             else:
                 t_estimated = t_regress
                 
-            new_log_lines.append(f'{t_estimated} {l_end}')
+            new_log_lines.append(f'{t_estimated-time0*1e6} {l_end}')
         # SAVE
         fn_log_new = op.join(logs_folder, f'events_log_in_cheetah_clock_part{cnt_log+1}.log')
         with open(fn_log_new, 'w') as f:

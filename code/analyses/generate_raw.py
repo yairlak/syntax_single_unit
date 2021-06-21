@@ -17,62 +17,36 @@ from scipy.ndimage import gaussian_filter1d
 from sklearn.decomposition import PCA
 import scipy
 from neo.io import NeuralynxIO
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='479_25', help='Patient number')
+parser.add_argument('--patient', default='515', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
                     default='micro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
-parser.add_argument('--sfreq-downsample',
+parser.add_argument('--from-mat',
+                    default=False, action='store_true',
+                    help='Load data from mat files.')
+parser.add_argument('--sfreq-downsample', type=int,
                     default=1000, help='Downsampling frequency')
+parser.add_argument('--line-frequency',
+                    default=50, help='in Hz')
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
 
-
 path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
-                            f'patient_{args.patient}', 'Raw')
+                                    f'{args.patient}', 'Raw')
 
-print('Loading settings, params and preferences...')
-params = load_settings_params.Params(args.patient)
-pprint(params.__dict__)
+raw = data_manip.generate_mne_raw(args.data_type, args.from_mat, path2rawdata)
 
-reader = NeuralynxIO(dirname=os.path.join(path2rawdata, args.data_type, 'ncs'))
-args.tmin, args.tmax = reader.global_t_start, reader.global_t_stop
-args.sampling_freq_lfp = reader._sigs_sampling_rate
-print(reader.global_t_start, reader.global_t_stop, reader._sigs_sampling_rate)
-blks = reader.read(lazy=True)
-channels = reader.header['signal_channels']
-n_channels = len(channels)
-ch_names = [channel[0] for channel in channels]
-channel_nums = [channel[1] for channel in channels]
-print('Number of channel %i: %s'
-      % (len(ch_names), ch_names))
-
-#######################
-# GENERATE RAW OBJECT #
-#######################
-channel_data = []
-for segment in blks[0].segments:
-    anasig = segment.analogsignals[0].load(time_slice=None)
-    channel_data.append(np.asarray(anasig))
-channel_data = np.vstack(channel_data).T
-
-if args.data_type in ['micro', 'macro', 'microphone']:
-    print('Loading %s CSC data' % args.data_type.upper())
-    ch_types = ['seeg'] * n_channels
-    sfreq = reader._sigs_sampling_rate
-    info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
-    raw = mne.io.RawArray(channel_data, info)
-
-if raw is not None:
-    # Downsample if needed
-    print(raw.info['sfreq'])
+if args.data_type != 'microphone':
+    # Downsample
     if raw.info['sfreq'] > args.sfreq_downsample:
         print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], args.sfreq_downsample))
-        raw = raw.copy().resample(args.sfreq_downsample, npad='auto')
+        raw = raw.resample(args.sfreq_downsample, npad='auto')
 
 ###############
 # REFERENCING #
@@ -97,14 +71,13 @@ print(raw.ch_names)
 ###################
 # Basic FILTERING #
 ###################
-if args.data_type not in ['spike']:
+if args.data_type not in ['spike', 'microphone']:
     ################
     # NOTCH (line) #
     ################
-    raw.notch_filter(np.arange(params.line_frequency, 5*params.line_frequency,
-                               params.line_frequency), fir_design='firwin') # notch filter
+    raw.notch_filter(np.arange(args.line_frequency, 5*args.line_frequency, args.line_frequency), fir_design='firwin') # notch filter
     raw.filter(0.05, None, fir_design='firwin') # High-pass filter
-    if args.filter.startswith('gaussian-kernel') or args.filter == 'raw':
+    if args.filter.startswith('gaussian-kernel') or args.filter == 'raw' and args.data_type != 'microphone':
 
         ############
         # CLIPPING #
@@ -154,6 +127,6 @@ if args.data_type not in ['spike']:
 
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
-raw.save(os.path.join(path2rawdata, filename), overwrite=True)
+raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
 print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
 

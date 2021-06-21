@@ -23,7 +23,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default='515', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='macro/micro/spike')
+                    default='micro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
@@ -36,7 +36,6 @@ parser.add_argument('--line-frequency',
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
-
 
 path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
                                     f'{args.patient}', 'Raw')

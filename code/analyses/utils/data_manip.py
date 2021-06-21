@@ -13,8 +13,9 @@ from utils.utils import probename2picks
 from scipy.ndimage import gaussian_filter1d
 import neo
 
+
 class DataHandler:
-    def __init__(self, patient, data_type, filt, level,
+    def __init__(self, patient, data_type, filt,
                  probe_name, channel_name, channel_num,
                  feature_list=None):
         # MAKE SURE patient, data_type and filt are all lists
@@ -24,10 +25,10 @@ class DataHandler:
             data_type = [data_type]
         if isinstance(filt, str):
             filt = [filt]
+        assert len(patient) == len(data_type) == len(filt)
         self.patient = patient
         self.data_type = data_type
         self.filter = filt
-        self.level = level
         self.probe_name = probe_name
         self.channel_name = channel_name
         self.channel_num = channel_num
@@ -47,10 +48,10 @@ class DataHandler:
         A list of raw object for all patients, data-types and filters
 
         '''
+        self.raws = []  # list of raw MNE objects
         for p, (patient, data_type, filt) in enumerate(zip(self.patient,
                                                            self.data_type,
                                                            self.filter)):
-            self.raws = []  # list of raw MNE objects
             # Load RAW object
             path2rawdata = f'../../Data/UCLA/{patient}/Raw/mne'
             fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
@@ -91,7 +92,7 @@ class DataHandler:
             print(self.raws)
             [print(raw.ch_names) for raw in self.raws]
 
-    def epoch_data(self, level=None,
+    def epoch_data(self, level,
                    tmin=None, tmax=None, decimate=None, query=None,
                    block_type=None, scale_epochs=False, verbose=False,
                    smooth=None):
@@ -122,13 +123,11 @@ class DataHandler:
         None.
 
         '''
-        if not level:
-            level = self.level
-        if not level:
-            raise('Level for parsing is missing.')
+
         self.epochs = []
         for p, (patient, data_type) in enumerate(zip(self.patient,
                                                      self.data_type)):
+            print(f'Epoching {patient}, {data_type}, {level}')
             ##########
             events, event_id, metadata = get_events(patient, level, data_type, self.sfreq)
             ############
@@ -148,6 +147,7 @@ class DataHandler:
             epochs = mne.Epochs(self.raws[p], events, event_id, tmin_, tmax_,
                                 metadata=metadata, baseline=None,
                                 preload=True, reject=None)
+            del events, event_id, metadata
             if any(epochs.drop_log):
                 print('Dropped:', epochs.drop_log)
 
@@ -453,10 +453,9 @@ def get_data_from_ncs_or_ns(data_type, path2data):
 
 def identify_recording_system(path2data):
     neural_files = glob.glob(os.path.join(path2data, '*.n*'))
-    print(neural_files)
     if len(neural_files)>1:
         recording_system = 'Neuralynx'
-        assert len(neural_files[0][-3:]) == 'ncs'
+        assert neural_files[0][-3:] == 'ncs'
     elif len(neural_files)==1:
         recording_system = 'BlackRock'
         assert len(neural_files[0][-3:]) == 2

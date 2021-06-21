@@ -12,7 +12,7 @@ import scipy.io as sio
 from scipy.io import wavfile
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='499', type=str)
+parser.add_argument('--patient', default='479_25', type=str)
 args = parser.parse_args()
 
 # LOAD MICROPHONE DATA FROM MAT FILE

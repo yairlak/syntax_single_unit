@@ -14,7 +14,7 @@ import numpy as np
 import scipy.io as sio
 
 
-def get_events(args):
+def read_events(args):
     session_folder = os.path.join('..', '..', '..',
                                   'Data', 'UCLA', 'patient_' + args.patient,
                                   'Raw', 'nev_files')
@@ -25,14 +25,12 @@ def get_events(args):
     event_nums_zero, time_stamps, IXs2nev = [], [], []
     duration_prev_nevs = 0 # For blackrock: needed to concat nev files. Adds the duration of the previous file(s)
     for i_nev, nev_file in enumerate(sorted(nev_files)):
-        print(f'Reading {nev_file}')
         if nev_file[-3:] == 'nev':
             if args.recording_system == 'Neuralynx':
-                reader = io.NeuralynxIO(session_folder)
+                reader = io.NeuralynxIO(os.path.join(session_folder, '..', 'micro'))
                 sfreq = reader.get_signal_sampling_rate(0)
-                blks = reader.read(lazy=False)
+                blks = reader.read(lazy=True)
                 time0, timeend = reader.global_t_start, reader.global_t_stop
-                print(time0, timeend, sfreq) 
                 events_times, events_ids = [], []
                 for segment in blks[0].segments:
                     event_times_mat = segment.events
@@ -60,18 +58,18 @@ def get_events(args):
                 event_nums_zero.extend(event_nums - min(event_nums))
                 print('time0, timeend = ', time0, timeend)
         elif nev_file[-3:] == 'mat':
+            assert len(nev_files) == 1
             events = loadmat(nev_file)
             if 'timeStamps' in events:
-                time_stamps = events['timeStamps'][0, :]
-                event_nums_zero = event_nums = events['TTLs'][0, :]
+                time_stamps = events['timeStamps']
+                event_nums_zero = event_nums = events['TTLs']
             else:
                 time_stamps = events['NEV']['Data']['SerialDigitalIO']['TimeStampSec']
                 event_nums_zero = event_nums = events['NEV']['Data']['SerialDigitalIO']['UnparsedData']
-                #print(time_stamps)
 
             # get time0, timeend and sfreq from ncs files
             if args.recording_system == 'Neuralynx':
-                reader = io.NeuralynxIO(session_folder)
+                reader = io.NeuralynxIO(os.path.join(session_folder, '..', 'micro'))
                 sfreq = reader._sigs_sampling_rate
                 time0, timeend = reader.global_t_start, reader.global_t_stop
             elif args.recording_system == 'BlackRock':
@@ -90,14 +88,13 @@ def get_events(args):
 
 def read_logs(time_stamps, event_nums_zero, time0, args):
     
-    logs_folder = os.path.join('..', '..', '..',
-                               'Data', 'UCLA', 'patinet_' + args.patient,
-                               'Logs')
+    logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
+                               'patient_' + args.patient, 'Logs')
     
     dict_events = {}
     IX_time_stamps = 0
     cnt_log = 0
-    fns_logs = sorted(glob.glob(os.path.join('..', logs_folder, 'events_log_????-??-??_??-??-??.log')))
+    fns_logs = sorted(glob.glob(os.path.join(logs_folder, 'events_log_????-??-??_??-??-??.log')))
     fns_logs_with_CHEETAH = []
     num_triggers_per_log = []
     for fn_log in fns_logs:

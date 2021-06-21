@@ -29,7 +29,8 @@ def read_events(args):
             if args.recording_system == 'Neuralynx':
                 reader = io.NeuralynxIO(os.path.join(session_folder, '..', 'micro'))
                 sfreq = reader.get_signal_sampling_rate(0)
-                blks = reader.read(lazy=True)
+                reader = io.NeuralynxIO(session_folder)
+                blks = reader.read(lazy=False)
                 time0, timeend = reader.global_t_start, reader.global_t_stop
                 events_times, events_ids = [], []
                 for segment in blks[0].segments:

@@ -16,12 +16,13 @@ from sklearn.preprocessing import RobustScaler
 from scipy.ndimage import gaussian_filter1d
 from sklearn.decomposition import PCA
 import scipy
+from neo.io import NeuralynxIO
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='499', help='Patient number')
+parser.add_argument('--patient', default='479_25', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='macro/micro/spike')
+                    default='micro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--sfreq-downsample',
@@ -30,76 +31,48 @@ args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
 
+
+path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
+                            f'patient_{args.patient}', 'Raw')
+
 print('Loading settings, params and preferences...')
-settings = load_settings_params.Settings(args.patient)
 params = load_settings_params.Params(args.patient)
-pprint(settings.__dict__)
 pprint(params.__dict__)
 
-# PATHS
-if args.data_type in ['micro', 'spike', 'microphone']:
-    path2CSC_mat = os.path.join(settings.path2rawdata, 'micro', 'CSC_mat')
-elif args.data_type == 'macro':
-    path2CSC_mat = os.path.join(settings.path2rawdata, 'macro', 'CSC_mat')
-
-# GET CHANNALS AND PROBE NAMES
-with open(os.path.join(path2CSC_mat, 'channel_numbers_to_names.txt')) \
-        as f_channel_names:
-    channel_names = f_channel_names.readlines()
-
-channel_names_dict = dict(zip(map(int, [s.strip('\n').split('\t')[0]
-                                        for s in channel_names]),
-                              [s.strip('\n').split('\t')[1][:-4]
-                               for s in channel_names]))
-channel_nums = list(channel_names_dict.keys())
-if args.data_type == 'micro':
-    channel_nums = list(set(channel_nums) - set([0]))  # remove microphone (0)
-    channel_names_dict[0] = 'MICROPHONE'
-elif args.data_type == 'microphone':
-    channel_names_dict = {}
-    channel_nums = [0]
-    channel_names_dict[0] = 'MICROPHONE'
-else:
-    if 0 in channel_nums:
-        channel_nums = list(set(channel_nums) - set([0]))  # remove mic
-        del channel_names_dict[0]
-
-channel_nums.sort()
+reader = NeuralynxIO(dirname=os.path.join(path2rawdata, args.data_type, 'ncs'))
+args.tmin, args.tmax = reader.global_t_start, reader.global_t_stop
+args.sampling_freq_lfp = reader._sigs_sampling_rate
+print(reader.global_t_start, reader.global_t_stop, reader._sigs_sampling_rate)
+blks = reader.read(lazy=True)
+channels = reader.header['signal_channels']
+n_channels = len(channels)
+ch_names = [channel[0] for channel in channels]
+channel_nums = [channel[1] for channel in channels]
 print('Number of channel %i: %s'
-      % (len(channel_names_dict.values()), channel_names_dict.values()))
+      % (len(ch_names), ch_names))
 
+#######################
+# GENERATE RAW OBJECT #
+#######################
+channel_data = []
+for segment in blks[0].segments:
+    anasig = segment.analogsignals[0].load(time_slice=None)
+    channel_data.append(np.asarray(anasig))
+channel_data = np.vstack(channel_data).T
 
-# MERGE CHANNELS TO A SINGLE RAW
-first_time = True
-#  channel_nums = [1, 2] # for DEBUG
-for channel_num in channel_nums:
-    channel_name = channel_names_dict[channel_num]
-    if channel_num == 0:
-        probe_name = 'MIC'
-    else:
-        if args.data_type=='macro': 
-            probe_name = re.split('(\d+)', channel_name)[0]
-        else:
-            probe_name = re.split('(\d+)', channel_name)[2][1::]
-    print('Current channel: %s (%i)' % (channel_name, channel_num))
-    
-    # LOAD DATA -> RAW OBJECT
-    curr_raw = data_manip.load_channel_data(args.data_type, args.filter, channel_num, channel_name, probe_name, settings, params)
-    if curr_raw is not None:
-        # Downsample if needed
-        print(curr_raw.info['sfreq'])
-        if curr_raw.info['sfreq'] > args.sfreq_downsample:
-            print('Resampling data %1.2f -> %1.2f' % (curr_raw.info['sfreq'], args.sfreq_downsample))
-            curr_raw = curr_raw.copy().resample(args.sfreq_downsample, npad='auto')
-        # Add channels to a single raw object
-        if first_time:
-            raw = curr_raw
-            first_time = False
-        else: # append all channels to a single Raw object
-            print(curr_raw.get_data().shape)
-            raw.add_channels([curr_raw], force_update_info=False)
-        #print(raw)
-        #print(np.sum(raw._data, axis=1)) # spike counts per cluster
+if args.data_type in ['micro', 'macro', 'microphone']:
+    print('Loading %s CSC data' % args.data_type.upper())
+    ch_types = ['seeg'] * n_channels
+    sfreq = reader._sigs_sampling_rate
+    info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
+    raw = mne.io.RawArray(channel_data, info)
+
+if raw is not None:
+    # Downsample if needed
+    print(raw.info['sfreq'])
+    if raw.info['sfreq'] > args.sfreq_downsample:
+        print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], args.sfreq_downsample))
+        raw = raw.copy().resample(args.sfreq_downsample, npad='auto')
 
 ###############
 # REFERENCING #
@@ -128,7 +101,8 @@ if args.data_type not in ['spike']:
     ################
     # NOTCH (line) #
     ################
-    raw.notch_filter(np.arange(params.line_frequency, 5*params.line_frequency, params.line_frequency), fir_design='firwin') # notch filter
+    raw.notch_filter(np.arange(params.line_frequency, 5*params.line_frequency,
+                               params.line_frequency), fir_design='firwin') # notch filter
     raw.filter(0.05, None, fir_design='firwin') # High-pass filter
     if args.filter.startswith('gaussian-kernel') or args.filter == 'raw':
 
@@ -180,6 +154,6 @@ if args.data_type not in ['spike']:
 
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
-raw.save(os.path.join(settings.path2rawdata, filename), overwrite=True)
-print('Raw fif saved to: %s' % os.path.join(settings.path2rawdata, filename))
+raw.save(os.path.join(path2rawdata, filename), overwrite=True)
+print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
 

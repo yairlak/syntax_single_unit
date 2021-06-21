@@ -294,7 +294,9 @@ def get_train_test_data_from_epochs(epochs, queries_train, queries_test, X_train
     return X_train, X_test, epochs_train
            
 
-def prepare_data_for_classifier(epochs_list, queries, min_trials = 0):
+def prepare_data_for_classifier(epochs_list, queries,
+                                list_class_numbers=None,
+                                min_trials = 0):
     '''
     cat epochs data across channel dimension and then prepare for classifier
     '''
@@ -311,7 +313,7 @@ def prepare_data_for_classifier(epochs_list, queries, min_trials = 0):
         X = []
         for epochs in epochs_list:
             if q == 0:
-                stimuli.append(epochs[query].metadata['sentence_string'])
+                stimuli.extend(epochs[query].metadata['phone_string'])
             curr_data = epochs[query].get_data()
             X.append(curr_data)
         X = np.concatenate(X, axis=1) # cat along channel (feature) dimension
@@ -319,12 +321,16 @@ def prepare_data_for_classifier(epochs_list, queries, min_trials = 0):
         # common y vector
         num_trials = curr_data.shape[0]
         #print(q, query, num_trials)
-        y_all_queries.append(np.full(num_trials, q))
+        if list_class_numbers:
+            class_number = list_class_numbers[q]
+        else:
+            class_number = q + 1
+        y_all_queries.append(np.full(num_trials, class_number))
 
-    X_all_queries = np.concatenate(X_all_queries, axis=0) # cat along the trails dimension
+    X_all_queries = np.concatenate(X_all_queries, axis=0) # cat along the trial dimension
     y_all_queries = np.concatenate(y_all_queries, axis=0)
     
-    return X_all_queries, y_all_queries, stimuli
+    return X_all_queries, y_all_queries, np.asarray(stimuli)
 
 #if c==0 and i==0:
     #print(epochs_class_test.metadata['sentence_string'])

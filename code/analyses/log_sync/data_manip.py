@@ -63,9 +63,16 @@ def get_events(args):
                 event_nums = [e[4] for e in events] 
                 event_nums_zero.extend(event_nums - min(event_nums))
         elif nev_file[-3:] == 'mat':
-            events = sio.loadmat(nev_file)
-            time_stamps = events['timeStamps'][0, :]
-            event_nums_zero = event_nums = events['TTLs'][0, :]
+            events = loadmat(nev_file)
+            if 'timeStamps' in events:
+                time_stamps = events['timeStamps'][0, :]
+                event_nums_zero = event_nums = events['TTLs'][0, :]
+            else:
+                time_stamps = events['NEV']['Data']['SerialDigitalIO']['TimeStampSec']
+                event_nums_zero = event_nums = events['NEV']['Data']['UnparsedData']
+                #print(time_stamps)
+
+            
             # get time0, timeend and sfreq from ncs files
             reader = io.NeuralynxIO(session_folder)
             blks = reader.read(lazy=False)
@@ -136,3 +143,39 @@ def read_logs(time_stamps, event_nums_zero, time0, args):
             assert dict_events[cnt_log]['times_device'].size == dict_events[cnt_log]['times_log'].size
             cnt_log += 1
     return dict_events
+
+
+def loadmat(filename):
+    '''
+    this function should be called instead of direct spio.loadmat
+    as it cures the problem of not properly recovering python dictionaries
+    from mat files. It calls the function check keys to cure all entries
+    which are still mat-objects
+    '''
+    data = sio.loadmat(filename, struct_as_record=False, squeeze_me=True)
+    return _check_keys(data)
+
+
+def _check_keys(dict):
+    '''
+    checks if entries in dictionary are mat-objects. If yes
+    todict is called to change them to nested dictionaries
+    '''
+    for key in dict:
+        if isinstance(dict[key], sio.matlab.mio5_params.mat_struct):
+            dict[key] = _todict(dict[key])
+    return dict        
+
+
+def _todict(matobj):
+    '''
+    A recursive function which constructs from matobjects nested dictionaries
+    '''
+    dict = {}
+    for strg in matobj._fieldnames:
+        elem = matobj.__dict__[strg]
+        if isinstance(elem, sio.matlab.mio5_params.mat_struct):
+            dict[strg] = _todict(elem)
+        else:
+            dict[strg] = elem
+    return dict

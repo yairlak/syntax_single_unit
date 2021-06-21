@@ -18,7 +18,7 @@ from pprint import pprint
 from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '483')
+parser.add_argument('--patient', default = '495')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
@@ -38,8 +38,9 @@ logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
 # Read NEV file #
 #################
 
-time_stamps, event_nums_zero, time0, timeend, sfreq = read_events(args)
-print(f'time0 = {time0}, timeend = {timeend}, sfreq = {sfreq}')
+time_stamps, event_nums_zero, sfreq = read_events(args)
+print(time_stamps)
+print(f'sfreq = {sfreq}')
 
 # Plot TTLs
 fig, ax = plt.subplots()
@@ -57,7 +58,7 @@ plt.close(fig)
 # READ LOGS AND KEEP ONLY THOSE WITH SENT TRIGGERS #
 ####################################################
 
-dict_events = read_logs(time_stamps, event_nums_zero, time0, args)
+dict_events = read_logs(time_stamps, event_nums_zero, args)
 
 ##################################
 # REGRESS EVENT ON CHEETAH TIMES #
@@ -114,7 +115,7 @@ for i_log in dict_events.keys():
             else:
                 t_regress = int(model.predict(np.asarray([t]).reshape(1, -1))[0]) # microsec
             if args.refine_with_mic and 'AUDIO_PLAYBACK_ONSET' in l:
-                t_regress_sec = t_regress/1e6 - time0 # time0 is in sec
+                t_regress_sec = t_regress/1e6 # time0 is in sec
                 fn_wav = l.split()[-1]
                 # print(f'Cross-correlating with wav file {fn_wav}')
                 # LOAD MIC DATA AND CROP IT BASED ON ESTIMATED TIME FROM REGRESSION
@@ -139,11 +140,11 @@ for i_log in dict_events.keys():
                 t1 = f'{int(np.floor(t_regress_sec/60))}:{t_regress_sec%60}'
                 t2 = f'{int(np.floor((t_mic_spect + first_sample_in_window/sfreq)/60))}:{(t_mic_spect + first_sample_in_window/sfreq)%60}'
                 print(t1, t2)
-                t_estimated = (t_mic_waveform + first_sample_in_window/sfreq + time0)*1e6 # from sec to microsec
+                t_estimated = (t_mic_waveform + first_sample_in_window/sfreq)*1e6 # from sec to microsec
             else:
                 t_estimated = t_regress
-                
-            new_log_lines.append(f'{t_estimated-time0*1e6} {l_end}')
+            
+            new_log_lines.append(f'{t_estimated} {l_end}')
         # SAVE
         fn_log_new = op.join(logs_folder, f'events_log_in_cheetah_clock_part{cnt_log+1}.log')
         with open(fn_log_new, 'w') as f:

@@ -39,7 +39,6 @@ logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
 #################
 
 time_stamps, event_nums_zero, sfreq = read_events(args)
-print(time_stamps)
 print(f'sfreq = {sfreq}')
 
 # Plot TTLs

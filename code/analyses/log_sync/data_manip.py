@@ -79,7 +79,7 @@ def read_events(args):
                 reader = io.BlackrockIO(nev_files[0])
                 time0, timeend = reader._seg_t_starts[0], reader._seg_t_stops[0]
                 sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
-            time_stamps -= time0 # timestamps in mat file are in absolute time for Neuralynx
+            time_stamps -= time0 # timestamps in mat file are in absolute time for Neuralynx, unlike timestamps in nev file!
         else:
             raise(f'Unrcognized event file: {nev_file}')
         # if timeend:

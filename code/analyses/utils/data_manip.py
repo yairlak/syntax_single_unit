@@ -275,10 +275,6 @@ def get_events(patient, level, data_type, sfreq, verbose=False):
 
     #TODO: add log to power
     
-    #params = Params(patient)
-    # preferences = load_settings_params.Preferences()
-    # pprint(preferences.__dict__); pprint(settings.__dict__); pprint(params.__dict__)
-    
     if verbose:
         print('Reading logs from experiment...')
     path2log = os.path.join('..', '..', 
@@ -532,6 +528,7 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
     import h5py
     spike_times_msec = []; group_names = []
     h5_files = glob.glob(os.path.join(path2data, 'spike', 'CSC' + str(channel_num), 'data_*.h5'))
+    print(os.path.join(path2data, 'spike', 'CSC' + str(channel_num), 'data_*.h5'))
     if len(h5_files) == 1:
         filename = h5_files[0]
         f_all_spikes = h5py.File(filename, 'r')

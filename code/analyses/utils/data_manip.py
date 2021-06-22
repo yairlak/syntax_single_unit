@@ -1,5 +1,6 @@
 import os
 import glob
+import pickle
 import sys
 import numpy as np
 import mne
@@ -12,7 +13,7 @@ from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
 from scipy.ndimage import gaussian_filter1d
 import neo
-
+import h5py
 
 class DataHandler:
     def __init__(self, patient, data_type, filt,
@@ -61,7 +62,7 @@ class DataHandler:
                                              preload=True)
             # SAMPLING FREQUENCY
             self.sfreq = raw_neural.info['sfreq']
-
+            
             # PICK
             picks = None
             if self.probe_name:
@@ -351,13 +352,16 @@ def get_data_from_combinato(path2data):
                   glob.glob(os.path.join(path2data, 'CSC??/')) + \
                   glob.glob(os.path.join(path2data, 'CSC???/'))
     
+    reader = neo.io.NeuralynxIO(os.path.join(CSC_folders[0], '..'))        
+    time0, timeend = reader.global_t_start, reader.global_t_stop    
+    print(f'time0 = {time0}, timeend = {timeend}')
+    
     ch_names, spike_times_samples = [], []
     for CSC_folder in CSC_folders:
-        print(CSC_folder)
         channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
-        print(channel_num)
-        probe_name = 'TEMP'
-        spikes, group_names = load_combinato_sorted_h5(path2data, channel_num, probe_name)
+        probe_name = reader.header['signal_channels'][channel_num][0]
+        spikes, group_names = load_combinato_sorted_h5(path2data, channel_num,
+                                                       probe_name)
         ch_names.extend(group_names)
         if len(spikes) > 0:
             for groups, curr_spike_times_msec in enumerate(spikes):
@@ -366,11 +370,12 @@ def get_data_from_combinato(path2data):
         else:
             print(f'No spikes in channel: {channel_num}')
 
+    # ADD to array
+        
     num_groups = len(spike_times_samples)
-    print(spike_times_samples)
-    longest_spike_time = max([max(st) for st in spike_times_samples])
-    channel_data = np.zeros((num_groups, longest_spike_time))
+    channel_data = np.zeros((num_groups, int(1e3*(timeend- time0 + 1))))
     for i_st, st in enumerate(spike_times_samples):
+        st = (np.asarray(st) - time0*1e3).astype(int)
         channel_data[i_st, st] = 1
     
     return channel_data, ch_names, sfreq
@@ -461,56 +466,6 @@ def identify_recording_system(path2data):
 
     return recording_system
 
-def load_channel_data(data_type, filt, channel_num, channel_name, probe_name, settings, params):
-    ''' Generate mne raw object from channel number(s), for either micro/macro/spike data.
-        input -
-        channel_nums: (list for macro, int for micro) channel numbers
-        return -
-        MNE raw object with all channels
-    '''
-    if data_type in ['micro', 'macro', 'microphone']:
-        print('Loading %s CSC data' % data_type.upper())
-        channel_data = load_CSC_file(settings.path2rawdata, data_type, filt, channel_num)
-        if channel_num == 0: #MICROPHONE
-            ch_type = 'seeg'
-        else:
-            ch_type = 'seeg'
-        #if filt == 'high-gamma':
-        #    sfreq = 1000;
-        #else:
-        if data_type in ['micro', 'microphone']:
-            sfreq = params.sfreq_raw
-        elif data_type == 'macro':
-            sfreq = params.sfreq_macro
-
-        info = mne.create_info(ch_names=[channel_name], sfreq=sfreq, ch_types=[ch_type])
-        raw = mne.io.RawArray(channel_data, info)
-    elif data_type == 'spike':
-        print('Loading spike cluster data')
-        spikes, group_names = load_combinato_sorted_h5(settings, channel_num, probe_name)
-        #[print(np.max(s)) for s in spikes]
-        if len(spikes) > 0:
-            time0_sec = settings.time0 / 1e6
-            sfreq = params.sfreq_spikes
-            num_groups = len(spikes)
-            ch_types = ['seeg' for _ in range(num_groups)]
-            info = mne.create_info(ch_names=group_names, sfreq=sfreq, ch_types=ch_types)
-
-            num_samples = 1+int(sfreq * (settings.timeend - settings.time0)/1e6) # Use same sampling rate as for macro, just for convenience.
-            spikes_matrix_all_groups = np.empty((0, num_samples))
-            for groups, curr_spike_times_msec in enumerate(spikes):
-                spikes_zero_one_vec = np.zeros(num_samples) # convert to samples from sec
-                curr_spike_times_sec = [t/1e3 for t in curr_spike_times_msec]
-                curr_spike_times_sec_ref = [t-time0_sec for t in curr_spike_times_sec]
-                curr_spike_times_samples = [int(t*sfreq) for t in curr_spike_times_sec_ref] # convert to samples from sec
-                spikes_zero_one_vec[curr_spike_times_samples] = 1
-                spikes_matrix_all_groups = np.vstack((spikes_matrix_all_groups, spikes_zero_one_vec))
-            raw = mne.io.RawArray(spikes_matrix_all_groups, info)
-        else:
-            print('No spikes in channel:', channel_num)
-            raw = None
-    return raw
-
 
 def load_CSC_file(path2rawdata, data_type, filt, channel_num):
     if data_type == 'microphone':
@@ -525,9 +480,9 @@ def load_CSC_file(path2rawdata, data_type, filt, channel_num):
 
 
 def load_combinato_sorted_h5(path2data, channel_num, probe_name):
-    import h5py
+    
     spike_times_msec = []; group_names = []
-    h5_files = glob.glob(os.path.join(path2data, 'spike', 'CSC' + str(channel_num), 'data_*.h5'))
+    h5_files = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'data_*.h5'))
     print(os.path.join(path2data, 'spike', 'CSC' + str(channel_num), 'data_*.h5'))
     if len(h5_files) == 1:
         filename = h5_files[0]
@@ -535,7 +490,7 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
 
         for sign in ['neg', 'pos']:
         #for sign in ['neg']:
-            filename_sorted = glob.glob(os.path.join(path2data, 'spike', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
+            filename_sorted = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
             if len(filename_sorted) == 1:
                 f_sort_cat = h5py.File(filename_sorted[0], 'r')
                 try:
@@ -585,63 +540,6 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
     return spike_times_msec, group_names
 
 
-def get_channels_with_spikes_from_combinato_sorted_h5(settings, signs):
-    import h5py
-    # GET ALL CHANNELS NAMES FOR CURRENT SUBJECT
-    path2functions = os.path.dirname(os.path.abspath(__file__))
-    settings.path2rawdata = os.path.join(path2functions, '..', '..', '..', 'Data', 'UCLA', settings.patient, 'Raw')
-    path2CSC_mat = os.path.join(settings.path2rawdata, 'micro', 'CSC_mat')
-    with open(os.path.join(path2CSC_mat, 'channel_numbers_to_names.txt')) as f_channel_names:
-        channel_names = f_channel_names.readlines()
-        channel_names_dict = dict(zip(map(int, [s.strip().split('\t')[0] for s in channel_names]), [s.strip().split('\t')[1] for s in channel_names]))
-    channel_names_dict.pop(0, None) # SKIP THE MIC CHANNEL (channel_num=0)
-
-    # GENERATE A LIST OF SUBLISTS, EACH SUBLIST: [channel_number, channel_name, number_of_cluster_groups[pos], number_of_cluster_groups[neg]]
-    channels_with_spikes = []
-    if settings.time0 == 0: # BlackRock
-        h5_folder = 'CSC_mat' # since combinato clusters based on mat files
-    else:
-        h5_folder = 'CSC_ncs' # Neuralynx case
-    for channel_num, channel_name in channel_names_dict.items():
-        h5_files = glob.glob(os.path.join(settings.path2rawdata, 'micro', h5_folder , 'CSC' + str(channel_num), 'data_*.h5'))
-        if len(h5_files) == 1: # MAKE SURE THE h5 FILE EXISTS 
-            filename = h5_files[0]
-            f_all_spikes = h5py.File(filename, 'r')
-
-            num_cluster_groups_pos, num_cluster_groups_neg = (0, 0)
-            for sign in signs:
-                filename_sorted = glob.glob(os.path.join(settings.path2rawdata, 'micro', 'CSC_ncs', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
-                if len(filename_sorted) == 1:
-                    f_sort_cat = h5py.File(filename_sorted[0], 'r') 
-                    groups = f_sort_cat['groups'][()]
-                    group_numbers = set([g[1] for g in groups])
-                    types = f_sort_cat['types'][()] # -1: artifact, 0: unassigned, 1: MU, 2: SU
-                    for g in list(group_numbers):
-                        type_of_curr_group = [t_ for (g_, t_) in types if g_ == g]
-                        if (len(type_of_curr_group) == 1)|all(t==-1 for t in type_of_curr_group): #sanity check that types has only a single row per group (and exception for artifacts t=-1)
-                            type_of_curr_group = type_of_curr_group[0]
-                        else:
-                            print('file:', filename_sorted[0])
-                            #print('Type of curr group:', type_of_curr_group)
-                            #print('groups:', groups)
-                            #print('types:', types)
-                            raise ('issue with types: more than one group assigned to a type')
-                        if type_of_curr_group>0:
-                            if sign == 'pos':
-                                num_cluster_groups_pos += 1
-                            if sign == 'neg':
-                                num_cluster_groups_neg += 1
-                    channels_with_spikes.append([channel_num, channel_name, num_cluster_groups_pos, num_cluster_groups_neg])
-                        #if dict_num_group_clusters[sign]>0:
-                        #    print('Channel %i (%s) - %s: %i cluster groups' % (channel_num, channel_name, sign, dict_num_group_clusters[sign]))
-                     #else:
-                     #print('%s was not found!' % os.path.join(settings.path2rawdata, 'micro', 'CSC_ncs', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
-
-
-        else:
-            print('None or more than a single combinato h5 was found', channel_num, channel_name, settings.patient, h5_files)
-
-    return channels_with_spikes
 
 
 

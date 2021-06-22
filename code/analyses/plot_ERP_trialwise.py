@@ -66,7 +66,7 @@ print(args)
 data = DataHandler(args.patient, args.data_type, args.filter, None,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
-data.load_raw_data()
+data.load_raw_data(verbose=True)
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,

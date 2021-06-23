@@ -13,9 +13,9 @@ from utils.utils import probename2picks, update_queries,\
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
-parser.add_argument('--patient', default='479_25', help='Patient string')
+parser.add_argument('--patient', default='479_11', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='electrode type')
+                    default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
@@ -288,7 +288,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
             else:
                 print(epochs.ch_names, query, ch_name)
                 evoked_curr_query = epochs[query].pick(ch_name).average(method='median')
-            evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
+            if args.data_type != 'spike':
+                evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
             evoked_dict[condition_name] = evoked_curr_query 
             if args.data_type != 'spike':
                 if i_query == 0: # determine cmin cmax based on first query

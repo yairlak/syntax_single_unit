@@ -312,6 +312,10 @@ def get_events(patient, level, data_type, sfreq, verbose=False):
     # EVENT_ID dictionary: mapping block names to event numbers
     event_id = dict([(event_type_name, event_number[0]) for event_type_name, event_number in zip(event_type_names, event_numbers)])
 
+    # HACK: since spike sorting was done with CSC*.ncs files that were not merged
+    # Hence, timing should be shifted by the length of the first ncs files (suffix0)
+    # if patient == 'patient_479_25' and data_type=='spike':
+    #     events[:, 0] -= int(117.647 * sfreq)
     return events, event_id, metadata
 
 
@@ -352,14 +356,16 @@ def get_data_from_combinato(path2data):
                   glob.glob(os.path.join(path2data, 'CSC??/')) + \
                   glob.glob(os.path.join(path2data, 'CSC???/'))
     
-    reader = neo.io.NeuralynxIO(os.path.join(CSC_folders[0], '..'))        
+    reader = neo.io.NeuralynxIO(path2data)        
     time0, timeend = reader.global_t_start, reader.global_t_stop    
     print(f'time0 = {time0}, timeend = {timeend}')
     
     ch_names, spike_times_samples = [], []
     for CSC_folder in CSC_folders:
         channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
-        probe_name = reader.header['signal_channels'][channel_num][0]
+        channel_tuples = reader.header['signal_channels']
+        probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
+        print(channel_num, probe_name)
         spikes, group_names = load_combinato_sorted_h5(path2data, channel_num,
                                                        probe_name)
         ch_names.extend(group_names)

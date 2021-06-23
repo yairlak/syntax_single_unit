@@ -288,7 +288,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
             else:
                 print(epochs.ch_names, query, ch_name)
                 evoked_curr_query = epochs[query].pick(ch_name).average(method='median')
-            evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
+            if args.data_type != 'spike':
+                evoked_curr_query.data = evoked_curr_query.data/1e3 # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
             evoked_dict[condition_name] = evoked_curr_query 
             if args.data_type != 'spike':
                 if i_query == 0: # determine cmin cmax based on first query

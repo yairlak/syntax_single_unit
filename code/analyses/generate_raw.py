@@ -47,7 +47,7 @@ if args.data_type != 'microphone':
     if raw.info['sfreq'] > args.sfreq_downsample:
         print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], args.sfreq_downsample))
         raw = raw.resample(args.sfreq_downsample, npad='auto')
-
+print(raw)
 ###############
 # REFERENCING #
 ###############

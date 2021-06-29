@@ -20,17 +20,17 @@ from sklearn.preprocessing import StandardScaler
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['479_11'])
+parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50,
                     help='Gaussian-kernal width in milisec or None')
-parser.add_argument('--probe-name', default=['GA2-LST'], nargs='*',
+parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
-parser.add_argument('--channel-name', default=None, nargs='*', action='append',
+parser.add_argument('--channel-name', default=['RFSG'], nargs='*', action='append',
                     type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', action='append',
                     type=int, help='If empty list then all channels are taken')
@@ -38,17 +38,16 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [2,4,6]",
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--query-test', default="block in [2,4,6]",
+parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1",
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 parser.add_argument('--feature-list',
-                    default=['phone_string',
-                             'is_first_word',
-                             'is_first_phone'],
+                    default=['letters',
+                             'is_first_word'],
                     nargs='*',
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=True, action='store_true',
@@ -58,10 +57,10 @@ parser.add_argument('--each-feature-value', default=True, action='store_true',
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'ridge_laplacian', 'lasso'])
 parser.add_argument('--ablation-method', default='remove',
-                    choices=['shuffle', 'remove', 'zero'],
+                    choices=['zero', 'remove', 'zero'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=3, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=3, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -76,7 +75,7 @@ parser.add_argument('--tmin_rf', default=-0.1, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=0.7, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=40, type=float,
+parser.add_argument('--decimate', default=10, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
 parser.add_argument('--path2output',
@@ -110,15 +109,16 @@ data.epoch_data(level='sentence_onset',
                 query=args.query_train,
                 decimate=args.decimate,
                 smooth=args.smooth,
+                scale_epochs=True,
                 verbose=True)
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
 y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
-if args.data_type == 'spike':
-    scaler = StandardScaler()
-    for i_ch in range(y_sentence.shape[1]):
-        y_sentence[:, i_ch, :] = scaler.fit_transform(y_sentence[:, i_ch, :])
+# if args.data_type == 'spike':
+#     scaler = StandardScaler()
+#     for i_ch in range(y_sentence.shape[1]):
+#         y_sentence[:, i_ch, :] = scaler.fit_transform(y_sentence[:, i_ch, :])
 metadata_sentences = data.epochs[0].metadata
 # n_times, n_epochs, n_channels
 
@@ -146,6 +146,8 @@ outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
 for i_split, (train, test) in enumerate(outer_cv.split(
                                         X_sentence.transpose([1, 2, 0]),
                                         y_sentence.transpose([1, 2, 0]))):
+    # TRAIN/TEST DATA
+    
     for feature_name in feature_names:
         print(f'\n Split {i_split+1}/{args.n_folds_outer}, {feature_name}')
         # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX
@@ -158,9 +160,9 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         if args.ablation_method == 'remove' or \
             (args.ablation_method in ['zero', 'shuffle'] and
              feature_name == 'full'):
-            print(f'\nTrain TRF model: X - \
+            print(f'\nTrain TRF: X (n_timepoints, n_trials, n_features)- \
                   {X_sentence_reduced[:, train, :].shape}, \
-                  y - {y_sentence[:, train, :].shape}')
+                  y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
             rf_sentence = train_TRF(X_sentence_reduced[:, train, :],
                                     y_sentence[:, train, :],
                                     data.sfreq, args)
@@ -172,9 +174,10 @@ for i_split, (train, test) in enumerate(outer_cv.split(
 
         # SENTENCE LEVEL (SCORE FOR ENTIRE SENTENCE)
         print('Sentence level: score for the entire duration')
-        results[feature_name]['total_score'].append(
-            rf_sentence.score(X_sentence_reduced[:, test, :],
-                              y_sentence[:, test, :]))
+        score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
+                                           y_sentence[:, test, :])
+        print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
+        results[feature_name]['total_score'].append(score_sentence)
         # WORD LEVEL
         print('Prepare test data at word level')
         sentences_test = metadata_sentences['sentence_string'].to_numpy()[test]
@@ -189,7 +192,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                         query=f'({args.query_test}) and \
                             ({query_test_sentences})',
                         decimate=args.decimate,
-                        scale_epochs=False,  # check same was done for train
+                        scale_epochs=True,  # check same was done for train
                         verbose=False)
         X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
             transpose([2, 0, 1])
@@ -214,6 +217,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                                                 valid_samples,
                                                 args)
         results[feature_name]['scores_by_time'].append(scores_by_time)
+        print(f'Word-level test score: maximal r = {scores_by_time.max():.3f}')
         del rf_sentence
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 

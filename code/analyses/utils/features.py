@@ -208,7 +208,7 @@ def get_feature_style(feature_name):
         dict_prop['one-hot'] = False
 
     #####################################
-    # WORD POSITION
+    # SERIAL FEATURES
     if feature_name == 'word_position':
         dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
@@ -229,6 +229,13 @@ def get_feature_style(feature_name):
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False
     
+    # FIRST PHONE
+    if feature_name == 'is_first_phone':
+        dict_prop['color'] = 'm'
+        dict_prop['ls'] = '-.'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
+        
     #####################################
     # GRAMMATICAL NUMBER
     if feature_name == 'grammatical_number':

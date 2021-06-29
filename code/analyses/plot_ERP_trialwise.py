@@ -13,18 +13,18 @@ from utils.utils import probename2picks, update_queries,\
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
-parser.add_argument('--patient', default='479_11', help='Patient string')
+parser.add_argument('--patient', default='502', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
-parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--probe-name', default=[], nargs='*', type=str,
+parser.add_argument('--smooth', default=50, help='')
+parser.add_argument('--probe-name', default=['RFSG'], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
-parser.add_argument('--channel-num', default=[], nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
+parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 parser.add_argument('--comparison-name', default='all_trials_chrono', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
@@ -63,7 +63,7 @@ if args.data_type == 'spike':
 print(args)
 
 # LOAD
-data = DataHandler(args.patient, args.data_type, args.filter, None,
+data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(verbose=True)

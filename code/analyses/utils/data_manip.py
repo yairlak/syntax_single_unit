@@ -182,13 +182,12 @@ class DataHandler:
             ############################
             if scale_epochs:
                 data = epochs_neural.get_data()
+                n_trials, _, n_times = data.shape
                 for ch in range(data.shape[1]):
-                    transformer = RobustScaler().fit(
-                        np.transpose(data[:, ch, :]))
+                    vec = data[:, ch, :].reshape(-1, 1)
+                    vec_scaled = RobustScaler().fit_transform(vec)
                     epochs_neural._data[:, ch, :] = \
-                        np.transpose(
-                            transformer.transform(
-                                np.transpose(data[:, ch, :])))
+                        vec_scaled.reshape(n_trials, n_times)
 
             if smooth:
                 width_sec = smooth/1000  # Gaussian-kernal width in [sec]

@@ -20,13 +20,14 @@ from sklearn.preprocessing import StandardScaler
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'])
+parser.add_argument('--patient', action='append', default=['479_11'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['spike'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['gaussian-kernel-25'],
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
+parser.add_argument('--smooth', default=50,
+                    help='Gaussian-kernal width in milisec or None')
+parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
 parser.add_argument('--channel-name', default=None, nargs='*', action='append',
@@ -37,16 +38,17 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [1,3,5]",
+parser.add_argument('--query-train', default="block in [2,4,6]",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--query-test', default="block in [1,3,5]",
+parser.add_argument('--query-test', default="block in [2,4,6]",
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 parser.add_argument('--feature-list',
-                    default=['letters', 'is_last_word',
-                             'is_first_word'],
+                    default=['phone_string',
+                             'is_first_word',
+                             'is_first_phone'],
                     nargs='*',
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=True, action='store_true',
@@ -98,9 +100,9 @@ print(args)
 #############
 # LOAD DATA #
 #############
-data = DataHandler(args.patient, args.data_type, args.filter, None,
+data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
-                   args.sfreq, args.feature_list)
+                   args.feature_list)
 # Both neural and feature data into a single raw object
 data.load_raw_data()
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT

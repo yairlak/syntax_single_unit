@@ -13,9 +13,9 @@ from utils.utils import probename2picks, update_queries,\
 from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
-parser.add_argument('--patient', default='479_25', help='Patient string')
+parser.add_argument('--patient', default='479_11', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='electrode type')
+                    default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
@@ -41,7 +41,7 @@ parser.add_argument('--no-title', action="store_true", default=False)
 parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
 parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
-parser.add_argument('--sort-key', default=['sentence_length'], help='Keys to sort according')
+parser.add_argument('--sort-key', default=['word_string'], help='Keys to sort according')
 parser.add_argument('--y-tick-step', default=40, type=int, help='If sorted by key, set the yticklabels density')
 parser.add_argument('--window-st', default=50, type=int, help='Regression start-time window [msec]')
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')

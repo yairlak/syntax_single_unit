@@ -312,6 +312,10 @@ def get_events(patient, level, data_type, sfreq, verbose=False):
     # EVENT_ID dictionary: mapping block names to event numbers
     event_id = dict([(event_type_name, event_number[0]) for event_type_name, event_number in zip(event_type_names, event_numbers)])
 
+    # HACK: since spike sorting was done with CSC*.ncs files that were not merged
+    # Hence, timing should be shifted by the length of the first ncs files (suffix0)
+    # if patient == 'patient_479_25' and data_type=='spike':
+    #     events[:, 0] -= int(117.647 * sfreq)
     return events, event_id, metadata
 
 
@@ -480,7 +484,8 @@ def identify_recording_system(path2data):
 
 
 def load_combinato_sorted_h5(path2data, channel_num, probe_name):
-    
+    target_types = [2] # -1: artifact, 0: unassigned, 1: MU, 2: SU
+
     spike_times_msec = []; group_names = []
     h5_files = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'data_*.h5'))
     if len(h5_files) == 1:
@@ -492,6 +497,7 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
             filename_sorted = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
             if len(filename_sorted) == 1:
                 f_sort_cat = h5py.File(filename_sorted[0], 'r')
+                group_numbers = []
                 try:
                     classes =  f_sort_cat['classes'][:]
                     index = f_sort_cat['index'][:]
@@ -508,10 +514,13 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
                     type_of_curr_group = [t_ for (g_, t_) in types if g_ == g]
                     if len(type_of_curr_group) == 1:
                         type_of_curr_group = type_of_curr_group[0]
+                    elif not any([t in target_types for t in type_of_curr_group]):
+                        print(f'No target type was found for group {g}')
+                        continue
                     else:
                         raise ('issue with types: more than one group assigned to a type')
                     # if type_of_curr_group>0: # ignore artifact and unassigned groups
-                    if type_of_curr_group==2: # Single-unit (SU) only
+                    if type_of_curr_group in target_types: # Single-unit (SU) only
                         print(f'found cluster in {probe_name}, channel {channel_num}, group {g}')
                         # Loop over all spikes
                         for i, c in enumerate(classes):

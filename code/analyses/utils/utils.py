@@ -183,7 +183,12 @@ def probename2picks(probe_names, channel_names, data_type):
         for probe_name in probe_names:
             for ch_name in channel_names:
                 if data_type == 'spike':
-                    probe_name_from_ch_name = ch_name.split('_')[-1] # assuming formant of the sort p_g6_75_PROBE
+                    if '-' in ch_name: # assuming formant of the sort p_g6_75_G??-PROBE
+                        probe_name_from_ch_name = ch_name.split('-')[-1]
+                    else: # assuming formant of the sort p_g6_75_PROBE
+                        probe_name_from_ch_name = ch_name.split('_')[-1] 
+                    # remove digits
+                    probe_name_from_ch_name = ''.join([i for i in probe_name_from_ch_name if not i.isdigit()])
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
                 elif data_type == 'micro':
                     probe_name_from_ch_name = ''.join([i for i in ch_name[4:] if not i.isdigit()]).strip() # remove prefix GA1-, and remove number from ending

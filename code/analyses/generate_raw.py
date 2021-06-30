@@ -40,14 +40,17 @@ print(args)
 path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
                                     f'{args.patient}', 'Raw')
 
-raw = data_manip.generate_mne_raw(args.data_type, args.from_mat, path2rawdata)
+raw = data_manip.generate_mne_raw(args.data_type,
+                                  args.from_mat,
+                                  path2rawdata,
+                                  args.sfreq_downsample)
 
 if args.data_type != 'microphone':
     # Downsample
     if raw.info['sfreq'] > args.sfreq_downsample:
         print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], args.sfreq_downsample))
         raw = raw.resample(args.sfreq_downsample, npad='auto')
-
+print(raw)
 ###############
 # REFERENCING #
 ###############

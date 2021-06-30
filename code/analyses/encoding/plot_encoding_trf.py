@@ -24,7 +24,8 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
 parser.add_argument('--filter', action='append',
                     default=['raw'],
                     help='raw/high-gamma/gaussian-kernel-*')
-parser.add_argument('--smooth', default=50, help='')
+parser.add_argument('--smooth', default=50,
+                    help='Gaussian smoothing, 50msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')

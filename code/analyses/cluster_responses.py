@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['high-gamma'],
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, help='')
 parser.add_argument('--level', choices=['phone', 'word',
@@ -84,9 +84,9 @@ if not os.path.exists(args.path2figures):
 #############
 # LOAD DATA #
 #############
-data = DataHandler(args.patient, args.data_type, args.filter, None,
+data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
-                   args.sfreq, feature_list=None)
+                   feature_list=None)
 # LOAD RAW DATA
 data.load_raw_data()
 # EPOCH DATA

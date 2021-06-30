@@ -84,9 +84,9 @@ if not os.path.exists(args.path2figures):
 #############
 # LOAD DATA #
 #############
-data = DataHandler(args.patient, args.data_type, args.filter, None,
+data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
-                   args.sfreq, feature_list=None)
+                   feature_list=None)
 # LOAD RAW DATA
 data.load_raw_data()
 # EPOCH DATA

@@ -451,21 +451,26 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
 
         raws = []
         for i_segment, segment in enumerate(blks[0].segments):
-            print('Segment:', i_segment)
-            ch_types = ['seeg'] * n_channels
-            info = mne.create_info(ch_names=ch_names,
-                                   sfreq=sfreq, ch_types=ch_types)
-            raw = mne.io.RawArray(np.asarray(segment.analogsignals[0].load()),
-                                  info)
-            if data_type != 'microphone':
-                # Downsample
-                if raw.info['sfreq'] > sfreq_down:
-                    print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
-                    raw = raw.resample(sfreq_down, npad='auto')
-            raws.append(raw)
+            print(f'Segment - {i_segment+1}/{len(blks[0].segments)}')
+            asignal = segment.analogsignals[0].load()
+            
+            raw_channels = []
+            for i_ch in range(n_channels):
+                info = mne.create_info(ch_names=[ch_names[i_ch]],
+                                       sfreq=sfreq, ch_types='seeg')
+                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info, verbose=False)
+                if data_type != 'microphone':
+                    # Downsample
+                    if raw.info['sfreq'] > sfreq_down:
+                        print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
+                        raw = raw.resample(sfreq_down, npad='auto')
+                if i_ch == 0:
+                    raw_channels = raw.copy()
+                else:
+                    raw_channels.add_channels([raw])
+            raws.append(raw_channels)
         del blks
-        raw = mne.concatenate_raws(raws)
-        del raws
+        raws = mne.concatenate_raws(raws)
     elif recording_system == 'BlackRock':
         reader = io.BlackrockIO(path2data)
         sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
@@ -473,7 +478,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         print(dir(reader))
         raise('Implementation error')
 
-    return raw
+    return raws
 
 
 def identify_recording_system(path2data):

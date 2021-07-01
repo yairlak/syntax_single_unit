@@ -14,26 +14,26 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='502', help='Patient string')
+parser.add_argument('--patient', default='479_11', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='micro', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
-                    default='word', help='')
+                    default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
-parser.add_argument('--smooth', default=25, help='')
+parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*', type=str,
+parser.add_argument('--probe-name', default=['LSTG'], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='all_words', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='all_trials_chrono', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
-parser.add_argument('--average-repeated-trials', action="store_true", default=True, help='')
+parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
 parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
 parser.add_argument('--tmax', default=0.6, type=float, help='crop window')
 parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
@@ -47,7 +47,7 @@ parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
 parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['word_string'], help='Keys to sort according')
-parser.add_argument('--y-tick-step', default=5, type=int, help='If sorted by key, set the yticklabels density')
+parser.add_argument('--y-tick-step', default=10, type=int, help='If sorted by key, set the yticklabels density')
 parser.add_argument('--window-st', default=50, type=int, help='Regression start-time window [msec]')
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
@@ -57,6 +57,8 @@ parser.add_argument('--save2', default=[], help='If empty saves figure to defaul
 
 
 args = parser.parse_args()
+
+assert not (args.data_type == 'spike' and args.scale_epochs == True)
 args.patient = 'patient_' + args.patient
 if isinstance(args.sort_key, str):
     args.sort_key = eval(args.sort_key)
@@ -281,8 +283,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
             # if args.data_type != 'spike':
             ch_type = epochs.get_channel_types(picks=[ch])[0]
             print(ch_type)
-            if ch_type == 'seeg': # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
-                evoked_curr_query.data = evoked_curr_query.data
+            if ch_type == 'seeg' and args.data_type != 'spike': # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
+                evoked_curr_query.data = evoked_curr_query.data/1e3
             elif ch_type == 'eeg':
                 evoked_curr_query.data = evoked_curr_query.data/1e3 
             evoked_dict[condition_name] = evoked_curr_query 

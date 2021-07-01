@@ -177,17 +177,6 @@ class DataHandler:
             if self.feature_list:
                 epochs_features = epochs.copy().pick_types(misc=True)
 
-            ############################
-            # Robust Scaling Transform #
-            ############################
-            if scale_epochs:
-                data = epochs_neural.get_data()
-                n_trials, _, n_times = data.shape
-                for ch in range(data.shape[1]):
-                    vec = data[:, ch, :].reshape(-1, 1)
-                    vec_scaled = RobustScaler().fit_transform(vec)
-                    epochs_neural._data[:, ch, :] = \
-                        vec_scaled.reshape(n_trials, n_times)
 
             if smooth:
                 width_sec = smooth/1000  # Gaussian-kernal width in [sec]
@@ -199,6 +188,21 @@ class DataHandler:
                         data[tr, ch, :] = gaussian_filter1d(
                             time_series, width_sec*self.sfreq)
                 epochs_neural._data = data
+            
+            
+            ############################
+            # Robust Scaling Transform #
+            ############################
+            if scale_epochs:
+                data = epochs_neural.get_data()
+                n_trials, n_chs, n_times = data.shape
+                for i_ch in range(n_chs):
+                    vec = data[:, i_ch, :].reshape(-1, 1)
+                    vec_scaled = StandardScaler().fit_transform(vec)
+                    epochs_neural._data[:, i_ch, :] = \
+                        vec_scaled.reshape(n_trials, n_times)
+
+            
 
             if self.feature_list:
                 # Put together neural and feature data
@@ -242,7 +246,7 @@ def get_raw_features(metadata_features, feature_list, num_time_samples, sfreq):
     # CREATE DESIGN MATRIX
     X_features, feature_names, feature_info, feature_groups = \
         build_feature_matrix_from_metadata(metadata_features, feature_list)
-    num_samples, num_features = X_features.shape
+    _, num_features = X_features.shape
     times_sec = metadata_features['event_time'].values
     times_samples = (times_sec * sfreq).astype(int)
     # add 10sec for RF
@@ -1046,8 +1050,17 @@ def extend_metadata(metadata):
     morph_complex = [1 if m in ['d', 'ed', 'y', 'es', 'ing','s'] else 0 for m in metadata['morpheme']]
     metadata['morph_complex'] = morph_complex
   
-    # IS FIRST WORD (LAST_WORD ALREADY IN METADATA) 
-    is_first_word = [1 if wp==1 else 0 for wp in metadata['word_position']]
+    # IS FIRST WORD (LAST_WORD ALREADY IN METADATA)
+    is_first_word = []
+    for b, wp, ifp in zip(metadata['block'],
+                          metadata['word_position'],
+                          metadata['is_first_phone']):
+        ifw = 0
+        if (b in [1, 3, 5]) and wp == 1:
+            ifw = 1
+        elif (b in [2, 4, 6]) and wp == 1 and ifp == 1:
+            ifw = 1
+        is_first_word.append(ifw)
     metadata['is_first_word'] = is_first_word
 
 

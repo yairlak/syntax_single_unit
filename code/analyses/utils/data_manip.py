@@ -266,7 +266,7 @@ def get_raw_features(metadata_features, feature_list, num_time_samples, sfreq):
         X[:, IX_word_onset] = word_onset
     # MNE-ize feature data
     ch_types = ['misc'] * len(feature_names)
-    info = mne.create_info(len(feature_names),
+    info = mne.create_info(ch_names=feature_names,
                            ch_types=ch_types,
                            sfreq=sfreq)
     raw_features = mne.io.RawArray(X.T, info)

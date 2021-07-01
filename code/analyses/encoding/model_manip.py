@@ -9,9 +9,34 @@ Created on Mon Apr 19 17:29:59 2021
 import numpy as np
 from encoding.models import TimeDelayingRidgeCV
 from mne.decoding import ReceptiveField
+from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn import linear_model
 from sklearn.metrics import r2_score
 from tqdm import tqdm
+
+
+def scale_data(X, feature_names, method='standard',
+               features_without_scaling=['is_first_word', 'is_first_phone']):
+    # ASSUMING LAST DIM IS OUTPUT (CHANNEL), WHETEHR X IS TWO- OR -THREE DIM.
+    if method == 'standard':
+        scaler = StandardScaler()
+    elif method == 'robust':
+        scaler = RobustScaler()
+
+    if X.ndim == 2:
+        np.expand_dims(X, 1)  # add a singelton for the trial dim if X is 2d
+
+    # X: n_times X n_trials X n_outputs (n_channels)
+    n_times, n_trials, n_features = X.shape
+    for i_feat in range(n_features):
+        if feature_names:  # for neural run it should be None
+            feature_name = feature_names[i_feat]
+            if feature_name in features_without_scaling:
+                continue  # skip current feature if its without scaling
+        vec = X[:, :, i_feat].reshape(-1, 1)
+        X[:, :, i_feat] = scaler.fit_transform(vec).reshape(n_times, n_trials)
+
+    return X
 
 
 def train_TRF(X_train, y_train, sfreq, args):

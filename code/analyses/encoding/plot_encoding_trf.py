@@ -44,7 +44,7 @@ parser.add_argument('--decimate', default=None, type=float,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
-parser.add_argument('--ablation-method', default='remove',
+parser.add_argument('--ablation-method', default='zero',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')

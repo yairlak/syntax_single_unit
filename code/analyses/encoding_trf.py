@@ -12,7 +12,7 @@ import datetime
 import numpy as np
 from sklearn.model_selection import KFold
 from encoding.model_manip import reduce_design_matrix,\
-                                 eval_TRF_across_epochs, train_TRF
+                                 eval_TRF_across_epochs, train_TRF, scale_data
 from utils.utils import dict2filename
 from utils.data_manip import DataHandler
 from sklearn.preprocessing import StandardScaler
@@ -43,7 +43,7 @@ parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1
                         "and first_phone == 1"')
 parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1",
                     help='If not empry, eval model on a separate test query')
-parser.add_argument('--scale-epochs', default=True, action='store_true',
+parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 parser.add_argument('--feature-list',
                     default=['is_first_word', 'letters', 'is_last_word'],
@@ -55,11 +55,11 @@ parser.add_argument('--each-feature-value', default=True, action='store_true',
 # MODEL
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'ridge_laplacian', 'lasso'])
-parser.add_argument('--ablation-method', default='remove',
-                    choices=['zero', 'remove', 'zero'],
+parser.add_argument('--ablation-method', default='zero',
+                    choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=3, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -74,7 +74,7 @@ parser.add_argument('--tmin_rf', default=-0.1, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=0.7, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=20, type=float,
+parser.add_argument('--decimate', default=50, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
 parser.add_argument('--path2output',
@@ -111,29 +111,21 @@ data.epoch_data(level='sentence_onset',
                 smooth=args.smooth,
                 scale_epochs=args.scale_epochs, # must be same as word level
                 verbose=True)
+
+# PREPARE MATRICES
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
+feature_names = data.epochs[0].copy().pick_types(misc=True).ch_names
+X_sentence = scale_data(X_sentence, feature_names, method='standard')
+
 y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
-# if args.data_type == 'spike':
-#     scaler = StandardScaler()
-#     for i_ch in range(y_sentence.shape[1]):
-#         y_sentence[:, i_ch, :] = scaler.fit_transform(y_sentence[:, i_ch, :])
+y_sentence = scale_data(y_sentence,
+                        feature_names=None,  # scale all outputs
+                        method='standard')
+
 metadata_sentences = data.epochs[0].metadata
-# n_times, n_epochs, n_channels
 
-
-###########
-# SCALING #
-###########
-# n_times, n_trials, n_chs = y_sentence.shape
-# scalers = []
-# for i_ch in range(n_chs):
-#     scaler = StandardScaler()
-#     y_vec = y_sentence[:, :, i_ch].reshape(-1, 1)
-#     y_vec_scaled = scaler.fit_transform(y_vec)
-#     y_sentence[:, :, i_ch] = y_vec_scaled.reshape(n_times, n_trials)
-#     scalers.append(scaler)
 
 ##################
 # ENCODING MODEL #
@@ -176,8 +168,13 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                     verbose=False)
     X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
+    X_test_word = scale_data(X_test_word, feature_names, method='standard')
+    
     y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
         get_data().transpose([2, 0, 1])
+    y_test_word = scale_data(y_test_word,
+                             feature_names=None,  # scale all outputs
+                             method='standard')
     
     for feature_name in feature_names:
         print(f'\n Split {i_split+1}/{args.n_folds_outer}, {feature_name}')
@@ -191,7 +188,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         if args.ablation_method == 'remove' or \
             (args.ablation_method in ['zero', 'shuffle'] and
              feature_name == 'full'):
-            print(f'\nTrain TRF: X (n_timepoints, n_trials, n_features)- \
+            print(f'\nTrain TRF: X (n_times, n_trials, n_features)- \
                   {X_sentence_reduced[:, train, :].shape}, \
                   y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
             rf_sentence = train_TRF(X_sentence_reduced[:, train, :],
@@ -209,13 +206,8 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                                            y_sentence[:, test, :])
         print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
         results[feature_name]['total_score'].append(score_sentence)
-        
 
-        
-
-        
-        times_word = data.epochs[0].times
-        # word_start_sample = int(np.abs(args.tmin_word*data.sfreq))
+        # WORD LEVEL (SCORE PER TIME POINT)
         X_test_word_reduced = reduce_design_matrix(X_test_word, feature_name,
                                                    data.feature_info,
                                                    args.ablation_method)

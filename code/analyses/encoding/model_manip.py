@@ -15,27 +15,38 @@ from sklearn.metrics import r2_score
 from tqdm import tqdm
 
 
-def scale_data(X, feature_names, method='standard',
-               features_without_scaling=['is_first_word', 'is_first_phone']):
-    # ASSUMING LAST DIM IS OUTPUT (CHANNEL), WHETEHR X IS TWO- OR -THREE DIM.
+def get_scalers(X, method='standard'):
+    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
+    # X: n_times X n_trials X n_features (or last dim is n_outputs)
+
     if method == 'standard':
         scaler = StandardScaler()
     elif method == 'robust':
         scaler = RobustScaler()
 
-    if X.ndim == 2:
-        np.expand_dims(X, 1)  # add a singelton for the trial dim if X is 2d
+    scalers = []
+    for i_feat in range(X.shape[-1]):
+        vec = X[:, :, i_feat].reshape(-1, 1)
+        scaler.fit(vec)
+        scalers.append(scaler)
 
-    # X: n_times X n_trials X n_outputs (n_channels)
+    return scalers
+
+
+def scale_data(X, feature_names, scalers,
+               features_without_scaling=['is_first_word', 'is_first_phone']):
+    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
+    # X: n_times X n_trials X n_features (or last dim is n_outputs)
+
     n_times, n_trials, n_features = X.shape
     for i_feat in range(n_features):
-        if feature_names:  # for neural run it should be None
+        if feature_names:  # for neural data, instead of a list should be None
             feature_name = feature_names[i_feat]
             if feature_name in features_without_scaling:
                 continue  # skip current feature if its without scaling
+        scaler = scalers[i_feat]
         vec = X[:, :, i_feat].reshape(-1, 1)
-        X[:, :, i_feat] = scaler.fit_transform(vec).reshape(n_times, n_trials)
-
+        X[:, :, i_feat] = scaler.transform(vec).reshape(n_times, n_trials)
     return X
 
 

@@ -12,7 +12,7 @@ import datetime
 import numpy as np
 from sklearn.model_selection import KFold
 from encoding.model_manip import reduce_design_matrix,\
-                                 eval_TRF_across_epochs, train_TRF, scale_data
+                                 eval_TRF_across_epochs, train_TRF
 from utils.utils import dict2filename
 from utils.data_manip import DataHandler
 from sklearn.preprocessing import StandardScaler
@@ -66,13 +66,13 @@ parser.add_argument('--eval-only', default=False, action='store_true',
                     help="Evaluate model without training \
                         (requires pre-trained models)")
 # MISC
-parser.add_argument('--tmin_word', default=-0.9, type=float,
+parser.add_argument('--tmin_word', default=-1, type=float,
                     help='Start time of word time window')
-parser.add_argument('--tmax_word', default=0.7, type=float,
+parser.add_argument('--tmax_word', default=1, type=float,
                     help='End time of word time window')
 parser.add_argument('--tmin_rf', default=-0.1, type=float,
                     help='Start time of receptive-field kernel')
-parser.add_argument('--tmax_rf', default=0.7, type=float,
+parser.add_argument('--tmax_rf', default=0.6, type=float,
                     help='End time of receptive-field kernel')
 parser.add_argument('--decimate', default=50, type=float,
                     help='Set empty list for no decimation.')
@@ -102,27 +102,30 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
                    args.feature_list)
 # Both neural and feature data into a single raw object
-data.load_raw_data()
+data.load_raw_data(scaling_method='standard')
 sfreq_original = data.raws[0].info['sfreq'] # used later for word epoch
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level='sentence_onset',
                 query=args.query_train,
                 decimate=args.decimate,
                 smooth=args.smooth,
-                scale_epochs=args.scale_epochs, # must be same as word level
+                scale_epochs=False, # must be same as word level
                 verbose=True)
 
 # PREPARE MATRICES
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
-feature_names = data.epochs[0].copy().pick_types(misc=True).ch_names
-X_sentence = scale_data(X_sentence, feature_names, method='standard')
+
+# X_scalers = get_scalers(X_sentence, method='standard')
+# feature_names = data.epochs[0].copy().pick_types(misc=True).ch_names
+# X_sentence = scale_data(X_sentence, feature_names, method='standard')
 
 y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
-y_sentence = scale_data(y_sentence,
-                        feature_names=None,  # scale all outputs
-                        method='standard')
+# y_scalers = get_scalers(y_sentence, method='standard')
+# y_sentence = scale_data(y_sentence,
+#                         feature_names=None,  # scale all outputs
+#                         method='standard')
 
 metadata_sentences = data.epochs[0].metadata
 
@@ -164,17 +167,17 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                     query=f'({args.query_test}) and \
                         ({query_test_sentences})',
                     decimate=args.decimate,
-                    scale_epochs=args.scale_epochs,  # same for train
+                    scale_epochs=False,  # same for train
                     verbose=False)
     X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
-    X_test_word = scale_data(X_test_word, feature_names, method='standard')
+    # X_test_word = scale_data(X_test_word, feature_names, X_scalers)
     
     y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
         get_data().transpose([2, 0, 1])
-    y_test_word = scale_data(y_test_word,
-                             feature_names=None,  # scale all outputs
-                             method='standard')
+    # y_test_word = scale_data(y_test_word,
+    #                           feature_names=None,  # scale all outputs
+    #                           scalers=y_scalers)
     
     for feature_name in feature_names:
         print(f'\n Split {i_split+1}/{args.n_folds_outer}, {feature_name}')
@@ -191,7 +194,8 @@ for i_split, (train, test) in enumerate(outer_cv.split(
             print(f'\nTrain TRF: X (n_times, n_trials, n_features)- \
                   {X_sentence_reduced[:, train, :].shape}, \
                   y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
-            rf_sentence = train_TRF(X_sentence_reduced[:, train, :],
+            rf_sentence = train_TRF(
+                                    X_sentence_reduced[:, train, :],
                                     y_sentence[:, train, :],
                                     data.sfreq, args)
             results[feature_name]['rf_sentence'].append(rf_sentence)

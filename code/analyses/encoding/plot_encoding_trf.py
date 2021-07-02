@@ -25,7 +25,7 @@ parser.add_argument('--filter', action='append',
                     default=['raw'],
                     help='raw/high-gamma/gaussian-kernel-*')
 parser.add_argument('--smooth', default=25,
-                    help='Gaussian smoothing, 50msec')
+                    help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')

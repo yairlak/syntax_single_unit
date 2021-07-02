@@ -7,7 +7,6 @@ import mne
 from scipy import io
 from sklearn.preprocessing import StandardScaler, RobustScaler
 import pandas as pd
-from .load_settings_params import Settings, Params
 from .features import build_feature_matrix_from_metadata
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
@@ -15,9 +14,10 @@ from scipy.ndimage import gaussian_filter1d
 import neo
 import h5py
 
+
 class DataHandler:
     def __init__(self, patient, data_type, filt,
-                 probe_name, channel_name, channel_num,
+                 probe_name=None, channel_name=None, channel_num=None,
                  feature_list=None):
         # MAKE SURE patient, data_type and filt are all lists
         if isinstance(patient, str):
@@ -35,20 +35,24 @@ class DataHandler:
         self.channel_num = channel_num
         self.feature_list = feature_list
 
-    def load_raw_data(self, verbose=False):
+    def load_raw_data(self, scaling_method=None, verbose=False):
         '''
-        Load raw MNE objects
 
         Parameters
         ----------
+        scaling_method : TYPE, optional
+            Which scaling method to use: 'standard' or 'robust'.
+            If None then no scaling is performed. The default is None.
         verbose : TYPE, optional
-            DESCRIPTION. The default is False.
+            Verbosity. The default is False.
 
         Returns
         -------
-        A list of raw object for all patients, data-types and filters
+        None.
 
         '''
+        
+        
         self.raws = []  # list of raw MNE objects
         for p, (patient, data_type, filt) in enumerate(zip(self.patient,
                                                            self.data_type,
@@ -86,6 +90,22 @@ class DataHandler:
                 raw_neural.load_data()
                 raw_neural = raw_neural.add_channels([raw_features],
                                                      force_update_info=True)
+            if scaling_method:
+                if scaling_method == 'standard':
+                    scaler = StandardScaler()
+                elif scaling_method == 'robust':
+                    scaler = RobustScaler()
+                # raw_neural might already include feature channels:
+                features_without_scaling=['is_first_word', 'is_first_phone']
+                picks = mne.pick_channels(raw_neural.ch_names,
+                                          include=[], # include all but:
+                                          exclude=features_without_scaling,
+                                          ordered=True)
+                print(f'{scaling_method.capitalize()} scaling {len(picks)} channels')
+                
+                scaled_data = scaler.fit_transform(raw_neural.copy().pick(picks).get_data().T)
+                raw_neural._data[picks, :] = scaled_data.T
+                
             self.raws.append(raw_neural)
             
 

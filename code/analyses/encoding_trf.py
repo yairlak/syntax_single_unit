@@ -23,9 +23,9 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['raw'],
+parser.add_argument('--filter', action='append', default=['high-gamma'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=25,
+parser.add_argument('--smooth', default=None,
                     help='Gaussian-kernal width in milisec or None')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,
@@ -102,7 +102,7 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
                    args.feature_list)
 # Both neural and feature data into a single raw object
-data.load_raw_data(scaling_method='standard')
+data.load_raw_data(scale_features='standard')
 sfreq_original = data.raws[0].info['sfreq'] # used later for word epoch
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level='sentence_onset',

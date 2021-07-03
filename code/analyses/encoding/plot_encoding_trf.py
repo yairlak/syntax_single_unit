@@ -22,9 +22,9 @@ parser.add_argument('--patient', action='append', default=['502'],
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
-                    help='raw/high-gamma/gaussian-kernel-*')
-parser.add_argument('--smooth', default=25,
+                    default=['high-gamma'],
+                    help='raw/high-gamma')
+parser.add_argument('--smooth', default=None,
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
                     action='append', type=str,

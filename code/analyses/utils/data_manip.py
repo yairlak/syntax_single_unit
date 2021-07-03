@@ -35,7 +35,7 @@ class DataHandler:
         self.channel_num = channel_num
         self.feature_list = feature_list
 
-    def load_raw_data(self, scaling_method=None, verbose=False):
+    def load_raw_data(self, scale_features=None, verbose=False):
         '''
 
         Parameters
@@ -90,18 +90,18 @@ class DataHandler:
                 raw_neural.load_data()
                 raw_neural = raw_neural.add_channels([raw_features],
                                                      force_update_info=True)
-            if scaling_method:
-                if scaling_method == 'standard':
+            if scale_features:
+                if scale_features == 'standard':
                     scaler = StandardScaler()
-                elif scaling_method == 'robust':
+                elif scale_features == 'robust':
                     scaler = RobustScaler()
                 # raw_neural might already include feature channels:
                 features_without_scaling=['is_first_word', 'is_first_phone']
-                picks = mne.pick_channels(raw_neural.ch_names,
-                                          include=[], # include all but:
-                                          exclude=features_without_scaling,
-                                          ordered=True)
-                print(f'{scaling_method.capitalize()} scaling {len(picks)} channels')
+                picks = mne.pick_types(raw_neural.info,
+                                       misc=True,
+                                       include=[], # include all but:
+                                       exclude=features_without_scaling)
+                print(f'{scale_features.capitalize()} scaling {len(picks)} FEATURE channels')
                 
                 scaled_data = scaler.fit_transform(raw_neural.copy().pick(picks).get_data().T)
                 raw_neural._data[picks, :] = scaled_data.T

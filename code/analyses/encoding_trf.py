@@ -55,7 +55,7 @@ parser.add_argument('--each-feature-value', default=True, action='store_true',
 # MODEL
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'ridge_laplacian', 'lasso'])
-parser.add_argument('--ablation-method', default='zero',
+parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
 parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")

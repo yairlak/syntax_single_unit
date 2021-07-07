@@ -173,6 +173,7 @@ def probename2picks(probe_names, channel_names, data_type):
     either 'micro', 'macro', or 'spike'
     '''
     assert data_type in ['micro', 'macro', 'spike', 'microphone'], "Unrecognized data-type (must be 'micro', 'macro' or 'spike')"
+    print(probe_names, channel_names)
     
     if not isinstance(probe_names, list):
         probe_names = [str(probe_names)]
@@ -187,6 +188,7 @@ def probename2picks(probe_names, channel_names, data_type):
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
                 elif data_type == 'micro':
                     probe_name_from_ch_name = ''.join([i for i in ch_name[4:] if not i.isdigit()]).strip() # remove prefix GA1-, and remove number from ending
+                    print(probe_name_from_ch_name)
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
                 elif data_type == 'macro':
                     probe_name_from_ch_name = ''.join([i for i in ch_name.split('-')[0] if not i.isdigit()]) # Assuming format of the sort LSTG1-LSTG2 (bipolar)

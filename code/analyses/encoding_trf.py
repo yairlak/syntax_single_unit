@@ -22,8 +22,8 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['gaussian-kernel-25'],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['high-gamma'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
@@ -55,7 +55,7 @@ parser.add_argument('--each-feature-value', default=True, action='store_true',
 # MODEL
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'ridge_laplacian', 'lasso'])
-parser.add_argument('--ablation-method', default='remove',
+parser.add_argument('--ablation-method', default='zero',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method to use for calcuating feature importance')
 parser.add_argument('--n-folds-inner', default=3, type=int, help="For CV")
@@ -212,7 +212,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                                                 valid_samples,
                                                 args)
         results[feature_name]['scores_by_time'].append(scores_by_time)
-        del rf_sentence
+        #del rf_sentence
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 
 ########

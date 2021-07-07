@@ -20,9 +20,9 @@ parser = argparse.ArgumentParser(description='Plot TRF results')
 parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['gaussian-kernel-25'],
+                    default=['high-gamma'],
                     help='raw/high-gamma/gaussian-kernel-*')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
@@ -43,7 +43,7 @@ parser.add_argument('--decimate', default=None, type=float,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
-parser.add_argument('--ablation-method', default='remove',
+parser.add_argument('--ablation-method', default='zero',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')

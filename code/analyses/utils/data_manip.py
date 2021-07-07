@@ -5,7 +5,7 @@ import sys
 import numpy as np
 import mne
 from scipy import io
-from sklearn.preprocessing import StandardScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 import pandas as pd
 from .features import build_feature_matrix_from_metadata
 from wordfreq import word_frequency, zipf_frequency
@@ -35,7 +35,8 @@ class DataHandler:
         self.channel_num = channel_num
         self.feature_list = feature_list
 
-    def load_raw_data(self, scale_features=None, verbose=False):
+
+    def load_raw_data(self, decimate=False, verbose=False):
         '''
 
         Parameters
@@ -64,9 +65,7 @@ class DataHandler:
             raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
                                                           fname_raw),
                                              preload=True)
-            # SAMPLING FREQUENCY
-            self.sfreq = raw_neural.info['sfreq']
-            
+                        
             # PICK
             picks = None
             if self.probe_name:
@@ -81,30 +80,45 @@ class DataHandler:
                 print('picks:', picks)
             raw_neural.pick(picks)
 
+            
+            # DECIMATE
+            if decimate:
+                raw_neural.resample(int(raw_neural.info['sfreq']/decimate))
+            
+            # SAMPLING FREQUENCY
+            self.sfreq = raw_neural.info['sfreq'] 
+
             if self.feature_list:
                 metadata_features = get_metadata_features(patient, data_type, self.sfreq)
                 raw_features, self.feature_names,\
                     self.feature_info, self.feature_groups = \
                     get_raw_features(metadata_features, self.feature_list,
                                      len(raw_neural), self.sfreq)
+                
+                # if decimate:
+                #     raw_features = decimate_with_feature_preserving(raw_features, decimate, raw_neural.info['sfreq'])
+
                 raw_neural.load_data()
                 raw_neural = raw_neural.add_channels([raw_features],
                                                      force_update_info=True)
-            if scale_features:
-                if scale_features == 'standard':
-                    scaler = StandardScaler()
-                elif scale_features == 'robust':
-                    scaler = RobustScaler()
-                # raw_neural might already include feature channels:
-                features_without_scaling=['is_first_word', 'is_first_phone']
-                picks = mne.pick_types(raw_neural.info,
-                                       misc=True,
-                                       include=[], # include all but:
-                                       exclude=features_without_scaling)
-                print(f'{scale_features.capitalize()} scaling {len(picks)} FEATURE channels')
+                           
+            # UPDATE SFREQ AFTER POSSIBLE DECIMATION
+            # self.sfreq = raw_neural.info['sfreq'] 
+            # if scale_features:
+            #     if scale_features == 'standard':
+            #         scaler = StandardScaler()
+            #     elif scale_features == 'robust':
+            #         scaler = RobustScaler()
+            #     # raw_neural might already include feature channels:
+            #     features_without_scaling=['is_first_word', 'is_first_phone']
+            #     picks = mne.pick_types(raw_neural.info,
+            #                            misc=True,
+            #                            include=[], # include all but:
+            #                            exclude=features_without_scaling)
+            #     print(f'{scale_features.capitalize()} scaling {len(picks)} FEATURE channels')
                 
-                scaled_data = scaler.fit_transform(raw_neural.copy().pick(picks).get_data().T)
-                raw_neural._data[picks, :] = scaled_data.T
+            #     scaled_data = scaler.fit_transform(raw_neural.copy().pick(picks).get_data().T)
+            #     raw_neural._data[picks, :] = scaled_data.T
                 
             self.raws.append(raw_neural)
             
@@ -114,7 +128,7 @@ class DataHandler:
             [print(raw.ch_names) for raw in self.raws]
 
     def epoch_data(self, level,
-                   tmin=None, tmax=None, decimate=None, query=None,
+                   tmin=None, tmax=None,  query=None,
                    block_type=None, scale_epochs=False, verbose=False,
                    smooth=None):
         '''
@@ -187,10 +201,7 @@ class DataHandler:
             # CROP
             if tmin and tmax:
                 epochs = epochs.crop(tmin=tmin, tmax=tmax)
-            # DECIMATE
-            if decimate:
-                epochs.decimate(decimate)
-                self.sfreq = epochs.info['sfreq']
+            
 
             # Separate neural data from features before pick and scale
             epochs_neural = epochs.copy().pick_types(seeg=True, eeg=True)
@@ -267,23 +278,26 @@ def get_raw_features(metadata_features, feature_list, num_time_samples, sfreq):
     X_features, feature_names, feature_info, feature_groups = \
         build_feature_matrix_from_metadata(metadata_features, feature_list)
     _, num_features = X_features.shape
+    
+    # STANDARIZE THE FEATURE MATRIX #
+    scaler = MinMaxScaler()
+    # EXCEPT FOR WORD AND SENTENCE ONSET
+    # IX_sentence_onset = feature_names.index('is_first_word')
+    # sentence_onset = X_features[:, IX_sentence_onset]
+    # if 'is_first_phone' in feature_names:
+    #     IX_word_onset = feature_names.index('is_first_phone')
+    #     word_onset = X_features[:, IX_word_onset]
+    X_features = scaler.fit_transform(X_features)
+    # X_features[:, IX_sentence_onset] = sentence_onset
+    # if 'is_first_phone' in feature_names:
+    #     X_features[:, IX_word_onset] = word_onset
+    
     times_sec = metadata_features['event_time'].values
-    times_samples = (times_sec * sfreq).astype(int)
-    # add 10sec for RF
+    times_samples = (times_sec * sfreq).astype(int)  
+    
     X = np.zeros((num_time_samples, num_features))
     X[times_samples, :] = X_features
-    # STANDARIZE THE FEATURE MATRIX #
-    scaler = StandardScaler()
-    # EXCEPT FOR WORD AND SENTENCE ONSET
-    IX_sentence_onset = feature_names.index('is_first_word')
-    sentence_onset = X[:, IX_sentence_onset]
-    if 'is_first_phone' in feature_names:
-        IX_word_onset = feature_names.index('is_first_phone')
-        word_onset = X[:, IX_word_onset]
-    X = scaler.fit_transform(X)
-    X[:, IX_sentence_onset] = sentence_onset
-    if 'is_first_phone' in feature_names:
-        X[:, IX_word_onset] = word_onset
+    
     # MNE-ize feature data
     ch_types = ['misc'] * len(feature_names)
     info = mne.create_info(ch_names=feature_names,
@@ -599,212 +613,6 @@ def add_event_to_metadata(metadata, event_time, sentence_number, sentence_string
     metadata['last_word'].append(last_word)
     return metadata
 
-
-def convert_to_mne_python(data, events, event_id, electrode_info, metadata, sfreq_data, tmin, tmax):
-    '''
-
-    :param data:
-    :param events:
-    :param event_id:
-    :param electrode_labels:
-    :param metadata:
-    :param sfreq_data:
-    :param tmin:
-    :param tmax:
-    :return:
-    '''
-    channel_names = [s[0][0]+'-'+s[3][0] for s in electrode_info['labels']]
-    regions = set([s[3][0] for s in electrode_info['labels']])
-    print('Regions: ' + ' '.join(regions))
-    montage = mne.channels.Montage(electrode_info['coordinates'], channel_names, 'misc', range(len(channel_names)))
-    # fig_montage = montage.plot(kind='3d')
-    num_channels = data.shape[0]
-    ch_types = ['seeg' for s in range(num_channels)]
-    info = mne.create_info(ch_names=channel_names, sfreq=sfreq_data, ch_types=ch_types)#, montage=montage)
-    raw = mne.io.RawArray(data, info)
-
-    epochs = mne.Epochs(raw, events, event_id, tmin, tmax, metadata=metadata, baseline=None,
-                        preload=False)
-    return info, epochs
-
-
-
-def create_events_array(metadata):
-    '''
-
-    :param metadata: (pandas dataframe) num_words X num_features; all words across all stimuli
-    :param params: (object) general parameters
-    :return:
-    '''
-
-    # First column of events object
-    curr_times = np.expand_dims(metadata['event_time'].values, axis=1)
-
-    # Second column
-    second_column = np.zeros((len(curr_times), 1))
-
-    # Third column
-    event_numbers = range(len(curr_times))  # For each block, the event_ids are ordered within a range of 100 numbers block1: 101-201, block2: 201-300, etc.
-    event_numbers = np.expand_dims(event_numbers, axis=1)
-
-    # EVENT object: concatenate all three columns together (then change to int and sort)
-    events = np.hstack((curr_times, second_column, event_numbers))
-    events = events.astype(int)
-    sort_IX = np._argsort(events[:, 0], axis=0)
-    events = events[sort_IX, :]
-
-    # EVENT_ID dictionary: mapping block names to event numbers
-    event_id = dict([(str(event_type_name), event_number[0]) for event_type_name, event_number in zip(event_numbers, event_numbers)])
-
-
-    return events, event_id
-
-
-
-
-def load_neural_data(patient, data_type, filt, level,
-                     probe_name=None, channel_name=None, channel_num=None,
-                     tmin=None, tmax=None, decimate=None,
-                     query=None, block_type=None,
-                     scale_epochs=False, verbose=False):
-    '''
-    Parameters
-    ----------
-    patient : TYPE
-        DESCRIPTION.
-    data_type : TYPE
-        DESCRIPTION.
-    filt : TYPE
-        DESCRIPTION.
-    level : TYPE
-        DESCRIPTION.
-    probe_name : TYPE, optional
-        DESCRIPTION. The default is None.
-    channel_name : TYPE, optional
-        DESCRIPTION. The default is None.
-    channel_num : TYPE, optional
-        DESCRIPTION. The default is None.
-    tmin : TYPE, optional
-        DESCRIPTION. The default is None.
-    tmax : TYPE, optional
-        DESCRIPTION. The default is None.
-    decimate : TYPE, optional
-        DESCRIPTION. The default is None.
-    query : TYPE, optional
-        DESCRIPTION. The default is None.
-    block_type : TYPE, optional
-        DESCRIPTION. The default is None.
-    scale_epochs : TYPE, optional
-        DESCRIPTION. The default is False.
-    verbose : TYPE, optional
-        DESCRIPTION. The default is False.
-
-    Returns
-    -------
-    epochs_list : list
-        List of epochs
-
-    '''
-    import mne
-    from utils.utils import probename2picks  # pick_responsive_channels
-    # from utils.read_logs_and_features import extend_metadata
-
-    if isinstance(patient, str):  # in case a patient list is not provided
-        patients = [patient]
-    else:
-        patients = patient
-    if isinstance(data_type, str):
-        data_types = [data_type]
-    else:
-        data_types = data_type
-    if isinstance(filt, str):
-        filters = [filt]
-    else:
-        filters = filt
-
-    epochs_list = []
-    for p, (patient, data_type, filt) in enumerate(zip(patients,
-                                                       data_types,
-                                                       filters)):
-        settings = Settings(patient)
-        ###################
-        # Load RAW object #
-        ###################
-        fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
-        raw = mne.io.read_raw_fif(os.path.join(settings.path2rawdata,
-                                               fname_raw), preload=False)
-        if verbose:
-            print(raw, raw.ch_names)
-        ##########
-        # EVENTS #
-        ##########
-        events, event_id, metadata = get_events(patient, level, data_type)
-        ############
-        # EPOCHING #
-        ############
-        # First epoch then filter if needed
-        if verbose:
-            print(raw.first_samp, events)
-        if level == 'sentence_onset':
-            tmin, tmax = (-1.2, 3.5)
-        elif level == 'sentence_offset':
-            tmin, tmax = (-3.5, 1.5)
-        elif level == 'word':
-            tmin, tmax = (-1, 2)
-        elif level == 'phone':
-            tmin, tmax = (-0.3, 1.2)
-        epochs = mne.Epochs(raw, events, event_id, tmin, tmax,
-                            metadata=metadata, baseline=None,
-                            preload=True, reject=None)
-        if any(epochs.drop_log):
-            print('Dropped:')
-            print(epochs.drop_log)
-        ############################
-        # Robust Scaling Transform #
-        ############################
-        if scale_epochs:
-            data = epochs.copy().get_data()
-            for ch in range(data.shape[1]):
-                transformer = RobustScaler().fit(np.transpose(data[:, ch, :]))
-                epochs._data[:, ch, :] = \
-                    np.transpose(
-                        transformer.transform(np.transpose(data[:, ch, :])))
-
-        if block_type == 'auditory':
-            epochs = epochs['block in [2, 4, 6]']
-        elif block_type == 'visual':
-            epochs = epochs['block in [1, 3, 5]']
-        # EXTEND METADATA
-        epochs.metadata = extend_metadata(epochs.metadata)
-        # QUERY
-        if query:
-            epochs = epochs[query]
-        if verbose:
-            print(query)
-            print(epochs)
-        # CROP
-        if tmin and tmax:
-            epochs = epochs.crop(tmin=tmin, tmax=tmax)
-        # PICK
-        picks = None
-        if probe_name:
-            probe_name = probe_name[p]
-            picks = probename2picks(probe_name, epochs.ch_names, data_type)
-        if channel_name:
-            channel_names = channel_name[p]
-            picks = channel_names
-        if channel_num:
-            picks = channel_num[p]
-        if verbose:
-            print('picks:', picks)
-        epochs.pick(picks)
-        # DECIMATE
-        if decimate:
-            epochs.decimate(decimate)
-        # APPEND
-        epochs_list.append(epochs)
-
-    return epochs_list
 
 
 def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_cheetah_clock_part'):
@@ -1394,6 +1202,40 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
     probes['probe_names']['MICROPHONE'] = {}
     probes['probe_names']['MICROPHONE']['micro'] = [0]
 
-
-
     return probes
+
+
+# def decimate_with_feature_preserving(raw_features, decimate, sfreq_new):
+#     '''
+#     Decimation that makes sure that non-zero values are not get lost.
+
+#     Parameters
+#     ----------
+#     raw_features : MNE raw object
+#         DESCRIPTION.
+#     decimate : int
+#         DESCRIPTION.
+
+#     Returns
+#     -------
+#     raw_features : MNE raw object
+#         DESCRIPTION.
+
+#     '''
+#     # prepare new data array
+#     n_channels, n_times = raw_features._data.shape
+#     n_times_new = np.ceil(n_times/decimate)
+#     data_decimated = np.zeros_like(n_channels, n_times_new,)
+#     # find indices of non-zero values and devide them by decimate factor
+#     IXs = list(np.nonzero(raw_features._data))
+#     values = raw_features._data[IXs]
+#     IXs[1] = np.round(IXs[1]/decimate).astype(int)
+#     IXs = tuple(IXs)
+#     # update new data array
+#     data_decimated[IXs] = values
+#     raw_features._data = data_decimated
+#     # update sfreq of feature data,
+#     # based on neural data after mne standard decimation
+#     raw_features.info['sfreq'] = sfreq_new
+
+#     return raw_features

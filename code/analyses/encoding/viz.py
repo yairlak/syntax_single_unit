@@ -26,7 +26,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     # negative_r2 = scores_by_time_mean>0
     
     # PLOT
-    fig, ax = plt.subplots(figsize=(20,10))
+    fig, ax = plt.subplots(figsize=(25,10))
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -34,7 +34,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
     ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylim((-1, 1)) 
+    ax2.set_ylim((0, 1)) 
     
     feature_names = feature_info.keys()
     for i_feature, feature_name in enumerate(feature_names):
@@ -73,7 +73,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     scores_by_time_full_std = scores_by_time_full.std(axis=0)
     # negative_r2 = scores_by_time_full_mean<0
     
-    fig, ax = plt.subplots(figsize=(20,10))
+    fig, ax = plt.subplots(figsize=(25,10))
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -81,7 +81,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
     ax2.fill_between(times_word_epoch*1e3, scores_by_time_full_mean+scores_by_time_full_std, scores_by_time_full_mean-scores_by_time_full_std, color=color, alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylim((-0.1, 1)) 
+    ax2.set_ylim((0, 1)) 
     
     feature_names = []  # performance of the full model must be calculated
     if args.each_feature_value:
@@ -108,7 +108,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(len(feature_names)/40)))
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'$\Delta r$', fontsize=20)
-    ax.set_ylim((-0.1, 0.15))
+    ax.set_ylim((0, 0.15))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')

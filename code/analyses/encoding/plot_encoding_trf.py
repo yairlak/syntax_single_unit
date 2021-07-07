@@ -17,16 +17,16 @@ from encoding.models import TimeDelayingRidgeCV
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'],
+parser.add_argument('--patient', action='append', default=['505'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['high-gamma'],
+                    default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=None,
+parser.add_argument('--smooth', default=25,
                     help='Gaussian smoothing in msec')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
+parser.add_argument('--probe-name', default=['LHS'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')
 parser.add_argument('--channel-name', default=[], nargs='*', action='append',
@@ -44,12 +44,12 @@ parser.add_argument('--decimate', default=None, type=float,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
-parser.add_argument('--ablation-method', default='zero',
+parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query_train', default="block in [1,3,5] and word_length>1")
-parser.add_argument('--query_test', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query_train', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query_test', default="block in [2,4,6] and word_position==1")
 parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")

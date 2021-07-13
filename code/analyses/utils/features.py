@@ -31,7 +31,7 @@ def build_feature_matrix_from_metadata(metadata, feature_list):
                         'wh_subj_obj', 'dec_quest', 'semantic_features',
                         'phonological_features']
     print(feature_list)
-    num_samples = len(metadata.index)
+    n_events = len(metadata.index)
     feature_values = []
     feature_info = {}
     # GROUP FEATURES
@@ -125,8 +125,8 @@ def build_feature_matrix_from_metadata(metadata, feature_list):
                 values_unique = [feature_name]
 
         ed = len(feature_values)
-        design_matrix = np.zeros((num_samples, num_features))
-        for i_sample, curr_value in enumerate(values):
+        design_matrix = np.zeros((n_events, num_features))
+        for i_event, curr_value in enumerate(values):
             row_vector = np.zeros((1, num_features))
             if feature_name in ['semantic_features', 'letters',
                                 'phonological_features']:
@@ -136,7 +136,7 @@ def build_feature_matrix_from_metadata(metadata, feature_list):
                 row_vector[0, IX] = 1
             else:
                 row_vector[0, 0] = curr_value
-            design_matrix[i_sample, :] = row_vector
+            design_matrix[i_event, :] = row_vector
         # print(feature_name, dict_prop, row_vector)
         design_matrices.append(design_matrix)
         feature_info[feature_name] = {}
@@ -208,7 +208,7 @@ def get_feature_style(feature_name):
         dict_prop['one-hot'] = False
 
     #####################################
-    # WORD POSITION
+    # SERIAL FEATURES
     if feature_name == 'word_position':
         dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
@@ -229,6 +229,13 @@ def get_feature_style(feature_name):
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False
     
+    # FIRST PHONE
+    if feature_name == 'is_first_phone':
+        dict_prop['color'] = 'm'
+        dict_prop['ls'] = '-.'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
+        
     #####################################
     # GRAMMATICAL NUMBER
     if feature_name == 'grammatical_number':

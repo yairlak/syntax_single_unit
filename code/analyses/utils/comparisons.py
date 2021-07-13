@@ -34,18 +34,36 @@ def comparison_list():
     comparisons['all_words']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])", "word_string.str.len()>1 and (block in [2, 4, 6])"]
     comparisons['all_words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_words']['colors'] = ['b', 'r']
-    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
-    comparisons['all_words']['sort'] = 'clustering'
-    comparisons['all_words']['y-tick-step'] = 8
+    comparisons['all_words']['sort'] = ['word_string']
+    # comparisons['all_words']['sort'] = ['word_length', 'word_string']
+    # comparisons['all_words']['sort'] = 'clustering'
+    comparisons['all_words']['y-tick-step'] = 20
 
+# ALL PHONES
+    comparisons['all_phones'] = {}
+    comparisons['all_phones']['queries'] = ["phone_position>0 and (block in [1, 3, 5])", "phone_position>0 and (block in [2, 4, 6])"]
+    comparisons['all_phones']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_phones']['colors'] = ['b', 'r']
+    comparisons['all_phones']['sort'] = ['phone_string']
+    # comparisons['all_phones']['sort'] = 'clustering'
+    comparisons['all_phones']['y-tick-step'] = 1
+    
 # ALL WORDS
     comparisons['all_words_visual'] = {}
     comparisons['all_words_visual']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])"]
     comparisons['all_words_visual']['condition_names'] = ['all_words_visual']
     comparisons['all_words_visual']['colors'] = ['b']
-    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
+    #comparisons['all_words_visual']['sort'] = ['word_length', 'word_string']
     comparisons['all_words_visual']['sort'] = 'clustering'
-    comparisons['all_words_visual']['y-tick-step'] = 8
+    comparisons['all_words_visual']['y-tick-step'] = 1
+
+    comparisons['all_words_audio'] = {}
+    comparisons['all_words_audio']['queries'] = ["word_string.str.len()>1 and (block in [2, 4, 6])"]
+    comparisons['all_words_audio']['condition_names'] = ['all_words_visual']
+    comparisons['all_words_audio']['colors'] = ['b']
+    #comparisons['all_words_audio']['sort'] = ['word_length', 'word_string']
+    comparisons['all_words_audio']['sort'] = 'clustering'
+    comparisons['all_words_audio']['y-tick-step'] = 1
 
 # Sanity checks:
     comparisons['first_last_word'] = {}

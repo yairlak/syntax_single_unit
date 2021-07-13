@@ -20,13 +20,14 @@ from sklearn.preprocessing import StandardScaler
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'])
+parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['high-gamma'],
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
+parser.add_argument('--smooth', default=25, type=int,
+                    help='Gaussian-kernal width in milisec or None')
+parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
 parser.add_argument('--channel-name', default=None, nargs='*', action='append',
@@ -37,29 +38,42 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [1,3,5]",
+parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--query-test', default="block in [1,3,5]",
+parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1",
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
+# FEATURES
+#parser.add_argument('--feature-list',
+#                    default=['is_first_word',
+#                              'is_last_word',
+#                              'phonological_features'],
+#                    nargs='*',
+#                    help='Feature to include in the encoding model')
 parser.add_argument('--feature-list',
-                    default=['letters', 'is_last_word',
-                             'is_first_word'],
+                    default=['semantic_features',
+                              'is_first_word',
+                              'is_last_word',
+                              'phonological_features',
+                              'grammatical_number',
+                              'pos_simple',
+                              'word_zipf',
+                              'dec_quest'],
                     nargs='*',
                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'ridge_laplacian', 'lasso'])
-parser.add_argument('--ablation-method', default='zero',
-                    choices=['shuffle', 'remove', 'zero'],
+parser.add_argument('--ablation-method', default='remove',
+                    choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=3, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=3, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -98,27 +112,28 @@ print(args)
 #############
 # LOAD DATA #
 #############
-data = DataHandler(args.patient, args.data_type, args.filter, None,
+data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
-                   args.sfreq, args.feature_list)
+                   args.feature_list)
 # Both neural and feature data into a single raw object
-data.load_raw_data()
+data.load_raw_data(args.decimate)
+# sfreq_original = data.raws[0].info['sfreq']  # used later for word epoch
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level='sentence_onset',
                 query=args.query_train,
-                decimate=args.decimate,
                 smooth=args.smooth,
+                scale_epochs=False,  # must be same as word level
                 verbose=True)
+
+# print(set(data.epochs[0].metadata['sentence_string']))
+# PREPARE MATRICES
 X_sentence = data.epochs[0].copy().pick_types(misc=True).get_data().\
         transpose([2, 0, 1])
+
 y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
         transpose([2, 0, 1])
-if args.data_type == 'spike':
-    scaler = StandardScaler()
-    for i_ch in range(y_sentence.shape[1]):
-        y_sentence[:, i_ch, :] = scaler.fit_transform(y_sentence[:, i_ch, :])
+
 metadata_sentences = data.epochs[0].metadata
-# n_times, n_epochs, n_channels
 
 
 ##################
@@ -144,6 +159,29 @@ outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
 for i_split, (train, test) in enumerate(outer_cv.split(
                                         X_sentence.transpose([1, 2, 0]),
                                         y_sentence.transpose([1, 2, 0]))):
+    
+    # WORD LEVEL
+    print('Prepare test data at word level')
+    sentences_test = metadata_sentences['sentence_string'].to_numpy()[test]
+    blocks_test = metadata_sentences['block'].to_numpy()[test]
+    
+    query_test_sentences = ' or '.join(
+        [f'(sentence_string=="{s}" and block=={b})'
+         for s, b in zip(sentences_test, blocks_test)])
+    # data.sfreq = sfreq_original # reset sfreq before decimating again at word level
+    data.epoch_data(level='word',
+                    tmin=args.tmin_word, tmax=args.tmax_word,
+                    query=f'({args.query_test}) and \
+                        ({query_test_sentences})',
+                    scale_epochs=False,  # same for train
+                    verbose=False)
+    # print(set(data.epochs[0].metadata['word_string']))
+    X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
+        transpose([2, 0, 1])
+    
+    y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
+        get_data().transpose([2, 0, 1])
+    
     for feature_name in feature_names:
         print(f'\n Split {i_split+1}/{args.n_folds_outer}, {feature_name}')
         # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX
@@ -156,10 +194,11 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         if args.ablation_method == 'remove' or \
             (args.ablation_method in ['zero', 'shuffle'] and
              feature_name == 'full'):
-            print(f'\nTrain TRF model: X - \
+            print(f'\nTrain TRF: X (n_times, n_trials, n_features)- \
                   {X_sentence_reduced[:, train, :].shape}, \
-                  y - {y_sentence[:, train, :].shape}')
-            rf_sentence = train_TRF(X_sentence_reduced[:, train, :],
+                  y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
+            rf_sentence = train_TRF(
+                                    X_sentence_reduced[:, train, :],
                                     y_sentence[:, train, :],
                                     data.sfreq, args)
             results[feature_name]['rf_sentence'].append(rf_sentence)
@@ -170,33 +209,12 @@ for i_split, (train, test) in enumerate(outer_cv.split(
 
         # SENTENCE LEVEL (SCORE FOR ENTIRE SENTENCE)
         print('Sentence level: score for the entire duration')
-        results[feature_name]['total_score'].append(
-            rf_sentence.score(X_sentence_reduced[:, test, :],
-                              y_sentence[:, test, :]))
-        # WORD LEVEL
-        print('Prepare test data at word level')
-        sentences_test = metadata_sentences['sentence_string'].to_numpy()[test]
-        blocks_test = metadata_sentences['block'].to_numpy()[test]
-        query_test_sentences = ' or '.join(
-            [f'(sentence_string=="{s}" and block=={b})'
-             for s, b in zip(sentences_test, blocks_test)])
+        score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
+                                           y_sentence[:, test, :])
+        print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
+        results[feature_name]['total_score'].append(score_sentence)
 
-        # GET WORD-LEVEL DATA
-        data.epoch_data(level='word',
-                        tmin=args.tmin_word, tmax=args.tmax_word,
-                        query=f'({args.query_test}) and \
-                            ({query_test_sentences})',
-                        decimate=args.decimate,
-                        scale_epochs=False,  # check same was done for train
-                        verbose=False)
-        X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
-            transpose([2, 0, 1])
-        y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
-            get_data().transpose([2, 0, 1])
-        # n_times, n_epochs, n_channels
-
-        times_word = data.epochs[0].times
-        # word_start_sample = int(np.abs(args.tmin_word*data.sfreq))
+        # WORD LEVEL (SCORE PER TIME POINT)
         X_test_word_reduced = reduce_design_matrix(X_test_word, feature_name,
                                                    data.feature_info,
                                                    args.ablation_method)
@@ -212,7 +230,8 @@ for i_split, (train, test) in enumerate(outer_cv.split(
                                                 valid_samples,
                                                 args)
         results[feature_name]['scores_by_time'].append(scores_by_time)
-        #del rf_sentence
+        print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
+        
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 
 ########

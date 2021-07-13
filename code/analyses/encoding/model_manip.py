@@ -9,9 +9,45 @@ Created on Mon Apr 19 17:29:59 2021
 import numpy as np
 from encoding.models import TimeDelayingRidgeCV
 from mne.decoding import ReceptiveField
+from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn import linear_model
 from sklearn.metrics import r2_score
 from tqdm import tqdm
+
+
+def get_scalers(X, method='standard'):
+    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
+    # X: n_times X n_trials X n_features (or last dim is n_outputs)
+
+    if method == 'standard':
+        scaler = StandardScaler()
+    elif method == 'robust':
+        scaler = RobustScaler()
+
+    scalers = []
+    for i_feat in range(X.shape[-1]):
+        vec = X[:, :, i_feat].reshape(-1, 1)
+        scaler.fit(vec)
+        scalers.append(scaler)
+
+    return scalers
+
+
+def scale_data(X, feature_names, scalers,
+               features_without_scaling=['is_first_word', 'is_first_phone']):
+    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
+    # X: n_times X n_trials X n_features (or last dim is n_outputs)
+
+    n_times, n_trials, n_features = X.shape
+    for i_feat in range(n_features):
+        if feature_names:  # for neural data, instead of a list should be None
+            feature_name = feature_names[i_feat]
+            if feature_name in features_without_scaling:
+                continue  # skip current feature if its without scaling
+        scaler = scalers[i_feat]
+        vec = X[:, :, i_feat].reshape(-1, 1)
+        X[:, :, i_feat] = scaler.transform(vec).reshape(n_times, n_trials)
+    return X
 
 
 def train_TRF(X_train, y_train, sfreq, args):

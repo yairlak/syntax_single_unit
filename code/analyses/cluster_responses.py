@@ -19,16 +19,16 @@ from clustering.viz import plot_DSM, plot_dim_reduction
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'])
+parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, help='')
 parser.add_argument('--level', choices=['phone', 'word',
                     'sentence-onset', 'sentence-offset'],
                     default='word')
-parser.add_argument('--probe-name', default=['RFSG'], nargs='*',
+parser.add_argument('--probe-name', default=['LFG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
 parser.add_argument('--channel-name', default=None, nargs='*', action='append',
@@ -88,11 +88,10 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
                    feature_list=None)
 # LOAD RAW DATA
-data.load_raw_data()
+data.load_raw_data(decimate=None)
 # EPOCH DATA
 data.epoch_data(level=args.level,
                 query=args.query,
-                decimate=None,
                 smooth=args.smooth,
                 verbose=True)
 assert len(data.epochs) == 1

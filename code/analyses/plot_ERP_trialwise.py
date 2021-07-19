@@ -14,7 +14,7 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='538', help='Patient string')
+parser.add_argument('--patient', default='515', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',

@@ -26,7 +26,7 @@ parser.add_argument('--filter', action='append',
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25,
                     help='Gaussian smoothing in msec')
-parser.add_argument('--probe-name', default=['LHS'], nargs='*',
+parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')
 parser.add_argument('--channel-name', default=[], nargs='*', action='append',
@@ -48,8 +48,8 @@ parser.add_argument('--ablation-method', default='zero',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query_train', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--query_test', default="block in [2,4,6] and word_position==1")
+parser.add_argument('--query_train', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query_test', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")

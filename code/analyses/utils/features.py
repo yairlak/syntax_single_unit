@@ -1,170 +1,229 @@
 import numpy as np
+import mne
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 
-def build_feature_matrix_from_metadata(metadata, feature_list):
-    '''
+class Features():
+    def __init__(self, metadata, feature_list):
+        self.metadata = metadata
+        self.feature_list = feature_list
+
+        # PRE-DEFINED GROUPED FEATURES
+        features_groupped = {}
+        features_groupped['position'] = ['word_position']
+        features_groupped['orthography'] = ['letters', 'word_length']
+        features_groupped['phonology'] = ['phonological_features']
+        features_groupped['lexicon'] = ['pos_simple', 'word_zipf',
+                                        'morph_complex']
+        features_groupped['syntax'] = ['grammatical_number', 'embedding',
+                                       'wh_subj_obj', 'dec_quest']
+        features_groupped['semantics'] = ['glove']
+        self.features_groupped = features_groupped
+
+    def add_punctuation(self):
+
+        # add '.' or '?' to end of word (omitted in functions/read_logs..)
+        word_strings = np.asarray(self.metadata['word_string'])
+        is_last_word = self. metadata['is_last_word']
+        is_question = self.metadata['dec_quest']
+        for i, (w, is_lw, is_q) in enumerate(zip(word_strings,
+                                                 is_last_word, is_question)):
+            if is_lw:
+                if is_q:
+                    word_strings[i] = w + '?'
+                else:
+                    word_strings[i] = w + '.'
+        self.metadata['word_string'] = word_strings
+
+    def add_feature_info(self):
+        # GET FEATURE NAMES, VALUES AND FIGURE-RELATED PROPERTIES (LS, LW)
+        self.names = []
+        feature_info = {}
+        for feature_name in self.feature_list:
+            # check if feature name is a group rather than a single feature
+            if feature_name in self.features_groupped:
+                features_to_loop = self.features_groupped[feature_name]
+            else:
+                features_to_loop = [feature_name]
+
+            # COLLECT TOGETHER VALUES AND NAMES FROM ALL FEATURES IN GROUP
+            values, names = [], []
+            for feature in features_to_loop:
+                dict_prop = get_feature_style(feature)
+                feature_values, curr_names = \
+                    get_feature_values(feature,
+                                       self.metadata,
+                                       dict_prop['one-hot'])
+                names.extend(curr_names)
+                values.append(feature_values)
+            
+            # LUMP TOGETHER VALUES AND NAMES FROM ALL FEATURES IN GROUP
+            values = [np.squeeze(A) if A.ndim > 1
+                      else np.expand_dims(A, axis=1)
+                      for A in values]
+            feature_info[feature_name] = {}
+            feature_info[feature_name]['names'] = names
+            feature_info[feature_name]['values'] = np.hstack(values)
+            feature_info[feature_name]['color'] = dict_prop['color']
+            feature_info[feature_name]['ls'] = dict_prop['ls']
+            feature_info[feature_name]['lw'] = dict_prop['lw']
+            self.names.extend(names)
+            
+        self.feature_info = feature_info
     
+    def add_design_matrix(self):
+        ###########################
+        # BUILD THE DESIGN MATRIX #
+        ###########################
+        n_events = len(self.metadata)
+        design_matrix = np.empty((n_events, 0))
+        for feature_name in self.feature_list:
+            # Add feature values to design matrix
+            st = design_matrix.shape[1]
+            X = self.feature_info[feature_name]['values']
+            design_matrix = np.hstack((design_matrix, X))
+            ed = design_matrix.shape[1]
+            self.feature_info[feature_name]['IXs'] = (st, ed)
+        self.design_matrix = design_matrix
 
-    Parameters
-    ----------
-    metadata : TYPE
-        DESCRIPTION.
-    feature_list : TYPE
-        DESCRIPTION.
+    def scale_design_matrix(self):
+        # STANDARIZE THE FEATURE MATRIX #
+        scaler = MinMaxScaler()
+        self.design_matrix = scaler.fit_transform(self.design_matrix)
 
-    Returns
-    -------
-    design_matrices : TYPE
-        DESCRIPTION.
-    feature_values : TYPE
-        DESCRIPTION.
-    feature_info : TYPE
-        DESCRIPTION.
-    feature_groups : TYPE
-        DESCRIPTION.
+    def add_raw_features(self, n_time_samples, sfreq):
 
-    '''
-    if not feature_list:
-        feature_list = ['letters', 'word_length', 'phone_string',
-                        'is_first_word', 'is_last_word', 'word_position',
-                        'tense', 'pos', 'pos_simple', 'word_zipf', 'morpheme',
-                        'morph_complex', 'grammatical_number', 'embedding',
-                        'wh_subj_obj', 'dec_quest', 'semantic_features',
-                        'phonological_features']
-    print(feature_list)
-    n_events = len(metadata.index)
-    feature_values = []
-    feature_info = {}
-    # GROUP FEATURES
-    feature_groups = {}
-    feature_groups['orthography'] = ['letters', 'letter_by_position',
-                                     'word_length']
-    feature_groups['phonology'] = ['phone_string', 'phonological_features']
-    feature_groups['position'] = ['is_first_word', 'is_last_word',
-                                  'word_position']
-    feature_groups['lexicon'] = ['tense', 'pos', 'pos_simple', 'word_zipf',
-                                 'morpheme', 'morph_complex']
-    feature_groups['syntax'] = ['grammatical_number', 'gender', 'embedding',
-                                'wh_subj_obj', 'dec_quest']
-    feature_groups['semantics'] = ['semantic_features']
+        times_sec = self.metadata['event_time'].values
+        times_samples = (times_sec * sfreq).astype(int)
 
-    # add '.' or '?' to end of word if needed (omitted in functions/read_logs..
-    word_strings = np.asarray(metadata['word_string'])
-    is_last_word = metadata['is_last_word']
-    is_question = metadata['dec_quest']
-    for i, (w, is_lw, is_q) in enumerate(zip(word_strings,
-                                             is_last_word, is_question)):
-        if is_lw:
-            if is_q:
-                word_strings[i] = w + '?'
-            else:
-                word_strings[i] = w + '.'
-    ###########################
-    # BUILD THE DESIGN MATRIX #
-    ###########################
-    design_matrices = []
-    for feature_name in feature_list:
-        # print(feature_name)
-        dict_prop = get_feature_style(feature_name)
-        #####################
-        # SEMANTIC FEATURES #
-        #####################
-        if feature_name == 'semantic_features':
-            values = metadata[feature_name]
-            st = len(feature_values)
-            values_unique = [feature_name + '-' + str(i) for i in range(1, 26)]
-            feature_values.extend(values_unique)
-            num_features = len(values_unique)
+        n_features = self.design_matrix.shape[1]
+        X = np.zeros((n_time_samples, n_features))
+        X[times_samples, :] = self.design_matrix
 
-        #########################
-        # PHONOLOGICAL FEATURES #
-        #########################
-        elif feature_name == 'phonological_features':
-            values = metadata[feature_name]
-            st = len(feature_values)
-            values_unique = 'DORSAL,CORONAL,LABIAL,HIGH,FRONT,LOW,BACK,PLOSIVE,FRICATIVE,SYLLABIC,NASAL,VOICED,OBSTRUENT,SONORANT,SIBILANTS'.split(',')
-            values_unique = [w.lower().capitalize() for w in values_unique]
-            values_unique = [feature_name + '-' + w for w in values_unique]
-            feature_values.extend(values_unique)
-            num_features = len(values_unique)
+        # MNE-ize feature data
+        ch_types = ['misc'] * len(self.names)
+        info = mne.create_info(ch_names=self.names,
+                               ch_types=ch_types,
+                               sfreq=sfreq)
+        raw_features = mne.io.RawArray(X.T, info)
+        self.raw = raw_features
 
-        #####################
-        # LETTER   FEATURES #
-        #####################
-        elif feature_name == 'letters':
-            all_letters = []
-            [all_letters.extend(set(w)) for w in metadata['word_string']]
-            values_unique = sorted(list(set(all_letters)-set(['.', '?'])))
-            # print(values_unique)
-            num_features = len(values_unique)
-            st = len(feature_values)
 
-            values = []
-            for w in metadata['word_string']:
-                row_vector = np.zeros((1, num_features))
-                curr_letters = list(set(w)-set(['.', '?']))
-                IXs = [values_unique.index(let) for let in curr_letters]
-                row_vector[0, IXs] = 1
-                values.append(row_vector)
-            values_unique = ['letter-' + w for w in values_unique]
-            feature_values.extend(values_unique)
-        ######################
-        # ALL OTHER FEATURES #
-        ######################
-        else:
-            values = metadata[feature_name]
-            values_unique = list(set(values))
-            st = len(feature_values)
-            if dict_prop['one-hot']:  # ONE-HOT ENCODING OF FEATURE
-                num_features = len(values_unique)
-                values_unique = [feature_name + '-' + str(w)
-                                 for w in values_unique]
-                feature_values.extend(values_unique)
-            else:  # A SINGLE CONTINUOUS FEATURE
-                num_features = 1
-                feature_values.extend([feature_name])
-                values_unique = [feature_name]
+def get_feature_values(feature, metadata, one_hot):
 
-        ed = len(feature_values)
-        design_matrix = np.zeros((n_events, num_features))
-        for i_event, curr_value in enumerate(values):
-            row_vector = np.zeros((1, num_features))
-            if feature_name in ['semantic_features', 'letters',
-                                'phonological_features']:
-                row_vector = curr_value
-            elif dict_prop['one-hot']:
-                IX = values_unique.index(feature_name + '-' + str(curr_value))
-                row_vector[0, IX] = 1
-            else:
-                row_vector[0, 0] = curr_value
-            design_matrix[i_event, :] = row_vector
-        # print(feature_name, dict_prop, row_vector)
-        design_matrices.append(design_matrix)
-        feature_info[feature_name] = {}
-        feature_info[feature_name]['IXs'] = (st, ed)
-        # For random coloring, leave the following empty (i.e., '')
-        feature_info[feature_name]['color'] = dict_prop['color']
-        feature_info[feature_name]['ls'] = dict_prop['ls']
-        feature_info[feature_name]['lw'] = dict_prop['lw']
-        feature_info[feature_name]['names'] = values_unique
+    #####################
+    # SEMANTIC FEATURES #
+    #####################
+    if feature == 'glove':
+        values = metadata[feature]
+        values = np.asarray([vec for vec in values])
+        names = ['glove-' + str(i) for i in range(1, 26)]
 
-    # LUMP TOGETHER
-    if len(design_matrices) > 1:
-        design_matrices = np.hstack(design_matrices)
+    #########################
+    # PHONOLOGICAL FEATURES #
+    #########################
+    elif feature == 'phonological_features':
+        values = metadata[feature]
+        values = np.asarray([np.squeeze(vec) for vec in values])
+        names = 'DORSAL,CORONAL,LABIAL,HIGH,FRONT,LOW,BACK,PLOSIVE,FRICATIVE,SYLLABIC,NASAL,VOICED,OBSTRUENT,SONORANT,SIBILANTS'.split(',')
+        names = [w.lower().capitalize() for w in names]
+        names = ['phono-' + w for w in names]
+
+    #####################
+    # LETTER   FEATURES #
+    #####################
+    elif feature == 'letters':
+        all_letters = []
+        [all_letters.extend(set(w)) for w in metadata['word_string']]
+        names = sorted(list(set(all_letters)-set(['.', '?'])))
+        num_features = len(names)
+
+        values = []
+        for w in metadata['word_string']:
+            row_vector = np.zeros(num_features)
+            curr_letters = list(set(w)-set(['.', '?']))
+            IXs = [names.index(let) for let in curr_letters]
+            row_vector[IXs] = 1
+            values.append(row_vector)
+        names = ['letter-' + w for w in names]
+
+    ######################
+    # ALL OTHER FEATURES #
+    ######################
     else:
-        design_matrices = design_matrices[0]
-    return design_matrices, feature_values, feature_info, feature_groups
+        values = metadata[feature]
+        names = list(set(values))
+        n_features = len(names)
+        if one_hot:  # ONE-HOT ENCODING OF FEATURE
+            values = []
+            for i_event, curr_value in \
+                    enumerate(metadata[feature]):
+                row_vector = np.zeros((1, n_features))
+                IX = names.index(str(curr_value))
+                row_vector[0, IX] = 1
+                values.append(row_vector)
+            names = [feature + '-' + str(name) for name in names]
+
+        else:  # A SINGLE CONTINUOUS FEATURE
+            names = [feature]
+            values = metadata[feature]
+
+    return np.asarray(values), names
 
 
 def get_feature_style(feature_name):
     dict_prop = {}
 
-    if not dict_prop:  # default style and setting
+    if not dict_prop:  # default style and setting, if not overwritten below
         dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = True
 
     #####################################
+
+    # POSITION
+    if feature_name == 'position':
+        dict_prop['color'] = 'grey'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # PHONOLOGY
+    if feature_name == 'phonology':
+        dict_prop['color'] = 'm'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # ORTHOGRAPHY
+    if feature_name == 'orthography':
+        dict_prop['color'] = 'r'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # LEXICON
+    if feature_name == 'lexicon':
+        dict_prop['color'] = 'g'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # SEMANTICS
+    if feature_name == 'semantics':
+        dict_prop['color'] = 'xkcd:orange'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # SYNTAX
+    if feature_name == 'syntax':
+        dict_prop['color'] = 'b'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+
+    # TENSE
+    if feature_name == 'tense':
+        dict_prop['color'] = 'xkcd:grass green'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = True
+
     # TENSE
     if feature_name == 'tense':
         dict_prop['color'] = 'xkcd:grass green'

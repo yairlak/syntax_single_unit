@@ -7,7 +7,7 @@ import mne
 from scipy import io
 from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
 import pandas as pd
-from .features import build_feature_matrix_from_metadata
+from .features import Features
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
 from scipy.ndimage import gaussian_filter1d
@@ -52,8 +52,7 @@ class DataHandler:
         None.
 
         '''
-        
-        
+
         self.raws = []  # list of raw MNE objects
         for p, (patient, data_type, filt) in enumerate(zip(self.patient,
                                                            self.data_type,
@@ -65,7 +64,7 @@ class DataHandler:
             raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
                                                           fname_raw),
                                              preload=True)
-                        
+
             # PICK
             picks = None
             if self.probe_name:
@@ -80,48 +79,29 @@ class DataHandler:
                 print('picks:', picks)
             raw_neural.pick(picks)
 
-            
             # DECIMATE
             if decimate:
                 raw_neural.resample(int(raw_neural.info['sfreq']/decimate))
-            
+
             # SAMPLING FREQUENCY
-            self.sfreq = raw_neural.info['sfreq'] 
+            self.sfreq = raw_neural.info['sfreq']
 
             if self.feature_list:
-                metadata_features = get_metadata_features(patient, data_type, self.sfreq)
-                raw_features, self.feature_names,\
-                    self.feature_info, self.feature_groups = \
-                    get_raw_features(metadata_features, self.feature_list,
-                                     len(raw_neural), self.sfreq)
-                
-                # if decimate:
-                #     raw_features = decimate_with_feature_preserving(raw_features, decimate, raw_neural.info['sfreq'])
+                metadata_features = get_metadata_features(patient,
+                                                          data_type,
+                                                          self.sfreq)
+                feature_data = Features(metadata_features, self.feature_list)
+                feature_data.add_feature_info()
+                feature_data.add_design_matrix()
+                feature_data.scale_design_matrix()
+                feature_data.add_raw_features(len(raw_neural), self.sfreq)
 
                 raw_neural.load_data()
-                raw_neural = raw_neural.add_channels([raw_features],
+                raw_neural = raw_neural.add_channels([feature_data.raw],
                                                      force_update_info=True)
-                           
-            # UPDATE SFREQ AFTER POSSIBLE DECIMATION
-            # self.sfreq = raw_neural.info['sfreq'] 
-            # if scale_features:
-            #     if scale_features == 'standard':
-            #         scaler = StandardScaler()
-            #     elif scale_features == 'robust':
-            #         scaler = RobustScaler()
-            #     # raw_neural might already include feature channels:
-            #     features_without_scaling=['is_first_word', 'is_first_phone']
-            #     picks = mne.pick_types(raw_neural.info,
-            #                            misc=True,
-            #                            include=[], # include all but:
-            #                            exclude=features_without_scaling)
-            #     print(f'{scale_features.capitalize()} scaling {len(picks)} FEATURE channels')
-                
-            #     scaled_data = scaler.fit_transform(raw_neural.copy().pick(picks).get_data().T)
-            #     raw_neural._data[picks, :] = scaled_data.T
-                
+
+                self.feature_info = feature_data.feature_info
             self.raws.append(raw_neural)
-            
 
         if verbose:
             print(self.raws)
@@ -271,40 +251,6 @@ def get_metadata_features(patient, data_type, sfreq):
     metadata_features = pd.concat([metadata_audio, metadata_visual], axis=0)
     metadata_features = metadata_features.sort_values(by='event_time')
     return metadata_features
-
-
-def get_raw_features(metadata_features, feature_list, num_time_samples, sfreq):
-    # CREATE DESIGN MATRIX
-    X_features, feature_names, feature_info, feature_groups = \
-        build_feature_matrix_from_metadata(metadata_features, feature_list)
-    _, num_features = X_features.shape
-    
-    # STANDARIZE THE FEATURE MATRIX #
-    scaler = MinMaxScaler()
-    # EXCEPT FOR WORD AND SENTENCE ONSET
-    # IX_sentence_onset = feature_names.index('is_first_word')
-    # sentence_onset = X_features[:, IX_sentence_onset]
-    # if 'is_first_phone' in feature_names:
-    #     IX_word_onset = feature_names.index('is_first_phone')
-    #     word_onset = X_features[:, IX_word_onset]
-    X_features = scaler.fit_transform(X_features)
-    # X_features[:, IX_sentence_onset] = sentence_onset
-    # if 'is_first_phone' in feature_names:
-    #     X_features[:, IX_word_onset] = word_onset
-    
-    times_sec = metadata_features['event_time'].values
-    times_samples = (times_sec * sfreq).astype(int)  
-    
-    X = np.zeros((num_time_samples, num_features))
-    X[times_samples, :] = X_features
-    
-    # MNE-ize feature data
-    ch_types = ['misc'] * len(feature_names)
-    info = mne.create_info(ch_names=feature_names,
-                           ch_types=ch_types,
-                           sfreq=sfreq)
-    raw_features = mne.io.RawArray(X.T, info)
-    return raw_features, feature_names, feature_info, feature_groups
 
 
 def get_events(patient, level, data_type, sfreq, verbose=False):
@@ -916,7 +862,7 @@ def extend_metadata(metadata):
         else:
             vec = np.zeros(25)
         X.append(vec)
-    metadata['semantic_features'] = X            
+    metadata['glove'] = X            
     
     # PHONOLOGICAL FEATURES
     phones = metadata['phone_string']

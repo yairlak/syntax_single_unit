@@ -18,7 +18,7 @@ from pprint import pprint
 from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '538')
+parser.add_argument('--patient', default = '515')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')

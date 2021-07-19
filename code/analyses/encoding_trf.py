@@ -22,7 +22,7 @@ parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
 parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, type=int,
@@ -38,7 +38,7 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
 parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1",
@@ -56,6 +56,7 @@ parser.add_argument('--feature-list',
                     default=['semantic_features',
                               'is_first_word',
                               'is_last_word',
+<<<<<<< HEAD
                               'phonological_features',
                               'grammatical_number',
                               'pos_simple',
@@ -64,6 +65,21 @@ parser.add_argument('--feature-list',
                     nargs='*',
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=False, action='store_true',
+=======
+                              'letters'],
+                    nargs='*',
+                    help='Feature to include in the encoding model')
+# parser.add_argument('--feature-list',
+#                     default=['is_first_word',
+#                               'is_last_word',
+#                               'orthography',
+#                               'semantics',
+#                               'lexicon',
+#                               'syntax'],
+#                     nargs='*',
+#                     help='Feature to include in the encoding model')
+parser.add_argument('--each-feature-value', default=True, action='store_true',
+>>>>>>> fade2f9e76e431231636247f5992af220d03e68c
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
@@ -88,7 +104,7 @@ parser.add_argument('--tmin_rf', default=-0.1, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=0.7, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=40, type=float,
+parser.add_argument('--decimate', default=25, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
 parser.add_argument('--path2output',

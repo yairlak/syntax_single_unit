@@ -397,7 +397,7 @@ def get_data_from_mat(data_type, path2data):
     channel_data, ch_names = [], []
     for i_ch, CSC_file in enumerate(CSC_files):
         curr_channel_data = io.loadmat(CSC_file)    
-        sfreq = int(1e3/curr_channel_data['samplingInterval'])
+        sfreq = int(1/curr_channel_data['samplingInterval'])
         channel_data.append(curr_channel_data['data'])
         if 'channelName' in curr_channel_data:
             ch_name = curr_channel_data['channelName']
@@ -456,7 +456,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         del blks
         raws = mne.concatenate_raws(raws)
     elif recording_system == 'BlackRock':
-        reader = io.BlackrockIO(path2data)
+        reader = neo.io.BlackrockIO(path2data)
         sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
         print(sfreq)
         print(dir(reader))
@@ -472,7 +472,7 @@ def identify_recording_system(path2data):
         assert neural_files[0][-3:] == 'ncs'
     elif len(neural_files)==1:
         recording_system = 'BlackRock'
-        assert len(neural_files[0][-3:]) == 2
+        #assert len(neural_files[0][-3:]) == 2
     else:
         print(f'No neural files found: {path2data}')
         raise()

@@ -20,9 +20,9 @@ from sklearn.preprocessing import StandardScaler
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'])
+parser.add_argument('--patient', action='append', default=['515'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25,
@@ -38,29 +38,29 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
+parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1",
+parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1",
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
-parser.add_argument('--feature-list',
-                    default=['is_first_word',
-                              'is_last_word',
-                              'letters'],
-                    nargs='*',
-                    help='Feature to include in the encoding model')
 # parser.add_argument('--feature-list',
 #                     default=['is_first_word',
 #                               'is_last_word',
-#                               'orthography',
-#                               'semantics',
-#                               'lexicon',
-#                               'syntax'],
+#                               'phonology'],
 #                     nargs='*',
 #                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--feature-list',
+                    default=['is_first_word',
+                              'is_last_word',
+                              'phonology',
+                              'semantics',
+                              'lexicon',
+                              'syntax'],
+                    nargs='*',
+                    help='Feature to include in the encoding model')
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL

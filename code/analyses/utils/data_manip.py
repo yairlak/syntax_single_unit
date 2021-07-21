@@ -10,6 +10,7 @@ import pandas as pd
 from .features import Features
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
+from utils.brpylib import NsxFile, brpylib_ver
 from scipy.ndimage import gaussian_filter1d
 import neo
 import h5py
@@ -100,7 +101,7 @@ class DataHandler:
                 raw_neural = raw_neural.add_channels([feature_data.raw],
                                                      force_update_info=True)
 
-            self.feature_info = feature_data.feature_info
+                self.feature_info = feature_data.feature_info
             self.raws.append(raw_neural)
 
         if verbose:
@@ -418,6 +419,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         recording_system = 'Neuralynx'
     else:
         recording_system = identify_recording_system(path2data)
+    print(f'Recording system identified - {recording_system}')
     
     if recording_system == 'Neuralynx':
         reader = neo.io.NeuralynxIO(dirname=path2data)
@@ -442,7 +444,8 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
             for i_ch in range(n_channels):
                 info = mne.create_info(ch_names=[ch_names[i_ch]],
                                        sfreq=sfreq, ch_types='seeg')
-                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info, verbose=False)
+                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info,
+                                      verbose=False)
                 if data_type != 'microphone':
                     # Downsample
                     if raw.info['sfreq'] > sfreq_down:
@@ -456,23 +459,37 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         del blks
         raws = mne.concatenate_raws(raws)
     elif recording_system == 'BlackRock':
-        reader = io.BlackrockIO(path2data)
-        sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
+        if data_type == 'macro':
+            ext = 'ns3'
+        elif data_type == 'micro':
+            ext = 'ns5'
+        fn_br = glob.glob(os.path.join(path2data, '*.' + ext))
+        assert len(fn_br) == 1
+        nsx_file = NsxFile(fn_br[0])
+        # Extract data - note: 
+        # Data will be returned based on *SORTED* elec_ids,
+        # see cont_data['elec_ids']
+        cont_data = nsx_file.getdata()
+        nsx_file.close()
+        sfreq = cont_data['samp_per_s']
         print(sfreq)
-        print(dir(reader))
-        raise('Implementation error')
+        ch_names = [f'CSC{id}' for id in cont_data['elec_ids']]
+        info = mne.create_info(ch_names=ch_names,
+                               sfreq=sfreq,
+                               ch_types='seeg')
+        raws = mne.io.RawArray(cont_data['data'], info, verbose=False)
 
     return raws
 
 
 def identify_recording_system(path2data):
     neural_files = glob.glob(os.path.join(path2data, '*.n*'))
-    if len(neural_files)>1:
+    if neural_files[0][-3:] == 'ncs':  # len(neural_files)>1:
         recording_system = 'Neuralynx'
-        assert neural_files[0][-3:] == 'ncs'
-    elif len(neural_files)==1:
+        # assert neural_files[0][-3:] == 'ncs'
+    elif any(['ns' in fn[-3:] for fn in neural_files]):
         recording_system = 'BlackRock'
-        assert len(neural_files[0][-3:]) == 2
+        # assert len(neural_files[0][-3:]) == 2
     else:
         print(f'No neural files found: {path2data}')
         raise()

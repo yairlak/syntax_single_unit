@@ -15,8 +15,8 @@ class Features():
         features_groupped['lexicon'] = ['pos_simple', 'word_zipf',
                                         'morph_complex']
         features_groupped['syntax'] = ['grammatical_number', 'embedding',
-                                       'wh_subj_obj', 'dec_quest']
-        features_groupped['semantics'] = ['glove']
+                                       'wh_subj_obj', 'dec_quest'] # gender
+        features_groupped['semantics'] = ['glove'] # try with a larger dim
         self.features_groupped = features_groupped
 
     def add_punctuation(self):

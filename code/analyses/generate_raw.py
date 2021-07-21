@@ -20,10 +20,10 @@ from neo.io import NeuralynxIO
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='538', help='Patient number')
+parser.add_argument('--patient', default='539', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='spike', help='macro/micro/spike')
+                    default='macro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',

@@ -1,0 +1,13 @@
+Namespace(data_type='microphone', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_510', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_510/Raw/microphone
+../../Data/UCLA/patient_510/Raw/microphone /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+Recording system identified - Neuralynx
+Neural files: Start time 1560267351.086004, End time 1560270298.204821
+Sampling rate [Hz]: 32000.0
+Number of channel 1: ['MICROPHONE']
+Segment - 1/1
+<RawArray | 1 x 94307840 (2947.1 s), ~719.5 MB, data loaded>
+<RawArray | 1 x 94307840 (2947.1 s), ~719.5 MB, data loaded>
+['MICROPHONE']
+Raw fif saved to: ../../Data/UCLA/patient_510/Raw/patient_510_microphone_raw-raw.fif
+Host key verification failed.

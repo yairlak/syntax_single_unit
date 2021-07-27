@@ -1,0 +1,175 @@
+Namespace(data_type='spike', filter='high-gamma', from_mat=False, line_frequency=[50, 60], patient='patient_530', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_530/Raw/spike
+Loading spike cluster data
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_530/Raw/spike
+
+20201201-174335-001.ns5 opened
+
+Output data requested is larger than 1 GB, attempting to preallocate output now
+Data extraction requires paging: 1 of 14
+Data extraction requires paging: 2 of 14
+Data extraction requires paging: 3 of 14
+Data extraction requires paging: 4 of 14
+Data extraction requires paging: 5 of 14
+Data extraction requires paging: 6 of 14
+Data extraction requires paging: 7 of 14
+Data extraction requires paging: 8 of 14
+Data extraction requires paging: 9 of 14
+Data extraction requires paging: 10 of 14
+Data extraction requires paging: 11 of 14
+Data extraction requires paging: 12 of 14
+Data extraction requires paging: 13 of 14
+Data extraction requires paging: 14 of 14
+
+20201201-174335-001.ns5 closed
+time0 = 0.0, timeend = 2514.694
+found cluster in CSC9, channel 9, group 1
+found cluster in CSC2, channel 2, group 1
+No spikes in channel: 6
+No spikes in channel: 3
+No spikes in channel: 5
+found cluster in CSC7, channel 7, group 1
+found cluster in CSC4, channel 4, group 1
+found cluster in CSC1, channel 1, group 1
+found cluster in CSC8, channel 8, group 1
+No spikes in channel: 79
+No spikes in channel: 66
+found cluster in CSC39, channel 39, group 1
+found cluster in CSC39, channel 39, group 2
+found cluster in CSC38, channel 38, group 1
+found cluster in CSC38, channel 38, group 2
+found cluster in CSC49, channel 49, group 1
+No spikes in channel: 11
+found cluster in CSC82, channel 82, group 1
+found cluster in CSC82, channel 82, group 2
+No spikes in channel: 36
+found cluster in CSC27, channel 27, group 1
+found cluster in CSC27, channel 27, group 2
+found cluster in CSC65, channel 65, group 1
+found cluster in CSC65, channel 65, group 2
+found cluster in CSC95, channel 95, group 1
+found cluster in CSC78, channel 78, group 1
+found cluster in CSC78, channel 78, group 2
+found cluster in CSC44, channel 44, group 1
+found cluster in CSC41, channel 41, group 1
+found cluster in CSC41, channel 41, group 2
+found cluster in CSC41, channel 41, group 3
+found cluster in CSC25, channel 25, group 1
+found cluster in CSC25, channel 25, group 2
+found cluster in CSC15, channel 15, group 1
+found cluster in CSC92, channel 92, group 1
+No spikes in channel: 61
+No spikes in channel: 63
+found cluster in CSC89, channel 89, group 1
+../../Data/UCLA/patient_530/Raw/spike/micro/CSC_ncs/CSC99/sort_pos_yl2/sort_cat.h5 was not found!
+No spikes in channel: 99
+found cluster in CSC71, channel 71, group 1
+found cluster in CSC33, channel 33, group 1
+found cluster in CSC33, channel 33, group 2
+found cluster in CSC30, channel 30, group 1
+found cluster in CSC20, channel 20, group 1
+found cluster in CSC13, channel 13, group 1
+found cluster in CSC13, channel 13, group 2
+found cluster in CSC67, channel 67, group 1
+found cluster in CSC67, channel 67, group 2
+found cluster in CSC86, channel 86, group 1
+found cluster in CSC86, channel 86, group 2
+found cluster in CSC94, channel 94, group 1
+found cluster in CSC94, channel 94, group 2
+No spikes in channel: 51
+found cluster in CSC24, channel 24, group 1
+found cluster in CSC12, channel 12, group 1
+found cluster in CSC43, channel 43, group 1
+found cluster in CSC43, channel 43, group 2
+found cluster in CSC69, channel 69, group 1
+found cluster in CSC69, channel 69, group 2
+found cluster in CSC76, channel 76, group 1
+found cluster in CSC19, channel 19, group 1
+found cluster in CSC47, channel 47, group 1
+found cluster in CSC47, channel 47, group 2
+found cluster in CSC81, channel 81, group 1
+found cluster in CSC81, channel 81, group 2
+found cluster in CSC26, channel 26, group 1
+found cluster in CSC26, channel 26, group 2
+found cluster in CSC84, channel 84, group 1
+found cluster in CSC84, channel 84, group 2
+found cluster in CSC84, channel 84, group 3
+found cluster in CSC16, channel 16, group 1
+found cluster in CSC28, channel 28, group 1
+found cluster in CSC28, channel 28, group 2
+found cluster in CSC90, channel 90, group 1
+found cluster in CSC91, channel 91, group 1
+found cluster in CSC91, channel 91, group 2
+No spikes in channel: 72
+found cluster in CSC31, channel 31, group 1
+found cluster in CSC45, channel 45, group -1
+found cluster in CSC42, channel 42, group 1
+found cluster in CSC42, channel 42, group 2
+found cluster in CSC62, channel 62, group 1
+found cluster in CSC87, channel 87, group 1
+found cluster in CSC87, channel 87, group 2
+found cluster in CSC85, channel 85, group 1
+No spikes in channel: 17
+found cluster in CSC70, channel 70, group 1
+found cluster in CSC18, channel 18, group 1
+No spikes in channel: 50
+found cluster in CSC59, channel 59, group 1
+found cluster in CSC58, channel 58, group 1
+found cluster in CSC58, channel 58, group 2
+found cluster in CSC56, channel 56, group 1
+found cluster in CSC52, channel 52, group 1
+No spikes in channel: 60
+found cluster in CSC74, channel 74, group 1
+found cluster in CSC74, channel 74, group 2
+found cluster in CSC74, channel 74, group 3
+No spikes in channel: 64
+found cluster in CSC75, channel 75, group 1
+found cluster in CSC75, channel 75, group 2
+found cluster in CSC83, channel 83, group 1
+found cluster in CSC83, channel 83, group 2
+No spikes in channel: 68
+found cluster in CSC40, channel 40, group 1
+found cluster in CSC35, channel 35, group 1
+found cluster in CSC35, channel 35, group 2
+No spikes in channel: 22
+found cluster in CSC53, channel 53, group 1
+found cluster in CSC54, channel 54, group 1
+No spikes in channel: 98
+found cluster in CSC73, channel 73, group 1
+found cluster in CSC73, channel 73, group 2
+found cluster in CSC46, channel 46, group 1
+found cluster in CSC46, channel 46, group 2
+found cluster in CSC93, channel 93, group 1
+found cluster in CSC93, channel 93, group 2
+found cluster in CSC97, channel 97, group 1
+found cluster in CSC29, channel 29, group 1
+found cluster in CSC57, channel 57, group 1
+found cluster in CSC23, channel 23, group 1
+found cluster in CSC55, channel 55, group 1
+found cluster in CSC32, channel 32, group 1
+found cluster in CSC32, channel 32, group 2
+found cluster in CSC48, channel 48, group 1
+No spikes in channel: 10
+found cluster in CSC77, channel 77, group 1
+found cluster in CSC77, channel 77, group 2
+found cluster in CSC21, channel 21, group 1
+found cluster in CSC37, channel 37, group 1
+found cluster in CSC37, channel 37, group 2
+found cluster in CSC80, channel 80, group 1
+No spikes in channel: 96
+found cluster in CSC88, channel 88, group 1
+found cluster in CSC88, channel 88, group 2
+found cluster in CSC14, channel 14, group 1
+found cluster in CSC34, channel 34, group 1
+found cluster in CSC34, channel 34, group 2
+Creating RawArray with float64 data, n_channels=117, n_times=2515694
+    Range : 0 ... 2515693 =      0.000 ...  2515.693 secs
+Ready.
+<RawArray | 117 x 2515694 (2515.7 s), ~2.19 GB, data loaded>
+<RawArray | 117 x 2515694 (2515.7 s), ~2.19 GB, data loaded>
+['CSC9_9n1', 'CSC2_2n1', 'CSC7_7n1', 'CSC4_4n1', 'CSC1_1n1', 'CSC8_8n1', 'CSC39_39n1', 'CSC39_39n2', 'CSC38_38n1', 'CSC38_38n2', 'CSC49_49n1', 'CSC82_82n1', 'CSC82_82n2', 'CSC27_27n1', 'CSC27_27n2', 'CSC65_65n1', 'CSC65_65n2', 'CSC95_95n1', 'CSC78_78n1', 'CSC78_78n2', 'CSC44_44n1', 'CSC41_41n1', 'CSC41_41n2', 'CSC41_41n3', 'CSC25_25n1', 'CSC25_25n2', 'CSC15_15n1', 'CSC92_92n1', 'CSC89_89n1', 'CSC71_71n1', 'CSC33_33n1', 'CSC33_33n2', 'CSC30_30n1', 'CSC20_20n1', 'CSC13_13n1', 'CSC13_13n2', 'CSC67_67n1', 'CSC67_67n2', 'CSC86_86n1', 'CSC86_86n2', 'CSC94_94n1', 'CSC94_94n2', 'CSC24_24n1', 'CSC12_12n1', 'CSC43_43n1', 'CSC43_43n2', 'CSC69_69n1', 'CSC69_69n2', 'CSC76_76n1', 'CSC19_19n1', 'CSC47_47n1', 'CSC47_47n2', 'CSC81_81n1', 'CSC81_81n2', 'CSC26_26n1', 'CSC26_26n2', 'CSC84_84n1', 'CSC84_84n2', 'CSC84_84n3', 'CSC16_16n1', 'CSC28_28n1', 'CSC28_28n2', 'CSC90_90n1', 'CSC91_91n1', 'CSC91_91n2', 'CSC31_31n1', 'CSC45_45n-1', 'CSC42_42n1', 'CSC42_42n2', 'CSC62_62n1', 'CSC87_87n1', 'CSC87_87n2', 'CSC85_85n1', 'CSC70_70n1', 'CSC18_18n1', 'CSC59_59n1', 'CSC58_58n1', 'CSC58_58n2', 'CSC56_56n1', 'CSC52_52n1', 'CSC74_74n1', 'CSC74_74n2', 'CSC74_74n3', 'CSC75_75n1', 'CSC75_75n2', 'CSC83_83n1', 'CSC83_83n2', 'CSC40_40n1', 'CSC35_35n1', 'CSC35_35n2', 'CSC53_53n1', 'CSC54_54n1', 'CSC73_73n1', 'CSC73_73n2', 'CSC46_46n1', 'CSC46_46n2', 'CSC93_93n1', 'CSC93_93n2', 'CSC97_97n1', 'CSC29_29n1', 'CSC57_57n1', 'CSC23_23n1', 'CSC55_55n1', 'CSC32_32n1', 'CSC32_32n2', 'CSC48_48n1', 'CSC77_77n1', 'CSC77_77n2', 'CSC21_21n1', 'CSC37_37n1', 'CSC37_37n2', 'CSC80_80n1', 'CSC88_88n1', 'CSC88_88n2', 'CSC14_14n1', 'CSC34_34n1', 'CSC34_34n2']
+Overwriting existing file.
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_530/Raw/mne/patient_530_spike_high-gamma-raw.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_530/Raw/mne/patient_530_spike_high-gamma-raw.fif [done]
+Raw fif saved to: ../../Data/UCLA/patient_530/Raw/patient_530_spike_high-gamma-raw.fif

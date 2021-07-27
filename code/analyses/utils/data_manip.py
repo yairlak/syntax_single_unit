@@ -10,6 +10,7 @@ import pandas as pd
 from .features import Features
 from wordfreq import word_frequency, zipf_frequency
 from utils.utils import probename2picks
+from utils.brpylib import NsxFile, brpylib_ver
 from scipy.ndimage import gaussian_filter1d
 import neo
 import h5py
@@ -340,21 +341,31 @@ def get_data_from_combinato(path2data):
                   glob.glob(os.path.join(path2data, 'CSC??/')) + \
                   glob.glob(os.path.join(path2data, 'CSC???/'))
     
-    reader = neo.io.NeuralynxIO(path2data)        
-    channel_tuples = reader.header['signal_channels']
-    time0, timeend = reader.global_t_start, reader.global_t_stop    
+    recording_system = identify_recording_system(path2data)
+    if recording_system == 'Neuralynx':
+        reader = neo.io.NeuralynxIO(os.path.join(path2data, '..', 'micro'))        
+        channel_tuples = reader.header['signal_channels']
+        time0, timeend = reader.global_t_start, reader.global_t_stop    
+    elif recording_system == 'BlackRock':
+        fn_br = glob.glob(os.path.join(path2data, '..', 'micro', '*.ns5'))
+        assert len(fn_br) == 1
+        nsx_file = NsxFile(fn_br[0])
+        # Extract data - note:
+        # Data will be returned based on *SORTED* elec_ids,
+        # see cont_data['elec_ids']
+        cont_data = nsx_file.getdata()
+        nsx_file.close()
+        time0, timeend = cont_data['start_time_s'], cont_data['data_time_s']
+        ch_names = [f'CSC{id}' for id in cont_data['elec_ids']]
+
     print(f'time0 = {time0}, timeend = {timeend}')
     
     ch_names, spike_times_samples = [], []
     for CSC_folder in CSC_folders:
         channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
-        probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
-        # print(channel_num, probe_name)
-        if probe_name:
-            probe_name = probe_name[0]
-        else:
-            probe_name = '?'
-            print(f'Unable to identify probe name for channel {channel_num}')
+        probe_name = f'CSC{channel_num}'
+        if recording_system == 'Neuralynx':
+            probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
         spikes, group_names = load_combinato_sorted_h5(path2data, channel_num,
                                                        probe_name)
         #print(group_names, len(group_names), len(spikes))
@@ -411,6 +422,7 @@ def get_data_from_mat(data_type, path2data):
 
 
 def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
+    print(path2data, os.getcwd())
     if data_type == 'microphone':
         # Assumes that if data_type is microphone 
         # Then the recording system is Neurlanyx.
@@ -418,6 +430,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         recording_system = 'Neuralynx'
     else:
         recording_system = identify_recording_system(path2data)
+    print(f'Recording system identified - {recording_system}')
     
     if recording_system == 'Neuralynx':
         reader = neo.io.NeuralynxIO(dirname=path2data)
@@ -442,7 +455,8 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
             for i_ch in range(n_channels):
                 info = mne.create_info(ch_names=[ch_names[i_ch]],
                                        sfreq=sfreq, ch_types='seeg')
-                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info, verbose=False)
+                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info,
+                                      verbose=False)
                 if data_type != 'microphone':
                     # Downsample
                     if raw.info['sfreq'] > sfreq_down:
@@ -456,23 +470,49 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         del blks
         raws = mne.concatenate_raws(raws)
     elif recording_system == 'BlackRock':
-        reader = neo.io.BlackrockIO(path2data)
-        sfreq = reader.header['unit_channels'][0][-1] # FROM FILE
+        if data_type == 'macro':
+            ext = 'ns3'
+        elif data_type == 'micro':
+            ext = 'ns5'
+        fn_br = glob.glob(os.path.join(path2data, '*.' + ext))
+        assert len(fn_br) == 1
+        nsx_file = NsxFile(fn_br[0])
+        # Extract data - note: 
+        # Data will be returned based on *SORTED* elec_ids,
+        # see cont_data['elec_ids']
+        cont_data = nsx_file.getdata()
+        nsx_file.close()
+        sfreq = cont_data['samp_per_s']
         print(sfreq)
-        print(dir(reader))
-        raise('Implementation error')
+        fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt') 
+        with open(fn_channel_names, 'r') as f:
+            lines = f.readlines()
+        keys = [int(ll.split()[0]) for ll in lines]
+        values = [ll.split()[1] for ll in lines]
+        dict_ch_names = dict(zip(keys, values))
+        ch_names = []
+        for elec_id in cont_data['elec_ids']:
+            if int(elec_id) in keys:
+                ch_name = dict_ch_names[elec_id]
+            else:
+                ch_name = f'CSC{elec_id}'
+            ch_names.append(ch_name)
+        info = mne.create_info(ch_names=ch_names,
+                               sfreq=sfreq,
+                               ch_types='seeg')
+        raws = mne.io.RawArray(cont_data['data'], info, verbose=False)
 
     return raws
 
 
 def identify_recording_system(path2data):
-    neural_files = glob.glob(os.path.join(path2data, '*.n*'))
-    if len(neural_files)>1:
+    print(os.getcwd())
+    print(path2data)
+    if len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ncs'))):
         recording_system = 'Neuralynx'
-        assert neural_files[0][-3:] == 'ncs'
-    elif len(neural_files)==1:
+        # assert neural_files[0][-3:] == 'ncs'
+    elif len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ns*')))>0 or len(glob.glob(os.path.join(path2data, '..', 'micro', '*.mat')))>0:
         recording_system = 'BlackRock'
-        #assert len(neural_files[0][-3:]) == 2
     else:
         print(f'No neural files found: {path2data}')
         raise()
@@ -535,7 +575,14 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
                         curr_spike_times = f_all_spikes[sign]['times'][:][IXs]
                         spike_times_msec.append(curr_spike_times)
                         #print(sign[0], g, channel_num, probe_name)
-                        group_names.append(sign[0] + '_g' + str(g) + '_' + str(channel_num)+ '_' + probe_name)
+                        if isinstance(probe_name, list):
+                            if probe_name:
+                                pn=probe_name[0]
+                            else:
+                                pn=None
+                        elif isinstance(probe_name, str):
+                            pn=probe_name
+                        group_names.append(f'{pn}_{channel_num}{sign[0]}{g}')
             else:
                 print('%s was not found!' % os.path.join(path2data, 'micro', 'CSC_ncs', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
 

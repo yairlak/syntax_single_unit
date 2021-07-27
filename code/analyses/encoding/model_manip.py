@@ -12,7 +12,7 @@ from mne.decoding import ReceptiveField
 from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn import linear_model
 from sklearn.metrics import r2_score
-from tqdm import tqdm
+#from tqdm import tqdm
 
 
 def get_scalers(X, method='standard'):
@@ -80,7 +80,7 @@ def eval_TRF_across_epochs(rf, X_test, y_test, valid_samples, args):
     y_masked = y_test[valid_samples]
     n_times, n_epochs, n_outputs = y_masked.shape
     scores = []
-    for t in tqdm(range(n_times)):
+    for t in range(n_times):
         curr_score = r2_score(y_masked[t, :, :], y_pred[t, :, :],
                               multioutput='raw_values')
         scores.append(curr_score)

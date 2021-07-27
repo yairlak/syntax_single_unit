@@ -1,0 +1,100 @@
+Namespace(data_type='spike', filter='high-gamma', from_mat=False, line_frequency=[50, 60], patient='patient_539', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_539/Raw/spike
+Loading spike cluster data
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_539/Raw/spike
+
+20210715-131400-001.ns5 opened
+
+Output data requested is larger than 1 GB, attempting to preallocate output now
+Data extraction requires paging: 1 of 11
+Data extraction requires paging: 2 of 11
+Data extraction requires paging: 3 of 11
+Data extraction requires paging: 4 of 11
+Data extraction requires paging: 5 of 11
+Data extraction requires paging: 6 of 11
+Data extraction requires paging: 7 of 11
+Data extraction requires paging: 8 of 11
+Data extraction requires paging: 9 of 11
+Data extraction requires paging: 10 of 11
+Data extraction requires paging: 11 of 11
+
+20210715-131400-001.ns5 closed
+time0 = 0.0, timeend = 3051.083
+found cluster in CSC9, channel 9, group 1
+found cluster in CSC9, channel 9, group 2
+No spikes in channel: 2
+No spikes in channel: 6
+No spikes in channel: 3
+No spikes in channel: 5
+../../Data/UCLA/patient_539/Raw/spike/micro/CSC_ncs/CSC7/sort_neg_yl2/sort_cat.h5 was not found!
+No spikes in channel: 7
+No spikes in channel: 4
+No spikes in channel: 1
+../../Data/UCLA/patient_539/Raw/spike/micro/CSC_ncs/CSC8/sort_pos_yl2/sort_cat.h5 was not found!
+No spikes in channel: 8
+No spikes in channel: 39
+No spikes in channel: 38
+found cluster in CSC49, channel 49, group 1
+found cluster in CSC11, channel 11, group 1
+found cluster in CSC11, channel 11, group 2
+No spikes in channel: 36
+No spikes in channel: 27
+No spikes in channel: 44
+No spikes in channel: 41
+No spikes in channel: 25
+found cluster in CSC15, channel 15, group 1
+found cluster in CSC15, channel 15, group 2
+No spikes in channel: 33
+found cluster in CSC30, channel 30, group 1
+No spikes in channel: 20
+found cluster in CSC13, channel 13, group 1
+found cluster in CSC51, channel 51, group 1
+found cluster in CSC24, channel 24, group 1
+found cluster in CSC12, channel 12, group 1
+found cluster in CSC12, channel 12, group 2
+found cluster in CSC12, channel 12, group 3
+No spikes in channel: 43
+found cluster in CSC19, channel 19, group 1
+found cluster in CSC47, channel 47, group 1
+No spikes in channel: 26
+found cluster in CSC16, channel 16, group 1
+found cluster in CSC16, channel 16, group 2
+found cluster in CSC28, channel 28, group 1
+found cluster in CSC31, channel 31, group 1
+found cluster in CSC31, channel 31, group 2
+No spikes in channel: 45
+No spikes in channel: 42
+found cluster in CSC17, channel 17, group 1
+found cluster in CSC18, channel 18, group 1
+found cluster in CSC50, channel 50, group 1
+No spikes in channel: 56
+No spikes in channel: 52
+No spikes in channel: 40
+No spikes in channel: 35
+found cluster in CSC22, channel 22, group 1
+found cluster in CSC53, channel 53, group 1
+found cluster in CSC54, channel 54, group 1
+found cluster in CSC54, channel 54, group 2
+No spikes in channel: 46
+found cluster in CSC29, channel 29, group 1
+No spikes in channel: 23
+found cluster in CSC55, channel 55, group 1
+found cluster in CSC32, channel 32, group 1
+No spikes in channel: 48
+found cluster in CSC10, channel 10, group 1
+found cluster in CSC21, channel 21, group 1
+No spikes in channel: 37
+found cluster in CSC14, channel 14, group 1
+found cluster in CSC14, channel 14, group 2
+No spikes in channel: 34
+Creating RawArray with float64 data, n_channels=35, n_times=3052083
+    Range : 0 ... 3052082 =      0.000 ...  3052.082 secs
+Ready.
+<RawArray | 35 x 3052083 (3052.1 s), ~815.1 MB, data loaded>
+<RawArray | 35 x 3052083 (3052.1 s), ~815.1 MB, data loaded>
+['CSC9_9n1', 'CSC9_9n2', 'CSC49_49n1', 'CSC11_11n1', 'CSC11_11n2', 'CSC15_15n1', 'CSC15_15n2', 'CSC30_30n1', 'CSC13_13n1', 'CSC51_51n1', 'CSC24_24n1', 'CSC12_12n1', 'CSC12_12n2', 'CSC12_12n3', 'CSC19_19n1', 'CSC47_47n1', 'CSC16_16n1', 'CSC16_16n2', 'CSC28_28n1', 'CSC31_31n1', 'CSC31_31n2', 'CSC17_17n1', 'CSC18_18n1', 'CSC50_50n1', 'CSC22_22n1', 'CSC53_53n1', 'CSC54_54n1', 'CSC54_54n2', 'CSC29_29n1', 'CSC55_55n1', 'CSC32_32n1', 'CSC10_10n1', 'CSC21_21n1', 'CSC14_14n1', 'CSC14_14n2']
+Overwriting existing file.
+Writing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_539/Raw/mne/patient_539_spike_high-gamma-raw.fif
+Closing /neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/patient_539/Raw/mne/patient_539_spike_high-gamma-raw.fif [done]
+Raw fif saved to: ../../Data/UCLA/patient_539/Raw/patient_539_spike_high-gamma-raw.fif

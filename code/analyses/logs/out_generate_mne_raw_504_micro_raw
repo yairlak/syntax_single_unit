@@ -1,0 +1,32 @@
+Namespace(data_type='micro', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_504', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_504/Raw/micro
+../../Data/UCLA/patient_504/Raw/micro /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_504/Raw/micro
+Recording system identified - BlackRock
+
+EXP12_Syntax001.ns5 opened
+
+Output data requested is larger than 1 GB, attempting to preallocate output now
+Data extraction requires paging: 1 of 12
+Data extraction requires paging: 2 of 12
+Data extraction requires paging: 3 of 12
+Data extraction requires paging: 4 of 12
+Data extraction requires paging: 5 of 12
+Data extraction requires paging: 6 of 12
+Data extraction requires paging: 7 of 12
+Data extraction requires paging: 8 of 12
+Data extraction requires paging: 9 of 12
+Data extraction requires paging: 10 of 12
+Data extraction requires paging: 11 of 12
+Data extraction requires paging: 12 of 12
+
+EXP12_Syntax001.ns5 closed
+30000.0
+Resampling data 30000.00 -> 1000.00
+<RawArray | 80 x 2614717 (2614.7 s), ~1.56 GB, data loaded>
+<RawArray | 80 x 2614717 (2614.7 s), ~1.56 GB, data loaded>
+['CSC1', 'CSC2', 'CSC3', 'CSC4', 'CSC5', 'CSC6', 'CSC7', 'CSC8', 'CSC9', 'CSC10', 'CSC11', 'CSC12', 'CSC13', 'CSC14', 'CSC15', 'CSC16', 'CSC17', 'CSC18', 'CSC19', 'CSC20', 'CSC21', 'CSC22', 'CSC23', 'CSC24', 'CSC25', 'CSC26', 'CSC27', 'CSC28', 'CSC29', 'CSC30', 'CSC31', 'CSC32', 'CSC33', 'CSC34', 'CSC35', 'CSC36', 'CSC37', 'CSC38', 'CSC39', 'CSC40', 'CSC41', 'CSC42', 'CSC43', 'CSC44', 'CSC45', 'CSC46', 'CSC47', 'CSC48', 'CSC49', 'CSC50', 'CSC51', 'CSC52', 'CSC53', 'CSC54', 'CSC55', 'CSC56', 'CSC57', 'CSC58', 'CSC59', 'CSC60', 'CSC61', 'CSC62', 'CSC63', 'CSC64', 'CSC65', 'CSC66', 'CSC67', 'CSC68', 'CSC69', 'CSC70', 'CSC71', 'CSC72', 'CSC73', 'CSC74', 'CSC75', 'CSC76', 'CSC77', 'CSC78', 'CSC79', 'CSC80']
+Clipping based on robust scaling
+Raw fif saved to: ../../Data/UCLA/patient_504/Raw/patient_504_micro_raw-raw.fif
+Host key verification failed.

@@ -17,13 +17,16 @@ from utils.utils import dict2filename
 from utils.data_manip import DataHandler
 from sklearn.preprocessing import StandardScaler
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'])
+parser.add_argument('--patient', 'append', default=[])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['raw'],
+                    action='append', default=[], help='electrode type')
+parser.add_argument('--filter', action='append', default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -38,7 +41,7 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
+parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
 parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1",
@@ -53,33 +56,11 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
 #                    nargs='*',
 #                    help='Feature to include in the encoding model')
 parser.add_argument('--feature-list',
-                    default=['semantic_features',
-                              'is_first_word',
-                              'is_last_word',
-<<<<<<< HEAD
-                              'phonological_features',
-                              'grammatical_number',
-                              'pos_simple',
-                              'word_zipf',
-                              'dec_quest'],
                     nargs='*',
+#                    action='append',
+                    default=None,
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=False, action='store_true',
-=======
-                              'letters'],
-                    nargs='*',
-                    help='Feature to include in the encoding model')
-# parser.add_argument('--feature-list',
-#                     default=['is_first_word',
-#                               'is_last_word',
-#                               'orthography',
-#                               'semantics',
-#                               'lexicon',
-#                               'syntax'],
-#                     nargs='*',
-#                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
->>>>>>> fade2f9e76e431231636247f5992af220d03e68c
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
@@ -123,6 +104,8 @@ args.patient = ['patient_' + p for p in args.patient]
 args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
+if isinstance(args.feature_list, str):
+    args.feature_list = eval(args.feature_list)
 print(args)
 
 #############

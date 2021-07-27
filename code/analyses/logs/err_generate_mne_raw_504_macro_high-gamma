@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/generate_raw.py", line 50, in <module>
+    args.sfreq_downsample)
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/utils/data_manip.py", line 323, in generate_mne_raw
+    raw = get_data_from_ncs_or_ns(data_type, path2data, sfreq_down)
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/utils/data_manip.py", line 478, in get_data_from_ncs_or_ns
+    assert len(fn_br) == 1
+AssertionError

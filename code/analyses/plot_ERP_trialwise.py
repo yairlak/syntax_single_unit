@@ -12,6 +12,10 @@ from utils.utils import probename2picks, update_queries,\
     pick_responsive_channels
 from scipy.ndimage import gaussian_filter1d
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
 parser.add_argument('--patient', default='515', help='Patient string')
@@ -74,6 +78,8 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(verbose=True)
+data.raws[0].notch_filter(np.arange(60, 5*60, 60), fir_design='firwin') # notch filter for also 60Hz
+
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,

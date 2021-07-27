@@ -1,0 +1,14 @@
+Host key verification failed.
+Traceback (most recent call last):
+  File "/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/generate_raw.py", line 138, in <module>
+    raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
+  File "<decorator-gen-155>", line 21, in save
+  File "/home/yl254115/miniconda3/lib/python3.7/site-packages/mne/io/base.py", line 1312, in save
+    data_test = self[0, 0][0]
+  File "/home/yl254115/miniconda3/lib/python3.7/site-packages/mne/io/base.py", line 727, in __getitem__
+    sel, start, stop = self._parse_get_set_params(item)
+  File "/home/yl254115/miniconda3/lib/python3.7/site-packages/mne/io/base.py", line 662, in _parse_get_set_params
+    sel = _picks_to_idx(self.info, item[0])
+  File "/home/yl254115/miniconda3/lib/python3.7/site-packages/mne/io/pick.py", line 1007, in _picks_to_idx
+    % (n_chan, orig_picks))
+ValueError: All picks must be < n_channels (0), got 0

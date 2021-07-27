@@ -1,0 +1,126 @@
+Namespace(data_type='macro', filter='high-gamma', from_mat=False, line_frequency=[50, 60], patient='patient_479_11', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_479_11/Raw/macro
+../../Data/UCLA/patient_479_11/Raw/macro /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_479_11/Raw/macro
+Recording system identified - Neuralynx
+Neural files: Start time 1489760586.848367, End time 1489763746.066299
+Sampling rate [Hz]: 40000.0
+Number of channel 58: ['LAH1', 'LAH2', 'LAH3', 'LAH4', 'LAH5', 'LAH6', 'LAH7', 'LSTG1', 'LSTG2', 'LSTG3', 'LSTG4', 'LSTG5', 'LSTG6', 'LSTG7', 'PRSTG1', 'PRSTG2', 'PRSTG3', 'PRSTG4', 'PRSTG5', 'PRSTG6', 'PRSTG7', 'RASTG1', 'RASTG2', 'RASTG3', 'RASTG4', 'RASTG5', 'RASTG6', 'RASTG7', 'RIFAC1', 'RIFAC2', 'RIFAC3', 'RIFAC4', 'RIFAC5', 'RIFAC6', 'RIFAC7', 'RIFAC8', 'RPC1', 'RPC2', 'RPC3', 'RPC4', 'RPC6', 'RPC7', 'RPC8', 'RPMTG1', 'RPMTG2', 'RPMTG3', 'RPMTG4', 'RPMTG5', 'RPMTG6', 'RPMTG7', 'RTO1', 'RTO2', 'RTO3', 'RTO4', 'RTO5', 'RTO6', 'RTO7', 'RTO8']
+Segment - 1/1
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+Resampling data 40000.00 -> 1000.00
+<RawArray | 58 x 3159219 (3159.2 s), ~1.37 GB, data loaded>
+Applying Bipolar reference
+Bipolar channel added as "LAH1-LAH2".
+Bipolar channel added as "LAH2-LAH3".
+Bipolar channel added as "LAH3-LAH4".
+Bipolar channel added as "LAH4-LAH5".
+Bipolar channel added as "LAH5-LAH6".
+Bipolar channel added as "LAH6-LAH7".
+Bipolar channel added as "LSTG1-LSTG2".
+Bipolar channel added as "LSTG2-LSTG3".
+Bipolar channel added as "LSTG3-LSTG4".
+Bipolar channel added as "LSTG4-LSTG5".
+Bipolar channel added as "LSTG5-LSTG6".
+Bipolar channel added as "LSTG6-LSTG7".
+Bipolar channel added as "PRSTG1-PRSTG2".
+Bipolar channel added as "PRSTG2-PRSTG3".
+Bipolar channel added as "PRSTG3-PRSTG4".
+Bipolar channel added as "PRSTG4-PRSTG5".
+Bipolar channel added as "PRSTG5-PRSTG6".
+Bipolar channel added as "PRSTG6-PRSTG7".
+Bipolar channel added as "RASTG1-RASTG2".
+Bipolar channel added as "RASTG2-RASTG3".
+Bipolar channel added as "RASTG3-RASTG4".
+Bipolar channel added as "RASTG4-RASTG5".
+Bipolar channel added as "RASTG5-RASTG6".
+Bipolar channel added as "RASTG6-RASTG7".
+Bipolar channel added as "RIFAC1-RIFAC2".
+Bipolar channel added as "RIFAC2-RIFAC3".
+Bipolar channel added as "RIFAC3-RIFAC4".
+Bipolar channel added as "RIFAC4-RIFAC5".
+Bipolar channel added as "RIFAC5-RIFAC6".
+Bipolar channel added as "RIFAC6-RIFAC7".
+Bipolar channel added as "RIFAC7-RIFAC8".
+Bipolar channel added as "RPC1-RPC2".
+Bipolar channel added as "RPC2-RPC3".
+Bipolar channel added as "RPC3-RPC4".
+Bipolar channel added as "RPC4-RPC6".
+Bipolar channel added as "RPC6-RPC7".
+Bipolar channel added as "RPC7-RPC8".
+Bipolar channel added as "RPMTG1-RPMTG2".
+Bipolar channel added as "RPMTG2-RPMTG3".
+Bipolar channel added as "RPMTG3-RPMTG4".
+Bipolar channel added as "RPMTG4-RPMTG5".
+Bipolar channel added as "RPMTG5-RPMTG6".
+Bipolar channel added as "RPMTG6-RPMTG7".
+Bipolar channel added as "RTO1-RTO2".
+Bipolar channel added as "RTO2-RTO3".
+Bipolar channel added as "RTO3-RTO4".
+Bipolar channel added as "RTO4-RTO5".
+Bipolar channel added as "RTO5-RTO6".
+Bipolar channel added as "RTO6-RTO7".
+Bipolar channel added as "RTO7-RTO8".
+<RawArray | 50 x 3159219 (3159.2 s), ~1.18 GB, data loaded>
+['LAH1-LAH2', 'LAH2-LAH3', 'LAH3-LAH4', 'LAH4-LAH5', 'LAH5-LAH6', 'LAH6-LAH7', 'LSTG1-LSTG2', 'LSTG2-LSTG3', 'LSTG3-LSTG4', 'LSTG4-LSTG5', 'LSTG5-LSTG6', 'LSTG6-LSTG7', 'PRSTG1-PRSTG2', 'PRSTG2-PRSTG3', 'PRSTG3-PRSTG4', 'PRSTG4-PRSTG5', 'PRSTG5-PRSTG6', 'PRSTG6-PRSTG7', 'RASTG1-RASTG2', 'RASTG2-RASTG3', 'RASTG3-RASTG4', 'RASTG4-RASTG5', 'RASTG5-RASTG6', 'RASTG6-RASTG7', 'RIFAC1-RIFAC2', 'RIFAC2-RIFAC3', 'RIFAC3-RIFAC4', 'RIFAC4-RIFAC5', 'RIFAC5-RIFAC6', 'RIFAC6-RIFAC7', 'RIFAC7-RIFAC8', 'RPC1-RPC2', 'RPC2-RPC3', 'RPC3-RPC4', 'RPC4-RPC6', 'RPC6-RPC7', 'RPC7-RPC8', 'RPMTG1-RPMTG2', 'RPMTG2-RPMTG3', 'RPMTG3-RPMTG4', 'RPMTG4-RPMTG5', 'RPMTG5-RPMTG6', 'RPMTG6-RPMTG7', 'RTO1-RTO2', 'RTO2-RTO3', 'RTO3-RTO4', 'RTO4-RTO5', 'RTO5-RTO6', 'RTO6-RTO7', 'RTO7-RTO8']
+Extracting high-gamma
+(8, 50, 3159219)
+Clip and PCA across bands
+Raw fif saved to: ../../Data/UCLA/patient_479_11/Raw/patient_479_11_macro_high-gamma-raw.fif

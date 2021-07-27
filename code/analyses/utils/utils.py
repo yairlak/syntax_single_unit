@@ -5,17 +5,16 @@ from utils import load_settings_params
 
 
 def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
-    path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', data_type, 'CSC_mat', 'channel_numbers_to_names.txt')
+    path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', data_type, 'channel_numbers_to_names.txt')
     try:
         with open(path2channel_names, 'r') as f:
             channel_names = f.readlines()
-        channel_names = [l.strip().split('\t')[1] for l in channel_names]
+        channel_names = [l.strip().split()[1] for l in channel_names]
         if data_type == 'micro':
-            channel_names.pop(0) # remove MICROPHONE line
-            probe_names = [s[4::] for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
+            probe_names = [s[4::] if s.startswith('G') else s for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
         else:
             probe_names = channel_names
-        probe_names = [s[:-5] for s in probe_names] # remove file extension and electrode numbering (e.g., LSTG1, LSTG2, LSTG3) 
+        probe_names = [s[:-1] for s in probe_names] # remove file extension and electrode numbering (e.g., LSTG1, LSTG2, LSTG3) 
         if (data_type == 'macro') & (patient == 'patient_502'):
             probe_names = [name for name in channel_names if name not in ['ROF', 'RAF']] # 502 has more macro than micro see Notes/log_summary.txt (March 2020)
             print('Macros also include ROF and RAF - see Notes/log_summary.txt (2020Mar02)')

@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--patient', default='479_11', nargs='*', help='Patient number')
 parser.add_argument('--data-type', default='macro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw', help='raw/high-gamma/gaussian-kernel')
-parser.add_argument('--level', default='sentence_onset', choices=['sentence_onset', 'sentence_offset', 'word', 'phone'], help='sentence_onset/sentence_offset/word/phone level')
+parser.add_argument('--level', default='sentence', choices=['sentence', 'word', 'phone'], help='sentence_onset/sentence_offset/word/phone level')
 parser.add_argument('--comparison-name', default='all_trials', help='See functions/comparisons.py')
 parser.add_argument('--path2output', default='../../../HTMLs/overview_plots/', help='Destination for html file.')
 args = parser.parse_args()
@@ -45,7 +45,7 @@ for patient in args.patient:
 #########################
 # HTML FOR ALL PATIENTS #
 #########################
-text_list = HTML.HTML_all_patients(per_probe_htmls, args.comparison_name, args.data_type, args.filter, args.level)
+text_list = HTML.HTML_all_patients(per_probe_htmls, args.comparison_name, args.data_type, args.filter)
 # WRITE TO HTML FILE
 fn_html = f'All_patients_{args.level}_{args.filter}_{args.data_type}_{args.comparison_name}.html'
 fn_html = os.path.join(args.path2output, fn_html)

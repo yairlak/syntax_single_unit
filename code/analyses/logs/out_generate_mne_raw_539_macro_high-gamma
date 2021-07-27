@@ -1,0 +1,83 @@
+Namespace(data_type='macro', filter='high-gamma', from_mat=False, line_frequency=[50, 60], patient='patient_539', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_539/Raw/macro
+../../Data/UCLA/patient_539/Raw/macro /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_539/Raw/macro
+Recording system identified - BlackRock
+
+20210715-131400-001.ns3 opened
+
+20210715-131400-001.ns3 closed
+2000.0
+Resampling data 2000.00 -> 1000.00
+<RawArray | 64 x 3051083 (3051.1 s), ~1.45 GB, data loaded>
+Applying Bipolar reference
+Bipolar channel added as "CSC129-CSC130".
+Bipolar channel added as "CSC130-CSC131".
+Bipolar channel added as "CSC131-CSC132".
+Bipolar channel added as "CSC132-CSC133".
+Bipolar channel added as "CSC133-CSC134".
+Bipolar channel added as "CSC134-CSC135".
+Bipolar channel added as "CSC135-CSC136".
+Bipolar channel added as "CSC136-CSC137".
+Bipolar channel added as "CSC137-CSC138".
+Bipolar channel added as "CSC138-CSC139".
+Bipolar channel added as "CSC139-CSC140".
+Bipolar channel added as "CSC140-CSC141".
+Bipolar channel added as "CSC141-CSC142".
+Bipolar channel added as "CSC142-CSC143".
+Bipolar channel added as "CSC143-CSC144".
+Bipolar channel added as "CSC144-CSC145".
+Bipolar channel added as "CSC145-CSC146".
+Bipolar channel added as "CSC146-CSC147".
+Bipolar channel added as "CSC147-CSC148".
+Bipolar channel added as "CSC148-CSC149".
+Bipolar channel added as "CSC149-CSC150".
+Bipolar channel added as "CSC150-CSC151".
+Bipolar channel added as "CSC151-CSC152".
+Bipolar channel added as "CSC152-CSC153".
+Bipolar channel added as "CSC153-CSC154".
+Bipolar channel added as "CSC154-CSC155".
+Bipolar channel added as "CSC155-CSC156".
+Bipolar channel added as "CSC156-CSC157".
+Bipolar channel added as "CSC157-CSC158".
+Bipolar channel added as "CSC158-CSC159".
+Bipolar channel added as "CSC159-CSC160".
+Bipolar channel added as "CSC160-CSC161".
+Bipolar channel added as "CSC161-CSC162".
+Bipolar channel added as "CSC162-CSC163".
+Bipolar channel added as "CSC163-CSC164".
+Bipolar channel added as "CSC164-CSC165".
+Bipolar channel added as "CSC165-CSC166".
+Bipolar channel added as "CSC166-CSC167".
+Bipolar channel added as "CSC167-CSC168".
+Bipolar channel added as "CSC168-CSC169".
+Bipolar channel added as "CSC169-CSC170".
+Bipolar channel added as "CSC170-CSC171".
+Bipolar channel added as "CSC171-CSC172".
+Bipolar channel added as "CSC172-CSC173".
+Bipolar channel added as "CSC173-CSC174".
+Bipolar channel added as "CSC174-CSC175".
+Bipolar channel added as "CSC175-CSC176".
+Bipolar channel added as "CSC176-CSC177".
+Bipolar channel added as "CSC177-CSC178".
+Bipolar channel added as "CSC178-CSC179".
+Bipolar channel added as "CSC179-CSC180".
+Bipolar channel added as "CSC180-CSC181".
+Bipolar channel added as "CSC181-CSC182".
+Bipolar channel added as "CSC182-CSC183".
+Bipolar channel added as "CSC183-CSC184".
+Bipolar channel added as "CSC184-CSC185".
+Bipolar channel added as "CSC185-CSC186".
+Bipolar channel added as "CSC186-CSC187".
+Bipolar channel added as "CSC187-CSC188".
+Bipolar channel added as "CSC188-CSC189".
+Bipolar channel added as "CSC189-CSC190".
+Bipolar channel added as "CSC190-CSC191".
+Bipolar channel added as "CSC191-CSC192".
+<RawArray | 63 x 3051083 (3051.1 s), ~1.43 GB, data loaded>
+['CSC129-CSC130', 'CSC130-CSC131', 'CSC131-CSC132', 'CSC132-CSC133', 'CSC133-CSC134', 'CSC134-CSC135', 'CSC135-CSC136', 'CSC136-CSC137', 'CSC137-CSC138', 'CSC138-CSC139', 'CSC139-CSC140', 'CSC140-CSC141', 'CSC141-CSC142', 'CSC142-CSC143', 'CSC143-CSC144', 'CSC144-CSC145', 'CSC145-CSC146', 'CSC146-CSC147', 'CSC147-CSC148', 'CSC148-CSC149', 'CSC149-CSC150', 'CSC150-CSC151', 'CSC151-CSC152', 'CSC152-CSC153', 'CSC153-CSC154', 'CSC154-CSC155', 'CSC155-CSC156', 'CSC156-CSC157', 'CSC157-CSC158', 'CSC158-CSC159', 'CSC159-CSC160', 'CSC160-CSC161', 'CSC161-CSC162', 'CSC162-CSC163', 'CSC163-CSC164', 'CSC164-CSC165', 'CSC165-CSC166', 'CSC166-CSC167', 'CSC167-CSC168', 'CSC168-CSC169', 'CSC169-CSC170', 'CSC170-CSC171', 'CSC171-CSC172', 'CSC172-CSC173', 'CSC173-CSC174', 'CSC174-CSC175', 'CSC175-CSC176', 'CSC176-CSC177', 'CSC177-CSC178', 'CSC178-CSC179', 'CSC179-CSC180', 'CSC180-CSC181', 'CSC181-CSC182', 'CSC182-CSC183', 'CSC183-CSC184', 'CSC184-CSC185', 'CSC185-CSC186', 'CSC186-CSC187', 'CSC187-CSC188', 'CSC188-CSC189', 'CSC189-CSC190', 'CSC190-CSC191', 'CSC191-CSC192']
+Extracting high-gamma
+(8, 63, 3051083)
+Clip and PCA across bands
+Raw fif saved to: ../../Data/UCLA/patient_539/Raw/patient_539_macro_high-gamma-raw.fif

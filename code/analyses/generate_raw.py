@@ -19,11 +19,15 @@ import scipy
 from neo.io import NeuralynxIO
 import matplotlib.pyplot as plt
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='538', help='Patient number')
+parser.add_argument('--patient', default='539', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='macro/micro/spike')
+                    default='macro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
@@ -32,7 +36,7 @@ parser.add_argument('--from-mat',
 parser.add_argument('--sfreq-downsample', type=int,
                     default=1000, help='Downsampling frequency')
 parser.add_argument('--line-frequency',
-                    default=50, help='in Hz')
+                    default=[50, 60], help='in Hz')
 args = parser.parse_args()
 args.patient = 'patient_' + args.patient
 print(args)
@@ -78,9 +82,10 @@ if args.data_type not in ['spike', 'microphone']:
     ################
     # NOTCH (line) #
     ################
-    raw.notch_filter(np.arange(args.line_frequency, 5*args.line_frequency, args.line_frequency), fir_design='firwin') # notch filter
-    raw.filter(0.05, None, fir_design='firwin') # High-pass filter
-    if args.filter.startswith('gaussian-kernel') or args.filter == 'raw' and args.data_type != 'microphone':
+    for line_freq in args.line_frequency:
+        raw.notch_filter(np.arange(line_freq, 5*line_freq, line_freq), fir_design='firwin') # notch filter
+    raw.filter(0.05, 200, fir_design='firwin') # Band-pass filter
+    if args.filter == 'raw' and args.data_type != 'microphone':
 
         ############
         # CLIPPING #

@@ -1,0 +1,6 @@
+Namespace(data_type='micro', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_499', sfreq_downsample=1000)
+Loading data from: ../../Data/UCLA/patient_499/Raw/micro
+../../Data/UCLA/patient_499/Raw/micro /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
+../../Data/UCLA/patient_499/Raw/micro
+Recording system identified - Neuralynx

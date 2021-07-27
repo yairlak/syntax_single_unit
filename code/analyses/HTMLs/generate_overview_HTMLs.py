@@ -8,8 +8,8 @@ import HTML
 
 
 path2output = '../../../HTMLs/overview_plots/'
-comparison_names = ['all_trials', 'all_end_trials']
-filter_types = ['raw', 'gaussian-kernel-10', 'gaussian-kernel-25', 'gaussian-kernel-50', 'high-gamma']
+comparison_names = ['all_trials', 'all_trials_chrono']
+filter_types = ['raw', 'high-gamma']
 
 #######################
 # HTML FOR COMPARISON #

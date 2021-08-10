@@ -29,6 +29,9 @@ elif patient==530 and data_type=='micro':
 elif patient==539 and data_type=='micro':
     probe_names = ['RMH', 'RA', 'ROF-AC', 'LMH',
                    'REC', 'LFSG', 'LEC']
+elif patient==540 and data_type=='macro':
+    probe_names = []
+    
 with open(path2file, 'w') as f:
     cnt = 1
     for i_probe, probe_name in enumerate(probe_names):

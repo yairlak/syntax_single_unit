@@ -4,19 +4,19 @@ MAT=""
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 #PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539"
 #PATIENTS="479_11 479_25 482 489 493 499 505 513 515 538"
-PATIENTS="504 510 530 539"
+PATIENTS="541"
 # Which signal types (micro macro spike)
-#DTYPES="micro macro spike microphone"
-DTYPES="micro"
+DTYPES="micro macro spike microphone"
+#DTYPES="macro"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
 
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
-queue="Nspin_bigM"
-walltime="72:00:00"
+queue="Nspin_short"
+walltime="02:00:00"
 
 for PATIENT in $PATIENTS; do
     for DTYPE in $DTYPES; do
@@ -34,7 +34,7 @@ for PATIENT in $PATIENTS; do
             then
                 echo $CMD | qsub -q $queue -N $job_name -l walltime=$walltime -o $output_log -e $error_log
             else
-                $CMD
+                echo $CMD' &'
                 #' 1>'$output_log' 2>'$error_log 
             fi
         done 

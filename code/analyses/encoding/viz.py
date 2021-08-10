@@ -26,7 +26,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     # negative_r2 = scores_by_time_mean>0
     
     # PLOT
-    fig, ax = plt.subplots(figsize=(25,10))
+    fig, ax = plt.subplots(figsize=(15,10))
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -50,7 +50,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
                 coef_curr_feature = coefs_mean[st+i_value, :]
                 ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_value)
     
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(len(feature_names)/40)))
+    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'Beta', fontsize=20)
     ax.set_ylim((None, None)) 
@@ -58,7 +58,9 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
-    plt.subplots_adjust(right=0.8)
+    ax.tick_params(axis='both', labelsize=18)
+    ax2.tick_params(axis='both', labelsize=18)
+    plt.subplots_adjust(right=0.65)
     
     return fig
 
@@ -73,7 +75,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     scores_by_time_full_std = scores_by_time_full.std(axis=0)
     # negative_r2 = scores_by_time_full_mean<0
     
-    fig, ax = plt.subplots(figsize=(25,10))
+    fig, ax = plt.subplots(figsize=(15,10))
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -105,7 +107,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
                 marker=marker, markersize=15, label=feature_name)
         # ax.fill_between(times_word_epoch*1e3, diff_mean + diff_std, diff_mean - diff_std , color=color, alpha=0.2)
     
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0.5), ncol=int(np.ceil(len(feature_names)/40)))
+    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'$\Delta r$', fontsize=20)
     ax.set_ylim((0, 0.15))
@@ -113,7 +115,9 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
-    plt.subplots_adjust(right=0.8)
+    ax.tick_params(axis='both', labelsize=18)
+    ax2.tick_params(axis='both', labelsize=18)
+    plt.subplots_adjust(right=0.65)
     
     return fig
 
@@ -123,6 +127,8 @@ def get_curve_style(feature_name, feature_info):
     # CHECK IF IT'S A FEATURE NAME OR FEATURE-VALUE NAME
     if feature_name in feature_info.keys():  # is feature name
         color = feature_info[feature_name]['color']
+        if feature_name == 'semantics':
+            color = 'xkcd:orange'
         f_name = feature_name
     else:  # is value name
         f_name = None

@@ -41,7 +41,7 @@ parser.add_argument('--average-repeated-trials', action="store_true", default=Fa
 parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
 parser.add_argument('--tmax', default=0.6, type=float, help='crop window')
 parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
-parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default='zscore', help='Type of baseline method')
+parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default=None, help='Type of baseline method')
 # MISC
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
 parser.add_argument('--word-ON-duration', default=250, help='Duration for which word word presented in the RSVP [msec]')
@@ -56,7 +56,7 @@ parser.add_argument('--window-st', default=50, type=int, help='Regression start-
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
 parser.add_argument('--vmax', default=2.5, help='vmax of plot (default is in zscore, assuming baseline is zscore')
-parser.add_argument('--smooth-raster', default=0.0005, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
+parser.add_argument('--smooth-raster', default=0.0015, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
 parser.add_argument('--save2', default=[], help='If empty saves figure to default folder')
 
 
@@ -80,6 +80,13 @@ data = DataHandler(args.patient, args.data_type, args.filter,
 data.load_raw_data(verbose=True)
 data.raws[0].notch_filter(np.arange(60, 5*60, 60), fir_design='firwin') # notch filter for also 60Hz
 
+# COMPARISON
+comparisons = comparisons.comparison_list()
+comparison = comparisons[args.comparison_name].copy()
+
+if 'level' in comparison.keys():
+    args.level = comparison['level']
+
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,
@@ -87,9 +94,7 @@ data.epoch_data(level=args.level,
                 smooth=args.smooth,
                 verbose=True)
 epochs = data.epochs[0]
-# COMPARISON
-comparisons = comparisons.comparison_list()
-comparison = comparisons[args.comparison_name].copy()
+
 comparison = update_queries(comparison, args.block_type,
                             args.fixed_constraint, epochs.metadata)
 pprint(comparison)

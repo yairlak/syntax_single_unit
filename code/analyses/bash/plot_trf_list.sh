@@ -1,7 +1,6 @@
 #
 
 
-BLOCK='auditory'
 METHOD='remove'
 DECIMATE=40
 
@@ -22,6 +21,9 @@ CLUSTER=1
 
 queue="Unicog_short"
 walltime="02:00:00"
+
+
+for BLOCK in "auditory" "visual";do
 
 if [ $BLOCK == "auditory" ]
 then
@@ -57,4 +59,6 @@ for PATIENT in $PATIENTS; do
             fi
         done 
     done
+done
+
 done

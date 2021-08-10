@@ -1,9 +1,9 @@
 
-patient='479_11 479_25 482 487 489 493 499 502 504 505 510 513 515 530 538 539'
+patient='479_11 479_25 482 487 489 493 499 502 504 505 510 513 515 530 538 539 540 541'
 
 for comparison_name in 'all_trials' 'all_trials_chrono';
 do
-    for data_type in 'micro' 'macro' 'spike';
+    for data_type in 'micro' 'macro' 'spike' 'microphone';
     do
         for filter in 'raw' 'high-gamma';
         do

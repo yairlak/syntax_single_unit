@@ -88,10 +88,8 @@ class DataHandler:
             self.sfreq = raw_neural.info['sfreq']
 
             if self.feature_list:
-                metadata_features = get_metadata_features(patient,
-                                                          data_type,
-                                                          self.sfreq)
-                feature_data = Features(metadata_features, self.feature_list)
+                metadata = prepare_metadata_features(patient)
+                feature_data = Features(metadata, self.feature_list)
                 feature_data.add_feature_info()
                 feature_data.add_design_matrix()
                 feature_data.scale_design_matrix()
@@ -144,26 +142,59 @@ class DataHandler:
         for p, (patient, data_type) in enumerate(zip(self.patient,
                                                      self.data_type)):
             print(f'Epoching {patient}, {data_type}, {level}')
+            ############
+            # METADATA #
+            ############
+            metadata = prepare_metadata(patient)
+            metadata = extend_metadata(metadata)
+            
+
+            if level == 'sentence_onset':
+                tmin_, tmax_ = (-1.2, 3.5)
+                metadata_level = metadata.loc[((metadata['block'].isin([1, 3, 5])) &
+                                              (metadata['word_position'] == 1)) |
+                                              ((metadata['block'].isin([2, 4, 6])) &
+                                              (metadata['word_position'] == 1) &
+                                              (metadata['phone_position'] == 1))]
+            elif level == 'sentence_offset':
+                tmin_, tmax_ = (-3.5, 1.5)
+                metadata_level = metadata.loc[(metadata['is_last_word'] == 1)]
+            elif level == 'word':
+                tmin_, tmax_ = (-1, 2)
+                metadata_level = metadata.loc[((metadata['is_first_phone'] == 1) &
+                                              (metadata['block'].isin([2, 4, 6]))) |
+                                              ((metadata['block'].isin([1, 3, 5])) &
+                                              (metadata['word_position'] > 0))] 
+            elif level == 'phone':
+                tmin_, tmax_ = (-0.3, 1.2)
+                metadata_level = metadata.loc[(metadata['block'].isin([2, 4, 6])) &
+                                              (metadata['phone_position'] > 0)]
+            elif level == 'block':
+                metadata_level = metadata.loc[(metadata['chronological_order'] == 1) |
+                                              (metadata['chronological_order'] == 509) |
+                                              (metadata['chronological_order'] == 2127) |
+                                              (metadata['chronological_order'] == 2635) |
+                                              (metadata['chronological_order'] == 4253) |
+                                              (metadata['chronological_order'] == 4761)]
+            else:
+                raise('Unknown level type (sentence_onset/sentence_offset/word/phone)')
+            
+            
             ##########
-            events, event_id, metadata = get_events(patient, level, data_type, self.sfreq)
+            # EVENTS #
+            ##########
+            events, event_id, metadata = get_events(metadata_level, self.sfreq)
+            
+            if verbose:
+                print(self.raws[p].first_samp, events)
+            
             ############
             # EPOCHING #
             ############
-            # First epoch then filter if needed
-            if verbose:
-                print(self.raws[p].first_samp, events)
-            if level == 'sentence_onset':
-                tmin_, tmax_ = (-1.2, 3.5)
-            elif level == 'sentence_offset':
-                tmin_, tmax_ = (-3.5, 1.5)
-            elif level == 'word':
-                tmin_, tmax_ = (-1, 2)
-            elif level == 'phone':
-                tmin_, tmax_ = (-0.3, 1.2)
+
             epochs = mne.Epochs(self.raws[p], events, event_id, tmin_, tmax_,
-                                metadata=metadata, baseline=None,
+                                metadata=metadata_level, baseline=None,
                                 preload=True, reject=None)
-            del events, event_id, metadata
             if any(epochs.drop_log):
                 print('Dropped:', epochs.drop_log)
 
@@ -171,8 +202,6 @@ class DataHandler:
                 epochs = epochs['block in [2, 4, 6]']
             elif block_type == 'visual':
                 epochs = epochs['block in [1, 3, 5]']
-            # EXTEND METADATA
-            epochs.metadata = extend_metadata(epochs.metadata)
             # QUERY
             if query:
                 epochs = epochs[query]
@@ -226,51 +255,7 @@ class DataHandler:
             self.epochs.append(epochs_neural)
 
 
-def get_metadata_features(patient, data_type, sfreq):
-    '''
-    Generate metadata with features for patient
-
-    Parameters
-    ----------
-    patient : int
-        patient number.
-    data_type : str
-        micro/macro/spike.
-
-    Returns
-    -------
-    metadata_features : TYPE
-        DESCRIPTION.
-
-    '''
-
-    _, _, metadata_phone = get_events(patient, 'phone', data_type, sfreq)
-    _, _, metadata_word = get_events(patient, 'word', data_type, sfreq)
-    metadata_audio = extend_metadata(metadata_phone)
-    metadata_visual = metadata_word.query('block in [1, 3, 5]')
-    metadata_visual = extend_metadata(metadata_visual)
-    metadata_features = pd.concat([metadata_audio, metadata_visual], axis=0)
-    metadata_features = metadata_features.sort_values(by='event_time')
-    return metadata_features
-
-
-def get_events(patient, level, data_type, sfreq, verbose=False):
-    blocks = range(1, 7)
-    #sfreq = 1000  # Data types downsamplled to 1000Hz by generate_mne_raw.py
-
-    #TODO: add log to power
-    
-    if verbose:
-        print('Reading logs from experiment...')
-    path2log = os.path.join('..', '..', 
-                            'Data', 'UCLA', patient, 'Logs')
-    log_all_blocks = {}
-    for block in blocks:
-        log = read_log(block, path2log)
-        log_all_blocks[block] = log
-    if verbose:
-        print('Preparing meta-data')
-    metadata = prepare_metadata(log_all_blocks, data_type, level)
+def get_events(metadata, sfreq, verbose=False):
 
     # First column of events object
     times_in_sec = sorted(metadata['event_time'].values)
@@ -332,6 +317,8 @@ def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down):
 
 
 def get_data_from_combinato(path2data):
+    
+    patient = path2data.split('patient_')[1][:3]
 
     sfreq = 1000
 
@@ -365,7 +352,10 @@ def get_data_from_combinato(path2data):
         channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
         probe_name = f'CSC{channel_num}'
         if recording_system == 'Neuralynx':
-            probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
+            if patient in ['540', '541']:
+                probe_name = [t[0] for t in channel_tuples if t[1]==128+channel_num-1] # in this patient numbering started from 128
+            else:
+                probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
         spikes, group_names = load_combinato_sorted_h5(path2data, channel_num,
                                                        probe_name)
         #print(group_names, len(group_names), len(spikes))
@@ -644,12 +634,25 @@ def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_
     return events
 
 
-def prepare_metadata(log_all_blocks, data_type, level):
+def prepare_metadata(patient, verbose=False):
     '''
     :param log_all_blocks: list len = #blocks
     :param features: numpy
     :return: metadata: list
     '''
+    blocks = range(1, 7)
+
+    if verbose:
+        print('Reading logs from experiment...')
+    path2log = os.path.join('..', '..', 
+                            'Data', 'UCLA', patient, 'Logs')
+    log_all_blocks = {}
+    for block in blocks:
+        log = read_log(block, path2log)
+        log_all_blocks[block] = log
+    if verbose:
+        print('Preparing meta-data')
+
     word_ON_duration = 200 # [msec]
     word2features, word2features_new = load_word_features()
     #print(word2features_new)
@@ -673,11 +676,6 @@ def prepare_metadata(log_all_blocks, data_type, level):
             metadata['stimulus_number'].append(sn)
             metadata['word_position'].append(wp)
             metadata['chronological_order'].append(cnt); cnt += 1
-            #if data_type == 'macro' and settings.recording_device == 'BlackRock': # If micro/macro recorded with different devices
-            #    time0 = settings.time0_macro
-            #else:
-            #    time0 = settings.time0
-            #metadata['event_time'].append((int(curr_block_events['event_time'][i]) - time0) / 1e6)
             metadata['event_time'].append(int(float(curr_block_events['event_time'][i])) / 1e6)
             metadata['block'].append(curr_block_events['block'][i])
             is_first_phone = curr_block_events['is_first_phone'][i]
@@ -721,7 +719,7 @@ def prepare_metadata(log_all_blocks, data_type, level):
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
-                metadata['dec_quest'].append(0)
+                metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
                 metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
                 metadata['pos'].append(word2features_new[sn][wp]['pos'])
                 metadata['wh_subj_obj'].append(0)
@@ -799,38 +797,6 @@ def prepare_metadata(log_all_blocks, data_type, level):
                 metadata['last_word'].append(False)
 
     metadata = pd.DataFrame(metadata)
-    if level == 'sentence_onset':
-        metadata = metadata.loc[((metadata['block'].isin([1, 3, 5])) &
-                                 (metadata['word_position'] == 1)) |
-                                ((metadata['block'].isin([2, 4, 6])) &
-                                 (metadata['word_position'] == 1) &
-                                 (metadata['phone_position'] == 1))]
-        # tmin, tmax = (-1, 3.5)
-    elif level == 'sentence_offset':
-        # metadata = metadata.loc[(metadata['word_position'] == 0)]
-        metadata = metadata.loc[(metadata['last_word'] == 1)]
-        # tmin, tmax = (-3.5, 1.5)
-    elif level == 'word':
-        # filter metadata to word-onset events, first-phone==-1 (visual blocks)
-        metadata = metadata.loc[((metadata['is_first_phone'] == 1) &
-                                 (metadata['block'].isin([2, 4, 6]))) |
-                                ((metadata['block'].isin([1, 3, 5])) &
-                                 (metadata['word_position'] > 0))] 
-        # tmin, tmax = (-0.6, 1.5)
-    elif level == 'phone':
-        # filter metadata to only phone-onset events in auditory blocks
-        metadata = metadata.loc[(metadata['block'].isin([2, 4, 6])) &
-                                (metadata['phone_position'] > 0)]
-        # tmin, tmax = (-0.3, 1.2)
-    elif level == 'block':
-        metadata = metadata.loc[(metadata['chronological_order'] == 1) |
-                                (metadata['chronological_order'] == 509) |
-                                (metadata['chronological_order'] == 2127) |
-                                (metadata['chronological_order'] == 2635) |
-                                (metadata['chronological_order'] == 4253) |
-                                (metadata['chronological_order'] == 4761)]
-    else:
-        raise('Unknown level type (sentence_onset/sentence_offset/word/phone)')
     metadata.sort_values(by='event_time')
     return metadata
 
@@ -891,9 +857,10 @@ def extend_metadata(metadata):
         if w == 'that':
             stim_numbers_with_that.append((metadata['stimulus_number'].tolist()[IX_word], metadata['word_position'].tolist()[IX_word]))
     embedding = [] # GENERATE A LIST OF VALUES: 1 - IN EMBEDDING, 0 - IN MAIN
-    for curr_sn, curr_wp in zip(metadata['stimulus_number'], metadata['word_position']):
-        is_in_embedding = any([1 if (curr_sn == sn and (curr_wp>=wp or curr_wp==-1)) else 0 for (sn, wp) in stim_numbers_with_that])
-        #print(curr_sn, curr_wp, is_in_embedding)
+    for curr_sn, curr_wp, curr_ws in zip(metadata['stimulus_number'], metadata['word_position'], metadata['word_string']):
+        # same stimulus/sentence number (sn) but great word-position (wp)
+        is_in_embedding = any([1 if (curr_sn == sn and (curr_wp>=wp or curr_wp==0)) else 0 for (sn, wp) in stim_numbers_with_that])
+        #print(curr_sn, curr_wp, curr_ws, is_in_embedding)
         embedding.append(is_in_embedding)
     metadata['embedding'] = embedding
 

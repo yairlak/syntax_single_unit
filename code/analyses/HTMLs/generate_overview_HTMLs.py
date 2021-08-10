@@ -37,7 +37,7 @@ for comparison_name in comparison_names:
             f.write("%s\n" % line)
     print('HTML saved to: ', fn_html)
     
-    for data_type in ['macro', 'micro', 'spike']:
+    for data_type in ['macro', 'micro', 'spike', 'microphone']:
         ###################
         # HTML FOR FILTER #
         ###################

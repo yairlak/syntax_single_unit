@@ -7,6 +7,9 @@ Created on Mon Jan 25 14:48:59 2021
 """
 import argparse
 import os
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 import sys
 import pickle
 from viz import plot_rf_coefs, plot_rf_r2
@@ -15,18 +18,15 @@ from utils.utils import dict2filename
 import matplotlib.pyplot as plt
 from encoding.models import TimeDelayingRidgeCV
 
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['515'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25,
                     help='Gaussian smoothing in msec')

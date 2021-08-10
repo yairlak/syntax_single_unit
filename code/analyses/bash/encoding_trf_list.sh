@@ -8,9 +8,10 @@ METHOD='remove'
 DECIMATE=40
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539"
+PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540"
 #PATIENTS="479_11 479_25 482 489 493 499 505 513 515 538"
 #PATIENTS="504 510 530 539"
+#PATIENTS="540"
 
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike"
@@ -22,7 +23,7 @@ FILTERS="raw high-gamma"
 # Local(0) or Alambic (1)?
 CLUSTER=1
 
-queue="Nspin_bigM"
+queue="Nspin_long"
 walltime="72:00:00"
 
 if [ $BLOCK == "auditory" ]

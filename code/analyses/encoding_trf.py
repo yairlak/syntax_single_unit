@@ -23,7 +23,7 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', 'append', default=[])
+parser.add_argument('--patient', action='append', default=[])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append', default=[],

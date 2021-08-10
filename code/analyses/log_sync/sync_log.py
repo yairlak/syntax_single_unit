@@ -18,14 +18,14 @@ from pprint import pprint
 from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '539')
+parser.add_argument('--patient', default = '504')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='BlackRock')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
 parser.add_argument('--refine-with-mic', action='store_true', default=False)
 parser.add_argument('--merge-logs', action='store_true', default=False)
 parser.add_argument('--viz', action='store_true', default=True)
-parser.add_argument('-v', '--verbose', action='store_true', default=False)
+parser.add_argument('-v', '--verbose', action='store_true', default=True)
 args = parser.parse_args()
 if isinstance(args.IXs_block_logs, str):
     args.IXs_block_logs = eval(args.IXs_block_logs)
@@ -41,7 +41,7 @@ logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
 time_stamps, event_nums_zero, sfreq = read_events(args)
 print(f'sfreq = {sfreq}')
 
-if args.patient == '539':
+if args.patient in ['539', '541']:
     time_stamps = [0, 98.5, 99, 99.1, 99.5, 99.6] + time_stamps
     event_nums_zero = [100, 0, 1, 0, 2, 0] + event_nums_zero
 
@@ -153,4 +153,5 @@ for i_log in dict_events.keys():
         with open(fn_log_new, 'w') as f:
             [f.write(l+'\n') for l in new_log_lines]
         cnt_log += 1
+
 

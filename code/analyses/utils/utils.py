@@ -6,21 +6,29 @@ from utils import load_settings_params
 
 def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', data_type, 'channel_numbers_to_names.txt')
+    if data_type =='microphone':
+        return ['MICROPHONE'], ['MICROPHONE']
     try:
+        #print(path2channel_names)
         with open(path2channel_names, 'r') as f:
             channel_names = f.readlines()
         channel_names = [l.strip().split()[1] for l in channel_names]
         if data_type == 'micro':
             probe_names = [s[4::] if s.startswith('G') else s for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
-        else:
-            probe_names = channel_names
-        probe_names = [s[:-1] for s in probe_names] # remove file extension and electrode numbering (e.g., LSTG1, LSTG2, LSTG3) 
+            probe_names = [s[:-1] for s in probe_names] # remove file extension and electrode numbering (e.g., LSTG1, LSTG2, LSTG3) 
+        elif data_type == 'macro':
+            probe_names = []
+            for ch_name in channel_names:
+                IX_dash = ch_name.index('-')
+                probe_name = ch_name[:(IX_dash-1)] # remove dash *and* channel numbering
+                probe_names.append(probe_name)
+
         if (data_type == 'macro') & (patient == 'patient_502'):
             probe_names = [name for name in channel_names if name not in ['ROF', 'RAF']] # 502 has more macro than micro see Notes/log_summary.txt (March 2020)
             print('Macros also include ROF and RAF - see Notes/log_summary.txt (2020Mar02)')
     except:
         print('!!! - Missing %s channel-name files for %s' % (data_type, patient))
-        return
+        return [], []
     return sorted(list(set(probe_names))), channel_names
 
 
@@ -172,7 +180,7 @@ def probename2picks(probe_names, channel_names, data_type):
     either 'micro', 'macro', or 'spike'
     '''
     assert data_type in ['micro', 'macro', 'spike', 'microphone'], "Unrecognized data-type (must be 'micro', 'macro' or 'spike')"
-    print(probe_names, channel_names)
+    #print(probe_names, channel_names)
     
     if not isinstance(probe_names, list):
         probe_names = [str(probe_names)]
@@ -192,7 +200,7 @@ def probename2picks(probe_names, channel_names, data_type):
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
                 elif data_type == 'micro':
                     probe_name_from_ch_name = ''.join([i for i in ch_name[4:] if not i.isdigit()]).strip() # remove prefix GA1-, and remove number from ending
-                    print(probe_name_from_ch_name)
+                    #print(probe_name_from_ch_name)
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
                 elif data_type == 'macro':
                     probe_name_from_ch_name = ''.join([i for i in ch_name.split('-')[0] if not i.isdigit()]) # Assuming format of the sort LSTG1-LSTG2 (bipolar)
@@ -260,214 +268,3 @@ def pick_responsive_channels(ch_names, patient, data_type, filter_type, block_ty
     return channel_names_with_significance
 
 
-def rescale(data, times, baseline, mode='mean', copy=True, picks=None,
-
-            verbose=None):
-
-    """Rescale (baseline correct) data.
-
-
-
-    Parameters
-
-    ----------
-
-    data : array
-
-        It can be of any shape. The only constraint is that the last
-
-        dimension should be time.
-
-    times : 1D array
-
-        Time instants is seconds.
-
-    baseline : tuple or list of length 2, or None
-
-        The time interval to apply rescaling / baseline correction.
-
-        If None do not apply it. If baseline is ``(bmin, bmax)``
-
-        the interval is between ``bmin`` (s) and ``bmax`` (s).
-
-        If ``bmin is None`` the beginning of the data is used
-
-        and if ``bmax is None`` then ``bmax`` is set to the end of the
-
-        interval. If baseline is ``(None, None)`` the entire time
-
-        interval is used. If baseline is None, no correction is applied.
-
-    mode : 'mean' | 'ratio' | 'logratio' | 'percent' | 'zscore' | 'zlogratio'
-
-        Perform baseline correction by
-
-
-
-        - subtracting the mean of baseline values ('mean')
-
-        - dividing by the mean of baseline values ('ratio')
-
-        - dividing by the mean of baseline values and taking the log
-
-          ('logratio')
-
-        - subtracting the mean of baseline values followed by dividing by
-
-          the mean of baseline values ('percent')
-
-        - subtracting the mean of baseline values and dividing by the
-
-          standard deviation of baseline values ('zscore')
-
-        - dividing by the mean of baseline values, taking the log, and
-
-          dividing by the standard deviation of log baseline values
-
-          ('zlogratio')
-
-
-
-    copy : bool
-
-        Whether to return a new instance or modify in place.
-
-    picks : list of int | None
-
-        Data to process along the axis=-2 (None, default, processes all).
-
-    %(verbose)s
-
-
-
-    Returns
-
-    -------
-
-    data_scaled: array
-
-        Array of same shape as data after rescaling.
-
-    """
-
-    data = data.copy() if copy else data
-
-    #msg = _log_rescale(baseline, mode)
-
-    #logger.info(msg)
-
-    if baseline is None or data.shape[-1] == 0:
-
-        return data
-
-
-
-    bmin, bmax = baseline
-
-    if bmin is None:
-
-        imin = 0
-
-    else:
-
-        imin = np.where(times >= bmin)[0]
-
-        if len(imin) == 0:
-
-            raise ValueError('bmin is too large (%s), it exceeds the largest '
-
-                             'time value' % (bmin,))
-
-        imin = int(imin[0])
-
-    if bmax is None:
-
-        imax = len(times)
-
-    else:
-
-        imax = np.where(times <= bmax)[0]
-
-        if len(imax) == 0:
-
-            raise ValueError('bmax is too small (%s), it is smaller than the '
-
-                             'smallest time value' % (bmax,))
-
-        imax = int(imax[-1]) + 1
-
-    if imin >= imax:
-
-        raise ValueError('Bad rescaling slice (%s:%s) from time values %s, %s'
-
-                         % (imin, imax, bmin, bmax))
-
-
-
-    # technically this is inefficient when `picks` is given, but assuming
-
-    # that we generally pick most channels for rescaling, it's not so bad
-
-    mean = np.mean(data[..., imin:imax], axis=-1, keepdims=True)
-
-
-
-    if mode == 'mean':
-
-        def fun(d, m):
-
-            d -= m
-
-    elif mode == 'ratio':
-
-        def fun(d, m):
-
-            d /= m
-
-    elif mode == 'logratio':
-
-        def fun(d, m):
-
-            d /= m
-
-            np.log10(d, out=d)
-
-    elif mode == 'percent':
-
-        def fun(d, m):
-
-            d -= m
-
-            d /= m
-
-    elif mode == 'zscore':
-
-        def fun(d, m):
-
-            d -= m
-
-            d /= np.std(d[..., imin:imax], axis=-1, keepdims=True)
-
-    elif mode == 'zlogratio':
-
-        def fun(d, m):
-
-            d /= m
-
-            np.log10(d, out=d)
-
-            d /= np.std(d[..., imin:imax], axis=-1, keepdims=True)
-
-
-
-    if picks is None:
-
-        fun(data, mean)
-
-    else:
-
-        for pi in picks:
-
-            fun(data[..., pi, :], mean[..., pi, :])
-
-    return data

@@ -24,14 +24,14 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='539', help='Patient number')
+parser.add_argument('--patient', default='504', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='macro', help='macro/micro/spike')
+                    default='microphone', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
-                    default=False, action='store_true',
+                    default=True, action='store_true',
                     help='Load data from mat files.')
 parser.add_argument('--sfreq-downsample', type=int,
                     default=1000, help='Downsampling frequency')

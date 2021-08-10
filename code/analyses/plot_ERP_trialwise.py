@@ -26,7 +26,7 @@ parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=True, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')

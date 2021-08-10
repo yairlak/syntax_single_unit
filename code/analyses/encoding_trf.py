@@ -41,7 +41,7 @@ parser.add_argument('--sfreq', default=1000,
 parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1",
+parser.add_argument('--query-test', default=None,
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
@@ -69,8 +69,8 @@ parser.add_argument('--model-type', default='ridge',
 parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=10, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -85,7 +85,7 @@ parser.add_argument('--tmin_rf', default=-0.1, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=0.7, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=25, type=float,
+parser.add_argument('--decimate', default=20, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
 parser.add_argument('--path2output',
@@ -104,6 +104,8 @@ args.patient = ['patient_' + p for p in args.patient]
 args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
+if isinstance(args.feature_list, str):
+    args.feature_list = eval(args.feature_list)
 print(args)
 
 #############

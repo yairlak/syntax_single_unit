@@ -14,15 +14,15 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='539', help='Patient string')
+parser.add_argument('--patient', default='504', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='macro', help='electrode type')
+                    default='microphone', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=True, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')

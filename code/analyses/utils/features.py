@@ -224,13 +224,6 @@ def get_feature_style(feature_name):
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = True
 
-    # TENSE
-    if feature_name == 'tense':
-        dict_prop['color'] = 'xkcd:grass green'
-        dict_prop['ls'] = '-'
-        dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
-
     # WORD LOG-FREQUENCY
     if feature_name == 'word_zipf':
         dict_prop['color'] = 'g'

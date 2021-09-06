@@ -17,13 +17,14 @@ from encoding.models import TimeDelayingRidgeCV
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import ast
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
 parser.add_argument('--patient', action='append', default=['515'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append',
                     default=['raw'],
                     help='raw/high-gamma')
@@ -88,12 +89,27 @@ fname = dict2filename(args2fname, '_', list_args2fname, '', True)
 df = pd.read_csv(f'../../../Output/encoding_models/trf_results_{args.data_type[0]}_{args.filter[0]}.csv')
 
 def get_dr(r_full, r):
-    dr = r_full - r
+    if isinstance(r_full, float):
+        if np.isnan(r_full) or np.isnan(r):
+            return np.nan
+        else:
+            dr = r_full - r
+    else:
+        dr = r_full - r
     # if r_full > 0.05:
     #     dr = r_full-r
     # else:
     #     dr = 0
     return dr
+
+
+def str2list(s):
+    if isinstance(s, str):
+        val_list = s[1:-1].split()
+        val_list = np.asarray([float(v) for v in val_list])
+    else:
+        val_list = s
+    return val_list
 
 
 def lump_ROIs(row):
@@ -109,35 +125,54 @@ def lump_ROIs(row):
     cingulate = ['AC', 'PC']
     insula = ['AI', 'MI']
     
-    if row['ROI'] in MTL:
+    if args.data_type[0] == 'spike':
+        if row['ROI'].startswith('one'):  # HACK
+            ROI = 'None'
+        else:
+            ROI = row['ROI'].split('_')[0].split('-')[1][1:-1]
+            
+    else:
+        ROI = row['ROI']
+    
+    if ROI in MTL:
         ROI_large = 'MTL'
-    elif row['ROI'] in primary_auditory:
+    elif ROI in primary_auditory:
         ROI_large = 'Primary Auditory'
-    elif row['ROI'] in occipital:
+    elif ROI in occipital:
         ROI_large = 'Occipital'
-    elif row['ROI'] in Fusiform:
+    elif ROI in Fusiform:
         ROI_large = 'Fusiform'
-    elif row['ROI'] in frontal:
+    elif ROI in frontal:
         ROI_large = 'Frontal'
-    elif row['ROI'] in SMG:
+    elif ROI in SMG:
         ROI_large = 'SMG'
-    elif row['ROI'] in STG:
+    elif ROI in STG:
         ROI_large = 'STG'
-    elif row['ROI'] in MTG:
+    elif ROI in MTG:
         ROI_large = 'MTG'
-    elif row['ROI'] in cingulate:
+    elif ROI in cingulate:
         ROI_large = 'Cingulate'
-    elif row['ROI'] in insula:
+    elif ROI in insula:
         ROI_large = 'Insula'
     else:
-        ROI_large = row['ROI']
+        ROI_large = ROI
     return ROI_large
 
 
-df['dr_visual'] = df.apply (lambda row: get_dr(row['r_full_visual'],
+df['r_full_visual_by_time'] = df.apply (lambda row: str2list(row['r_full_visual_by_time']), axis=1)
+df['r_full_auditory_by_time'] = df.apply (lambda row: str2list(row['r_full_auditory_by_time']), axis=1)
+df['r_visual_by_time'] = df.apply (lambda row: str2list(row['r_visual_by_time']), axis=1)
+df['r_auditory_by_time'] = df.apply (lambda row: str2list(row['r_auditory_by_time']), axis=1)
+
+df['dr_visual_total'] = df.apply (lambda row: get_dr(row['r_full_visual'],
                                                row['r_visual']), axis=1)
-df['dr_auditory'] = df.apply (lambda row: get_dr(row['r_full_auditory'],
+df['dr_auditory_total'] = df.apply (lambda row: get_dr(row['r_full_auditory'],
                                                  row['r_auditory']), axis=1)
+df['dr_visual_max'] = df.apply (lambda row: np.max(get_dr(row['r_full_visual_by_time'],
+                                               row['r_visual_by_time'])), axis=1)
+df['dr_auditory_max'] = df.apply (lambda row: np.max(get_dr(row['r_full_auditory_by_time'],
+                                                 row['r_auditory_by_time'])), axis=1)
+
 df['ROI'] = df.apply (lambda row: row['Probe_name'][1:], axis=1)
 
 df['ROI_large'] = df.apply(lambda row: lump_ROIs(row), axis=1)
@@ -189,6 +224,47 @@ fig.savefig(fn)
 plt.close(fig)
 print(fn)
 
+
+# Summary point plot for visual and auditory block with ALL ROIs
+
+fig, axs = plt.subplots(1, 2, figsize=(30, 30))
+for i_mod, modality in enumerate(['visual', 'auditory']):
+    df_features = df[df['Feature'] != 'full']
+    g = sns.pointplot(data=df_features,
+                      y="ROI_large",
+                      x=f"dr_{modality}_total",
+                      hue='Feature',
+                      join=False,
+                      palette=palette,
+                      ax=axs[i_mod])
+    if i_mod == 0:
+        g.get_legend().remove()
+    if i_mod == 1:
+        g.set(yticklabels=[], ylabel=None)
+    g.set(xlim=(0, None))
+axs[1].legend(bbox_to_anchor=(1.02, 0, 0.3, 1), loc='center left')
+plt.subplots_adjust(right=0.85)
+fn = f'../../../Figures/encoding_models/scatters/All_ROIs_{args.data_type[0]}_{args.filter[0]}.png'
+fig.savefig(fn)
+plt.close(fig)
+print(fn)
+
+
+# fig, ax = plt.subplots(figsize=(50, 10))
+# ax = sns.catplot(data=df,
+#                  x="ROI",
+#                  y="dr_auditory",
+#                  hue='Feature',
+#                  row="Hemisphere",
+#                  kind="bar",
+#                  palette=palette,
+#                  ax=ax)
+
+# ax.set(ylim=(0, None))
+
+
+
+
 ######## FIGURES PER PROBE
 ##############################
 ROIs = list(set(df_full['ROI_large']))
@@ -217,38 +293,27 @@ for ROI in ROIs:
     # fig, ax = plt.subplots(2, 1, figsize=(15,10))
     g = sns.catplot(data=df_probe,
                     x="ROI_large",
-                    y="dr_auditory",
+                    y="dr_auditory_total",
                     hue='Feature',
                     col='Hemisphere',
                     palette=palette,
                     # ci=68,
                     kind='bar',
                     ax=ax)
-    # l = axs[0].get_legend()
-    # l.remove()
-    # axs[0].set(ylim=(0, None))
-    # axs[0].set_title(f'Auditory ({args.data_type[0]}, {args.filter[0]})')
-    # plt.subplots_adjust(right=0.75)
-    # fig = ax.get_figure()
+    g.set(ylim=[0,None])
     fn = f'../../../Figures/encoding_models/scatters/bar_{ROI}_aud_{args.data_type[0]}_{args.filter[0]}.png'
-    # plt.show()
     g.savefig(fn)
-    # plt.close(fig)
     
     g = sns.catplot(data=df_probe,
                     x="ROI_large",
-                    y="dr_visual",
+                    y="dr_visual_total",
                     hue='Feature',
                     col='Hemisphere',
                     palette=palette,
                     # capsize=.05,
                     # ci=68,
                     kind='bar')
-    # axs[1].set(ylim=(0, None))
-    # axs[1].set_title(f'Visual ({args.data_type[0]}, {args.filter[0]})')
-    # axs[1].legend(loc='center left', bbox_to_anchor=(1.05, 0, 0.3, 1))
-    # plt.subplots_adjust(right=0.75)
-    # fig = plt.get_figure()
+    g.set(ylim=[0,None])
     fn = f'../../../Figures/encoding_models/scatters/bar_{ROI}_vis_{args.data_type[0]}_{args.filter[0]}.png'
     g.savefig(fn)
     plt.close(fig)
@@ -257,8 +322,8 @@ for ROI in ROIs:
     # SCATTER PER FETAURE PER PROBE (without full)
     fig, ax = plt.subplots(figsize=(20, 10))
     ax = sns.scatterplot(data=df_probe,
-                         x="dr_visual",
-                         y="dr_auditory",
+                         x="dr_visual_total",
+                         y="dr_auditory_total",
                          hue="Feature",
                          style='Hemisphere',
                          palette=palette,
@@ -281,8 +346,8 @@ for ROI in ROIs:
 df = df[df['Feature'] != 'full']
 fig, ax = plt.subplots(figsize=(10, 10))
 ax = sns.scatterplot(data=df,
-                     x="dr_visual",
-                     y="dr_auditory",
+                     x="dr_visual_total",
+                     y="dr_auditory_total",
                      hue="Feature",
                      style='Hemisphere',
                      palette=palette,
@@ -293,27 +358,3 @@ ax.set_ylim([-0.05, 0.1])
 ax.legend(bbox_to_anchor=(1.02, 0, 0.3, 1), loc='center left')
 
 
-# fig, ax = plt.subplots(figsize=(50, 10))
-# ax = sns.catplot(data=df,
-#                  x="ROI",
-#                  y="dr_visual",
-#                  hue='Feature',
-#                  row="Hemisphere",
-#                  kind="bar",
-#                  palette=palette,
-#                  ax=ax)
-
-# ax.set(ylim=(0, None))
-# ax._legend.remove()
-
-# fig, ax = plt.subplots(figsize=(50, 10))
-# ax = sns.catplot(data=df,
-#                  x="ROI",
-#                  y="dr_auditory",
-#                  hue='Feature',
-#                  row="Hemisphere",
-#                  kind="bar",
-#                  palette=palette,
-#                  ax=ax)
-
-# ax.set(ylim=(0, None))

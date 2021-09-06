@@ -65,23 +65,37 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     return fig
 
 
+def get_scores_by_time(results, i_channel, feature_name):
+    scores_by_time = np.asarray([scores[:, i_channel] for scores in results[feature_name]['scores_by_time']])
+    scores_by_time_mean = scores_by_time.mean(axis=0)
+    scores_by_time_std = scores_by_time.std(axis=0)
+    n_samples = scores_by_time.shape[0]
+    scores_by_time_sem = scores_by_time_std/np.sqrt(n_samples)
+    return scores_by_time_mean, scores_by_time_sem
+
 
 def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
+    fig, ax = plt.subplots(figsize=(15,10))
+
+    # time points and total score
     times_word_epoch = results['times_word_epoch']
     total_score = np.asarray([scores[i_channel] for scores in results['full']['total_score']])
-     # Scores by time (full model)
-    scores_by_time_full = np.asarray([scores[:, i_channel] for scores in results['full']['scores_by_time']])
-    scores_by_time_full_mean = scores_by_time_full.mean(axis=0)
-    scores_by_time_full_std = scores_by_time_full.std(axis=0)
-    # negative_r2 = scores_by_time_full_mean<0
+
+    # Scores by time (full model)
+    scores_by_time_full_mean, scores_by_time_full_sem = \
+            get_scores_by_time(results, i_channel, 'full')
     
-    fig, ax = plt.subplots(figsize=(15,10))
+    # Draw full-model results
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=20)  # we already handled the x-label with ax1
+    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=20)  
     ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
-    ax2.fill_between(times_word_epoch*1e3, scores_by_time_full_mean+scores_by_time_full_std, scores_by_time_full_mean-scores_by_time_full_std, color=color, alpha=0.2)
+    ax2.fill_between(times_word_epoch*1e3,
+                     scores_by_time_full_mean+scores_by_time_full_sem,
+                     scores_by_time_full_mean-scores_by_time_full_sem,
+                     color=color,
+                     alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.set_ylim((0, 1)) 
     
@@ -94,23 +108,31 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
         feature_names = feature_info.keys()
     
     for i_feature, feature_name in enumerate(feature_names):
-        scores_by_time_curr_feature = np.asarray([scores[:, i_channel] for scores in results[feature_name]['scores_by_time']])
-        scores_by_time_curr_feature_mean = scores_by_time_curr_feature.mean(axis=0)
-        scores_by_time_curr_feature_std = scores_by_time_curr_feature.std(axis=0)
-        # scores_by_time_curr_feature_mean[negative_r2] = scores_by_time_full_mean[negative_r2]
-        
+        scores_by_time_feature_mean, scores_by_time_feature_sem = \
+            get_scores_by_time(results, i_channel, feature_name)
         color, ls, lw, marker = get_curve_style(feature_name, feature_info)
-        
-        diff_mean = scores_by_time_full_mean-scores_by_time_curr_feature_mean
-        diff_std = scores_by_time_full_std
-        ax.plot(times_word_epoch*1000, diff_mean, color=color, ls=ls, lw=lw,
+        ax.plot(times_word_epoch*1000,
+                scores_by_time_full_mean - scores_by_time_feature_mean,
+                color=color, ls=ls, lw=lw,
                 marker=marker, markersize=15, label=feature_name)
-        # ax.fill_between(times_word_epoch*1e3, diff_mean + diff_std, diff_mean - diff_std , color=color, alpha=0.2)
+        #ax2.fill_between(times_word_epoch*1e3,
+        #                 scores_by_time_feature_mean+scores_by_time_feature_sem,
+        #                 scores_by_time_feature_mean-scores_by_time_feature_sem,
+        #                 color=color,
+        #                 alpha=0.2)
+        #print(feature_name, color)
+        
+        #diff = scores_by_time_full - scores_by_time_curr_feature 
+        #diff_mean = diff.mean(axis=0) 
+        #diff_std = diff.mean(axis=0)
+        #ax.plot(times_word_epoch*1000, diff_mean, color=color, ls=ls, lw=lw,
+        #        marker=marker, markersize=15, label=feature_name)
+        #ax.fill_between(times_word_epoch*1e3, diff_mean + diff_std, diff_mean - diff_std , color=color, alpha=0.2)
     
     ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'$\Delta r$', fontsize=20)
-    ax.set_ylim((0, 0.15))
+    ax.set_ylim((0, 0.3))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
@@ -129,6 +151,7 @@ def get_curve_style(feature_name, feature_info):
         color = feature_info[feature_name]['color']
         if feature_name == 'semantics':
             color = 'xkcd:orange'
+            color = 'orange'
         f_name = feature_name
     else:  # is value name
         f_name = None

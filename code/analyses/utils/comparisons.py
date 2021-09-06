@@ -11,12 +11,14 @@ def comparison_list():
     comparisons['embedding_vs_long']['condition_names'] = ['Embedded', 'Main']
     comparisons['embedding_vs_long']['colors'] = ['b', 'g']
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
+    comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
     
     comparisons['wh_subj_obj_len5'] = {}
     comparisons['wh_subj_obj_len5']['queries'] = ["wh_subj_obj==1 and sentence_length>3", "wh_subj_obj==-1 and sentence_length>3"]
     comparisons['wh_subj_obj_len5']['condition_names'] = ['Subject question', 'Object question']
     comparisons['wh_subj_obj_len5']['colors'] = ['b', 'g']
     comparisons['wh_subj_obj_len5']['level'] = 'sentence_onset'
+    comparisons['wh_subj_obj_len5']['tmin_tmax'] = [-0.5, 3.5]
     
     comparisons['dec_quest_len2'] = {}
     comparisons['dec_quest_len2']['queries'] = ["dec_quest==0 and sentence_length==2", "dec_quest==1 and sentence_length==2"]
@@ -24,6 +26,7 @@ def comparison_list():
     comparisons['dec_quest_len2']['colors'] = ['b', 'g']
     comparisons['dec_quest_len2']['sort'] = ['word_string']
     comparisons['dec_quest_len2']['level'] = 'sentence_onset'
+    comparisons['dec_quest_len2']['tmin_tmax'] = [-0.5, 2.5]
 
     comparisons['grammatical_number'] = {}
     comparisons['grammatical_number']['queries'] = ["grammatical_number==-1", "grammatical_number==1"]
@@ -39,6 +42,13 @@ def comparison_list():
     comparisons['pos_simple']['condition_names'] = []
     comparisons['pos_simple']['colors'] = []
     comparisons['pos_simple']['level'] = 'word'
+    comparisons['pos_simple']['tmin_tmax'] = [-0.5, 1.2]
+    
+    comparisons['tense'] = {}
+    comparisons['tense']['queries'] = "tense"
+    comparisons['tense']['condition_names'] = []
+    comparisons['tense']['colors'] = []
+    comparisons['tense']['level'] = 'sentence_offset'
     
     comparisons['pos_first'] = {}
     comparisons['pos_first']['queries'] = ["pos=='DT'", "pos=='WP'", "pos=='PRP'"]
@@ -46,6 +56,7 @@ def comparison_list():
     comparisons['pos_first']['colors'] = ["b", "r", "g"]
     comparisons['pos_first']['sort'] = ['word_string']
     comparisons['pos_first']['level'] = 'sentence_onset'
+    comparisons['pos_first']['tmin_tmax'] = [-0.5, 1.2]
 
     comparisons['word_zipf'] = {}
     comparisons['word_zipf']['queries'] = ["(word_zipf>=%i) and (word_zipf<%i) and (block in [1, 3, 5])"%(i, j) for (i, j) in zip(range(3, 7), range(4, 7))]
@@ -69,6 +80,7 @@ def comparison_list():
     comparisons['word_string']['colors'] = []
     comparisons['word_string']['level'] = 'word'
     comparisons['word_string']['y-tick-step'] = 20
+    comparisons['word_string']['tmin_tmax'] = [-0.5, 1.2]
 
     # PHONOLOGICAL
     comparisons['manner_of_articulation'] = {}
@@ -125,6 +137,8 @@ def comparison_list():
     comparisons['all_words']['sort'] = ['word_length', 'word_string']
     #comparisons['all_words']['sort'] = 'clustering'
     comparisons['all_words']['y-tick-step'] = 20
+    comparisons['all_words']['level'] = 'word'
+    comparisons['all_words']['tmin_tmax'] = [-0.5, 1.5]
 
 # ALL PHONES
     comparisons['all_phones'] = {}

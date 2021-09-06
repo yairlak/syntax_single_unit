@@ -31,7 +31,7 @@ parser.add_argument('--data-type',
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
-                    default=True, action='store_true',
+                    default=False, action='store_true',
                     help='Load data from mat files.')
 parser.add_argument('--sfreq-downsample', type=int,
                     default=1000, help='Downsampling frequency')

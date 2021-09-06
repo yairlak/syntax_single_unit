@@ -88,11 +88,13 @@ class DataHandler:
             self.sfreq = raw_neural.info['sfreq']
 
             if self.feature_list:
-                metadata = prepare_metadata_features(patient)
+                metadata = prepare_metadata(patient)
+                metadata = extend_metadata(metadata)
+                #metadata = prepare_metadata_features(patient)
                 feature_data = Features(metadata, self.feature_list)
                 feature_data.add_feature_info()
                 feature_data.add_design_matrix()
-                feature_data.scale_design_matrix()
+                #feature_data.scale_design_matrix()
                 feature_data.add_raw_features(len(raw_neural), self.sfreq)
 
                 raw_neural.load_data()
@@ -160,8 +162,8 @@ class DataHandler:
                 tmin_, tmax_ = (-3.5, 1.5)
                 metadata_level = metadata.loc[(metadata['is_last_word'] == 1)]
             elif level == 'word':
-                tmin_, tmax_ = (-1, 2)
-                metadata_level = metadata.loc[((metadata['is_first_phone'] == 1) &
+                tmin_, tmax_ = (-1.5, 2.5)
+                metadata_level = metadata.loc[((metadata['word_onset'] == 1) &
                                               (metadata['block'].isin([2, 4, 6]))) |
                                               ((metadata['block'].isin([1, 3, 5])) &
                                               (metadata['word_position'] > 0))] 
@@ -183,7 +185,7 @@ class DataHandler:
             ##########
             # EVENTS #
             ##########
-            events, event_id, metadata = get_events(metadata_level, self.sfreq)
+            events, event_id = get_events(metadata_level, self.sfreq)
             
             if verbose:
                 print(self.raws[p].first_samp, events)
@@ -191,7 +193,6 @@ class DataHandler:
             ############
             # EPOCHING #
             ############
-
             epochs = mne.Epochs(self.raws[p], events, event_id, tmin_, tmax_,
                                 metadata=metadata_level, baseline=None,
                                 preload=True, reject=None)
@@ -285,7 +286,7 @@ def get_events(metadata, sfreq, verbose=False):
     # Hence, timing should be shifted by the length of the first ncs files (suffix0)
     # if patient == 'patient_479_25' and data_type=='spike':
     #     events[:, 0] -= int(117.647 * sfreq)
-    return events, event_id, metadata
+    return events, event_id
 
 
 def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down):
@@ -300,19 +301,21 @@ def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down):
     
     # Extract raw data
     if data_type == 'spike':
-        channel_data, ch_names, sfreq = get_data_from_combinato(path2data)
+        channel_data, sfreq, ch_names = get_data_from_combinato(path2data)
     else:
         if from_mat:
-            channel_data, ch_names, sfreq = get_data_from_mat(data_type, path2data)
+            channel_data, sfreq, ch_names = get_data_from_mat(data_type, path2data)
         else:
             raw = get_data_from_ncs_or_ns(data_type, path2data, sfreq_down)
             return raw
     #print(f'Shape channel_data: {channel_data.shape}')
     n_channels = channel_data.shape[0]
     ch_types = ['seeg'] * n_channels
+    #print(ch_names)
     info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
     raw = mne.io.RawArray(channel_data, info)
 
+    
     return raw
 
 
@@ -334,35 +337,27 @@ def get_data_from_combinato(path2data):
         channel_tuples = reader.header['signal_channels']
         time0, timeend = reader.global_t_start, reader.global_t_stop    
     elif recording_system == 'BlackRock':
-        fn_br = glob.glob(os.path.join(path2data, '..', 'micro', '*.ns5'))
-        assert len(fn_br) == 1
-        nsx_file = NsxFile(fn_br[0])
+        #fn_br = glob.glob(os.path.join(path2data, '..', 'micro', '*.ns5'))
+        #assert len(fn_br) == 1
+        #nsx_file = NsxFile(fn_br[0])
+        time0, timeend = 0, 5400 # set timeend to max of 1.5 hours.
         # Extract data - note:
         # Data will be returned based on *SORTED* elec_ids,
         # see cont_data['elec_ids']
-        cont_data = nsx_file.getdata()
-        nsx_file.close()
-        time0, timeend = cont_data['start_time_s'], cont_data['data_time_s']
-        ch_names = [f'CSC{id}' for id in cont_data['elec_ids']]
+        #cont_data = nsx_file.getdata()
+        #nsx_file.close()
+        #time0, timeend = cont_data['start_time_s'], cont_data['data_time_s']
 
     print(f'time0 = {time0}, timeend = {timeend}')
     
     ch_names, spike_times_samples = [], []
     for CSC_folder in CSC_folders:
         channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
-        probe_name = f'CSC{channel_num}'
-        if recording_system == 'Neuralynx':
-            if patient in ['540', '541']:
-                probe_name = [t[0] for t in channel_tuples if t[1]==128+channel_num-1] # in this patient numbering started from 128
-            else:
-                probe_name = [t[0] for t in channel_tuples if t[1]==channel_num-1]
-        spikes, group_names = load_combinato_sorted_h5(path2data, channel_num,
-                                                       probe_name)
-        #print(group_names, len(group_names), len(spikes))
-        assert len(group_names)==len(spikes)
+        spikes, curr_ch_names = load_combinato_sorted_h5(path2data, channel_num)
+        assert len(curr_ch_names)==len(spikes)
 
         if len(spikes) > 0:
-            ch_names.extend(group_names)
+            ch_names.extend(curr_ch_names)
             for groups, curr_spike_times_msec in enumerate(spikes):
                 curr_spike_times_samples = [int(t*sfreq/1e3) for t in curr_spike_times_msec] # convert to samples from sec
                 spike_times_samples.append(curr_spike_times_samples)
@@ -370,15 +365,13 @@ def get_data_from_combinato(path2data):
             print(f'No spikes in channel: {channel_num}')
 
     # ADD to array
-    #print(ch_names)
-    #print('ch_names', 'spikes', len(ch_names), len(spike_times_samples))
     num_groups = len(spike_times_samples)
     channel_data = np.zeros((num_groups, int(1e3*(timeend- time0 + 1))))
     for i_st, st in enumerate(spike_times_samples):
         st = (np.asarray(st) - time0*1e3).astype(int)
         channel_data[i_st, st] = 1
     
-    return channel_data, ch_names, sfreq
+    return channel_data, sfreq, ch_names
 
 
 def get_data_from_mat(data_type, path2data):
@@ -408,7 +401,7 @@ def get_data_from_mat(data_type, path2data):
         print(f'Processing file: {ch_name} ({i_ch+1}/{len(CSC_files)}), sfreq = {sfreq} Hz')
     channel_data = np.vstack(channel_data)
 
-    return channel_data, ch_names, sfreq
+    return channel_data, sfreq, ch_names
 
 
 def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
@@ -510,8 +503,11 @@ def identify_recording_system(path2data):
     return recording_system
 
 
-def load_combinato_sorted_h5(path2data, channel_num, probe_name):
+def load_combinato_sorted_h5(path2data, channel_num):  # , probe_name):
     target_types = [2] # -1: artifact, 0: unassigned, 1: MU, 2: SU
+
+    dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', 'micro'))
+    ch_name = dict_ch_names[channel_num]
 
     spike_times_msec = []; group_names = []
     h5_files = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'data_*.h5'))
@@ -548,7 +544,7 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
                         raise ('issue with types: more than one group assigned to a type')
                     # if type_of_curr_group>0: # ignore artifact and unassigned groups
                     if type_of_curr_group in target_types: # Single-unit (SU) only
-                        print(f'found cluster in {probe_name}, channel {channel_num}, group {g}')
+                        print(f'found cluster in {ch_name}, channel {channel_num}, group {g}')
                         # Loop over all spikes
                         for i, c in enumerate(classes):
                             # check if current cluster in group
@@ -565,14 +561,14 @@ def load_combinato_sorted_h5(path2data, channel_num, probe_name):
                         curr_spike_times = f_all_spikes[sign]['times'][:][IXs]
                         spike_times_msec.append(curr_spike_times)
                         #print(sign[0], g, channel_num, probe_name)
-                        if isinstance(probe_name, list):
-                            if probe_name:
-                                pn=probe_name[0]
-                            else:
-                                pn=None
-                        elif isinstance(probe_name, str):
-                            pn=probe_name
-                        group_names.append(f'{pn}_{channel_num}{sign[0]}{g}')
+                        #if isinstance(probe_name, list):
+                        #    if probe_name:
+                        #        pn=probe_name[0]
+                        #    else:
+                        #        pn=None
+                        #elif isinstance(probe_name, str):
+                        #    pn=probe_name
+                        group_names.append(f'{ch_name}_{channel_num}{sign[0]}{g}')
             else:
                 print('%s was not found!' % os.path.join(path2data, 'micro', 'CSC_ncs', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
 
@@ -613,7 +609,7 @@ def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_
         lines = [l for l in lines if l[1]=='PHONE_ONSET']
         events['event_time'] = [l[0] for l in lines]
         events['block'] = len(events['event_time']) * [block]
-        events['is_first_phone'] = [int(l[2]) for l in lines]
+        events['word_onset'] = [1 if int(l[2])>0 else 0 for l in lines]
         events['phone_position'] = [int(l[3]) for l in lines]
         events['phone_string'] = [l[6] for l in lines]
         events['word_position'] = [int(l[4]) for l in lines]
@@ -624,13 +620,12 @@ def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_
         lines = [l for l in lines if l[1] == 'DISPLAY_TEXT' and l[2] != 'OFF']
         events['event_time'] = [l[0] for l in lines]
         events['block'] = len(events['event_time']) * [block]
-        events['is_first_phone'] = len(events['event_time']) * [0] # not relevant for visual blocks
         events['phone_position'] = len(events['event_time']) * [0] # not relevant for visual blocks
         events['phone_string'] = len(events['event_time']) * ['']  # not relevant for visual blocks
         events['word_position'] = [int(l[4]) for l in lines]
         events['word_string'] = [l[5] for l in lines]
         events['stimulus_number'] = [int(l[3]) for l in lines]
-
+        events['word_onset'] = [1 if len(ws)>1 else 0 for ws in events['word_string']]
     return events
 
 
@@ -659,9 +654,10 @@ def prepare_metadata(patient, verbose=False):
     num_blocks = len(log_all_blocks)
 
     # Create a dict with the following keys:
-    keys = ['chronological_order', 'event_time', 'block', 'is_first_phone', 'phone_position', 'phone_string', 'stimulus_number',
+    keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'stimulus_number',
             'word_position', 'word_string', 'pos', 'dec_quest', 'grammatical_number', 'wh_subj_obj',
-            'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf']
+            'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf',
+            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role']
     metadata = dict([(k, []) for k in keys])
 
     cnt = 1
@@ -678,9 +674,9 @@ def prepare_metadata(patient, verbose=False):
             metadata['chronological_order'].append(cnt); cnt += 1
             metadata['event_time'].append(int(float(curr_block_events['event_time'][i])) / 1e6)
             metadata['block'].append(curr_block_events['block'][i])
-            is_first_phone = curr_block_events['is_first_phone'][i]
-            if is_first_phone==-1: is_first_phone=0
-            metadata['is_first_phone'].append(is_first_phone)
+            word_onset = curr_block_events['word_onset'][i]
+            if word_onset==-1: word_onset=0
+            metadata['word_onset'].append(word_onset)
             phone_pos = int(curr_block_events['phone_position'][i])
             metadata['phone_position'].append(phone_pos)
             metadata['phone_string'].append(curr_block_events['phone_string'][i])
@@ -699,13 +695,18 @@ def prepare_metadata(patient, verbose=False):
             #print(word_string, type(word_freq), type(word_zipf))
             # ADD FEATURES FROM XLS FILE
             sentence_onset = wp==1 and ((curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos==1) or (phone_pos==0))
-            middle_word_onset = wp!=1 and ((curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and is_first_phone) or (curr_block_events['block'][i] in [1,3,5]))
-            middle_phone = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and (not is_first_phone) and (curr_block_events['block'][i] in [2,4,6]))
+            middle_word_onset = wp!=1 and ((curr_block_events['phone_string'][i] != 'END_OF_WAV' and phone_pos>1 and word_onset) or (curr_block_events['block'][i] in [1,3,5]))
+            middle_phone = (curr_block_events['phone_string'][i] != 'END_OF_WAV' and (not word_onset) and (curr_block_events['block'][i] in [2,4,6]))
             if sentence_onset: # ADD WORD AND- SENTENCE-LEVEL FEATURES
                 metadata['sentence_string'].append(word2features_new[sn][wp]['sentence_string'])
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
                 metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
+                metadata['gender'].append(word2features_new[sn][wp]['gender'])
+                metadata['n_open_nodes'].append(word2features_new[sn][wp]['n_open_nodes'])
+                metadata['tense'].append(word2features_new[sn][wp]['tense'])
+                metadata['syntactic_role'].append(word2features_new[sn][wp]['syntactic_role'])
+                metadata['diff_thematic_role'].append(word2features_new[sn][wp]['diff_thematic_role'])
                 metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
                 metadata['pos'].append(word2features_new[sn][wp]['pos'])
                 metadata['wh_subj_obj'].append(word2features_new[sn][wp]['wh_subj_obj'])
@@ -720,6 +721,11 @@ def prepare_metadata(patient, verbose=False):
                 metadata['sentence_length'].append(word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(word2features_new[sn][wp]['word_length'])
                 metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
+                metadata['gender'].append(word2features_new[sn][wp]['gender'])
+                metadata['n_open_nodes'].append(word2features_new[sn][wp]['n_open_nodes'])
+                metadata['tense'].append(word2features_new[sn][wp]['tense'])
+                metadata['syntactic_role'].append(word2features_new[sn][wp]['syntactic_role'])
+                metadata['diff_thematic_role'].append(word2features_new[sn][wp]['diff_thematic_role'])
                 metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
                 metadata['pos'].append(word2features_new[sn][wp]['pos'])
                 metadata['wh_subj_obj'].append(0)
@@ -736,6 +742,11 @@ def prepare_metadata(patient, verbose=False):
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
                 metadata['dec_quest'].append(0)
+                metadata['gender'].append(0)
+                metadata['n_open_nodes'].append(0)
+                metadata['tense'].append(0)
+                metadata['syntactic_role'].append(0)
+                metadata['diff_thematic_role'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['pos'].append('')
                 metadata['wh_subj_obj'].append(0)
@@ -752,6 +763,11 @@ def prepare_metadata(patient, verbose=False):
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
                 metadata['dec_quest'].append(0)
+                metadata['gender'].append(0)
+                metadata['n_open_nodes'].append(0)
+                metadata['tense'].append(0)
+                metadata['syntactic_role'].append(0)
+                metadata['diff_thematic_role'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['pos'].append('')
                 metadata['wh_subj_obj'].append(0)
@@ -773,7 +789,7 @@ def prepare_metadata(patient, verbose=False):
                 t = metadata['event_time'][-1] + word_ON_duration*1e-3
                 metadata['event_time'].append(t)
                 metadata['block'].append(curr_block_events['block'][i])
-                metadata['is_first_phone'].append(0)
+                metadata['word_onset'].append(0)
                 metadata['phone_position'].append(0)
                 metadata['phone_string'].append('')
                 metadata['stimulus_number'].append(
@@ -792,6 +808,11 @@ def prepare_metadata(patient, verbose=False):
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
                 metadata['dec_quest'].append(0)
+                metadata['gender'].append(0)
+                metadata['n_open_nodes'].append(0)
+                metadata['tense'].append(0)
+                metadata['syntactic_role'].append(0)
+                metadata['diff_thematic_role'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['wh_subj_obj'].append(0)
                 metadata['last_word'].append(False)
@@ -811,17 +832,17 @@ def extend_metadata(metadata):
     # TENSE
     # LAST LETTER OF POS OF VERBS INDICATE THE TENSE (D - past, P - present, F - future, V - passive, I - infinitive-like, G - ing)
     poss = metadata['pos']
-    tenses = []
-    dict_tense = {'D':'past', 'P':'present', 'F':'future', 'V':'passive', 'I':'inf_like', 'G':'ing'}
-    for i_pos, pos in enumerate(poss):
+    #tenses = []
+    #dict_tense = {'D':'past', 'P':'present', 'F':'future', 'V':'passive', 'I':'inf_like', 'G':'ing'}
+    #for i_pos, pos in enumerate(poss):
         # print(i_pos, pos)
-        if pos.startswith('VB'):
-            tense = dict_tense[pos[-1]]
-            if tense == 'passive': tense = 'past' # HACK: all passive forms are in past
-        else: # not a verb
-            tense = ''
-        tenses.append(tense)
-    metadata['tense'] = tenses
+    #    if pos.startswith('VB'):
+    #        tense = dict_tense[pos[-1]]
+    #        if tense == 'passive': tense = 'past' # HACK: all passive forms are in past
+    #    else: # not a verb
+    #        tense = ''
+    #    tenses.append(tense)
+    #metadata['tense'] = tenses
     
     # POS SIMPLE
     pos = metadata['pos']
@@ -841,7 +862,7 @@ def extend_metadata(metadata):
     is_first_word = []
     for b, wp, ifp in zip(metadata['block'],
                           metadata['word_position'],
-                          metadata['is_first_phone']):
+                          metadata['word_onset']):
         ifw = 0
         if (b in [1, 3, 5]) and wp == 1:
             ifw = 1
@@ -863,6 +884,18 @@ def extend_metadata(metadata):
         #print(curr_sn, curr_wp, curr_ws, is_in_embedding)
         embedding.append(is_in_embedding)
     metadata['embedding'] = embedding
+
+    # WH-subj_obj
+    dict_sn2wh = {}
+    for i, row in metadata.iterrows():
+        wh = row['wh_subj_obj']
+        if wh in [-1, 1]:
+            sn = row['stimulus_number']
+            dict_sn2wh[sn] = wh
+
+    for i, row in metadata.iterrows():
+        if row['stimulus_number'] in dict_sn2wh.keys() and row['word_onset']:
+            metadata.loc[i, 'wh_subj_obj'] = dict_sn2wh[row['stimulus_number']]
 
     # SEMANTIC FEATURES
     fn_glove = '../../Paradigm/small_glove.twitter.27B.25d.txt'
@@ -1033,7 +1066,7 @@ def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
         s = row['stimulus_number']
         w = row['word_position']
         #print(s, w)
-        #print(row)
+        #print(row.keys())
         if s not in word2features_new.keys():
             word2features_new[s]={}
         if w not in word2features_new[s].keys():
@@ -1199,3 +1232,13 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
 #     raw_features.info['sfreq'] = sfreq_new
 
 #     return raw_features
+
+
+def get_dict_ch_names(path2data):
+    fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt')
+    with open(fn_channel_names, 'r') as f:
+        lines = f.readlines()
+    keys = [int(ll.split()[0]) for ll in lines]
+    values = [ll.split()[1] for ll in lines]
+    
+    return dict(zip(keys, values)), values

@@ -3,7 +3,7 @@ import argparse, os, sys
 import mne
 from utils.data_manip import DataHandler
 from utils import classification, comparisons, load_settings_params, data_manip
-from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+from utils.utils import dict2filename, update_queries, probename2picks
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_selection import SelectKBest, f_classif

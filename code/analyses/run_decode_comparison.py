@@ -1,6 +1,6 @@
 patients = ['502', '504', '505', '510', '513', '515', '530', '538', '539', '540']
 #patients = ['502', '504']
-data_type = 'micro'
+data_type = 'spike'
 filt = 'raw'
 
 

@@ -1,5 +1,0 @@
-Namespace(data_type='spike', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_479_25', sfreq_downsample=1000)
-Loading data from: ../../Data/UCLA/patient_479_25/Raw/spike
-Loading spike cluster data
-/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
-../../Data/UCLA/patient_479_25/Raw/spike

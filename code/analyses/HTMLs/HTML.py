@@ -13,8 +13,6 @@ import numpy as np
 def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name, path2figures='../../../Figures/', path2data='../../Data/UCLA'):
     '''
     '''
-    # DECODING
-    decoding_contrasts = ['word_string', 'pos_first', 'pos_simple', 'embedding_vs_long', 'wh_subj_obj_len5', 'dec_quest_len2', 'grammatical_number']
     # ENCODING
     model_type = 'ridge'
     ablation_type = 'remove'
@@ -42,7 +40,7 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
     if data_type in ['micro', 'macro', 'microphone']:
         # GET FILE NAMES
         fnames = os.path.join(path2figures, 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames)
-        print(fnames)
+        #print(fnames)
         fnames = glob.glob(fnames)
         if len(fnames) == 0:
             print(f'No files were found for {filt}')
@@ -58,67 +56,24 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
             # ADD ENCODING FIGURES
             parse = fn.split('_')
-            print(parse)
+            #print(parse)
             if patient in ['479_11', '479_25']:
                 IX = 14
             else:
                 IX = 12
             electrode_name = parse[IX]
-            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_25_{model_type}_None_{ablation_type}_{query_vis}_False_{electrode_name}_groupped.png'
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_vis}_False_{electrode_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
             text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
-            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_25_{model_type}_None_{ablation_type}_{query_aud}_False_{electrode_name}_groupped.png'
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_aud}_False_{electrode_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
             text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
             text_list.append('<br>\n')
-        
-        # ADD DECODING FIGURES
-        fn_decoding = f'label_.png'
-        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
-        for contrast in decoding_contrasts:  # Labels
-            fn_decoding = f'label_{contrast}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:256px;">\n')
-        text_list.append('<br>\n')
-        fn_decoding = f'label_V.png'
-        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
-        for contrast in decoding_contrasts:  # Visual visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        fn_decoding = f'label_A.png'
-        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
-        for contrast in decoding_contrasts: # Auditory blocks
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        fn_decoding = f'label_V2A.png'
-        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
-        for contrast in decoding_contrasts: # Visual-to-Auditory
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_visual_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        fn_decoding = f'label_A2V.png'
-        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
-        for contrast in decoding_contrasts: # Auditory-to-Visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_auditory_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-
-
+            
     elif data_type == 'spike':
         # GET FILENAMES OF PNG FILES
         fnames = os.path.join(path2figures, 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames)
-        print(fnames)
+        #print(fnames)
         fnames = glob.glob(fnames)
         num_units = len(fnames)
         if num_units == 0:
@@ -143,36 +98,17 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
             else:
                 st, ed = 12, 14
             unit_name = '_'.join(parse[st:ed])
-            print(fn, unit_name)
-            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_25_{model_type}_None_{ablation_type}_{query_vis}_False_{unit_name}_groupped.png'
+            #print(fn, unit_name)
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_vis}_False_{unit_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
             text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
-            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_25_{model_type}_None_{ablation_type}_{query_aud}_False_{unit_name}_groupped.png'
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_aud}_False_{unit_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
             text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
             text_list.append('<br>\n')
 
-        # ADD DECODING FIGURES
-        for contrast in decoding_contrasts:  # Visual visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        for contrast in decoding_contrasts: # Auditory blocks
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        for contrast in decoding_contrasts: # Visual-to-Auditory
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_visual_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        for contrast in decoding_contrasts: # Auditory-to-Visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_{contrast}_auditory_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
+            # Add Decoding Figures
+    text_list.extend(add_decoding_figures(text_list, patient, data_type, filt, probe_name, path2figures))
 
     return text_list
 
@@ -292,4 +228,49 @@ def HTML_comparison_names(comparison_names):
         text_list.append(f'<br>\n')
 
     return text_list
+
+
+
+def add_decoding_figures(text_list, patient, data_type, filt, probe_name, path2figures):
+    text_list = []
+    decoding_contrasts = ['manner_of_articulation', 'word_string', 'pos_first', 'pos_simple', 'embedding_vs_long', 'wh_subj_obj_len5', 'dec_quest_len2', 'grammatical_number']
+    
+    # LABELS
+    fn_decoding = f'label_.png'
+    fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+    text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
+    for contrast in decoding_contrasts:  # Labels
+        fn_decoding = f'label_{contrast}.png'
+        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:256px;">\n')
+    text_list.append('<br>\n')
+
+    
+    # DECODING PLOTS
+    for block in ['V', 'A', 'V2A', 'A2V']:
+        fn_decoding = f'label_{block}.png'
+        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
+        for contrast in decoding_contrasts:
+            fn_decoding = get_fn_decoding(patient, data_type, filt, contrast, block, probe_name, path2figures)
+            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
+        text_list.append('<br>\n')
+
+    return text_list
+
+
+def get_fn_decoding(patient, data_type, filt, contrast, block, probe_name, path2figures):
+    dict_blocks = {'V':'visual', 'A':'auditory'}
+    contrast_str = ''
+    for b in block: # loop over characters (relevant for A2V or V2A)
+        if b != '2':
+            contrast_str += f'_{contrast}_{dict_blocks[b]}'
+    fn = f'GAT_patient_{patient}_{data_type}_{filt}{contrast_str}_{probe_name}.png'
+    fn_fullpath = os.path.join(path2figures, 'Decoding', fn)
+    #print(fn)
+    if os.path.isfile(fn_fullpath):
+        fn = os.path.join(path2figures[3:], 'Decoding', fn) # [3:] removes '../' prefix
+    else:
+        fn = os.path.join(path2figures[3:], 'Decoding', 'label_blank.png')
+    return fn
 

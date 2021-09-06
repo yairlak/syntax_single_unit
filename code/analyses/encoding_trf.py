@@ -70,20 +70,20 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
 parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=10, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
                     help="Evaluate model without training \
                         (requires pre-trained models)")
 # MISC
-parser.add_argument('--tmin_word', default=-0.9, type=float,
+parser.add_argument('--tmin_word', default=-1.2, type=float,
                     help='Start time of word time window')
-parser.add_argument('--tmax_word', default=0.7, type=float,
+parser.add_argument('--tmax_word', default=1, type=float,
                     help='End time of word time window')
-parser.add_argument('--tmin_rf', default=-0.1, type=float,
+parser.add_argument('--tmin_rf', default=0, type=float,
                     help='Start time of receptive-field kernel')
-parser.add_argument('--tmax_rf', default=0.7, type=float,
+parser.add_argument('--tmax_rf', default=1, type=float,
                     help='End time of receptive-field kernel')
 parser.add_argument('--decimate', default=20, type=float,
                     help='Set empty list for no decimation.')
@@ -138,8 +138,9 @@ metadata_sentences = data.epochs[0].metadata
 ##################
 # ENCODING MODEL #
 ##################
-# PREPARE HOW TO ABLATE FEATURE VALUES (TOGETHER OR SEPARATELY)
-feature_names = ['full']  # performance of the full model must be calculated
+feature_names = ['full']  # performance of the full model is mandatory
+
+# ABLATE FEATURE VALUES (TOGETHER OR SEPARATELY)
 if args.each_feature_value:
     for f in data.feature_info.keys():
         for f_name in data.feature_info[f]['names']:
@@ -150,9 +151,9 @@ else:
 results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
-    results[feature_name]['total_score'] = []  # list for all splits
-    results[feature_name]['scores_by_time'] = []  # len = num cv splits
-    results[feature_name]['rf_sentence'] = []  # len = num cv splits
+    results[feature_name]['total_score'] = []  # len = num outer cv splits
+    results[feature_name]['scores_by_time'] = []  # len = num outer cv splits
+    results[feature_name]['rf_sentence'] = []  # len = num outer cv splits
 
 outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
 for i_split, (train, test) in enumerate(outer_cv.split(
@@ -167,7 +168,6 @@ for i_split, (train, test) in enumerate(outer_cv.split(
     query_test_sentences = ' or '.join(
         [f'(sentence_string=="{s}" and block=={b})'
          for s, b in zip(sentences_test, blocks_test)])
-    # data.sfreq = sfreq_original # reset sfreq before decimating again at word level
     data.epoch_data(level='word',
                     tmin=args.tmin_word, tmax=args.tmax_word,
                     query=f'({args.query_test}) and \
@@ -214,9 +214,14 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         results[feature_name]['total_score'].append(score_sentence)
 
         # WORD LEVEL (SCORE PER TIME POINT)
+        if args.method in ['zero', 'shuffle']:
+            start_sample = int(data.sfreq * args.tmin_word)
+        else:
+            start_sample = 0
         X_test_word_reduced = reduce_design_matrix(X_test_word, feature_name,
                                                    data.feature_info,
-                                                   args.ablation_method)
+                                                   args.ablation_method,
+                                                   start_sample)
         delays = np.arange(int(np.round(args.tmin_rf * data.sfreq)),
                            int(np.round(args.tmax_rf * data.sfreq) + 1))
         min_delay = None if delays[-1] <= 0 else delays[-1]

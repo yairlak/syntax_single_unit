@@ -6,12 +6,13 @@ from utils import load_settings_params
 
 def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', data_type, 'channel_numbers_to_names.txt')
+    #print(path2channel_names)
     if data_type =='microphone':
         return ['MICROPHONE'], ['MICROPHONE']
     try:
-        #print(path2channel_names)
         with open(path2channel_names, 'r') as f:
             channel_names = f.readlines()
+        #print(channel_names)
         channel_names = [l.strip().split()[1] for l in channel_names]
         if data_type == 'micro':
             probe_names = [s[4::] if s.startswith('G') else s for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
@@ -22,6 +23,9 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
                 IX_dash = ch_name.index('-')
                 probe_name = ch_name[:(IX_dash-1)] # remove dash *and* channel numbering
                 probe_names.append(probe_name)
+        elif data_type == 'spike':
+            #  e.g., GB1-RASTG8_40p1
+            probe_names = [s[4::].split('_')[0][:-1] for s in channel_names]
 
         if (data_type == 'macro') & (patient == 'patient_502'):
             probe_names = [name for name in channel_names if name not in ['ROF', 'RAF']] # 502 has more macro than micro see Notes/log_summary.txt (March 2020)
@@ -29,6 +33,7 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     except:
         print('!!! - Missing %s channel-name files for %s' % (data_type, patient))
         return [], []
+    print(list(set(probe_names)))
     return sorted(list(set(probe_names))), channel_names
 
 
@@ -191,8 +196,8 @@ def probename2picks(probe_names, channel_names, data_type):
         for probe_name in probe_names:
             for ch_name in channel_names:
                 if data_type == 'spike':
-                    if '-' in ch_name: # assuming formant of the sort p_g6_75_G??-PROBE
-                        probe_name_from_ch_name = ch_name.split('-')[-1]
+                    if '-' in ch_name: # assuming formant of the sort {ch_name}_{ch_num}{sign}{group_num} (e.g., GA1-LAH1_2p1
+                        probe_name_from_ch_name = ch_name.split('-')[1].split('_')[0]
                     else: # assuming formant of the sort p_g6_75_PROBE
                         probe_name_from_ch_name = ch_name.split('_')[-1] 
                     # remove digits
@@ -207,64 +212,5 @@ def probename2picks(probe_names, channel_names, data_type):
                     if probe_name == probe_name_from_ch_name: picks.append(ch_name)
 
     return picks
-
-
-def pick_responsive_channels(ch_names, patient, data_type, filter_type, block_types, levels=None,  p_value=0.01):
-    '''
-
-    Parameters
-    ----------
-    ch_names: list
-    
-    patient: str
-    
-    data_type: str
-    One of 'micro', 'macro' or 'spike'
-    
-    filter_type: str
-    One of 'raw', 'gaussian_kernal' or 'high-gamma'
-    
-    levels: list (default = None)
-    One of 'sentence_onset', 'sentence_offset', 'word', 'phone'.
-    If None, collect significance from both 'word' and 'sentence_onset'
-    
-    block_types: list of strings
-    With one or more from: 'auditory' or 'visual'
-    
-    p_value: float
-    Threshold for deciding what counts as a responsive channel
-    
-    Returns
-    -------
-
-    channel_names_with_significance: list
-    with channel names for which at least one of the clusters has significant p-value
-    '''
-    
-    if levels is None:
-        levels = ['word', 'sentence_onset']
-
-    settings = load_settings_params.Settings(patient)
-    picks = []
-    for level in levels:
-        for block_type in block_types:
-            fname = f'{patient}_{data_type}_{filter_type}_{level}-epo'
-            ext = block_type[0:3] # extention of file is the first 3 letter of block type (vis or aud)
-            print(fname+'.'+ext)
-            with open(os.path.join(settings.path2epoch_data, fname+'.'+ext), 'r') as f:
-                lines = f.readlines()
-            lines = lines[4::] # remove header lines
-            for line in lines:
-                line = line.strip().split(',') # file is comma delimited
-                ch_num, ch_name = [l.strip() for l in line[0:2]]
-                if line[2]:
-                    pval_list = list(map(float, line[2].strip().split(';'))) # p-values are stored as [pval1 pval2 ...]i
-                    if any(p<p_value for p in pval_list):
-                        picks.append(ch_name)
-   
-    # take only ch_names with significance
-    channel_names_with_significance = [ch_name for ch_name in ch_names if ch_name in picks] 
-    
-    return channel_names_with_significance
 
 

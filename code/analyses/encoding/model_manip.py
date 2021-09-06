@@ -15,41 +15,6 @@ from sklearn.metrics import r2_score
 #from tqdm import tqdm
 
 
-def get_scalers(X, method='standard'):
-    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
-    # X: n_times X n_trials X n_features (or last dim is n_outputs)
-
-    if method == 'standard':
-        scaler = StandardScaler()
-    elif method == 'robust':
-        scaler = RobustScaler()
-
-    scalers = []
-    for i_feat in range(X.shape[-1]):
-        vec = X[:, :, i_feat].reshape(-1, 1)
-        scaler.fit(vec)
-        scalers.append(scaler)
-
-    return scalers
-
-
-def scale_data(X, feature_names, scalers,
-               features_without_scaling=['is_first_word', 'is_first_phone']):
-    # ASSUMING LAST DIM IS FEATURE OR OUTPUT (CHANNEL)
-    # X: n_times X n_trials X n_features (or last dim is n_outputs)
-
-    n_times, n_trials, n_features = X.shape
-    for i_feat in range(n_features):
-        if feature_names:  # for neural data, instead of a list should be None
-            feature_name = feature_names[i_feat]
-            if feature_name in features_without_scaling:
-                continue  # skip current feature if its without scaling
-        scaler = scalers[i_feat]
-        vec = X[:, :, i_feat].reshape(-1, 1)
-        X[:, :, i_feat] = scaler.transform(vec).reshape(n_times, n_trials)
-    return X
-
-
 def train_TRF(X_train, y_train, sfreq, args):
     # DIMS
     n_timepoints, n_epochs, n_outputs = y_train.shape
@@ -81,8 +46,16 @@ def eval_TRF_across_epochs(rf, X_test, y_test, valid_samples, args):
     n_times, n_epochs, n_outputs = y_masked.shape
     scores = []
     for t in range(n_times):
-        curr_score = r2_score(y_masked[t, :, :], y_pred[t, :, :],
-                              multioutput='raw_values')
+        #curr_score = r2_score(y_masked[t, :, :], y_pred[t, :, :],
+        #                      multioutput='raw_values')
+        curr_score = [] # List of r scores with len = n_electrodes
+        for i_elec in range(n_outputs):
+            # For each output, column-wise Pearson correlation 
+            # between predicted and actual neural activity.
+            currcoef = np.corrcoef(y_masked[t, :, i_elec],
+                                   y_pred[t, :, i_elec],
+                                   rowvar=False)  # 2 X 2 symmetric matrix
+            curr_score.append(currcoef[0, 1])
         scores.append(curr_score)
     return np.asarray(scores)
 

@@ -1,4 +1,0 @@
-Namespace(data_type='microphone', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_530', sfreq_downsample=1000)
-Loading data from: ../../Data/UCLA/patient_530/Raw/microphone
-../../Data/UCLA/patient_530/Raw/microphone /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
-Recording system identified - Neuralynx

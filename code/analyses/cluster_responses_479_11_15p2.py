@@ -19,30 +19,30 @@ from clustering.viz import plot_DSM, plot_dim_reduction
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['479_11'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, help='')
 parser.add_argument('--level', choices=['phone', 'word',
                     'sentence-onset', 'sentence-offset'],
                     default='word')
-parser.add_argument('--probe-name', default=[], nargs='*',
+parser.add_argument('--probe-name', default=['LSTG'], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
-parser.add_argument('--channel-name', default=[], nargs='*', action='append',
+parser.add_argument('--channel-name', default=None, nargs='*', action='append',
                     type=str, help='Pick specific channels names')
-parser.add_argument('--channel-num', default=[], nargs='*', action='append',
+parser.add_argument('--channel-num', default=None, nargs='*', action='append',
                     type=int, help='If empty list then all channels are taken')
 parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query', default="block in [1,3,5]",
+parser.add_argument('--query', default="block in [2,4,6] and word_string.str.len()>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--min-trials', default=20,
+parser.add_argument('--min-trials', default=0,
                     help='Minimum number of trials.')
 #parser.add_argument('--scale-epochs', default=True, action='store_true',
 #                    help='If true, data is scaled *after* epoching')
@@ -50,9 +50,9 @@ parser.add_argument('--min-trials', default=20,
 parser.add_argument('--metric', default='correlation',
                     choices=['spike_count', 'correlation'])
 # MISC
-parser.add_argument('--tmin', default=0.1, type=float,
+parser.add_argument('--tmin', default=0.05, type=float,
                     help='Start time of word time window')
-parser.add_argument('--tmax', default=0.6, type=float,
+parser.add_argument('--tmax', default=0.35, type=float,
                     help='End time of word time window')
 # PATHS
 parser.add_argument('--path2figures',
@@ -88,7 +88,7 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
                    feature_list=None)
 # LOAD RAW DATA
-data.load_raw_data(decimate=None)
+data.load_raw_data()
 # EPOCH DATA
 data.epoch_data(level=args.level,
                 query=args.query,
@@ -99,13 +99,19 @@ assert len(data.epochs) == 1
 words = sorted(list(set(data.epochs[0].metadata['word_string'])))
 X = []
 labels = []
+colors = []
 for word in words:
     x_i = data.epochs[0][f'word_string=="{word}"'].crop(args.tmin, args.tmax).\
                         get_data()
     if x_i.shape[0] > args.min_trials:
-        X.append(np.median(x_i, axis=0))
+        X.append(np.mean(x_i, axis=0))
         labels.append(word)
-
+        #  if 'y' in word or 'v' in word or 'k' in word or 'w' in word or 'W' in word or 'x' in word:
+        if 'w' in word or 'W' in word:
+            color = 'g'
+        else:
+            color = 'k'
+        colors.append(color)
 X = np.asarray(X)
 n_words, n_channels, n_times = X.shape
 DSMs = []
@@ -137,24 +143,24 @@ for ch, ch_name in enumerate(ch_names):
     ##############
     # KERNEL-PCA #
     ##############
-    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro,
+    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro, colors,
                                         method='kPCA')
-    fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_{fname_fig}')
+    fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_custom_{fname_fig}')
     fig_2d.savefig(fname_fig_2d)
     plt.close(fname_fig_2d)
-    fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_{fname_fig}')
+    fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_custom_{fname_fig}')
     fig_3d.savefig(fname_fig_3d)
     plt.close(fname_fig_3d)
 
     ########
     # tSNE #
     ########
-    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro,
+    fig_2d, fig_3d = plot_dim_reduction(DSM, labels, dendro, colors,
                                         method='tSNE')
-    fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_{fname_fig}')
+    fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_custom_{fname_fig}')
     fig_2d.savefig(fname_fig_2d)
     plt.close(fname_fig_2d)
-    fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_{fname_fig}')
+    fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_custom_{fname_fig}')
     fig_3d.savefig(fname_fig_3d)
     plt.close(fname_fig_3d)
 
@@ -182,18 +188,18 @@ fname_fig = dict2filename(args2fname, '_', list_args2fname, 'png', True)
 fig_DSM.savefig(os.path.join(args.path2figures, f'DSM_{fname_fig}'))
 plt.close(fig_DSM)
 
-fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, method='kPCA')
-fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_2D_{fname_fig}')
+fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, colors, method='kPCA')
+fname_fig_2d = os.path.join(args.path2figures, f'kernelPCA_custom_2D_{fname_fig}')
 fig_2d.savefig(fname_fig_2d)
 plt.close(fname_fig_2d)
-fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_3D_{fname_fig}')
+fname_fig_3d = os.path.join(args.path2figures, f'kernelPCA_custom_3D_{fname_fig}')
 fig_3d.savefig(fname_fig_3d)
 plt.close(fname_fig_3d)
 
-fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, method='tSNE')
-fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_{fname_fig}')
+fig_2d, fig_3d = plot_dim_reduction(DSMs, labels, dendro, colors, method='tSNE')
+fname_fig_2d = os.path.join(args.path2figures, f'tSNE_2D_custom_{fname_fig}')
 fig_2d.savefig(fname_fig_2d)
 plt.close(fname_fig_2d)
-fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_{fname_fig}')
+fname_fig_3d = os.path.join(args.path2figures, f'tSNE_3D_custom_{fname_fig}')
 fig_3d.savefig(fname_fig_3d)
 plt.close(fname_fig_3d)

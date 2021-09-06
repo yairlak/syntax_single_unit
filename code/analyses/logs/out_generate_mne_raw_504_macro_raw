@@ -1,6 +1,0 @@
-Namespace(data_type='macro', filter='raw', from_mat=False, line_frequency=[50, 60], patient='patient_504', sfreq_downsample=1000)
-Loading data from: ../../Data/UCLA/patient_504/Raw/macro
-../../Data/UCLA/patient_504/Raw/macro /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
-/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses
-../../Data/UCLA/patient_504/Raw/macro
-Recording system identified - BlackRock

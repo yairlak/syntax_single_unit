@@ -8,8 +8,7 @@ from pprint import pprint
 from plotting.viz_ERPs import get_sorting, average_repeated_trials
 from utils import comparisons, load_settings_params
 from utils.data_manip import DataHandler
-from utils.utils import probename2picks, update_queries,\
-    pick_responsive_channels
+from utils.utils import probename2picks, update_queries
 from scipy.ndimage import gaussian_filter1d
 
 abspath = os.path.abspath(__file__)
@@ -26,7 +25,7 @@ parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--scale-epochs', action="store_true", default=True, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
@@ -78,7 +77,6 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(verbose=True)
-data.raws[0].notch_filter(np.arange(60, 5*60, 60), fir_design='firwin') # notch filter for also 60Hz
 
 # COMPARISON
 comparisons = comparisons.comparison_list()
@@ -169,6 +167,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
         fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s_%s' % (args.patient, args.data_type, args.level, args.filter, args.smooth, ch_name, args.block_type, args.comparison_name, comparison_str)
         if args.average_repeated_trials:
             fname_fig += '_lumped'
+        if args.fixed_constraint:
+            fname_fig += '_'+args.fixed_constraint
         fname_fig += '.png'
         if args.responsive_channels_only:
             dname_fig = os.path.join('..', '..', 'Figures', 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)

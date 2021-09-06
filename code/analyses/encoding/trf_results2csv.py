@@ -83,7 +83,7 @@ df = pd.DataFrame()
 dict_hemi = {'L':'Left', 'R':'Right'}
 
 print('Collecting results...')
-patients="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540"
+patients="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
 
 for patient in patients.split():
     print(f'Patient - {patient}') 
@@ -122,30 +122,63 @@ for patient in patients.split():
             for block in ['auditory', 'visual']:
                 dict_cv_score[block] = {}
                 mean_score[block] = {}
+                dict_cv_score[block]['feature'] = {}
+                dict_cv_score[block]['full'] = {}
+                mean_score[block]['feature'] = {}
+                mean_score[block]['full'] = {}
                 if feature in results[block].keys():
                     # FEATURE
                     total_score_all_CVs_channels = results[block][feature]['total_score']
                     cv_score = []
                     for cv in range(len(total_score_all_CVs_channels)):
                         cv_score.append(total_score_all_CVs_channels[cv][i_ch])
-                    dict_cv_score[block]['feature'] = cv_score
-                    mean_score[block]['feature'] = np.mean(dict_cv_score[block]['feature'])
+                    dict_cv_score[block]['feature']['total'] = cv_score
+                    mean_score[block]['feature']['total'] = np.mean(dict_cv_score[block]['feature']['total'])
+                    
+                    # FEATURE (scores by time)
+                    scores_by_time_all_CVs_channels = results[block][feature]['scores_by_time']
+                    cv_score = []
+                    for cv in range(len(scores_by_time_all_CVs_channels)):
+                        #print(len(scores_by_time_all_CVs_channels))
+                        #print(scores_by_time_all_CVs_channels[0].shape)
+                        cv_score.append(scores_by_time_all_CVs_channels[cv][:, i_ch])
+                    cv_score = np.asarray(cv_score)
+                    dict_cv_score[block]['feature']['by_time'] = cv_score
+                    mean_score[block]['feature']['by_time'] = cv_score.mean(axis=0)
                     
                     # FULL MODEL (LATER USED FOR CALCULATING DELTA-R)
                     total_score_all_CVs_channels = results[block]['full']['total_score']
                     cv_score = []
                     for cv in range(len(total_score_all_CVs_channels)):
                         cv_score.append(total_score_all_CVs_channels[cv][i_ch])
-                    dict_cv_score[block]['full'] = cv_score
-                    mean_score[block]['full'] = np.mean(dict_cv_score[block]['full'])
+                    dict_cv_score[block]['full']['total'] = cv_score
+                    mean_score[block]['full']['total'] = np.mean(dict_cv_score[block]['full']['total'])
+                    
+                    # FULL MODEL (BY-TIME)
+                    scores_by_time_all_CVs_channels = results[block]['full']['scores_by_time']
+                    cv_score = []
+                    for cv in range(len(scores_by_time_all_CVs_channels)):
+                        cv_score.append(scores_by_time_all_CVs_channels[cv][:, i_ch])
+                    cv_score = np.asarray(cv_score)
+                    dict_cv_score[block]['full']['by_time'] = cv_score
+                    mean_score[block]['full']['by_time'] = cv_score.mean(axis=0) 
                 else:
-                    dict_cv_score[block]['feature'] = None
-                    mean_score[block]['feature'] = None
-                    dict_cv_score[block]['full'] = None
-                    mean_score[block]['full'] = None
+                    dict_cv_score[block]['feature']['total'] = None
+                    dict_cv_score[block]['feature']['by_time'] = None
+                    mean_score[block]['feature']['total'] = None
+                    mean_score[block]['feature']['by_time'] = None
+                    dict_cv_score[block]['full']['total'] = None
+                    dict_cv_score[block]['full']['by_time'] = None
+                    mean_score[block]['full']['total'] = None
+                    mean_score[block]['full']['by_time'] = None
+            
 
+            if args.data_type == 'spike':
+                st = 5
+            else:
+                st = 0
             if probe_name[0] in dict_hemi.keys():
-                hemi = dict_hemi[probe_name[0]]
+                hemi = dict_hemi[probe_name[st]]
             else:
                 hemi = None
             df = df.append({'Probe_name':probe_name,
@@ -154,12 +187,16 @@ for patient in patients.split():
                             'Patient':patient, 
                             'Feature':feature,
                             #'Block':block,
-                            'r_visual':mean_score['visual']['feature'],
-                            'r_auditory':mean_score['auditory']['feature'],
-                            'r_full_visual':mean_score['visual']['full'],
-                            'r_full_auditory':mean_score['auditory']['full'],
-                            'r_CV_visual':dict_cv_score['visual']['feature'],
-                            'r_CV_auditory':dict_cv_score['auditory']['feature']}, ignore_index=True)
+                            'r_visual':mean_score['visual']['feature']['total'],
+                            'r_auditory':mean_score['auditory']['feature']['total'],
+                            'r_visual_by_time':mean_score['visual']['feature']['by_time'],
+                            'r_auditory_by_time':mean_score['auditory']['feature']['by_time'],
+                            'r_full_visual':mean_score['visual']['full']['total'],
+                            'r_full_auditory':mean_score['auditory']['full']['total'],
+                            'r_full_visual_by_time':mean_score['visual']['full']['by_time'],
+                            'r_full_auditory_by_time':mean_score['auditory']['full']['by_time'],
+                            'r_CV_visual':dict_cv_score['visual']['feature']['total'],
+                            'r_CV_auditory':dict_cv_score['auditory']['feature']['total']}, ignore_index=True)
 
 print(df)
 if not df.empty:

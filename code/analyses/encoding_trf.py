@@ -214,9 +214,14 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         results[feature_name]['total_score'].append(score_sentence)
 
         # WORD LEVEL (SCORE PER TIME POINT)
+        if args.method in ['zero', 'shuffle']:
+            start_sample = int(args.tmin_word * data.sfreq)
+        else:
+            start_sample = 0
         X_test_word_reduced = reduce_design_matrix(X_test_word, feature_name,
                                                    data.feature_info,
-                                                   args.ablation_method)
+                                                   args.ablation_method,
+                                                   start_sample)
         delays = np.arange(int(np.round(args.tmin_rf * data.sfreq)),
                            int(np.round(args.tmax_rf * data.sfreq) + 1))
         min_delay = None if delays[-1] <= 0 else delays[-1]

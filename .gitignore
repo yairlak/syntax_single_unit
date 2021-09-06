@@ -5,8 +5,8 @@ Paradigm/
 pptx/
 Output/
 HTMLs/
-code/analyses/bash/logs
-code/analyses/logs
+code/analyses/logs/
+code/analyses/bash/logs/
 *.log
 *.out
 *.err

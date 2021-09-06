@@ -103,14 +103,14 @@ def plot_dim_reduction(DSM, labels, dendro, colors=None, method='kPCA'):
 
     # PLOT
     fig_3d, ax = plt.subplots(1, figsize=(40, 30))
-    ax = plt.axes(projection='3d')
+    #ax = plt.axes(projection='3d')
 
-    for sel, (color, label) in enumerate(zip(colors, labels)):
-        ax.text(summary[sel, 0], summary[sel, 1], summary[sel, 2],
-                label, color=color, fontsize=50)
-    # ax.axis('off')
-    ax.set_xlim([np.min(summary[:, 0]), np.max(summary[:, 0])])
-    ax.set_ylim([np.min(summary[:, 1]), np.max(summary[:, 1])])
-    ax.set_zlim([np.min(summary[:, 2]), np.max(summary[:, 2])])
+    #for sel, (color, label) in enumerate(zip(colors, labels)):
+    #    ax.text(summary[sel, 0], summary[sel, 1], summary[sel, 2],
+    #            label, color=color, fontsize=50)
+    ## ax.axis('off')
+    #ax.set_xlim([np.min(summary[:, 0]), np.max(summary[:, 0])])
+    #ax.set_ylim([np.min(summary[:, 1]), np.max(summary[:, 1])])
+    #ax.set_zlim([np.min(summary[:, 2]), np.max(summary[:, 2])])
 
     return fig_2d, fig_3d

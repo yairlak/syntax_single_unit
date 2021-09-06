@@ -1,20 +1,15 @@
 
-patient='479_11 479_25 482 487 489 493 502 504 505 510 513 515 530'
-#patient='530'
+patient='479_11 479_25 482 487 489 493 499 502 504 505 510 513 515 530 538 539 540 541'
 
-#for comparison_name in 'all_end_trials' 'all_trials';
-for comparison_name in 'all_trials';
+for comparison_name in 'all_trials' 'all_trials_chrono';
 do
-    for data_type in 'micro' 'macro' 'spike';
-    #for data_type in 'macro';
+    for data_type in 'micro' 'macro' 'spike' 'microphone';
     do
-        for filter in 'raw' 'gaussian-kernel-10' 'gaussian-kernel-25' 'high-gamma';
-        #for filter in 'gaussian-kernel-25';
+        for filter in 'raw' 'high-gamma';
         do
-            #for level in 'sentence_onset' 'sentence_offset';
-            for level in 'sentence_onset';
+            for level in 'sentence';
             do
-                CMD='python generate_HTMLs_all_patients_probes.py --patient '$patient' --data-type '$data_type' --filter '$filter' --level '$level' --comparison-name '$comparison_name
+                CMD='python3 generate_HTMLs_all_patients_probes.py --patient '$patient' --data-type '$data_type' --filter '$filter' --level '$level' --comparison-name '$comparison_name
                 echo $CMD
                 eval $CMD
             done

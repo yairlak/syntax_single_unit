@@ -7,19 +7,16 @@ Code/Utils/spike_sorting/rename_channel_names_to_CSCs.py
 ### All the following steps should be run from the folder: /CSC_ncs
 
 0. cd to path  
-...`cd /Raw/micro/CSC_ncs`
+...`cd /Raw/micro/`, or with /mat, if recording files were transformed to mat files. 
 
 1. (optional) generate overview plots for raw signal  
 ...`css-plot-rawsignal`  
 ...check new subfolder overview
 
-
 2. extract spikes (not yet sorted) from all channels  
 ...`css-extract --files *.ncs > css_extract.log`  
 ...new subfolder CSC were genereted with data_CSC*.h5 files
 ... For BlackRock, there's a bash file for running it per each file (see, e.g., patient_504/Raw/micro/CSC_mat/css_extract.bash). It adds the --matfile flag. !!! --- Note that the mat files should contain a variable named 'sr' with the sampling rate (otherwise default will be used) --- !!! 
-
-
 
 3. find artifacts  
 ...`css-find-concurrent`

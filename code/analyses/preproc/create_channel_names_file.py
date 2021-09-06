@@ -9,7 +9,7 @@ A tool for creating a file with channel names for BLACKROCK data
 """
 import numpy as np
 
-patient = 510
+patient = 539
 data_type = 'micro'
 path2file = f'../../../Data/UCLA/patient_{patient}/Raw/{data_type}/channel_numbers_to_names.txt'
 
@@ -29,6 +29,9 @@ elif patient==530 and data_type=='micro':
 elif patient==539 and data_type=='micro':
     probe_names = ['RMH', 'RA', 'ROF-AC', 'LMH',
                    'REC', 'LFSG', 'LEC']
+elif patient==540 and data_type=='macro':
+    probe_names = []
+    
 with open(path2file, 'w') as f:
     cnt = 1
     for i_probe, probe_name in enumerate(probe_names):
@@ -38,4 +41,4 @@ with open(path2file, 'w') as f:
             channel_name = f'G{letter}{num}-{probe_name}{i_ch}'
             f.write(f'{cnt} {channel_name}\n')
             cnt += 1
-            
+print(f'Saved to: {path2file}')            

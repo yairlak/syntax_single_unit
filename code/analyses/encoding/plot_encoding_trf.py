@@ -7,6 +7,9 @@ Created on Mon Jan 25 14:48:59 2021
 """
 import argparse
 import os
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 import sys
 import pickle
 from viz import plot_rf_coefs, plot_rf_r2
@@ -15,14 +18,15 @@ from utils.utils import dict2filename
 import matplotlib.pyplot as plt
 from encoding.models import TimeDelayingRidgeCV
 
+
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['515'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25,
                     help='Gaussian smoothing in msec')
@@ -48,8 +52,8 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query_train', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--query_test', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")

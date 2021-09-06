@@ -9,13 +9,14 @@ class Features():
 
         # PRE-DEFINED GROUPED FEATURES
         features_groupped = {}
-        features_groupped['position'] = ['word_position']
+        features_groupped['positional'] = ['word_position', 'is_last_word']
         features_groupped['orthography'] = ['letters', 'word_length']
         features_groupped['phonology'] = ['phonological_features']
         features_groupped['lexicon'] = ['pos_simple', 'word_zipf',
-                                        'morph_complex']
-        features_groupped['syntax'] = ['grammatical_number', 'embedding',
-                                       'wh_subj_obj', 'dec_quest'] # gender
+                                        'morph_complex', 'tense']
+        features_groupped['syntax'] = ['grammatical_number', 'gender', 'embedding',
+                                       'wh_subj_obj', 'dec_quest',
+                                       'syntactic_role', 'diff_thematic_role'] 
         features_groupped['semantics'] = ['glove'] # try with a larger dim
         self.features_groupped = features_groupped
 
@@ -39,7 +40,7 @@ class Features():
         self.names = []
         feature_info = {}
         for feature_name in self.feature_list:
-            # check if feature name is a group rather than a single feature
+            # check if feature name is a group or a single feature
             if feature_name in self.features_groupped:
                 features_to_loop = self.features_groupped[feature_name]
             else:
@@ -54,15 +55,34 @@ class Features():
                                        self.metadata,
                                        dict_prop['one-hot'])
                 names.extend(curr_names)
+                if feature_values.ndim > 1:
+                    feature_values = np.squeeze(feature_values)
+                else:
+                    feature_values = np.expand_dims(feature_values, axis=1)
+
+                # SCALE CURR FEATURE
+                if 'scale' in dict_prop:
+                    if dict_prop['scale'] == 'standard':  # StandardScaler
+                        scaler = StandardScaler()
+                        print(f'Standard scaling {feature}')
+                    else:  # a tuple with min and max val for scaling
+                        min_val, max_val = dict_prop['scale']
+                        scaler = MinMaxScaler(feature_range = (min_val, max_val))
+                        print(f'MinMax scaling {feature} between {min_val} and {max_val}')
+                else:  # default MinMaxScaler between 0 and 1
+                    scaler = MinMaxScaler()
+                    print(f'MinMax scaling {feature} between 0 and 1')
+                feature_values = scaler.fit_transform(feature_values)
                 values.append(feature_values)
             
             # LUMP TOGETHER VALUES AND NAMES FROM ALL FEATURES IN GROUP
-            values = [np.squeeze(A) if A.ndim > 1
-                      else np.expand_dims(A, axis=1)
-                      for A in values]
+            #values = [np.squeeze(A) if A.ndim > 1
+            #          else np.expand_dims(A, axis=1)
+            #          for A in values]
+            values = np.hstack(values)
             feature_info[feature_name] = {}
             feature_info[feature_name]['names'] = names
-            feature_info[feature_name]['values'] = np.hstack(values)
+            feature_info[feature_name]['values'] = values
             feature_info[feature_name]['color'] = dict_prop['color']
             feature_info[feature_name]['ls'] = dict_prop['ls']
             feature_info[feature_name]['lw'] = dict_prop['lw']
@@ -85,10 +105,24 @@ class Features():
             self.feature_info[feature_name]['IXs'] = (st, ed)
         self.design_matrix = design_matrix
 
-    def scale_design_matrix(self):
+
+    #def scale_design_matrix(self):
         # STANDARIZE THE FEATURE MATRIX #
-        scaler = MinMaxScaler()
-        self.design_matrix = scaler.fit_transform(self.design_matrix)
+
+    #    n_events = len(self.metadata)
+    #    design_matrix = np.empty((n_events, 0))
+    #    for feature_name in self.feature_list:
+    #        st, ed = self.feature_info[feature_name]['IXs']
+    #        X = self.design_matrix[:, st:ed]
+    #        if 'scale' in self.feature_info[feature_name].keys():
+    #            min_val, max_val = self.feature_info[feature_name]['scale']
+    #        else:
+    #            min_val, max_val = 0, 1
+    #        print(f'Scaling {feature_name} between {min_val} and {max_val}')
+    #        scaler = MinMaxScaler(feature_range = (min_val, max_val))
+    #        X = scaler.fit_transform(X)
+    #        design_matrix = np.hstack((design_matrix, X))
+    #    self.design_matrix = design_matrix
 
     def add_raw_features(self, n_time_samples, sfreq):
 
@@ -152,14 +186,23 @@ def get_feature_values(feature, metadata, one_hot):
     else:
         values = metadata[feature]
         names = list(set(values))
-        n_features = len(names)
         if one_hot:  # ONE-HOT ENCODING OF FEATURE
             values = []
+            print(feature, names)
+            names = [str(n) for n in names]
+            if '0' in names: 
+                names.remove('0')
+                print(f'removed zero from {feature}, {names}')
+            if '' in names: 
+                names.remove('')
+                print(f'removed empty string from {feature}, {names}')
+            n_features = len(names)
             for i_event, curr_value in \
                     enumerate(metadata[feature]):
                 row_vector = np.zeros((1, n_features))
-                IX = names.index(str(curr_value))
-                row_vector[0, IX] = 1
+                if str(curr_value) not in ['0', '']:
+                    IX = names.index(str(curr_value))
+                    row_vector[0, IX] = 1
                 values.append(row_vector)
             names = [feature + '-' + str(name) for name in names]
 
@@ -181,8 +224,12 @@ def get_feature_style(feature_name):
 
     #####################################
 
+    ##########
+    # GROUPS #
+    ##########
+
     # POSITION
-    if feature_name == 'position':
+    if feature_name == 'positional':
         dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
@@ -217,12 +264,9 @@ def get_feature_style(feature_name):
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
 
-    # TENSE
-    if feature_name == 'tense':
-        dict_prop['color'] = 'xkcd:grass green'
-        dict_prop['ls'] = '-'
-        dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
+    ############
+    # FEATURES #
+    ############
 
     # TENSE
     if feature_name == 'tense':
@@ -230,6 +274,7 @@ def get_feature_style(feature_name):
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = True
+        #dict_prop['scale'] = (-1, 1)
 
     # WORD LOG-FREQUENCY
     if feature_name == 'word_zipf':
@@ -301,7 +346,17 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = False
+        dict_prop['one-hot'] = True
+        #dict_prop['scale'] = (-1, 1)
+
+
+    # GENDER
+    if feature_name == 'gender':
+        dict_prop['color'] = 'b'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = True
+        #dict_prop['scale'] = (-1, 1)
     
     # EMBEDDING
     if feature_name == 'embedding':
@@ -315,10 +370,33 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'b'
         dict_prop['ls'] = '-.'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = False
+        dict_prop['one-hot'] = True
+        #dict_prop['scale'] = (-1, 1)
     
     # DECLARATIVE VS. QUESTIONS
     if feature_name == 'dec_quest':
+        dict_prop['color'] = 'xkcd:bright blue'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
+    
+    # NUMBER OF OPEN NODES
+    if feature_name == 'n_open_nodes':
+        dict_prop['color'] = 'xkcd:bright blue'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
+    
+    # SYNTACTIC ROLE
+    if feature_name == 'syntactic_role':
+        dict_prop['color'] = 'xkcd:bright blue'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = True
+        #dict_prop['scale'] = (-1, 1)
+    
+    # DIFFERENT THEMATIC ROLE
+    if feature_name == 'diff_thematic_role':
         dict_prop['color'] = 'xkcd:bright blue'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
@@ -355,11 +433,11 @@ def get_feature_style(feature_name):
         
     #####################################
     # SEMANTICS
-    if feature_name == 'semantic_features':
+    if feature_name == 'glove':
         dict_prop['color'] = 'xkcd:orange'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
-    
+        dict_prop['one-hot'] = False
+        dict_prop['scale'] = 'standard'
 	
     return dict_prop

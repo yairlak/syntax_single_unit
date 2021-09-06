@@ -19,21 +19,21 @@ from clustering.viz import plot_DSM, plot_dim_reduction
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'])
+parser.add_argument('--patient', action='append', default=[])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['raw'],
+                    action='append', default=[], help='electrode type')
+parser.add_argument('--filter', action='append', default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=25, help='')
 parser.add_argument('--level', choices=['phone', 'word',
                     'sentence-onset', 'sentence-offset'],
                     default='word')
-parser.add_argument('--probe-name', default=['LFG'], nargs='*',
+parser.add_argument('--probe-name', default=[], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores args.channel-name/num)')
-parser.add_argument('--channel-name', default=None, nargs='*', action='append',
+parser.add_argument('--channel-name', default=[], nargs='*', action='append',
                     type=str, help='Pick specific channels names')
-parser.add_argument('--channel-num', default=None, nargs='*', action='append',
+parser.add_argument('--channel-num', default=[], nargs='*', action='append',
                     type=int, help='If empty list then all channels are taken')
 parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
@@ -42,7 +42,7 @@ parser.add_argument('--sfreq', default=1000,
 parser.add_argument('--query', default="block in [1,3,5]",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
-parser.add_argument('--min-trials', default=0,
+parser.add_argument('--min-trials', default=20,
                     help='Minimum number of trials.')
 #parser.add_argument('--scale-epochs', default=True, action='store_true',
 #                    help='If true, data is scaled *after* epoching')
@@ -50,9 +50,9 @@ parser.add_argument('--min-trials', default=0,
 parser.add_argument('--metric', default='correlation',
                     choices=['spike_count', 'correlation'])
 # MISC
-parser.add_argument('--tmin', default=0.05, type=float,
+parser.add_argument('--tmin', default=0.1, type=float,
                     help='Start time of word time window')
-parser.add_argument('--tmax', default=0.35, type=float,
+parser.add_argument('--tmax', default=0.6, type=float,
                     help='End time of word time window')
 # PATHS
 parser.add_argument('--path2figures',
@@ -103,7 +103,7 @@ for word in words:
     x_i = data.epochs[0][f'word_string=="{word}"'].crop(args.tmin, args.tmax).\
                         get_data()
     if x_i.shape[0] > args.min_trials:
-        X.append(np.mean(x_i, axis=0))
+        X.append(np.median(x_i, axis=0))
         labels.append(word)
 
 X = np.asarray(X)

@@ -14,17 +14,17 @@ from scipy.ndimage import gaussian_filter1d
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='479_11', help='Patient string')
+parser.add_argument('--patient', default='504', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='micro', help='electrode type')
+                    default='microphone', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=True, help='')
 # PICK CHANNELS
-parser.add_argument('--probe-name', default=['LSTG'], nargs='*', type=str,
+parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
 parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
@@ -47,7 +47,7 @@ parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
 parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['word_string'], help='Keys to sort according')
-parser.add_argument('--y-tick-step', default=10, type=int, help='If sorted by key, set the yticklabels density')
+parser.add_argument('--y-tick-step', default=100, type=int, help='If sorted by key, set the yticklabels density')
 parser.add_argument('--window-st', default=50, type=int, help='Regression start-time window [msec]')
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')

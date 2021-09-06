@@ -100,8 +100,8 @@ def read_logs(time_stamps, event_nums_zero, args):
     fns_logs = sorted(glob.glob(os.path.join(logs_folder, 'events_log_????-??-??_??-??-??.log')))
     fns_logs_with_CHEETAH = []
     num_triggers_per_log = []
-    for fn_log in fns_logs:
-        print(fn_log)
+    for i_log, fn_log in enumerate(fns_logs):
+        print(f'log {i_log+1}: {fn_log}')
         with open(fn_log, 'r') as f:
             lines_log = f.readlines()
         str_CHEETAH = 'CHEETAH_SIGNAL SENT_AFTER_TIME'

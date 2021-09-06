@@ -34,9 +34,10 @@ def comparison_list():
     comparisons['all_words']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])", "word_string.str.len()>1 and (block in [2, 4, 6])"]
     comparisons['all_words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_words']['colors'] = ['b', 'r']
-    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
+    # comparisons['all_words']['sort'] = ['word_string']
+    # comparisons['all_words']['sort'] = ['word_length', 'word_string']
     comparisons['all_words']['sort'] = 'clustering'
-    comparisons['all_words']['y-tick-step'] = 1
+    comparisons['all_words']['y-tick-step'] = 20
 
 # ALL PHONES
     comparisons['all_phones'] = {}
@@ -52,9 +53,9 @@ def comparison_list():
     comparisons['all_words_visual']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])"]
     comparisons['all_words_visual']['condition_names'] = ['all_words_visual']
     comparisons['all_words_visual']['colors'] = ['b']
-    #comparisons['all_words_visual']['sort'] = ['word_length', 'word_string']
-    comparisons['all_words_visual']['sort'] = 'clustering'
-    comparisons['all_words_visual']['y-tick-step'] = 1
+    comparisons['all_words_visual']['sort'] = ['word_string']
+    # comparisons['all_words_visual']['sort'] = 'clustering'
+    comparisons['all_words_visual']['y-tick-step'] = 20
 
     comparisons['all_words_audio'] = {}
     comparisons['all_words_audio']['queries'] = ["word_string.str.len()>1 and (block in [2, 4, 6])"]

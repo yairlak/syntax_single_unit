@@ -2,13 +2,13 @@ clear; close all; clc;
 addpath(genpath('releaseDec2015'), genpath('NPMK-5.5.0.0'), genpath('functions'))
 
 %%
-patient = 'patient_499';
+patient = 'patient_539';
 elec_type = 'micro'; % micro / macro
-recording_system = 'Neuralynx'; % Neuralynx / BlackRock
+recording_system = 'BlackRock'; % Neuralynx / BlackRock
 
 %% pathsls 
 base_folder = ['/neurospin/unicog/protocols/intracranial/syntax_single_unit/Data/UCLA/', patient];
-output_path = fullfile(base_folder, 'Raw', elec_type, 'CSC_mat');
+output_path = fullfile(base_folder, 'Raw', elec_type, 'mat');
 %mkdir(output_path);
 
 %%
@@ -46,16 +46,17 @@ switch recording_system
             fprintf('Loading BlackRock file..\n');
             switch elec_type 
                 case 'micro'
-                    pattern = '*.ns5';
+                    pattern = '*.ns5'; 
                 case 'macro'
                     pattern = '*.ns3';
             end
-            ns_files = dir(fullfile(base_folder, 'Raw', elec_type, 'ns', pattern));
+            ns_files = dir(fullfile(base_folder, 'Raw', elec_type, pattern));
+            ns_files
             assert(length(ns_files)==1, 'A SINGLE ns5 file in folder is expected')
             for ns_file_name=ns_files'
                 file_name = ns_file_name.name;
                 fprintf('Loading file %s\n', file_name)
-                NS5=openNSx(fullfile(base_folder, 'Raw', elec_type, 'ns', ns_file_name.name),'precision','double')
+                NS5=openNSx(fullfile(base_folder, 'Raw', elec_type, ns_file_name.name),'precision','double','uv') % precision should be set to 'double' ('short' is only for very large files)
                 sr = NS5.MetaTags.SamplingFreq
                 samplingInterval = 1/sr;
                 timeend_sec = NS5.MetaTags.DataDurationSec
@@ -68,7 +69,7 @@ switch recording_system
                    %fprintf('%i\n', SampleFrequencies(1))
                    fprintf('%i\n', sr)
                    fprintf('%s\n', elec_name)
-                   save(fullfile(output_path,['CSC' num2str(idx) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
+                   save(fullfile(output_path,['CSC' extractAfter(elec_name, 4) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
                    %electrodes_info{idx} = elec_name;
                    idx = idx+1;
                 end

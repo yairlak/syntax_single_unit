@@ -8,21 +8,24 @@ from pprint import pprint
 from plotting.viz_ERPs import get_sorting, average_repeated_trials
 from utils import comparisons, load_settings_params
 from utils.data_manip import DataHandler
-from utils.utils import probename2picks, update_queries,\
-    pick_responsive_channels
+from utils.utils import probename2picks, update_queries
 from scipy.ndimage import gaussian_filter1d
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='504', help='Patient string')
+parser.add_argument('--patient', default='515', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='electrode type')
+                    default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
-parser.add_argument('--scale-epochs', action="store_true", default=True, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
@@ -37,7 +40,7 @@ parser.add_argument('--average-repeated-trials', action="store_true", default=Fa
 parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
 parser.add_argument('--tmax', default=0.6, type=float, help='crop window')
 parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
-parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default='zscore', help='Type of baseline method')
+parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default=None, help='Type of baseline method')
 # MISC
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
 parser.add_argument('--word-ON-duration', default=250, help='Duration for which word word presented in the RSVP [msec]')
@@ -52,7 +55,7 @@ parser.add_argument('--window-st', default=50, type=int, help='Regression start-
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
 parser.add_argument('--vmax', default=2.5, help='vmax of plot (default is in zscore, assuming baseline is zscore')
-parser.add_argument('--smooth-raster', default=0.0005, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
+parser.add_argument('--smooth-raster', default=0.0015, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
 parser.add_argument('--save2', default=[], help='If empty saves figure to default folder')
 
 
@@ -74,6 +77,14 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(verbose=True)
+
+# COMPARISON
+comparisons = comparisons.comparison_list()
+comparison = comparisons[args.comparison_name].copy()
+
+if 'level' in comparison.keys():
+    args.level = comparison['level']
+
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,
@@ -81,9 +92,7 @@ data.epoch_data(level=args.level,
                 smooth=args.smooth,
                 verbose=True)
 epochs = data.epochs[0]
-# COMPARISON
-comparisons = comparisons.comparison_list()
-comparison = comparisons[args.comparison_name].copy()
+
 comparison = update_queries(comparison, args.block_type,
                             args.fixed_constraint, epochs.metadata)
 pprint(comparison)
@@ -158,6 +167,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
         fname_fig = 'ERP_trialwise_%s_%s_%s_%s_%s_%s_%s_%s_%s' % (args.patient, args.data_type, args.level, args.filter, args.smooth, ch_name, args.block_type, args.comparison_name, comparison_str)
         if args.average_repeated_trials:
             fname_fig += '_lumped'
+        if args.fixed_constraint:
+            fname_fig += '_'+args.fixed_constraint
         fname_fig += '.png'
         if args.responsive_channels_only:
             dname_fig = os.path.join('..', '..', 'Figures', 'Comparisons', 'responsive', args.comparison_name, args.patient, 'ERPs', args.data_type)

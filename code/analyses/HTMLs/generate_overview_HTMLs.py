@@ -8,8 +8,8 @@ import HTML
 
 
 path2output = '../../../HTMLs/overview_plots/'
-comparison_names = ['all_trials', 'all_end_trials']
-filter_types = ['raw', 'gaussian-kernel-10', 'gaussian-kernel-25', 'gaussian-kernel-50', 'high-gamma']
+comparison_names = ['all_trials', 'all_trials_chrono']
+filter_types = ['raw', 'high-gamma']
 
 #######################
 # HTML FOR COMPARISON #
@@ -37,7 +37,7 @@ for comparison_name in comparison_names:
             f.write("%s\n" % line)
     print('HTML saved to: ', fn_html)
     
-    for data_type in ['macro', 'micro', 'spike']:
+    for data_type in ['macro', 'micro', 'spike', 'microphone']:
         ###################
         # HTML FOR FILTER #
         ###################

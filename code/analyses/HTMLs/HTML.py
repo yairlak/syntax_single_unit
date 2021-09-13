@@ -13,11 +13,11 @@ import numpy as np
 def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name, path2figures='../../../Figures/', path2data='../../Data/UCLA'):
     '''
     '''
-    decoding_contrasts = ['short_vs_long_words', 'grammatical_number_nouns', 'embedding', 'declarative_questions']
+    # ENCODING
     model_type = 'ridge'
     ablation_type = 'remove'
-    query_vis = 'word_length>1 and (block in [1,3,5])'
-    query_aud = 'word_length>1 and (block in [2,4,6])'
+    query_vis = 'block in [1,3,5] and word_length>1'
+    query_aud = 'block in [2,4,6] and word_length>1'
     text_list = []
     # HEADERS
     text_list.append('<head>\n')
@@ -25,55 +25,51 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
     text_list.append('</head>\n')
     text_list.append('<body>\n')
     
-    if data_type=='micro':
-        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_G*-{probe_name}?_[]_{comparison_name}_sentence_length_sentence_string.png'
-    elif data_type=='macro':
-        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_{probe_name}?-{probe_name}*_[]_{comparison_name}_sentence_length_sentence_string.png'
-    elif data_type=='spike':
-        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_{probe_name}_[]_{comparison_name}_sentence_length_sentence_string.png'
+    if level=='sentence':
+        level='sentence_onset'
 
-    if data_type in ['micro', 'macro']:
+    if data_type=='micro':
+        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_G*-{probe_name}?_[]_{comparison_name}_sentence_length_sentence_string.png'
+    elif data_type=='macro':
+        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_{probe_name}?-{probe_name}*_[]_{comparison_name}_sentence_length_sentence_string.png'
+    elif data_type=='spike':
+        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*{probe_name}?_*_[]_{comparison_name}_sentence_length_sentence_string.png'
+    elif data_type=='microphone':
+        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*{probe_name}_*_{comparison_name}_sentence_length_sentence_string.png'
+
+    if data_type in ['micro', 'macro', 'microphone']:
         # GET FILE NAMES
         fnames = os.path.join(path2figures, 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames)
         #print(fnames)
         fnames = glob.glob(fnames)
         if len(fnames) == 0:
-        #print(f'Found {len(fnames)} {filt} files')
-            print(f'Zero files found for {filt}; {fnames}')
+            print(f'No files were found for {filt}')
+            
         
         # BUILD HTML 
         for fn in sorted(fnames):
             text_list.append('<br>\n')
             fn = os.path.join(path2figures[3:], 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type,os.path.basename(fn))
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
+            fn = fn.replace('onset', 'offset')
+            fn = fn.replace('all_trials', 'all_end_trials')
+            text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
             # ADD ENCODING FIGURES
             parse = fn.split('_')
+            #print(parse)
             if patient in ['479_11', '479_25']:
-                IX = 12
+                IX = 14
             else:
-                IX = 10
+                IX = 12
             electrode_name = parse[IX]
-            fn_encoding = f'rf_r2_patient_{patient}_{data_type}_{filt}_{model_type}_{probe_name}_{ablation_type}_{query_vis}_{electrode_name}_groupped.png'
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_vis}_False_{electrode_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
-            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:1024px;height:512px;">\n')
-            fn_encoding = f'rf_r2_patient_{patient}_{data_type}_{filt}_{model_type}_{probe_name}_{ablation_type}_{query_aud}_{electrode_name}_groupped.png'
+            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_aud}_False_{electrode_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
-            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:1024px;height:512px;">\n')
+            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
             text_list.append('<br>\n')
-        
-        # ADD DECODING FIGURES
-        for contrast in decoding_contrasts:  # Visual visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_word_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        for contrast in decoding_contrasts: # Auditory blocks
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_word_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-
-
+            
     elif data_type == 'spike':
         # GET FILENAMES OF PNG FILES
         fnames = os.path.join(path2figures, 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames)
@@ -84,181 +80,40 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
             print(f'Zero files found {fnames}')
         #print(f'Found {num_units} spike files')
         
-        # GET RESPONSE SIGNIFICANCE
-        #fn_responses = os.path.join(path2data, 'patient_' + patient, 'Epochs', f'patient_{patient}_{data_type}_gaussian-kernel_{level}-epo')
-        #responses_dict = {}
-        #for block_type in ['Auditory', 'Visual']:
-        #    responses_dict[block_type] = {}
-            # READ RESPONSOVNESS FILES
-        #    responses = []
-        #    if len(responses) == 0:
-        #        print(f'Something went wrong for: {patient} {data_type} {level} {probe_name}')
-        #        return text_list
-            
-            # SORT BY P-VALUE
-        #    channel_names = [l[0].strip() for l in responses]
-        #    p_values = []
-        #    for l in responses:
-        #        p_vals = l[1].split(';')
-        #        p_vals = [p.strip() for p in p_vals]
-        #        p_vals = [float(p) for p in p_vals if p]
-        #        p_values.append(p_vals)
-        #    p_values_min = [min(p_vals) if p_vals else 1 for p_vals in p_values]
-        #    responses_dict[block_type]['channel_names'] = channel_names
-        #    responses_dict[block_type]['p_values_min'] = p_values_min
-            
-        #assert responses_dict['Auditory']['channel_names'] == responses_dict['Visual']['channel_names']
-        #p_values_min = [min(p1, p2) for (p1, p2) in zip(responses_dict['Auditory']['p_values_min'], responses_dict['Visual']['p_values_min'])]
-
-            #[print(c, p) for (c, p) in zip(channel_names, p_values_min)]
-        #p_values_min, channe_names = zip(*sorted(zip(p_values_min, responses_dict['Auditory']['channel_names'])))
-
-            
         # BUILD HTML
         text_list.append(f'<h2 style="font-family:tempus sans itc;"><p>{probe_name}</p>')
-        #text_list.append('<br>\n')
-        #for channel_name, p_val in zip(channel_names, p_values_min):
-        #    fn_spike = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_raw_{channel_name}_[]_all_trials_sentence_length_sentence_string.png'
-        #    fn_spike = os.path.join(path2figures_html, comparison_name, 'patient_' + patient, 'ERPs', data_type, fn_spike)
-            #text_list.append(f'<p>p-value: {p_val}</p>')
-        #    text_list.append(f'<img class="right" src="{fn_spike}" stye="width:1024px;height:512px;">\n')
-            #text_list.append('<br>\n')
-
         for fn in fnames:
             text_list.append('<br>\n')
             # Trialwise figures
             fn = os.path.join(path2figures[3:], 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type,os.path.basename(fn))
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
+            fn = fn.replace('onset', 'offset')
+            fn = fn.replace('all_trials', 'all_end_trials')
+            text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
+            
             # Encoding figures
             parse = fn.split('_')
             if patient in ['479_11', '479_25']:
-                st, ed = 12, 16
+                st, ed = 14, 16
             else:
-                st, ed = 10, 14
+                st, ed = 12, 14
             unit_name = '_'.join(parse[st:ed])
-            print(fn, unit_name)
-            fn_encoding = f'rf_r2_patient_{patient}_{data_type}_gaussian-kernel-25_{model_type}_{probe_name}_{ablation_type}_{query_vis}_{unit_name}_groupped.png'
+            #print(fn, unit_name)
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_vis}_False_{unit_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
-            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:1024px;height:512px;">\n')
-            fn_encoding = f'rf_r2_patient_{patient}_{data_type}_gaussian-kernel-25_{model_type}_{probe_name}_{ablation_type}_{query_aud}_{unit_name}_groupped.png'
+            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
+            fn_encoding = f'rf_r_patient_{patient}_{data_type}_{filt}_100_{model_type}_None_{ablation_type}_{query_aud}_False_{unit_name}_groupped.png'
             fn_encoding = os.path.join(path2figures[3:], 'encoding_models', fn_encoding)
-            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:1024px;height:512px;">\n')
+            text_list.append(f'<img class="right" src="{fn_encoding}" stye="width:768px;height:512px;">\n')
             text_list.append('<br>\n')
 
-        # ADD DECODING FIGURES
-        for contrast in decoding_contrasts:  # Visual visual
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_word_{contrast}_visual_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
-        for contrast in decoding_contrasts: # Auditory blocks
-            fn_decoding = f'GAT_patient_{patient}_{data_type}_{filt}_word_{contrast}_auditory_{probe_name}.png'
-            fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
-            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
-        text_list.append('<br>\n')
+            # Add Decoding Figures
+    text_list.extend(add_decoding_figures(text_list, patient, data_type, filt, probe_name, path2figures))
 
     return text_list
 
 
-def HTML_per_probe_(patient, data_type, level, probe_name, comparison_name, path2figures='../../Figures/Comparisons/', path2figures_html='../../Figures/Comparisons/', path2data='../../Data/UCLA'):
-    '''
-    '''
-    text_list = []
-    # HEADERS
-    text_list.append('<head>\n')
-    text_list.append(f'<title> pt-{patient} {data_type} {probe_name} </title>\n')
-    text_list.append('</head>\n')
-    text_list.append('<body>\n')
-    
-    if data_type=='micro':
-        fnames_kernel = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_gaussian-kernel_G*-{probe_name}?_[]_all_trials_sentence_length_sentence_string.png'
-        fnames_gamma = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_high-gamma_G*-{probe_name}?_[]_all_trials_sentence_length_sentence_string.png'
-    elif data_type=='macro':
-        fnames_kernel = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_gaussian-kernel_{probe_name}?-{probe_name}*_[]_all_trials_sentence_length_sentence_string.png'
-        fnames_gamma = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_high-gamma_{probe_name}?-{probe_name}*_[]_all_trials_sentence_length_sentence_string.png'
-    elif data_type=='spike':
-        fnames_spike = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_raw_*_{probe_name}_[]_all_trials_sentence_length_sentence_string.png'
-
-    if data_type in ['micro', 'macro']:
-        # GET FILE NAMES
-        fnames_kernel = os.path.join(path2figures, comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames_kernel)
-        fnames_gamma = os.path.join(path2figures, comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames_gamma)
-        print(fnames_kernel, fnames_gamma)
-        fnames_kernel = glob.glob(fnames_kernel)
-        fnames_gamma = glob.glob(fnames_gamma)
-        print(f'Found {len(fnames_kernel)} kernel files and {len(fnames_gamma)} high-gamma files')
-        if not fnames_gamma:
-            fnames_gamma = [f.replace('gaussian-kernel', 'high-gamma') for f in fnames_kernel]
-        if not fnames_kernel:
-            fnames_kernel = [f.replace('high-gamma', 'gaussian-kernel') for f in fnames_gamma]
-        
-        # BUILD HTML 
-        for fn_kernel, fn_gamma in zip(sorted(fnames_kernel), sorted(fnames_gamma)):
-            text_list.append('<br>\n')
-            fn_kernel = os.path.join(path2figures_html, comparison_name, 'patient_' + patient, 'ERPs', data_type,os.path.basename(fn_kernel))
-            fn_gamma = os.path.join(path2figures_html, comparison_name, 'patient_' + patient, 'ERPs', data_type, os.path.basename(fn_gamma))
-            text_list.append(f'<img class="right" src="{fn_kernel}" stye="width:1024px;height:512px;">\n')
-            text_list.append(f'<img class="right" src="{fn_gamma}" stye="width:1024px;height:512px;">\n') 
-            text_list.append('<br>\n')
-    
-    elif data_type == 'spike':
-        # GET FILENAMES OF PNG FILES
-        fnames_spike = os.path.join(path2figures, comparison_name, 'patient_' + patient, 'ERPs', data_type, fnames_spike)
-        #print(fnames_spike)
-        fnames_spike = glob.glob(fnames_spike)
-        num_units = len(fnames_spike)
-        if num_units==0:
-            #print(f'Found {num_units} spike files')
-            print(f'Zero files found for {fnames_spike}')
-        
-        # GET RESPONSE SIGNIFICANCE
-        fn_responses = os.path.join(path2data, 'patient_' + patient, 'Epochs', f'patient_{patient}_{data_type}_gaussian-kernel_{level}-epo')
-        responses_dict = {}
-        for block_type in ['Auditory', 'Visual']:
-            responses_dict[block_type] = {}
-            # READ RESPONSOVNESS FILES
-            with open(fn_responses + '.' + block_type[:3].lower(), 'r') as f:
-                responses = f.readlines()
-            responses = [l.split(',')[1:3] for l in responses[4::]]
-            responses = [(l[0], l[1]) for l in responses if probe_name == l[0].split('_')[-1]] # filter for current probe
-            if len(responses) == 0:
-                print(f'Something went wrong for: {patient} {data_type} {level} {probe_name}')
-                return text_list
-            
-            # SORT BY P-VALUE
-            channel_names = [l[0].strip() for l in responses]
-            p_values = []
-            for l in responses:
-                p_vals = l[1].split(';')
-                p_vals = [p.strip() for p in p_vals]
-                p_vals = [float(p) for p in p_vals if p]
-                p_values.append(p_vals)
-            p_values_min = [min(p_vals) if p_vals else 1 for p_vals in p_values]
-            responses_dict[block_type]['channel_names'] = channel_names
-            responses_dict[block_type]['p_values_min'] = p_values_min
-            
-        assert responses_dict['Auditory']['channel_names'] == responses_dict['Visual']['channel_names']
-        p_values_min = [min(p1, p2) for (p1, p2) in zip(responses_dict['Auditory']['p_values_min'], responses_dict['Visual']['p_values_min'])]
-
-            #[print(c, p) for (c, p) in zip(channel_names, p_values_min)]
-        p_values_min, channe_names = zip(*sorted(zip(p_values_min, responses_dict['Auditory']['channel_names'])))
-
-            
-        # BUILD HTML
-        text_list.append(f'<h2 style="font-family:tempus sans itc;"><p>{probe_name}</p>')
-        text_list.append('<br>\n')
-        for channel_name, p_val in zip(channel_names, p_values_min):
-            fn_spike = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_raw_{channel_name}_[]_all_trials_sentence_length_sentence_string.png'
-            fn_spike = os.path.join(path2figures_html, comparison_name, 'patient_' + patient, 'ERPs', data_type, fn_spike)
-            #text_list.append(f'<p>p-value: {p_val}</p>')
-            text_list.append(f'<img class="right" src="{fn_spike}" stye="width:1024px;height:512px;">\n')
-            #text_list.append('<br>\n')
-
-
-    return text_list
-
-
-def HTML_all_patients(per_probe_htmls, comparison_name, data_type, filt, level):
+def HTML_all_patients(per_probe_htmls, comparison_name, data_type, filt):
     '''
     per_probe_htmls - list of sublists; each sublist contains [patient, probe_names, fn_htmls]
     '''
@@ -266,7 +121,7 @@ def HTML_all_patients(per_probe_htmls, comparison_name, data_type, filt, level):
     text_list = []
     # HEADERS
     text_list.append('<head>\n')
-    text_list.append(f'<title> {comparison_name} {data_type} {filt} {level} </title>\n')
+    text_list.append(f'<title> {comparison_name} {data_type} {filt} </title>\n')
     text_list.append('</head>\n')
     text_list.append('<body>\n')
     
@@ -290,7 +145,7 @@ def HTML_levels(comparison_name, data_type, filt):
     '''
     '''
 
-    levels = ['sentence_onset', 'sentence_offset', 'word', 'phone']
+    levels = ['sentence', 'word', 'phone']
 
     text_list = []
     # HEADERS
@@ -313,7 +168,7 @@ def HTML_filters(comparison_name, data_type):
     '''
     '''
 
-    filters = ['raw', 'gaussian-kernel', 'gaussian-kernel-25', 'high-gamma']
+    filters = ['raw', 'high-gamma']
 
     text_list = []
     # HEADERS
@@ -336,7 +191,7 @@ def HTML_data_types(comparison_name):
     '''
     '''
 
-    data_types = ['macro', 'micro', 'spike']
+    data_types = ['macro', 'micro', 'spike', 'microphone']
 
     text_list = []
     # HEADERS
@@ -373,4 +228,49 @@ def HTML_comparison_names(comparison_names):
         text_list.append(f'<br>\n')
 
     return text_list
+
+
+
+def add_decoding_figures(text_list, patient, data_type, filt, probe_name, path2figures):
+    text_list = []
+    decoding_contrasts = ['manner_of_articulation', 'word_string', 'pos_first', 'pos_simple', 'embedding_vs_long', 'wh_subj_obj_len5', 'dec_quest_len2', 'grammatical_number']
+    
+    # LABELS
+    fn_decoding = f'label_.png'
+    fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+    text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
+    for contrast in decoding_contrasts:  # Labels
+        fn_decoding = f'label_{contrast}.png'
+        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:256px;">\n')
+    text_list.append('<br>\n')
+
+    
+    # DECODING PLOTS
+    for block in ['V', 'A', 'V2A', 'A2V']:
+        fn_decoding = f'label_{block}.png'
+        fn_decoding = os.path.join(path2figures[3:], 'Decoding', fn_decoding)
+        text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:256px;height:256px;">\n')
+        for contrast in decoding_contrasts:
+            fn_decoding = get_fn_decoding(patient, data_type, filt, contrast, block, probe_name, path2figures)
+            text_list.append(f'<img class="right" src="{fn_decoding}" stye="width:512px;height:512px;">\n')
+        text_list.append('<br>\n')
+
+    return text_list
+
+
+def get_fn_decoding(patient, data_type, filt, contrast, block, probe_name, path2figures):
+    dict_blocks = {'V':'visual', 'A':'auditory'}
+    contrast_str = ''
+    for b in block: # loop over characters (relevant for A2V or V2A)
+        if b != '2':
+            contrast_str += f'_{contrast}_{dict_blocks[b]}'
+    fn = f'GAT_patient_{patient}_{data_type}_{filt}{contrast_str}_{probe_name}.png'
+    fn_fullpath = os.path.join(path2figures, 'Decoding', fn)
+    #print(fn)
+    if os.path.isfile(fn_fullpath):
+        fn = os.path.join(path2figures[3:], 'Decoding', fn) # [3:] removes '../' prefix
+    else:
+        fn = os.path.join(path2figures[3:], 'Decoding', 'label_blank.png')
+    return fn
 

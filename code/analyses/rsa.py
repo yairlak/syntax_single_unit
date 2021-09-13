@@ -2,14 +2,8 @@ import argparse, os, sys, pickle
 from utils.data_manip import DataHandler
 import mne
 from mne.decoding import (cross_val_multiscore, LinearModel, GeneralizingEstimator)
-<<<<<<< HEAD:code/analyses/rsa.py
-from utils import classification, comparisons, load_settings_params
-from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
-from functions import data_manip
-=======
 from utils import classification, comparisons, load_settings_params, data_manip
 from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
->>>>>>> 1c9e1da112fc7bacb6219512afab57bd115e563c:code/analyses/rsa/rsa.py
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -36,9 +30,13 @@ from pprint import pprint
 import torch
 import models # custom module with neural-network models (LSTM/GRU/CNN)
 
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
+<<<<<<< HEAD
 parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
@@ -47,15 +45,22 @@ parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'wor
                     default='word', help='')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-10'], action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+=======
+parser.add_argument('--patient', action='append', default=[], help='Patient string')
+parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
+parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
+parser.add_argument('--filter', action='append', default=[], help='raw/gaussian-kernel/high-gamma/etc')
+parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+>>>>>>> 52582a65026db42387227d69f974895004273a8a
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
-parser.add_argument('--channe-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
+parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY
 parser.add_argument('--comparison-name', default='all_words', help='Comparison name from Code/Main/functions/comparisons.py')
 parser.add_argument('--comparison-name-test', default=[], help='Comparison name from Code/Main/functions/comparisons.py')
 parser.add_argument('--block-type', choices=['auditory', 'visual'], default='visual', help='Block type will be added to the query in the comparison')
 parser.add_argument('--block-type-test', choices=['auditory', 'visual', []], default=[], help='Block type will be added to the query in the comparison')
-parser.add_argument('--query', default='block in [1,3,5]', help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
+parser.add_argument('--query-train', default='block in [1,3,5]', help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 parser.add_argument('--fixed-constraint', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
 parser.add_argument('--label-from-metadata', default=[], help='Field name in metadata that will be used to generate labels for the different classes. If empty, condition_names in comparison will be used')
 parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
@@ -108,15 +113,13 @@ print('args\n', args)
 #############
 # LOAD DATA #
 #############
-data = DataHandler(args.patient, args.data_type, args.filter, None,
-                   args.probe_name, args.channel_name, args.channel_num,
-                   args.sfreq, args.feature_list)
+data = DataHandler(args.patient, args.data_type, args.filter,
+                   args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data()
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
-data.epoch_data(level='sentence_onset',
+data.epoch_data(level=args.level,
                 query=args.query_train,
-                decimate=args.decimate,
                 scale_epochs=False,
                 verbose=True)
 
@@ -182,7 +185,7 @@ if args.num_bins:
 for t in args.times:
     # PREPARE DATA
     X_list = []
-    for epochs in epochs_list: # loop over epochs from different patients or probes
+    for epochs in data.epochs: # loop over epochs from different patients or probes
         ###############
         # BINNIZATION #
         ###############

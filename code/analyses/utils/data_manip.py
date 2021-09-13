@@ -822,13 +822,25 @@ def prepare_metadata(patient, verbose=False):
     return metadata
 
 
+def block_type(row):
+    if row['block'] in [1,3,5]:
+        block_type = 'visual'
+    elif row['block'] in [2,4,6]:
+        block_type = 'auditory'
+    else:
+        block_type = 'other'
+    return block_type
+
+
 def extend_metadata(metadata):
     ''' Add columns to metadata
     '''
     metadata = metadata.rename(columns={'last_word': 'is_last_word'})
      # FIX ORTHOGRAPHIC MISTAKES
     metadata['word_string'] = metadata['word_string'].replace({'excercised':'exercised', 'heared':'heard', 'streched':'stretched'})
-    
+   
+
+    metadata['block_type'] = metadata.apply(lambda row: block_type(row), axis=1)
     # TENSE
     # LAST LETTER OF POS OF VERBS INDICATE THE TENSE (D - past, P - present, F - future, V - passive, I - infinitive-like, G - ing)
     poss = metadata['pos']

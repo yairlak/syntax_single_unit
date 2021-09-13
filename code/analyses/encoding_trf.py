@@ -214,7 +214,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         results[feature_name]['total_score'].append(score_sentence)
 
         # WORD LEVEL (SCORE PER TIME POINT)
-        if args.method in ['zero', 'shuffle']:
+        if args.ablation_method in ['zero', 'shuffle']:
             start_sample = int(data.sfreq * args.tmin_word)
         else:
             start_sample = 0
@@ -242,9 +242,10 @@ results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 # SAVE #
 ########
 # FNAME
-list_args2fname = ['patient', 'data_type', 'filter', 'smooth', 'model_type',
+list_args2fname = ['patient', 'data_type', 'filter',
+                   'decimate', 'smooth', 'model_type',
                    'probe_name', 'ablation_method',
-                   'query_train', 'each_feature_value']
+                   'query_train', 'feature_list', 'each_feature_value']
 if args.query_train != args.query_test:
     list_args2fname.extend(['query_test'])
 args2fname = args.__dict__.copy()

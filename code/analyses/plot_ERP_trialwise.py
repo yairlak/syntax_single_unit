@@ -55,7 +55,7 @@ parser.add_argument('--window-st', default=50, type=int, help='Regression start-
 parser.add_argument('--window-ed', default=450, type=int, help='Regression end-time window [msec]')
 parser.add_argument('--vmin', default=-2.5, help='vmin of plot (default is in zscore, assuming baseline is zscore)')
 parser.add_argument('--vmax', default=2.5, help='vmax of plot (default is in zscore, assuming baseline is zscore')
-parser.add_argument('--smooth-raster', default=0.0015, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
+parser.add_argument('--smooth-raster', default=0.002, help='If empty no smoothing. Else, gaussian width in [sec], assuming sfreq=1000Hz')
 parser.add_argument('--save2', default=[], help='If empty saves figure to default folder')
 
 
@@ -69,7 +69,7 @@ if isinstance(args.baseline, str):
     args.baseline = eval(args.baseline)
 if args.data_type == 'spike':
     args.vmin = 0
-    args.vmax = 1
+    args.vmax = 0.5
 print(args)
 
 # LOAD
@@ -93,13 +93,7 @@ data.epoch_data(level=args.level,
                 verbose=True)
 epochs = data.epochs[0]
 
-comparison = update_queries(comparison, args.block_type,
-                            args.fixed_constraint, epochs.metadata)
-pprint(comparison)
 
-print(args.comparison_name)
-for query in comparison['queries']:
-    print(query)
 
 if 'sort' not in comparison.keys():
     comparison['sort'] = args.sort_key
@@ -110,6 +104,14 @@ if 'tmin_tmax' in comparison.keys():
     args.tmin, args.tmax = comparison['tmin_tmax']
 if 'y-tick-step' in comparison.keys():
     args.y_tick_step = comparison['y-tick-step']
+if 'fixed_constraint' in comparison.keys():
+    args.fixed_constraint = comparison['fixed_constraint']
+
+comparison = update_queries(comparison, args.block_type,
+                            args.fixed_constraint, epochs.metadata)
+
+print(args.comparison_name)
+pprint(comparison)
 
 # PICK
 if args.probe_name:
@@ -199,7 +201,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
         if args.level == 'word':
             fig, _ = plt.subplots(figsize=(30, 100))
             num_queries = len(comparison['queries'])
-            height_ERP = int(np.ceil(sum(nums_trials)/num_queries)/4)
+            #height_ERP = int(np.ceil(sum(nums_trials)/num_queries))
+            height_ERP = np.max(nums_trials)
         else:
             fig, _ = plt.subplots(figsize=(15, 10))
             num_queries = len(comparison['queries'])
@@ -254,7 +257,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 for t in range(num_trials):
                     data_curr_query_smoothed[t, :] = gaussian_filter1d(data_curr_query[t, :], float(args.smooth_raster)*1000) # 1000Hz is assumed as sfreq
                 #im = ax.imshow(data_curr_query_smoothed, interpolation='nearest', aspect='auto', vmin=args.vmin, vmax=args.vmax, cmap=cmap)
-                print(data_curr_query_smoothed.shape[0])
+                #print(data_curr_query_smoothed.shape[0])
                 im = ax.imshow(data_curr_query_smoothed, cmap=cmap, interpolation='none', aspect='auto')
             else:
                 im = ax.imshow(data_curr_query, interpolation='nearest', aspect='auto', cmap=cmap)
@@ -272,7 +275,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 ax.set_yticks(range(0, len(yticklabels), args.y_tick_step))
                 yticklabels = yticklabels[::args.y_tick_step]
                 ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
-            ax.set_ylabel(condition_name, fontsize=10, color=color)
+            ax.set_ylabel(condition_name, fontsize=10, color=color, rotation=0, labelpad=20)
             ax.axvline(x=0, color='k', ls='--', lw=1) 
             # TAKE MEAN FOR ERP FIGURE 
             if args.data_type == 'spike':
@@ -293,7 +296,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 evoked_curr_query = epochs[query].pick(ch_name).average(method='median')
             # if args.data_type != 'spike':
             ch_type = epochs.get_channel_types(picks=[ch])[0]
-            print(ch_type)
+            #print(ch_type)
             if ch_type == 'seeg' and args.data_type != 'spike': # HACK: Revert auto scaling by MNE viz.plot_compare_evokeds
                 evoked_curr_query.data = evoked_curr_query.data/1e3
             elif ch_type == 'eeg':
@@ -334,7 +337,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                                picks=ch_name,
                                                axes=ax2, title='')
         ax2.legend(bbox_to_anchor=(1.05, 1), loc=2)
-        ax2.set_ylabel(label_y, fontsize=16)
+        ax2.set_ylabel(label_y, fontsize=16, rotation=0, labelpad=20)
         ax2.set_ylim(ylim)
         ax2.set_yticks(yticks)
 

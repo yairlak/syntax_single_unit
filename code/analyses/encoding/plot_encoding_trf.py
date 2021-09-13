@@ -38,6 +38,11 @@ parser.add_argument('--channel-name', default=[], nargs='*', action='append',
 parser.add_argument('--channel-num', default=[], nargs='*', action='append',
                     type=int, help='channel number (if empty all channels)')
 # MISC
+parser.add_argument('--feature-list',
+                    nargs='*',
+#                    action='append',
+                    default=None,
+                    help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
                     default=os.path.join('..', '..', '..',
                                          'Output', 'encoding_models'))
@@ -69,14 +74,14 @@ args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
 print('args\n', args)
-list_args2fname = ['patient', 'data_type', 'filter', 'smooth',
+list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 'smooth',
                    'model_type', 'probe_name', 'ablation_method',
-                   'query_train', 'each_feature_value']
+                   'query_train', 'feature_list', 'each_feature_value']
 if args.query_train != args.query_test:
     list_args2fname.extend(['query_test'])
 
-if not os.path.exists(args.path2figures):
-    os.makedirs(args.path2figures)
+if not os.path.exists(os.path.join(args.path2figures, args.patient[0], args.data_type[0])):
+    os.makedirs(os.path.join(args.path2figures, args.patient[0], args.data_type[0]))
 
 #########################
 args2fname = args.__dict__.copy()
@@ -100,7 +105,10 @@ for i_channel, ch_name in enumerate(ch_names):
     #############
     fig_coef = plot_rf_coefs(results, i_channel, ch_name,
                              feature_info, args, False)
-    fname_fig = os.path.join(args.path2figures, 'rf_coef_' +
+    fname_fig = os.path.join(args.path2figures,
+                             args.patient[0],
+                             args.data_type[0],
+                             'rf_coef_' +
                              fname + f'_{ch_name}.png')
     fig_coef.savefig(fname_fig)
     plt.close(fig_coef)
@@ -111,7 +119,10 @@ for i_channel, ch_name in enumerate(ch_names):
     #####################
     fig_coef = plot_rf_coefs(results, i_channel, ch_name,
                              feature_info, args, True)
-    fname_fig = os.path.join(args.path2figures, 'rf_coef_' +
+    fname_fig = os.path.join(args.path2figures, 
+                             args.patient[0],
+                             args.data_type[0],
+                             'rf_coef_' +
                              fname + f'_{ch_name}_groupped.png')
     fig_coef.savefig(fname_fig)
     plt.close(fig_coef)
@@ -121,7 +132,10 @@ for i_channel, ch_name in enumerate(ch_names):
     # PLOT delta R2 #
     #################
     fig_r2 = plot_rf_r2(results, i_channel, ch_name, feature_info, args)
-    fname_fig = os.path.join(args.path2figures, 'rf_r_' +
+    fname_fig = os.path.join(args.path2figures, 
+                             args.patient[0],
+                             args.data_type[0],
+                             'rf_r_' +
                              fname + f'_{ch_name}_groupped.png')
     fig_r2.savefig(fname_fig)
     plt.close(fig_r2)

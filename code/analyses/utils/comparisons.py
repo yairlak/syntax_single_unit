@@ -81,6 +81,27 @@ def comparison_list():
     comparisons['word_string']['level'] = 'word'
     comparisons['word_string']['y-tick-step'] = 20
     comparisons['word_string']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_string']['sort'] = ['block_type', 'chronological_order']
+    
+    comparisons['word_string_visual'] = {}
+    comparisons['word_string_visual']['queries'] = "word_string"
+    comparisons['word_string_visual']['fixed_constraint'] = "block_type=='visual'"
+    comparisons['word_string_visual']['condition_names'] = []
+    comparisons['word_string_visual']['colors'] = []
+    comparisons['word_string_visual']['level'] = 'word'
+    comparisons['word_string_visual']['y-tick-step'] = 20
+    comparisons['word_string_visual']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_string_visual']['sort'] = ['chronological_order']
+
+    comparisons['word_string_auditory'] = {}
+    comparisons['word_string_auditory']['queries'] = "word_string"
+    comparisons['word_string_auditory']['fixed_constraint'] = "block_type=='auditory'"
+    comparisons['word_string_auditory']['condition_names'] = []
+    comparisons['word_string_auditory']['colors'] = []
+    comparisons['word_string_auditory']['level'] = 'word'
+    comparisons['word_string_auditory']['y-tick-step'] = 20
+    comparisons['word_string_auditory']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_string_auditory']['sort'] = ['chronological_order']
 
     # PHONOLOGICAL
     comparisons['manner_of_articulation'] = {}

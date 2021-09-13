@@ -220,7 +220,7 @@ def get_feature_style(feature_name):
         dict_prop['color'] = 'grey'
         dict_prop['ls'] = '-'
         dict_prop['lw'] = 3
-        dict_prop['one-hot'] = True
+        dict_prop['one-hot'] = False
 
     #####################################
 

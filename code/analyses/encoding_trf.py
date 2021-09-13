@@ -134,7 +134,6 @@ y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
 
 metadata_sentences = data.epochs[0].metadata
 
-
 ##################
 # ENCODING MODEL #
 ##################

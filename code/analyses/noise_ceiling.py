@@ -12,6 +12,7 @@ import datetime
 import numpy as np
 from utils.utils import dict2filename
 from utils.data_manip import DataHandler
+from scipy.stats import pearsonr
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -19,7 +20,7 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['479_11'])
+parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
@@ -37,50 +38,14 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
 parser.add_argument('--query-test', default=None,
                     help='If not empry, eval model on a separate test query')
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
-# FEATURES
-#parser.add_argument('--feature-list',
-#                    default=['is_first_word',
-#                              'is_last_word',
-#                              'phonological_features'],
-#                    nargs='*',
-#                    help='Feature to include in the encoding model')
-parser.add_argument('--feature-list',
-                    nargs='*',
-#                    action='append',
-                    default=None,
-                    help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=False, action='store_true',
-                    help="Evaluate model after ablating each feature value. \
-                         If false, ablate all feature values together")
-# MODEL
-parser.add_argument('--model-type', default='ridge',
-                    choices=['ridge', 'ridge_laplacian', 'lasso'])
-parser.add_argument('--ablation-method', default='remove',
-                    choices=['zero', 'remove', 'shuffle'],
-                    help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
-parser.add_argument('--train-only', default=False, action='store_true',
-                    help="Train model and save, without model evaluation")
-parser.add_argument('--eval-only', default=False, action='store_true',
-                    help="Evaluate model without training \
-                        (requires pre-trained models)")
-# MISC
-parser.add_argument('--tmin_word', default=-1.2, type=float,
-                    help='Start time of word time window')
-parser.add_argument('--tmax_word', default=1, type=float,
-                    help='End time of word time window')
-parser.add_argument('--tmin_rf', default=0, type=float,
-                    help='Start time of receptive-field kernel')
-parser.add_argument('--tmax_rf', default=1, type=float,
-                    help='End time of receptive-field kernel')
+
 parser.add_argument('--decimate', default=20, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
@@ -97,34 +62,44 @@ np.random.seed(1)
 args = parser.parse_args()
 assert len(args.patient) == len(args.data_type) == len(args.filter)
 args.patient = ['patient_' + p for p in args.patient]
-args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
-if isinstance(args.feature_list, str):
-    args.feature_list = eval(args.feature_list)
 print(args)
 
 #############
 # LOAD DATA #
 #############
 data = DataHandler(args.patient, args.data_type, args.filter,
-                   args.probe_name, args.channel_name, args.channel_num,
-                   args.feature_list)
+                   args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(args.decimate)
 # sfreq_original = data.raws[0].info['sfreq']  # used later for word epoch
-# GET SENTENCE-LEVEL DATA BEFORE SPLIT
+
+##################
+# SENTENCE-LEVEL #
+##################
 data.epoch_data(level='sentence_onset',
+                tmin=0, tmax=1,  # Takes only first 1sec of sentence for corr
                 query=args.query_train,
                 smooth=args.smooth,
                 scale_epochs=False,  # must be same as word level
                 verbose=True)
-
-# print(set(data.epochs[0].metadata['sentence_string']))
-# PREPARE MATRICES
-y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data().\
-        transpose([2, 0, 1])
+y_sentence = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
+             get_data().transpose([2, 0, 1])
 metadata_sentences = data.epochs[0].metadata
+sentence_strings = sorted(list(set(metadata_sentences['sentence_string'].to_list())))
+
+##############
+# WORD-LEVEL #
+##############
+data.epoch_data(level='word',
+                tmin=0, tmax=1,
+                query=args.query_train,
+                scale_epochs=False,  # same for train
+                verbose=False)
+y_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
+         get_data().transpose([2, 0, 1])
+metadata_words = data.epochs[0].metadata
 
 # INIT RESULTS DICT
 results = {}
@@ -133,33 +108,45 @@ results['noise_ceiling']['total_score'] = []  # len = num outer cv splits
 results['noise_ceiling']['scores_by_time'] = []  # len = num outer cv splits
 results['noise_ceiling']['rf_sentence'] = []  # len = num outer cv splits
 
+n_sentences, n_outputs = len(sentence_strings), y_sentence.shape[2]
+r_sentence = np.empty([n_sentences, 3, n_outputs])
+r_sentence[:] = np.nan
+for i_string, sentence_string in enumerate(sentence_strings):
+    IXs_sentences = np.where(metadata_sentences['sentence_string'] == sentence_string)[0]
+    assert len(IXs_sentences) == 3
+    for i_sent, IX_sentence_string in enumerate(IXs_sentences):
+        sentence_string = metadata_sentences['sentence_string'].iloc[IX_sentence_string]
+        # neural activity of target sentence
+        data_curr_sentence = y_sentence[:, i_sent, :] # n_times X n_outputs
+        # neural activity of other repetitions of sentence
+        IXs_other_sentences = list(set(IXs_sentences) - set([IX_sentence_string]))
+        assert len(IXs_other_sentences) == 2
+        data_other_sentence = y_sentence[:, IXs_other_sentences, :].mean(axis=1) # n_times X n_outputs
+        for i_out in range(n_outputs):
+            # Pearson correlation
+            r_sentence[i_string, i_sent, i_out], _ = \
+                pearsonr(data_curr_sentence[:, i_out],
+                         data_other_sentence[:, i_out])
 
-for block_type in ['visual', 'auditory']:
-    IXs_block = np.where(metadata_sentences['block_type'] == block_type)
-    
-
-
-
+mean_r = r_sentence.mean(axis=1).mean(axis=0)
+for ch_name, r in zip(data.epochs[0].ch_names, mean_r):
+    print(ch_name, r)
 
 
 ########
 # SAVE #
 ########
 # FNAME
-list_args2fname = ['patient', 'data_type', 'filter', 'smooth', 'model_type',
-                   'probe_name', 'ablation_method',
-                   'query_train', 'each_feature_value']
-if args.query_train != args.query_test:
-    list_args2fname.extend(['query_test'])
+list_args2fname = ['patient', 'data_type', 'filter', 'smooth', 'query_train']
 args2fname = args.__dict__.copy()
 fname = dict2filename(args2fname, '_', list_args2fname, '', True)
 print(fname)
 if not os.path.exists(args.path2output):
     os.makedirs(args.path2output)
 ch_names = data.epochs[0].copy().pick_types(seeg=True, eeg=True).ch_names
-fn = os.path.join(args.path2output, fname + '.pkl')
+fn = os.path.join(args.path2output, 'noise_ceiling_' + fname + '.pkl')
 with open(fn, 'wb') as f:
-    pickle.dump([results, ch_names, args, data.feature_info], f)
+    pickle.dump([results, ch_names, args], f)
 print(f'Results were saved to {fn}')
 
 print(f'Run time: {datetime.datetime.now() - begin_time}')

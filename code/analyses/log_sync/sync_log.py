@@ -18,12 +18,12 @@ from pprint import pprint
 from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default = '541')
-parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
+parser.add_argument('--patient', default = '544')
+parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='BlackRock')
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
 parser.add_argument('--refine-with-mic', action='store_true', default=False)
-parser.add_argument('--merge-logs', action='store_true', default=False)
+parser.add_argument('--merge-logs', action='store_true', default=True)
 parser.add_argument('--viz', action='store_true', default=True)
 parser.add_argument('-v', '--verbose', action='store_true', default=True)
 args = parser.parse_args()
@@ -45,6 +45,11 @@ if args.patient in ['539', '541']:
     time_stamps = [0, 98.5, 99, 99.1, 99.5, 99.6] + time_stamps
     event_nums_zero = [100, 0, 1, 0, 2, 0] + event_nums_zero
 
+# if args.patient in ['544']:
+#     time_stamps = [66.3, 66.3, 66.8, 66.8, 67.36, 67.36] + time_stamps
+#     event_nums_zero = [100, 0, 1, 0, 2, 0] + event_nums_zero
+
+
 # Plot TTLs
 fig, ax = plt.subplots()
 ax.plot(time_stamps, event_nums_zero, color='b')
@@ -61,7 +66,13 @@ plt.close(fig)
 # READ LOGS AND KEEP ONLY THOSE WITH SENT TRIGGERS #
 ####################################################
 
-dict_events = read_logs(time_stamps, event_nums_zero, args)
+if args.patient in ['539', '544']:
+    start_event = 3 # First three triggers are missing
+    missing_first_events = 3
+    
+dict_events = read_logs(time_stamps, event_nums_zero, args,
+                        start_event=start_event,
+                        missing_first_events=missing_first_events)
 
 ##################################
 # REGRESS EVENT ON CHEETAH TIMES #

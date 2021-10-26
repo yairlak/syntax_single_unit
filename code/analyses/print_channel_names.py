@@ -7,7 +7,7 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='505')
+parser.add_argument('--patient', default='543', type=str)
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     default='spike', help='electrode type')
 args=parser.parse_args()

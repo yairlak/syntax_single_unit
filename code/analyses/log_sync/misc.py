@@ -8,7 +8,7 @@ Created on Sun Apr 11 09:01:17 2021
 from skimage.feature import match_template
 import sys
 sys.path.append('..')
-from utils import load_settings_params
+#from utils import load_settings_params
 import os, argparse
 import matplotlib.pyplot as plt
 import numpy as np
@@ -123,8 +123,8 @@ def butter_bandpass(lowcut, highcut, fs, order=1):
     return b, a
 
 def load_microphone_data(t_estimated_sec, args, dt=2):
-    settings = load_settings_params.Settings('patient_' + args.patient)
-    path2mic = os.path.join('..', settings.path2patient_folder, 'Raw', 'microphone')
+    #settings = load_settings_params.Settings('patient_' + args.patient)
+    path2mic = f'../../../Data/UCLA/patient_{args.patient}/Raw/microphone'
 
     # LOAD MIC DATA
     mic = sio.loadmat(os.path.join(path2mic, 'MICROPHONE.mat'))
@@ -154,8 +154,8 @@ def load_auditory_stimulus(fn_wav, target_sfreq, args):
 
 def plot_cross_correlation(mic_data, wav_downsampled, sfreq, xcorr_wavform, xcorr_filt, xcorr_both, first_sample_in_window, args, dt=2):    
     t_st_window = first_sample_in_window/sfreq
-    settings = load_settings_params.Settings('patient_' + args.patient)
-    dir_figures = os.path.join(settings.path2figures, 'log_sync', f'patient_{args.patient}')
+    #settings = load_settings_params.Settings('patient_' + args.patient)
+    dir_figures = f'../../../Data/Figures/log_sync/patient_{args.patient}/'
     os.makedirs(dir_figures, exist_ok=True)
     fig_waveforms, axs = plt.subplots(3,2, figsize=(30, 20))
     axs[0, 0].plot(t_st_window+np.arange(len(mic_data))/sfreq, mic_data, color='k')

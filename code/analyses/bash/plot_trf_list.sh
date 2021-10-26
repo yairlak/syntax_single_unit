@@ -7,7 +7,6 @@ DECIMATE=50
 SMOOTH=25
 PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
 #PATIENTS="479_11 502 510 513"
-EACH=" --each-feature-value"
 EACH=""
 
 # Which signal types (micro macro spike)

@@ -219,6 +219,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
         evoked_dict = dict()
         colors_dict = {}
         linestyles_dict = {}
+        styles = {}
         for i_query, query in enumerate(comparison['queries']):
             condition_name = comparison['condition_names'][i_query]
             height_query_data = nums_trials[i_query]
@@ -227,6 +228,13 @@ for ch, ch_name in enumerate(epochs.ch_names):
             if 'ls' in comparison.keys():
                 ls = comparison['ls'][i_query]
                 linestyles_dict[condition_name] = ls
+            if 'lw' in comparison.keys():
+                lw = comparison['lw'][i_query]
+                styles[condition_name] = {"linewidth":lw}
+            else:
+                lw = 3 # default linewidth
+                styles[condition_name] = {"linewidth":lw}
+
             data_curr_query = epochs[query].pick(ch_name).get_data()[:, 0, :] # query and pick channel
             #####################
             # TRIAL-WISE FIGURE #
@@ -251,11 +259,12 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 cmap = 'binary'
             else:
                 cmap = 'RdBu_r'
-            if args.data_type == 'spike' and args.filter == 'raw' and args.smooth_raster: # smooth raster a little bit
+            if args.data_type == 'spike' and args.filter == 'raw':
                 num_trials = data_curr_query.shape[0]
                 data_curr_query_smoothed = data_curr_query.copy()
-                for t in range(num_trials):
-                    data_curr_query_smoothed[t, :] = gaussian_filter1d(data_curr_query[t, :], float(args.smooth_raster)*1000) # 1000Hz is assumed as sfreq
+                if args.smooth_raster: # smooth raster a little bit
+                    for t in range(num_trials):
+                        data_curr_query_smoothed[t, :] = gaussian_filter1d(data_curr_query[t, :], float(args.smooth_raster)*1000) # 1000Hz is assumed as sfreq
                 #im = ax.imshow(data_curr_query_smoothed, interpolation='nearest', aspect='auto', vmin=args.vmin, vmax=args.vmax, cmap=cmap)
                 #print(data_curr_query_smoothed.shape[0])
                 im = ax.imshow(data_curr_query_smoothed, cmap=cmap, interpolation='none', aspect='auto')
@@ -276,7 +285,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 yticklabels = yticklabels[::args.y_tick_step]
                 ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
             ax.set_ylabel(condition_name, fontsize=10, color=color, rotation=0, labelpad=20)
-            ax.axvline(x=0, color='k', ls='--', lw=1) 
+            ax.axvline(x=0, color='k', ls='--', lw=3) 
             # TAKE MEAN FOR ERP FIGURE 
             if args.data_type == 'spike':
                 # Gausssian smoothing of raster ERPs
@@ -318,9 +327,9 @@ for ch, ch_name in enumerate(epochs.ch_names):
         
         if args.data_type == 'spike':
             label_y = 'firing rate (Hz)'
-            ylim = [-1, 30]
+            ylim = [-1, 20]
             # ylim = [None, None]
-            yticks = [0, 10, 20, 30]
+            yticks = [0, 10, 20, 30, 40]
         else:
             if args.filter == 'high-gamma':
                 label_y = 'dB'

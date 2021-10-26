@@ -24,10 +24,10 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='504', help='Patient number')
+parser.add_argument('--patient', default='544', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='macro/micro/spike')
+                    default='micro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
@@ -135,6 +135,7 @@ if args.data_type not in ['spike', 'microphone']:
 
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
+os.makedirs(os.path.join(path2rawdata, 'mne'), exist_ok=True)
 raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
 print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
 

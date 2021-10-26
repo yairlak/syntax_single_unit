@@ -214,3 +214,47 @@ def probename2picks(probe_names, channel_names, data_type):
     return picks
 
 
+def get_all_patient_numbers(remove_patients=None):
+    patient_numbers = []
+    dir_contents = os.listdir('../../Data/UCLA')
+    for item in dir_contents:
+        if item.startswith('patient_'):
+            patient_numbers.append(item[8:])
+    if remove_patients:
+        patient_numbers = list(set(patient_numbers) - set(remove_patients))
+    return sorted(patient_numbers)
+
+
+def get_region2probes():
+    region2probes = {}
+    region2probes['left_fusiform'] = ['LFSG', 'LFGP', 'LFGA']
+    region2probes['right_fusiform'] = ['RFSG', 'RFGP', 'RFGA']
+    region2probes['left_hippocampus'] = ['LAH', 'LMH']
+    region2probes['right_hippocampus'] = ['RAH', 'RMH']
+    region2probes['left_stg'] = ['LSTG']
+    region2probes['right_stg'] = ['RPSTG', 'RSTG']
+    return region2probes
+
+
+def get_patient_probes_of_region(regions, data_types_filters, remove_patients=None):
+    print(regions, data_types_filters)
+    patient_list, data_type_list, filter_list, probe_name_list = [], [], [], []
+
+    # GET TARGET PROBE NAMES
+    region2probes = get_region2probes()
+    for region in regions:
+        target_probe_names = region2probes[region]
+
+    # GET RELEVANT PROBES PER PATIENT
+    all_patients = get_all_patient_numbers(remove_patients)
+    for p in all_patients:
+        for dt_f in data_types_filters:
+            dt, f = dt_f.split('_') # e.g., 'micro_high-gamma'
+            p_names, _ = get_probe_names(p, dt, '../../Data/UCLA/')
+            p_names = [p_name for p_name in p_names if p_name in target_probe_names]
+            if p_names:
+                patient_list.append(f'patient_{p}')
+                data_type_list.append(dt)
+                filter_list.append(f)
+                probe_name_list.append(p_names)
+    return patient_list, data_type_list, filter_list, probe_name_list

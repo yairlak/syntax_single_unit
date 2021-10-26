@@ -7,9 +7,13 @@ def comparison_list():
     
     # SYNTAX
     comparisons['embedding_vs_long'] = {}
-    comparisons['embedding_vs_long']['queries'] = ["embedding==True", "dec_quest==0 and sentence_length==5 and embedding==0"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedded', 'Main']
-    comparisons['embedding_vs_long']['colors'] = ['b', 'g']
+    comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
+                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
+                                                   "embedding==True and block_type=='auditory'",
+                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
+    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
+    comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
+    comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
     comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
     
@@ -29,12 +33,85 @@ def comparison_list():
     comparisons['dec_quest_len2']['tmin_tmax'] = [-0.5, 2.5]
 
     comparisons['grammatical_number'] = {}
-    comparisons['grammatical_number']['queries'] = ["grammatical_number==-1", "grammatical_number==1"]
-    comparisons['grammatical_number']['condition_names'] = ['Singular', 'Plural']
-    comparisons['grammatical_number']['colors'] = ['b', 'g']
+    comparisons['grammatical_number']['queries'] = ["grammatical_number==-1 and block_type=='visual' and pos_simple=='PRP'",
+                                                    "grammatical_number==1 and block_type=='visual' and pos_simple=='PRP'",
+                                                    "grammatical_number==-1 and block_type=='auditory' and pos_simple=='PRP'",
+                                                    "grammatical_number==1 and block_type=='auditory' and pos_simple=='PRP'",
+                                                    "grammatical_number==-1 and block_type=='visual' and pos_simple=='VB'",
+                                                    "grammatical_number==1 and block_type=='visual' and pos_simple=='VB'",
+                                                    "grammatical_number==-1 and block_type=='auditory' and pos_simple=='VB'",
+                                                    "grammatical_number==1 and block_type=='auditory' and pos_simple=='VB'",
+                                                    "grammatical_number==-1 and block_type=='visual' and pos_simple=='NN'",
+                                                    "grammatical_number==1 and block_type=='visual' and pos_simple=='NN'",
+                                                    "grammatical_number==-1 and block_type=='auditory' and pos_simple=='NN'",
+                                                    "grammatical_number==1 and block_type=='auditory' and pos_simple=='NN'"]
+    comparisons['grammatical_number']['condition_names'] = ['Singular Visual PRP', 'Plural Visual PRP', 'Singular Auditory PRP', 'Plural Auditory PRP',
+                                                           'Singular Visual VB', 'Plural Visual VB', 'Singular Auditory VB', 'Plural Auditory VB',
+                                                           'Singular Visual NN', 'Plural Visual NN', 'Singular Auditory NN', 'Plural Auditory NN']
+    comparisons['grammatical_number']['colors'] = ['b', 'b', 'r', 'r', 'b', 'b', 'r', 'r', 'b', 'b', 'r', 'r']
+    comparisons['grammatical_number']['ls'] = ['--', '-', '--', '-', '--', '-', '--', '-', '--', '-', '--', '-']
     comparisons['grammatical_number']['level'] = 'word'
     comparisons['grammatical_number']['y-tick-step'] = 20
     comparisons['grammatical_number']['sort'] = ['word_string']
+    
+    comparisons['A_movement'] = {}
+    comparisons['A_movement']['queries'] = ["different_thematic_role==0 and sentence_length==2 and block_type=='visual'",
+                                            "different_thematic_role==1 and sentence_length==2 and block_type=='visual'",
+                                            "different_thematic_role==0 and sentence_length==2 and block_type=='auditory'",
+                                            "different_thematic_role==1 and sentence_length==2 and block_type=='auditory'"]
+    comparisons['A_movement']['condition_names'] = ['Without A-movement', 'With A-movement']
+    comparisons['A_movement']['colors'] = ['b', 'g']
+    comparisons['A_movement']['level'] = 'sentence'
+    comparisons['A_movement']['y-tick-step'] = 20
+    comparisons['A_movement']['sort'] = ['sentence_string']
+    
+    
+    # Examples
+    target_words = ['The', 'the', 'He', 'She', 'They', 'What', 'Who', 'Whom', 'that']
+    colors = ['r', 'r', 'g', 'c', 'm', 'y', 'orange', 'b', 'g']
+    comparisons['479_11_LSTG7_15p2'] = {}
+    comparisons['479_11_LSTG7_15p2']['queries'] = ["word_string=='The' and block_type=='auditory'",
+                                                   "word_string=='the' and block_type=='auditory'",
+                                                   "word_string=='He' and block_type=='auditory'",
+                                                   "word_string=='She' and block_type=='auditory'",
+                                                   "word_string=='They' and block_type=='auditory'",
+                                                   "word_string=='What' and block_type=='auditory'",
+                                                   "word_string=='Who' and block_type=='auditory'",
+                                                   "word_string=='Whom' and block_type=='auditory'",
+                                                   "word_string=='that' and block_type=='auditory'"]
+                                                   #"word_string=='He' and block_type=='visual'",
+                                                   #"word_string=='She' and block_type=='visual'",
+                                                   #"word_string=='The' and block_type=='visual'",
+                                                   #"word_string=='They' and block_type=='visual'",
+                                                   #"word_string=='What' and block_type=='visual'",
+                                                   #"word_string=='Who' and block_type=='visual'",
+                                                   #"word_string=='Whom' and block_type=='visual'",
+                                                   #"word_string=='that' and block_type=='visual'",
+                                                   #"word_string=='the' and block_type=='visual'",
+                                                   #"word_string=='them' and block_type=='visual'",
+                                                   #"word_string=='they' and block_type=='visual'",
+    comparisons['479_11_LSTG7_15p2']['condition_names'] = target_words # + [w + ' Auditory' for w in target_words]
+    comparisons['479_11_LSTG7_15p2']['colors'] = colors
+    comparisons['479_11_LSTG7_15p2']['ls'] = ['-', '--'] + ['-'] * 7
+    comparisons['479_11_LSTG7_15p2']['level'] = 'word'
+    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = 20
+    comparisons['479_11_LSTG7_15p2']['sort'] = ['word_string']
+    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
+
+    comparisons['505_LFGP6_30p2'] = {}
+    comparisons['505_LFGP6_30p2']['queries'] = ["word_string.str.contains('w') and ~word_string.str.startswith('W') and ~word_string.str.startswith('w')",
+                                                "word_string.str.startswith('W')",
+                                                "word_string.str.startswith('w')",
+                                                "(word_string.str.contains('m') or word_string.str.contains('v')) and (~word_string.str.contains('W') and ~word_string.str.contains('w'))"]
+    comparisons['505_LFGP6_30p2']['condition_names'] = ['Middle or end w', 'Starts with W (sentence onset)', 'Starts with w', 'No w']
+    comparisons['505_LFGP6_30p2']['colors'] = ['g', 'r', 'r', 'k']
+    comparisons['505_LFGP6_30p2']['ls'] = ['-', '-', '--', '-']
+    comparisons['505_LFGP6_30p2']['lw'] = [3, 3, 3, 3]
+    comparisons['505_LFGP6_30p2']['level'] = 'word'
+    comparisons['505_LFGP6_30p2']['y-tick-step'] = 20
+    comparisons['505_LFGP6_30p2']['sort'] = ['word_string']
+    comparisons['505_LFGP6_30p2']['tmin_tmax'] = [-0.1, 0.6]
+    
     
     # LEXICON
     comparisons['pos_simple'] = {}
@@ -83,6 +160,15 @@ def comparison_list():
     comparisons['word_string']['tmin_tmax'] = [-0.5, 1.2]
     comparisons['word_string']['sort'] = ['block_type', 'chronological_order']
     
+    comparisons['word_length'] = {}
+    comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]
+    comparisons['word_length']['condition_names'] = ['Short words', 'Long words']
+    comparisons['word_length']['colors'] = ['b', 'r']
+    comparisons['word_length']['level'] = 'word'
+    comparisons['word_length']['y-tick-step'] = 20
+    comparisons['word_length']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_length']['sort'] = ['block_type', 'chronological_order']
+    
     comparisons['word_string_visual'] = {}
     comparisons['word_string_visual']['queries'] = "word_string"
     comparisons['word_string_visual']['fixed_constraint'] = "block_type=='visual'"
@@ -129,6 +215,7 @@ def comparison_list():
     comparisons['all_end_trials']['sort'] = ['sentence_length', 'sentence_string']
     comparisons['all_end_trials']['y-tick-step'] = 50
     comparisons['all_end_trials']['tmin_tmax'] = [-3.5, 1]
+    comparisons['all_end_trials']['level'] = 'sentence_offset'
 
 # ALL TRIALS
     comparisons['all_trials'] = {}

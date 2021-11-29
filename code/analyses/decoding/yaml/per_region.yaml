@@ -1,0 +1,17 @@
+# LAUNCH ALL COMBINATIONS:
+#
+comparison-name: ['embedding_vs_long', 'wh_subj_obj', 'dec_quest_2words', 'high_low_op_nodes', 'morph_complex', 'grammatical_number', 'gender', 'subject_type', 'high_low_freq', 'pos_simple', 'tense', 'manner_of_articulation', 'word_string']
+comparison-name-test: [null]
+region: ['left_fusiform', 'left_stg']
+block-train: ['visual', 'auditory']
+block-test: ['visual', 'auditory']
+data-type: ['micro', 'spike']
+filter: ['raw']
+fixed-constraint: [null]
+fixed-constraint-test: [null]
+classifier: ['logistic']
+vmin: [null]
+vmax: [null]
+tmin: [null]
+tmax: [null]
+decimate: [25]

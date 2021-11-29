@@ -30,7 +30,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=20)  # we already handled the x-label with ax1
+    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  # we already handled the x-label with ax1
     ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
     ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
@@ -86,10 +86,10 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
             get_scores_by_time(results, i_channel, 'full')
     
     # Draw full-model results
-    ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
+    #ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=20)  
+    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
     ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
     ax2.fill_between(times_word_epoch*1e3,
                      scores_by_time_full_mean+scores_by_time_full_sem,
@@ -98,6 +98,8 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
                      alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
     ax2.set_ylim((0, 1)) 
+    ax2.set_xlim((-100, 600)) 
+
     
     feature_names = []  # performance of the full model must be calculated
     if args.each_feature_value:
@@ -129,17 +131,17 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
         #        marker=marker, markersize=15, label=feature_name)
         #ax.fill_between(times_word_epoch*1e3, diff_mean + diff_std, diff_mean - diff_std , color=color, alpha=0.2)
     
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
-    ax.set_xlabel('Time (msec)', fontsize=20)
-    ax.set_ylabel(r'$\Delta r$', fontsize=20)
+    #ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
+    ax.set_xlabel('Time (msec)', fontsize=40)
+    ax.set_ylabel(r'$\Delta r$', fontsize=40)
     ax.set_ylim((0, 0.3))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
-    ax.tick_params(axis='both', labelsize=18)
-    ax2.tick_params(axis='both', labelsize=18)
-    plt.subplots_adjust(right=0.65)
+    ax.tick_params(axis='both', labelsize=35)
+    ax2.tick_params(axis='both', labelsize=35)
+    #plt.subplots_adjust(right=0.65)
     
     return fig
 

@@ -4,17 +4,16 @@ MAT=""
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 #PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539"
 #PATIENTS="479_11 479_25 482 489 493 499 505 513 515 538"
-PATIENTS="502"
+PATIENTS="499"
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike microphone"
-DTYPES="micro"
+DTYPES="spike micro macro"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
-FILTERS="high-gamma"
 
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 queue="Nspin_long"
 walltime="02:00:00"

@@ -89,7 +89,8 @@ def read_events(args):
     return time_stamps, event_nums_zero, sfreq
 
 
-def read_logs(time_stamps, event_nums_zero, args):
+def read_logs(time_stamps, event_nums_zero, args, start_event=100,
+              missing_first_events=0):
     
     logs_folder = os.path.join('..', '..', '..', 'Data', 'UCLA',
                                'patient_' + args.patient, 'Logs')
@@ -106,7 +107,14 @@ def read_logs(time_stamps, event_nums_zero, args):
             lines_log = f.readlines()
         str_CHEETAH = 'CHEETAH_SIGNAL SENT_AFTER_TIME'
         times_log = np.asarray([float(l.split()[0]) for l in lines_log if str_CHEETAH in l]).reshape(-1, 1)
+        if i_log == 0:
+            next_expected_event = start_event
+            if missing_first_events>0:
+                times_log = times_log[missing_first_events::]
+        else:
+            next_expected_event = 100
         num_triggers = len(times_log)    
+        
         if num_triggers>0:
             dict_events[cnt_log] = {}
             dict_events[cnt_log]['log_filename'] = fn_log
@@ -115,7 +123,6 @@ def read_logs(time_stamps, event_nums_zero, args):
             dict_events[cnt_log]['times_log'] = times_log
             # FIND EVENTS TIMES        
             times_device, IXs2event_nums_zero = [], []
-            next_expected_event = 100
             for i_trigger in range(num_triggers):
                 curr_event, curr_time = event_nums_zero[IX_time_stamps], time_stamps[IX_time_stamps]
                 while curr_event != next_expected_event: # roll array until next expected event arrives

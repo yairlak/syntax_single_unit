@@ -7,15 +7,24 @@ def comparison_list():
     
     # SYNTAX
     comparisons['embedding_vs_long'] = {}
-    comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
-                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
-                                                   "embedding==True and block_type=='auditory'",
-                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
-    comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
-    comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
+    comparisons['embedding_vs_long']['queries'] = ["embedding==True",
+                                                   "dec_quest==0 and sentence_length==5 and embedding==0"]
+    comparisons['embedding_vs_long']['condition_names'] = ['Embedded', 'Long']
+    comparisons['embedding_vs_long']['colors'] = ['b', 'r']
+    comparisons['embedding_vs_long']['ls'] = ['--', '-']
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
     comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
+    
+    #comparisons['embedding_vs_long'] = {}
+    #comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
+    #                                               "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
+    #                                               "embedding==True and block_type=='auditory'",
+    #                                               "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
+    #comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
+    #comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
+    #comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
+    #comparisons['embedding_vs_long']['level'] = 'sentence_offset'
+    #comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
     
     comparisons['wh_subj_obj_len5'] = {}
     comparisons['wh_subj_obj_len5']['queries'] = ["wh_subj_obj==1 and sentence_length>3", "wh_subj_obj==-1 and sentence_length>3"]
@@ -112,7 +121,33 @@ def comparison_list():
     comparisons['505_LFGP6_30p2']['sort'] = ['word_string']
     comparisons['505_LFGP6_30p2']['tmin_tmax'] = [-0.1, 0.6]
     
+   
+    # ORTHOGRAPHY
+    comparisons['the_they'] = {}
+    comparisons['the_they']['queries'] = ["word_position==1 and word_string in ['The']", "word_position==1 and word_string in ['They']"]
+    comparisons['the_they']['condition_names'] = ["The", "They"]
+    comparisons['the_they']['colors'] = ["b", "r"]
+    comparisons['the_they']['sort'] = ['word_string']
+    comparisons['the_they']['level'] = 'sentence_onset'
+    comparisons['the_they']['tmin_tmax'] = [-0.2, 0.6]
     
+    comparisons['he_she'] = {}
+    comparisons['he_she']['queries'] = ["word_position==1 and word_string in ['He']", "word_position==1 and word_string in ['She']"]
+    comparisons['he_she']['condition_names'] = ["He", "She"]
+    comparisons['he_she']['colors'] = ["b", "r"]
+    comparisons['he_she']['sort'] = ['word_string']
+    comparisons['he_she']['level'] = 'sentence_onset'
+    comparisons['he_she']['tmin_tmax'] = [-0.2, 0.6]
+    
+    comparisons['what_who'] = {}
+    comparisons['what_who']['queries'] = ["word_position==1 and word_string in ['What']", "word_position==1 and word_string in ['Who']"]
+    comparisons['what_who']['condition_names'] = ["What", "Who"]
+    comparisons['what_who']['colors'] = ["b", "r"]
+    comparisons['what_who']['sort'] = ['word_string']
+    comparisons['what_who']['level'] = 'sentence_onset'
+    comparisons['what_who']['tmin_tmax'] = [-0.2, 0.6]
+
+
     # LEXICON
     comparisons['pos_simple'] = {}
     comparisons['pos_simple']['queries'] = "pos_simple"
@@ -161,8 +196,9 @@ def comparison_list():
     comparisons['word_string']['sort'] = ['block_type', 'chronological_order']
     
     comparisons['word_length'] = {}
-    comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]
-    comparisons['word_length']['condition_names'] = ['Short words', 'Long words']
+    #comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]
+    comparisons['word_length']['queries'] = 'word_length'
+    comparisons['word_length']['condition_names'] = []
     comparisons['word_length']['colors'] = ['b', 'r']
     comparisons['word_length']['level'] = 'word'
     comparisons['word_length']['y-tick-step'] = 20
@@ -313,7 +349,26 @@ def comparison_list():
     comparisons['number_pronouns_verbs']['colors'] = ['r', 'b', 'r', 'b']
     comparisons['number_pronouns_verbs']['ls'] = ['-', '-', '--', '--']
     comparisons['number_pronouns_verbs']['sort'] = ['num_letters', 'word_string']
-    
+   
+
+    # Nouns:
+    comparisons['number'] = {}
+    comparisons['number']['queries'] = ["grammatical_number==-1 and (pos_simple in ['NN', 'VB'])", "grammatical_number==1 and (pos_simple in ['NN', 'VB'])"]
+    comparisons['number']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number']['colors'] = ['b', 'g']
+    comparisons['number']['sort'] = ['word_string']
+    comparisons['number']['level'] = 'word'
+    comparisons['number']['tmin_tmax'] = [-0.2, 0.6]
+
+    comparisons['number_pronoun'] = {}
+    comparisons['number_pronoun']['queries'] = ["word_string in ['he', 'she']", "word_string in ['We', 'they']"]
+    comparisons['number_pronoun']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number_pronoun']['colors'] = ['b', 'g']
+    comparisons['number_pronoun']['sort'] = ['word_string']
+    comparisons['number_pronoun']['level'] = 'word'
+    comparisons['number_pronoun']['tmin_tmax'] = [-0.2, 0.6]
+
+
     # Nouns:
     comparisons['grammatical_number_nouns'] = {}
     comparisons['grammatical_number_nouns']['queries'] = ["sentence_length<4 and word_position==2 and (word_string in ['boy', 'girl', 'man', 'woman', 'host', 'grandpa'])", "sentence_length<4 and word_position==2 and (word_string in ['boys', 'girls', 'men', 'women', 'actors'])"]
@@ -374,11 +429,6 @@ def comparison_list():
 
 
 
-# Number of letters
-    comparisons['word_length'] = {}
-    comparisons['word_length']['queries'] = "num_letters"
-    comparisons['word_length']['condition_names'] = []
-    comparisons['word_length']['colors'] = []
 
 # Short vs. Long Words
     comparisons['short_vs_long_words'] = {}

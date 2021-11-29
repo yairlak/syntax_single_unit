@@ -2,8 +2,8 @@ clear; close all; clc;
 addpath(genpath('releaseDec2015'), genpath('NPMK-5.5.0.0'), genpath('functions'))
 
 %%
-patient = 'patient_544';
-elec_type = 'micro'; % micro / macro
+patient = 'patient_530';
+elec_type = 'macro'; % micro / macro
 recording_system = 'BlackRock'; % Neuralynx / BlackRock
 
 %% pathsls 

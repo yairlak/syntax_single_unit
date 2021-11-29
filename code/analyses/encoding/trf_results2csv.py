@@ -28,7 +28,7 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
 parser.add_argument('--filter', action='append',
                     default=[],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=25,
+parser.add_argument('--smooth', default=50,
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -44,7 +44,7 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models', 'scatters'))
-parser.add_argument('--decimate', default=None, type=float,
+parser.add_argument('--decimate', default=50.0, type=float,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
@@ -83,7 +83,9 @@ df = pd.DataFrame()
 dict_hemi = {'L':'Left', 'R':'Right'}
 
 print('Collecting results...')
-patients="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
+
+patients="479_11 479_25 482 502 505 510 513 515 530 538 539 540 541 543"
+
 
 for patient in patients.split():
     print(f'Patient - {patient}') 
@@ -93,10 +95,14 @@ for patient in patients.split():
 
         args.query_train = {'auditory':'block in [2,4,6] and word_length>1',
                             'visual':'block in [1,3,5] and word_length>1'}[block]
+        args.feature_list = {'auditory':['is_first_word', 'word_onset'] + "positional_phonology_lexicon_syntax".split('_'),
+                             'visual':['is_first_word', 'word_onset'] + "positional_orthography_lexicon_syntax".split('_')}[block]
         args.patient = ['patient_' + patient]
-        list_args2fname = ['patient', 'data_type', 'filter', 'smooth',
-                           'model_type', 'probe_name', 'ablation_method',
-                           'query_train', 'each_feature_value']
+        list_args2fname = ['patient', 'data_type', 'filter',
+                           'decimate', 'smooth', 'model_type',
+                           'probe_name', 'ablation_method',
+                           'query_train', 'feature_list', 'each_feature_value']
+
 
         args2fname = args.__dict__.copy()
         fname = dict2filename(args2fname, '_', list_args2fname, '', True)
@@ -115,7 +121,6 @@ for patient in patients.split():
 
     for i_ch, ch_name in enumerate(ch_names):
         probe_name = get_probe_name(ch_name, args.data_type[0])
-        
         for feature in list(set(list(feature_info.keys()) + ['orthography', 'phonology'])) + ['full']:
             
             dict_cv_score, mean_score = {}, {}

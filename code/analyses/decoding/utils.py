@@ -6,103 +6,86 @@ Created on Wed May 26 14:56:07 2021
 @author: yl254115
 """
 import numpy as np
-from sklearn.model_selection import StratifiedKFold
+import sys
+sys.path.append('..')
 
 
-def get_3by3_train_test_data(epochs_list, phone_strings, n_splits):
-    cv = StratifiedKFold(n_splits=n_splits, random_state=0, shuffle=True)
-    data_phones = {}
-    for ph in phone_strings:
-        data_phones[ph] = {}
-        queries = [f'(block in [2, 4, 6]) and (phone_string=="{ph}")']
-        X, y, stimuli = prepare_data_for_classifier(epochs_list, queries)
-        for i_split, (IXs_train, IXs_test) in enumerate(cv.split(X, y)):
-            data_phones[ph][i_split] = {}
-            data_phones[ph][i_split]['train'] = {}
-            data_phones[ph][i_split]['train']['X'] = X[IXs_train]
-            data_phones[ph][i_split]['train']['y'] = y[IXs_train]
-            data_phones[ph][i_split]['train']['stimuli'] = stimuli[IXs_train]
-            data_phones[ph][i_split]['test'] = {}
-            data_phones[ph][i_split]['test']['X'] = X[IXs_test]
-            data_phones[ph][i_split]['test']['y'] = y[IXs_test]
-            data_phones[ph][i_split]['test']['stimuli'] = stimuli[IXs_test]
-    return data_phones
+def get_comparisons(comparison_name, comparison_name_test=None):
+    from utils import comparisons
+    
+    # MAIN COMPARISON
+    comparisons = comparisons.comparison_list()
+    comparison = comparisons[comparison_name].copy()
+    
+    # TEST COMPARISON
+    if comparison_name_test:
+        comparison_test = comparisons[comparison_name_test].copy()
+    else:
+        comparison_test = None
+
+    return [comparison, comparison_test]
 
 
-def lump_data_together(data, target_ph, vs_phs, i_split, train_test):
-    '''
-    Cat data together. Set the labels of the target phone to zero,
-    And the others' to one.
-    Parameters
-    ----------
-    data : dict
-        DESCRIPTION.
-    target_ph : str
-        Target phone
-    vs_phs : list of strings
-        list of phones in the other class
-    i_split : int
-        DESCRIPTION
-    train_test: string
-        Either 'train' or 'test'
 
-    Returns
-    -------
-    X : TYPE
-        DESCRIPTION.
-    y : TYPE
-        DESCRIPTION.
-    stimuli : TYPE
-        DESCRIPTION.
+def update_args(args):
+    from utils.utils import get_all_patient_numbers
+    from utils.utils import get_patient_probes_of_region
 
-    '''
-    X, y, stimuli = [], [], []
-    X.append(data[target_ph][i_split][train_test]['X'])
-    y.append(np.zeros_like(data[target_ph][i_split][train_test]['y']))  # 0
-    stimuli.extend(data[target_ph][i_split][train_test]['stimuli'])
-    for ph in vs_phs:
-        X.append(data[ph][i_split][train_test]['X'])
-        y.append(np.ones_like(data[ph][i_split][train_test]['y']))  # 1
-        stimuli.extend(data[ph][i_split][train_test]['stimuli'])
-    X = np.vstack(X)
-    y = np.concatenate(y, axis=0)
+    assert args.block_train
 
-    return X, y, stimuli
+    if not args.patient:
+        args.patient = get_all_patient_numbers(path2data='../../Data/UCLA')
+        args.data_type *= len(args.patient)
+        args.filter *= len(args.patient)
+    args.patient = ['patient_' + p for p in  args.patient]
+
+    if args.ROIs:
+        # Overwrite args.patient and probe_name, based on region info
+        assert args.data_type_filters
+        args.patient, args.data_type, args.filter, args.probe_name = \
+                get_patient_probes_of_region(args.ROIs, args.data_type_filters)
+
+    if args.comparison_name == args.comparison_name_test:
+        args.comparison_name_test = None
+    
+    if args.comparison_name_test:
+        args.GAC = True # Generalization across conditions
+    else:
+        args.GAC = False
+
+    if args.block_train == args.block_test:
+        args.block_test = None
+    
+    if args.block_test:
+        args.GAM = True # Generalization across modalities
+        # For GAM, test comparison is same as train comparison
+        args.comparison_name_test = args.comparison_name
+    else:
+        args.GAM = False
+
+    return args
 
 
-def prepare_data_for_classifier(epochs_list, queries,
-                                list_class_numbers=None,
-                                min_trials=0):
-    '''
-    cat epochs data across channel dimension and then prepare for classifier
-    '''
-    X_all_queries, y_all_queries, stimuli = [], [], []
-    for q, query in enumerate(queries):
-        if 'heard' in query:  # HACK! for word_string
-            continue
-        if 'END_OF_WAV' in query:  # HACK! for phone_string
-            continue
-        if epochs_list[0][query].get_data().shape[0] < min_trials:
-            print(f'Less than {min_trials} trials matched query: {query}')
-            continue
+def get_args2fname(args):
 
-        X = []
-        for epochs in epochs_list:
-            if q == 0:
-                stimuli.extend(epochs[query].metadata['phone_string'])
-            curr_data = epochs[query].get_data()
-            X.append(curr_data)
-        X = np.concatenate(X, axis=1)  # cat along channel (feature) dimension
-        X_all_queries.append(X)
-        num_trials = curr_data.shape[0]
-        if list_class_numbers:
-            class_number = list_class_numbers[q]
-        else:
-            class_number = q + 1
-        y_all_queries.append(np.full(num_trials, class_number))
+    list_args2fname = ['comparison_name', 'block_train']
+    if args.comparison_name_test:
+        list_args2fname += ['comparison_name_test']
+    if args.block_test:
+        list_args2fname += ['block_test']
+    if args.data_type_filters:
+        list_args2fname += ['data_type_filters']
+    else:
+        list_args2fname += ['data_type', 'filter']
+    if args.ROIs:
+        list_args2fname.append('ROIs')
+    elif args.probe_name:
+        list_args2fname.append('probe_name')
+    list_args2fname += ['smooth', 'decimate']
+    if args.responsive_channels_only:
+        list_args2fname += ['responsive_channels_only']
 
-    # cat along the trial dimension
-    X_all_queries = np.concatenate(X_all_queries, axis=0)
-    y_all_queries = np.concatenate(y_all_queries, axis=0)
+    return list_args2fname
 
-    return X_all_queries, y_all_queries, np.asarray(stimuli)
+
+

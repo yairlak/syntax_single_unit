@@ -57,8 +57,8 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
@@ -73,6 +73,12 @@ args.patient = ['patient_' + p for p in args.patient]
 args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
+
+args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography_lexicon_syntax'.split('_') 
+args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography'.split('_') 
+
+
+
 print('args\n', args)
 list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 'smooth',
                    'model_type', 'probe_name', 'ablation_method',

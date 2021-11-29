@@ -33,6 +33,9 @@ parser.add_argument('--filter', default='raw',
 parser.add_argument('--from-mat',
                     default=False, action='store_true',
                     help='Load data from mat files.')
+parser.add_argument('--ch-names-from-file',
+                    default=False, action='store_true',
+                    help='Load data from mat files.')
 parser.add_argument('--sfreq-downsample', type=int,
                     default=1000, help='Downsampling frequency')
 parser.add_argument('--line-frequency',
@@ -47,7 +50,8 @@ path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
 raw = data_manip.generate_mne_raw(args.data_type,
                                   args.from_mat,
                                   path2rawdata,
-                                  args.sfreq_downsample)
+                                  args.sfreq_downsample,
+                                  args.ch_names_from_file)
 
 if args.data_type != 'microphone':
     # Downsample

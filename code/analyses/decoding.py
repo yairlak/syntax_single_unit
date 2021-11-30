@@ -104,7 +104,7 @@ metadata = data.epochs[0].metadata
 comparisons[0] = update_queries(comparisons[0], args.block_train, 
                                 args.fixed_constraint, metadata)
 comparisons[1] = update_queries(comparisons[1], args.block_test,
-                                args.fixed_constraint, metadata)
+                                args.fixed_constraint_test, metadata)
 [pprint(comparison) for comparison in comparisons] 
 
 
@@ -115,6 +115,7 @@ X, y, stimuli= prepare_data_for_classification(data.epochs,
                                                args.classifier,
                                                args.min_trials,
                                                verbose=True)
+stimuli_gen = []
 if args.GAC or args.GAM:
     if args.GAC: print('-'*30, '\nGeneralization Across Conditions\n', '-'*30)
     if args.GAM: print('-'*30, '\nGeneralization Across Modalities\n', '-'*30)
@@ -130,7 +131,8 @@ clf, time_gen = define_model(args)
 
 
 # LEAVE-ONE-OUT EVALUATION 
-print('\n', '-'*40,f'Training a {args.classifier} model for a {y.max() + 1}-class problem', '-'*40)
+print('\n', '-'*40, 
+      f'\nTraining a {args.classifier} model for a {len(list(set(y)))}-class problem\n', '-'*40)
 loo = KFold(X.shape[0], shuffle=True, random_state=1)
 scores = []
 for i_split, (IXs_train, IX_test) in enumerate(loo.split(X, y)):
@@ -174,5 +176,5 @@ args2fname = get_args2fname(args) # List of args
 fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
 fname_pkl = os.path.join(args.path2output, fname_pkl)
 with open(fname_pkl, 'wb') as f:
-     pickle.dump([scores, pvals, data.epochs[0].times, time_gen, clf, comparisons, stimuli, args], f)
+     pickle.dump([scores, pvals, data.epochs[0].times, time_gen, clf, comparisons, (stimuli, stimuli_gen), args], f)
 print(f'Results saved to: {fname_pkl}')

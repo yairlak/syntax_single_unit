@@ -10,7 +10,8 @@ TMAX=1.2
 
 # TAKE ALL PATINETS
 COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string"
-DTYPE_FILTERS="micro_raw"
+COMPARISONS="number"
+DTYPE_FILTERS="micro_raw spike_raw micro_high-gamma"
 BLOCK_TRAINS="visual auditory"
 BLOCK_TESTS="visual auditory"
 
@@ -34,6 +35,7 @@ for BLOCK_TRAIN in $BLOCK_TRAINS; do
                         #echo $BLOCK_TRAIN $BLOCK_TEST $COMPARISON $DTYPE_FILTER $ROI $TMIN $TMAX $CLASSIFIER $SMOOTH $DECIMATE
                         path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
                         filename_py="decoding.py --comparison-name "$COMPARISON" --tmin "$TMIN" --tmax "$TMAX" --classifier "$CLASSIFIER" --ROIs "$ROI" --smooth "$SMOOTH" --data-type_filters "$DTYPE_FILTER" --decimate "$DECIMATE" --block-train "$BLOCK_TRAIN" --block-test "$BLOCK_TEST
+			#" --min-trials 18 --fixed-constraint 'word_position==1'"
                         output_log='logs/out_trf_'$ROI
                         error_log='logs/err_trf_'$ROI
                         job_name=$ROI

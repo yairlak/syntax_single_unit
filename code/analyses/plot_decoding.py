@@ -77,7 +77,7 @@ tmin, tmax = times.min(), times.max()
 ############
 fig, ax = plt.subplots(1, figsize=(10,10))
 vmax = np.max(np.mean(scores, axis=0))
-chance_level = 1/len(comparisons[0]['queries'])
+chance_level = 1/len(stimuli)
 if args_decoding.gat:
     im = ax.matshow(np.mean(scores, axis=0), cmap='RdBu_r', origin='lower', extent=times[[0, -1, 0, -1]], vmin=1-vmax, vmax=vmax)
     ax.axhline(0., color='k')

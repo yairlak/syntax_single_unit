@@ -353,7 +353,7 @@ def comparison_list():
 
     # Nouns:
     comparisons['number'] = {}
-    comparisons['number']['queries'] = ["grammatical_number==-1 and (pos_simple in ['NN', 'VB'])", "grammatical_number==1 and (pos_simple in ['NN', 'VB'])"]
+    comparisons['number']['queries'] = ["grammatical_number==-1 and (pos_simple in ['NN'])", "grammatical_number==1 and (pos_simple in ['NN'])"]
     comparisons['number']['condition_names'] = ['Singular', 'Plural']
     comparisons['number']['colors'] = ['b', 'g']
     comparisons['number']['sort'] = ['word_string']

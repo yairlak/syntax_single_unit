@@ -128,7 +128,7 @@ def update_queries(comp, block_type, fixed_constraint, metadata):
     return comp
 
 
-def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False):
+def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False, order=None):
     '''
     This function generates a filename that contains chosen keys-values pairs from a dictionary.
     For example, the dict can represent hyperparameters of a model or settings.
@@ -156,7 +156,12 @@ def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=Fal
     # add extension
     if len(extension) > 0:
         extension = '.' + extension
-    
+ 
+    if not order:
+        pass
+        #keys_to_use.sort()
+    else:
+        keys_to_use = np.asarray(keys_to_use)[order]
     if show_values_only:
         l = []
         for k in keys_to_use:

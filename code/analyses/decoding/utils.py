@@ -63,6 +63,9 @@ def update_args(args):
     else:
         args.GAM = False
 
+    if args.fixed_constraint and (not args.fixed_constraint_test):
+        args.fixed_constraint_test = args.fixed_constraint
+
     return args
 
 

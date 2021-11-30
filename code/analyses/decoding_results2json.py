@@ -73,56 +73,68 @@ args.patient = ['patient_' + p for p in  args.patient]
 if args.comparison_name == args.comparison_name_test: args.comparison_name_test = None
 
 keys = ['fvals', 'clusters', 'cluster_p_values', 'H0', 'max_decoding', 'scores', 'data-type_filters',
-        'block_train', 'block_test', 'ROI', 'comparison_name']
+        'block_train', 'block_test', 'ROI', 'comparison_name', 'pvals']
 dict_decoding_results = {}
 for k in keys:
     dict_decoding_results[k] = []
 
-for comparison_name in ['dec_quest_len2', 'embedding_vs_long', 'number']:
-    args.comparison_name = comparison_name
-    for block_train in ['visual', 'auditory']:
-        for block_test in ['visual', 'auditory']:
-            # LOOP OVER ROIs
-            for ROI in ROIs:
-                # FILENAME FOR RESULTS
-                args.block_train = block_train
-                args.block_test = block_test
-                args.ROIs = ROI
-                args2fname = get_args2fname(args) # List of args
-                fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
-                fname_pkl = os.path.join(args.path2output, fname_pkl)
-                try:
-                    results = pickle.load(open(fname_pkl, 'rb'))
-                    print(f'Reading: {fname_pkl}')
-                    scores, times, tmin, tmax, time_gen, clf, args_decoding = results
-                    fvals, clusters, cluster_p_values, H0 = \
-                    permutation_cluster_1samp_test(np.asarray(scores)-0.5,
-                                       n_permutations=1000,
-                                       threshold=None, tail=0,
-                                       n_jobs=-1, verbose=False,
-                                       seed=42, out_type='mask')
-                    dict_decoding_results['fvals'].append(fvals)
-                    dict_decoding_results['clusters'].append(clusters)
-                    dict_decoding_results['cluster_p_values'].append(cluster_p_values)
-                    dict_decoding_results['H0'].append(H0)
-                    dict_decoding_results['max_decoding'].append(scores.mean(axis=0).max())
-                    dict_decoding_results['scores'].append(scores)
-                    #dict_decoding_results['scores_std'] = [scores.std(axis=0)]
-                    dict_decoding_results['block_train'].append(block_train)
-                    dict_decoding_results['block_test'].append(block_test)
-                    dict_decoding_results['ROI'].append(ROI)
-                    dict_decoding_results['comparison_name'].append(args.comparison_name)
-                    dict_decoding_results['data-type_filters'].append(args.data_type_filters)
-                except:
-                    print(f'Decoding results not found: {fname_pkl}')
+for data_type in ['micro', 'spike']:
+    args.data_type = 'micro'
+    for filt in ['raw', 'high-gamma']:
+        args.filter = filt
+        for comparison_name in ['dec_quest_len2', 'embedding_vs_long', 'number', 'word_string']:
+            args.comparison_name = comparison_name
+            for block_train in ['visual', 'auditory']:
+                for block_test in ['visual', 'auditory']:
+                    if block_train != block_test:
+                        args.comparison_name_test = comparison_name
+                    else:
+                        args.comparison_name_test = None
+                    # LOOP OVER ROIs
+                    for ROI in ROIs:
+                        # FILENAME FOR RESULTS
+                        args.block_train = block_train
+                        if block_test != block_train:
+                            args.block_test = block_test
+                        else:
+                            args.block_test = None
+                        args.ROIs = ROI
+                        args2fname = get_args2fname(args) # List of args
+                        fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
+                        fname_pkl = os.path.join(args.path2output, fname_pkl)
+                        try:
+                            results = pickle.load(open(fname_pkl, 'rb'))
+                            print(f'Reading: {fname_pkl}')
+                            scores, pvals, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+                            fvals, clusters, cluster_p_values, H0 = None, None, None, None
+                            #permutation_cluster_1samp_test(np.asarray(scores)-0.5,
+                            #                   n_permutations=1000,
+                            #                   threshold=None, tail=0,
+                            #                   n_jobs=-1, verbose=False,
+                            #                   seed=42, out_type='mask')
+                            dict_decoding_results['fvals'].append(fvals)
+                            dict_decoding_results['pvals'].append(pvals)
+                            dict_decoding_results['clusters'].append(clusters)
+                            dict_decoding_results['cluster_p_values'].append(cluster_p_values)
+                            dict_decoding_results['H0'].append(H0)
+                            dict_decoding_results['max_decoding'].append(scores.mean(axis=0).max())
+                            dict_decoding_results['scores'].append(scores)
+                            #dict_decoding_results['scores_std'] = [scores.std(axis=0)]
+                            dict_decoding_results['block_train'].append(block_train)
+                            dict_decoding_results['block_test'].append(block_test)
+                            dict_decoding_results['ROI'].append(ROI)
+                            dict_decoding_results['comparison_name'].append(args.comparison_name)
+                            dict_decoding_results['data-type_filters'].append(args.data_type_filters)
+                        except:
+                            print(f'Decoding results not found: {fname_pkl}')
 
 df = pd.DataFrame.from_records(dict_decoding_results)
 print(df)
 if not df.empty:
     dtype_filters = '-'.join(args.data_type_filters)
-    fn_csv = f'../../Output/decoding/decoding_results_{dtype_filters}.csv'
-    df.to_csv(fn_csv, index=False)
-    print(f'CSV file saved to: {fn_csv}')
+    fn_json = f'../../Output/decoding/decoding_results.json'
+    df.to_json(fn_json)
+    print(f'JSON file saved to: {fn_json}')
 
 
 #for patient in patients.split():

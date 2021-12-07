@@ -123,6 +123,8 @@ def update_queries(comp, block_type, fixed_constraint, metadata):
     # Add fixed constraint if provided in args (for example, to limit to first phone in auditory blocks)
     if fixed_constraint:
         comp['fixed_constraint'] = fixed_constraint
+    if 'fixed_constraint' in comp.keys():
+        fixed_constraint = comp['fixed_constraint']
         comp['queries'] = [f'({q}) and ({fixed_constraint})' for q in comp['queries']]
 
     return comp

@@ -5,12 +5,12 @@ CLUSTER=1
 CLASSIFIER='logistic'
 SMOOTH=50
 DECIMATE=50
-TMIN=-0.5
+TMIN=-0.2
 TMAX=1.2
 
 # TAKE ALL PATINETS
-COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string"
-COMPARISONS="number"
+COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string_first"
+COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple"
 DTYPE_FILTERS="micro_raw spike_raw micro_high-gamma"
 BLOCK_TRAINS="visual auditory"
 BLOCK_TESTS="visual auditory"

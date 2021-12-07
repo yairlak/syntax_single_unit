@@ -121,8 +121,8 @@ if args.GAC or args.GAM:
     if args.GAM: print('-'*30, '\nGeneralization Across Modalities\n', '-'*30)
     X_gen, y_gen, stimuli_gen= prepare_data_for_classification(data.epochs,
                                                                comparisons[1]['queries'],
-                                                               args.min_trials,
                                                                args.classifier,
+                                                               args.min_trials,
                                                                verbose=True)
 
    
@@ -164,13 +164,12 @@ scores = np.asarray(scores).squeeze()
 print(f'Max score: {scores.mean(axis=0).max()}')
 
 # STATS
-if args.multi_class:
-    pvals = []
-else:
-    pvals = np.asarray([stats.binom_test(success.sum(),
-                                         n=len(success),
-                                         p=0.5,
-                                         alternative='greater') for success in scores.T])
+n_classes = len(list(set(y)))
+pvals = np.asarray([stats.binom_test(success.sum(),
+                                     n=len(success),
+                                     p=1/n_classes,
+                                     alternative='greater') for success in scores.T])
+assert len(list(set(y))) == len(stimuli)
 # SAVE
 args2fname = get_args2fname(args) # List of args
 fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)

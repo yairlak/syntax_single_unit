@@ -218,10 +218,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         n_outputs = y.shape[2]
         y = y.reshape([-1, n_outputs], order='F')
         y_pred = y_pred.reshape([-1, n_outputs], order='F')
-        print(y.shape, y_pred.shape)
         score_sentence, pval = stats.spearmanr(y_pred, y)
-        print(score_sentence.shape, pval.shape)
-        print(score_sentence, pval)
         #score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
         #                                   y_sentence[:, test, :])
         print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')

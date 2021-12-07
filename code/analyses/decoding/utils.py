@@ -85,8 +85,8 @@ def get_args2fname(args):
     elif args.probe_name:
         list_args2fname.append('probe_name')
     list_args2fname += ['smooth', 'decimate']
-    if args.responsive_channels_only:
-        list_args2fname += ['responsive_channels_only']
+    #if args.responsive_channels_only:
+    #    list_args2fname += ['responsive_channels_only']
 
     return list_args2fname
 

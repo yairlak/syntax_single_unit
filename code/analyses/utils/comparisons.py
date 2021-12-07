@@ -186,14 +186,15 @@ def comparison_list():
     comparisons['word_position']['level'] = 'word'
 
     # ORTHOGRAPHY
-    comparisons['word_string'] = {}
-    comparisons['word_string']['queries'] = "word_string"
-    comparisons['word_string']['condition_names'] = []
-    comparisons['word_string']['colors'] = []
-    comparisons['word_string']['level'] = 'word'
-    comparisons['word_string']['y-tick-step'] = 20
-    comparisons['word_string']['tmin_tmax'] = [-0.5, 1.2]
-    comparisons['word_string']['sort'] = ['block_type', 'chronological_order']
+    comparisons['word_string_first'] = {}
+    comparisons['word_string_first']['queries'] = "word_string"
+    comparisons['word_string_first']['fixed_constraint'] = "word_position==1"
+    comparisons['word_string_first']['condition_names'] = []
+    comparisons['word_string_first']['colors'] = []
+    comparisons['word_string_first']['level'] = 'word'
+    comparisons['word_string_first']['y-tick-step'] = 20
+    comparisons['word_string_first']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_string_first']['sort'] = ['block_type', 'chronological_order']
     
     comparisons['word_length'] = {}
     #comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]

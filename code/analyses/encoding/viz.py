@@ -180,3 +180,54 @@ def get_curve_style(feature_name, feature_info):
         lw = 3
     
     return color, ls, lw, marker
+
+
+def plot_rf_r(times, scores, i_channel, ch_name, feature_info, args):
+    fig, ax = plt.subplots(figsize=(15,10))
+
+    # Draw full-model results
+    scores_full_mean = scores['full']['scores_by_time'][0][:, i_channel]
+    print(scores_full_mean)
+    print(scores_full_mean.shape)
+    color = 'k'
+    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)
+    ax2.plot(times*1e3, scores_full_mean, color=color, lw=3)
+    #ax2.fill_between(times*1e3,
+    #                 scores_full_mean+scores_full_sem,
+    #                 scores_full_mean-scores_full_sem,
+    #                 color=color,
+    #                 alpha=0.2)
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax2.set_ylim((0, 1))
+    ax2.set_xlim((-100, 600))
+
+    feature_names = []  # performance of the full model must be calculated
+    if args.each_feature_value:
+        for f in feature_info.keys():
+            for f_name in feature_info[f]['names']:
+                feature_names.append(f_name)
+    else:
+        feature_names = feature_info.keys()
+
+    for i_feature, feature_name in enumerate(feature_names):
+        scores_mean = scores[feature_name]['scores_by_time'][0][:, i_channel]
+        color, ls, lw, marker = get_curve_style(feature_name, feature_info)
+        ax.plot(times*1e3,
+                scores_full_mean - scores_mean,
+                color=color, ls=ls, lw=lw,
+                marker=marker, markersize=15, label=feature_name)
+    
+    ax.set_xlabel('Time (msec)', fontsize=40)
+    ax.set_ylabel(r'$\Delta r$', fontsize=40)
+    ax.set_ylim((0, 0.3))
+    if args.block_type == 'visual':
+        ax.axvline(x=0, ls='--', color='k')
+        ax.axvline(x=500, ls='--', color='k')
+    ax.axhline(ls='--', color='k')
+    ax.tick_params(axis='both', labelsize=35)
+    ax2.tick_params(axis='both', labelsize=35)
+    #plt.subplots_adjust(right=0.65)
+
+    return fig
+

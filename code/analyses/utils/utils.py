@@ -12,7 +12,6 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     try:
         with open(path2channel_names, 'r') as f:
             channel_names = f.readlines()
-        #print(channel_names)
         channel_names = [l.strip().split()[1] for l in channel_names]
         if data_type == 'micro':
             probe_names = [s[4::] if s.startswith('G') else s for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
@@ -20,7 +19,7 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
         elif data_type == 'macro':
             probe_names = []
             for ch_name in channel_names:
-                IX_dash = ch_name.index('-')
+                IX_dash = ch_name.index('-') # bipolar referencing contains a dash, e.g., LSTG1-LSTG2
                 probe_name = ch_name[:(IX_dash-1)] # remove dash *and* channel numbering
                 probe_names.append(probe_name)
         elif data_type == 'spike':
@@ -33,7 +32,7 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     except:
         print('!!! - Missing %s channel-name files for %s' % (data_type, patient))
         return [], []
-    print(list(set(probe_names)))
+    #print(list(set(probe_names)))
     return sorted(list(set(probe_names))), channel_names
 
 
@@ -213,4 +212,61 @@ def probename2picks(probe_names, channel_names, data_type):
 
     return picks
 
+
+def get_all_patient_numbers(remove_patients=None, 
+                            path2data='../../Data/UCLA'):
+    patient_numbers = []
+    dir_contents = os.listdir(path2data)
+    for item in dir_contents:
+        if item.startswith('patient_'):
+            patient_numbers.append(item[8:])
+    if remove_patients:
+        patient_numbers = list(set(patient_numbers) - set(remove_patients))
+    return sorted(patient_numbers)
+
+
+def get_patient_probes_of_region(ROIs, data_types_filters, remove_patients=None):
+    print(ROIs, data_types_filters)
+    patient_list, data_type_list, filter_list, probe_name_list = [], [], [], []
+
+    # GET TARGET PROBE NAMES
+    target_probe_names = []
+    roi2probenames = ROI2probenames()
+    for ROI in ROIs:
+        target_probe_names.extend(roi2probenames[ROI].split(','))
+
+    # GET RELEVANT PROBES PER PATIENT
+    all_patients = get_all_patient_numbers(remove_patients)
+    for p in all_patients:
+        for dt_f in data_types_filters:
+            dt, f = dt_f.split('_') # e.g., 'micro_high-gamma'
+            p_names, _ = get_probe_names(p, dt, '../../Data/UCLA/')
+            p_names = [p_name for p_name in p_names if p_name in target_probe_names]
+            if p_names:
+                patient_list.append(f'patient_{p}')
+                data_type_list.append(dt)
+                filter_list.append(f)
+                probe_name_list.append(p_names)
+    return patient_list, data_type_list, filter_list, probe_name_list
+
+
+def ROI2probenames(path2mapping='../../Data/probenames2fsaverage.tsv'):
+    with open(path2mapping, 'r') as f:
+        lines = f.readlines()
+    atlas_regions = [line.split('\t')[0] for line in lines if line.split('\t')[1].strip('\n')!='-']
+    probe_names = [line.split('\t')[1].strip('\n') for line in lines if line.split('\t')[1].strip('\n')!='-']
+    return dict(zip(atlas_regions, probe_names))
+
+
+def probename2ROI(path2mapping='../../Data/probenames2fsaverage.tsv'):
+    with open(path2mapping, 'r') as f:
+        lines = f.readlines()
+    atlas_regions = [line.split('\t')[0] for line in lines if line.split('\t')[1].strip('\n')!='-']
+    probe_names = [line.split('\t')[1].strip('\n') for line in lines if line.split('\t')[1].strip('\n')!='-']
+    p2r = {}
+    for atlas_region, probe_name in zip(atlas_regions, probe_names):
+        for probename in probe_name.split(','): # could be several, comma delimited
+            assert probename not in p2r.keys()
+            p2r[probename] = atlas_region
+    return p2r
 

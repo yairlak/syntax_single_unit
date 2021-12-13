@@ -11,6 +11,8 @@ from sklearn.model_selection import LeaveOneOut, KFold
 from utils.utils import dict2filename
 from utils.utils import update_queries
 from pprint import pprint
+from sklearn.metrics import roc_auc_score
+
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
@@ -127,53 +129,73 @@ if args.GAC or args.GAM:
 
    
 # SET A MODEL (CLASSIFIER)
-clf, time_gen = define_model(args)
+clf, temp_estimator = define_model(args)
 
 
 # LEAVE-ONE-OUT EVALUATION 
 print('\n', '-'*40, 
       f'\nTraining a {args.classifier} model for a {len(list(set(y)))}-class problem\n', '-'*40)
 loo = KFold(X.shape[0], shuffle=True, random_state=1)
-scores = []
+y_hats, y_trues, = [], []
 for i_split, (IXs_train, IX_test) in enumerate(loo.split(X, y)):
     # TRAIN MODEL
     if (args.GAC or args.GAM) and i_split == 0: # Use all training data once
-        time_gen.fit(X, y)
+        temp_estimator.fit(X, y)
     else:
-        time_gen.fit(X[IXs_train], y[IXs_train])
+        temp_estimator.fit(X[IXs_train], y[IXs_train])
 
     # EVAL MODEL
     if (args.GAC or args.GAM): # Use all training data once
-        y_hat = time_gen.predict(X_gen[IX_test])
-        if args.classifier in ['ridge']:
-            score = np.power(y_hat - y_gen[IX_test], 2) # Squared error
-        else:
-            score = np.rint(y_hat) == y_gen[IX_test] # append a boolean vector,
-        scores.append(score) # Store
+        proba = temp_estimator.predict_proba(X_gen[IX_test])
+        y_hats.append(proba[0, :, -1])
+        y_trues.append(y_gen[IX_test])
+        #if args.classifier in ['ridge']:
+        #    score = np.power(y_hat - y_gen[IX_test], 2) # Squared error
+        #else:
+        #    score = np.rint(y_hat) == y_gen[IX_test] # append a boolean vector,
+        #scores.append(score) # Store
         # indicating at which timepoints the model successfully predicted the class
     else:
-        y_hat = time_gen.predict(X[IX_test])
-        if args.classifier in ['ridge']:
-            score = np.power(y_hat - y[IX_test], 2) # Squared error
-        else:
-            score = np.rint(y_hat) == y[IX_test] # append a boolean vector,
-        scores.append(score) # Store
+        proba = temp_estimator.predict_proba(X[IX_test])
+        y_hats.append(proba[0, :, -1])
+        y_trues.append(y[IX_test])
+        #if args.classifier in ['ridge']:
+        #    score = np.power(y_hat - y[IX_test], 2) # Squared error
+        #else:
+        #    score = np.rint(y_hat) == y[IX_test] # append a boolean vector,
+        #scores.append(score) # Store
+y_hats = np.asarray(y_hats) # n_samples X n_timepoints
+y_trues = np.asarray(y_trues).squeeze() # n_samples
+
+# AUC
+if (args.GAC or args.GAM):
+    multi_class = 'ovo' # one-vs-one
+else:
+    multi_class = 'raise'
+
+scores, pvals, U1s = [], [], []
+for i_t in range(y_hats.shape[1]): # loop over n_times 
+    scores.append(roc_auc_score(y_trues, y_hats[:, i_t], multi_class=multi_class))
+    U1, p = stats.mannwhitneyu(y_trues, y_hats[:, i_t])
+    pvals.append(p)
+    U1s.append(U1)
 
 # The shape of scores is: num_splits X num_timepoints ( X num_timepoints)
 scores = np.asarray(scores).squeeze()
-print(f'Max score: {scores.mean(axis=0).max()}')
+pvals = np.asarray(pvals)
+U1s = np.asarray(U1s)
 
 # STATS
 n_classes = len(list(set(y)))
-pvals = np.asarray([stats.binom_test(success.sum(),
-                                     n=len(success),
-                                     p=1/n_classes,
-                                     alternative='greater') for success in scores.T])
+#pvals = np.asarray([stats.binom_test(success.sum(),
+#                                     n=len(success),
+#                                     p=1/n_classes,
+#                                     alternative='greater') for success in scores.T])
 assert len(list(set(y))) == len(stimuli)
 # SAVE
 args2fname = get_args2fname(args) # List of args
 fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
 fname_pkl = os.path.join(args.path2output, fname_pkl)
 with open(fname_pkl, 'wb') as f:
-     pickle.dump([scores, pvals, data.epochs[0].times, time_gen, clf, comparisons, (stimuli, stimuli_gen), args], f)
+     pickle.dump([scores, pvals, U1s, data.epochs[0].times, temp_estimator, clf, comparisons, (stimuli, stimuli_gen), args], f)
 print(f'Results saved to: {fname_pkl}')

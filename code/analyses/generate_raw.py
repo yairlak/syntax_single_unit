@@ -24,13 +24,16 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='504', help='Patient number')
+parser.add_argument('--patient', default='544', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='microphone', help='macro/micro/spike')
+                    default='micro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
+                    default=False, action='store_true',
+                    help='Load data from mat files.')
+parser.add_argument('--ch-names-from-file',
                     default=False, action='store_true',
                     help='Load data from mat files.')
 parser.add_argument('--sfreq-downsample', type=int,
@@ -47,7 +50,8 @@ path2rawdata = os.path.join('..', '..', 'Data', 'UCLA',
 raw = data_manip.generate_mne_raw(args.data_type,
                                   args.from_mat,
                                   path2rawdata,
-                                  args.sfreq_downsample)
+                                  args.sfreq_downsample,
+                                  args.ch_names_from_file)
 
 if args.data_type != 'microphone':
     # Downsample
@@ -135,6 +139,7 @@ if args.data_type not in ['spike', 'microphone']:
 
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
+os.makedirs(os.path.join(path2rawdata, 'mne'), exist_ok=True)
 raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
 print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
 

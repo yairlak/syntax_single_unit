@@ -61,7 +61,7 @@ def eval_TRF_across_epochs(rf, X_test, y_test, valid_samples, args):
 
 
 def reduce_design_matrix(X, feature_name, feature_info, ablation_method,
-                         start_sample=0):
+                         start_sample=0, keep=False):
     '''
 
     Parameters
@@ -76,6 +76,9 @@ def reduce_design_matrix(X, feature_name, feature_info, ablation_method,
         DESCRIPTION.
     ablation_method : str
         one of remove/zero/shuffle.
+    keep: flag
+        Mirror case: if True, instead of removing the feature,
+        the design matrix will contain only the feature columns.
 
     Returns
     -------
@@ -98,14 +101,23 @@ def reduce_design_matrix(X, feature_name, feature_info, ablation_method,
             ed = st + 1
         # Three ways to ablate feature info
         if ablation_method == 'remove':
-            X_reduced = np.delete(X, range(st, ed), 2)
+            if keep:
+                X_reduced = X[:, :, st:ed]
+            else:
+                X_reduced = np.delete(X, range(st, ed), 2)
         elif ablation_method == 'zero':
-            X_reduced = X.copy()
-            X_reduced[start_sample:, :, st:ed] = 0
+            if keep:
+                raise(f'Not implemented for {ablation_method}')
+            else:
+                X_reduced = X.copy()
+                X_reduced[start_sample:, :, st:ed] = 0
         elif ablation_method == 'shuffle':
-            X_reduced = X.copy()
-            X_reduced_FOI = X_reduced[start_sample:, :, st:ed]
-            X_reduced_FOI[X_reduced_FOI != 0] = \
-                np.random.permutation(X_reduced_FOI[X_reduced_FOI != 0])
-            X_reduced[start_sample:, :, st:ed] = X_reduced_FOI
+            if keep:
+                raise(f'Not implemented for {ablation_method}')
+            else:
+                X_reduced = X.copy()
+                X_reduced_FOI = X_reduced[start_sample:, :, st:ed]
+                X_reduced_FOI[X_reduced_FOI != 0] = \
+                    np.random.permutation(X_reduced_FOI[X_reduced_FOI != 0])
+                X_reduced[start_sample:, :, st:ed] = X_reduced_FOI
     return X_reduced

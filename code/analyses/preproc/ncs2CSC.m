@@ -2,8 +2,8 @@ clear; close all; clc;
 addpath(genpath('releaseDec2015'), genpath('NPMK-5.5.0.0'), genpath('functions'))
 
 %%
-patient = 'patient_539';
-elec_type = 'micro'; % micro / macro
+patient = 'patient_530';
+elec_type = 'macro'; % micro / macro
 recording_system = 'BlackRock'; % Neuralynx / BlackRock
 
 %% pathsls 
@@ -69,7 +69,13 @@ switch recording_system
                    %fprintf('%i\n', SampleFrequencies(1))
                    fprintf('%i\n', sr)
                    fprintf('%s\n', elec_name)
-                   save(fullfile(output_path,['CSC' extractAfter(elec_name, 4) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
+                   if startsWith(elec_name, 'elec')
+                       save(fullfile(output_path,['CSC' extractAfter(elec_name, 4) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
+                   elseif startsWith(elec_name, 'ainp')
+                       save(fullfile(output_path,['AINP' extractAfter(elec_name, 4) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
+                   elseif startsWith(elec_name, 'chan')
+                       save(fullfile(output_path,['CSC' extractAfter(elec_name, 4) '.mat']),'data','samplingInterval', 'elec_name', 'sr');
+                   end
                    %electrodes_info{idx} = elec_name;
                    idx = idx+1;
                 end

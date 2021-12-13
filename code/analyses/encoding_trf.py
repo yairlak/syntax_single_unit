@@ -16,6 +16,7 @@ from encoding.model_manip import reduce_design_matrix,\
 from utils.utils import dict2filename
 from utils.data_manip import DataHandler
 from sklearn.preprocessing import StandardScaler
+from scipy import stats
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -207,8 +208,19 @@ for i_split, (train, test) in enumerate(outer_cv.split(
 
         # SENTENCE LEVEL (SCORE FOR ENTIRE SENTENCE)
         print('Sentence level: score for the entire duration')
-        score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
-                                           y_sentence[:, test, :])
+        y_pred = rf_sentence.predict(X_sentence_reduced[:, test, :])
+        y_pred = y_pred[rf_sentence.valid_samples_]
+        y = y_sentence[rf_sentence.valid_samples_, test, :]
+
+        # Re-vectorize and call scorer
+        score_sentence = []
+        
+        n_outputs = y.shape[2]
+        y = y.reshape([-1, n_outputs], order='F')
+        y_pred = y_pred.reshape([-1, n_outputs], order='F')
+        score_sentence, pval = stats.spearmanr(y_pred, y)
+        #score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
+        #                                   y_sentence[:, test, :])
         print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
         results[feature_name]['total_score'].append(score_sentence)
 

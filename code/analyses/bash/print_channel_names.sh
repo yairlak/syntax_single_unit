@@ -1,8 +1,7 @@
-patients="479_11 479_25 482 489 493 499 502 505 513 515 538"
-dtypes="micro macro spike"
+#!/bin/bash
 
-for patient in $patients; do
-    for dtype in $dtypes; do
-        python3 /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/print_channel_names.py --patient $patient --data-type $dtype
-    done
+for pt in 482 487 489 499 504 510 513 515 530; do
+    cmd="python3 ../print_channel_names.py --patient "$pt" --data-type spike"
+    echo $cmd
+    $cmd
 done

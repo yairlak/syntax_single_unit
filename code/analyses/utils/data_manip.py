@@ -289,7 +289,7 @@ def get_events(metadata, sfreq, verbose=False):
     return events, event_id
 
 
-def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down):
+def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down, ch_names_from_file):
     
     assert not (data_type == 'spike' and from_mat)
     
@@ -304,7 +304,7 @@ def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down):
         channel_data, sfreq, ch_names = get_data_from_combinato(path2data)
     else:
         if from_mat:
-            channel_data, sfreq, ch_names = get_data_from_mat(data_type, path2data)
+            channel_data, sfreq, ch_names = get_data_from_mat(data_type, path2data, ch_names_from_file)
         else:
             raw = get_data_from_ncs_or_ns(data_type, path2data, sfreq_down)
             return raw
@@ -331,6 +331,11 @@ def get_data_from_combinato(path2data):
                   glob.glob(os.path.join(path2data, 'CSC??/')) + \
                   glob.glob(os.path.join(path2data, 'CSC???/'))
     
+    assert len(CSC_folders) > 0
+    CSC_nums = [int(os.path.basename(os.path.normpath(s))[3::]) for s in CSC_folders]
+    IX = np.argsort(CSC_nums)
+    CSC_folders = np.asarray(CSC_folders)[IX]
+    
     recording_system = identify_recording_system(path2data)
     if recording_system == 'Neuralynx':
         reader = neo.io.NeuralynxIO(os.path.join(path2data, '..', 'micro'))        
@@ -351,9 +356,9 @@ def get_data_from_combinato(path2data):
     print(f'time0 = {time0}, timeend = {timeend}')
     
     ch_names, spike_times_samples = [], []
-    for CSC_folder in CSC_folders:
-        channel_num = int(CSC_folder.split('CSC')[-1].strip('/'))
-        spikes, curr_ch_names = load_combinato_sorted_h5(path2data, channel_num)
+    for i_ch, CSC_folder in enumerate(CSC_folders):
+        CSC_num = int(CSC_folder.split('CSC')[-1].strip('/'))
+        spikes, curr_ch_names = load_combinato_sorted_h5(path2data, CSC_num, i_ch)
         assert len(curr_ch_names)==len(spikes)
 
         if len(spikes) > 0:
@@ -362,7 +367,7 @@ def get_data_from_combinato(path2data):
                 curr_spike_times_samples = [int(t*sfreq/1e3) for t in curr_spike_times_msec] # convert to samples from sec
                 spike_times_samples.append(curr_spike_times_samples)
         else:
-            print(f'No spikes in channel: {channel_num}')
+            print(f'No spikes in channel: {CSC_num}')
 
     # ADD to array
     num_groups = len(spike_times_samples)
@@ -374,7 +379,7 @@ def get_data_from_combinato(path2data):
     return channel_data, sfreq, ch_names
 
 
-def get_data_from_mat(data_type, path2data):
+def get_data_from_mat(data_type, path2data, ch_names_from_file):
      
     if data_type == 'microphone':
         CSC_files = glob.glob(os.path.join(path2data, 'MICROPHONE.mat'))
@@ -393,10 +398,15 @@ def get_data_from_mat(data_type, path2data):
         curr_channel_data = io.loadmat(CSC_file)    
         sfreq = int(1/curr_channel_data['samplingInterval'])
         channel_data.append(curr_channel_data['data'])
-        if 'channelName' in curr_channel_data:
-            ch_name = curr_channel_data['channelName']
-        else:
-            ch_name = os.path.basename(CSC_file)[:-4]
+        
+        if ch_names_from_file:
+            dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..'))            
+            ch_name = dict_ch_names[i_ch+1]
+        else: 
+            if 'channelName' in curr_channel_data:
+                ch_name = curr_channel_data['channelName']
+            else:
+                ch_name = os.path.basename(CSC_file)[:-4]
         ch_names.append(ch_name)
         print(f'Processing file: {ch_name} ({i_ch+1}/{len(CSC_files)}), sfreq = {sfreq} Hz')
     channel_data = np.vstack(channel_data)
@@ -467,15 +477,16 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         nsx_file.close()
         sfreq = cont_data['samp_per_s']
         print(sfreq)
-        fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt') 
-        with open(fn_channel_names, 'r') as f:
-            lines = f.readlines()
-        keys = [int(ll.split()[0]) for ll in lines]
-        values = [ll.split()[1] for ll in lines]
-        dict_ch_names = dict(zip(keys, values))
+        #fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt') 
+        #with open(fn_channel_names, 'r') as f:
+        #    lines = f.readlines()
+        #keys = [int(ll.split()[0]) for ll in lines]
+        #values = [ll.split()[1] for ll in lines]
+        #dict_ch_names = dict(zip(keys, values))
+        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', 'micro'))
         ch_names = []
         for elec_id in cont_data['elec_ids']:
-            if int(elec_id) in keys:
+            if int(elec_id) in dict_ch_names.keys():
                 ch_name = dict_ch_names[elec_id]
             else:
                 ch_name = f'CSC{elec_id}'
@@ -503,11 +514,11 @@ def identify_recording_system(path2data):
     return recording_system
 
 
-def load_combinato_sorted_h5(path2data, channel_num):  # , probe_name):
+def load_combinato_sorted_h5(path2data, channel_num, i_ch):  # , probe_name):
     target_types = [2] # -1: artifact, 0: unassigned, 1: MU, 2: SU
 
     dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', 'micro'))
-    ch_name = dict_ch_names[channel_num]
+    ch_name = dict_ch_names[i_ch+1]
 
     spike_times_msec = []; group_names = []
     h5_files = glob.glob(os.path.join(path2data, 'CSC' + str(channel_num), 'data_*.h5'))
@@ -568,9 +579,9 @@ def load_combinato_sorted_h5(path2data, channel_num):  # , probe_name):
                         #        pn=None
                         #elif isinstance(probe_name, str):
                         #    pn=probe_name
-                        group_names.append(f'{ch_name}_{channel_num}{sign[0]}{g}')
+                        group_names.append(f'{ch_name}_{i_ch}_{sign[0]}{g}')
             else:
-                print('%s was not found!' % os.path.join(path2data, 'micro', 'CSC_ncs', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
+                print('%s was not found!' % os.path.join(path2data, 'micro', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
 
     else:
         print('None or more than a single combinato h5 was found')

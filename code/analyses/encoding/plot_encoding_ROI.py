@@ -21,10 +21,10 @@ import ast
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['515'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append',
                     default=['raw'],
                     help='raw/high-gamma')
@@ -63,7 +63,7 @@ parser.add_argument('--each-feature-value', default=False, action='store_true',
 # USER ARGS #
 #############
 args = parser.parse_args()
-assert len(args.patient) == len(args.data_type) == len(args.filter)
+#assert len(args.patient) == len(args.data_type) == len(args.filter)
 args.patient = ['patient_' + p for p in args.patient]
 args.block_type = 'both'
 if not args.query_test:
@@ -158,6 +158,19 @@ def lump_ROIs(row):
         ROI_large = ROI
     return ROI_large
 
+def probename2ROI(path2mapping='../../../Data/probenames2fsaverage.tsv'):
+    with open(path2mapping, 'r') as f:
+        lines = f.readlines()
+    atlas_regions = [line.split('\t')[0] for line in lines if line.split('\t')[1].strip('\n')!='-']
+    probe_names = [line.split('\t')[1].strip('\n') for line in lines if line.split('\t')[1].strip('\n')!='-']
+    p2r = {}
+    for atlas_region, probe_name in zip(atlas_regions, probe_names):
+        for probename in probe_name.split(','): # could be several, comma delimited
+            assert probename not in p2r.keys()
+            p2r[probename.strip()] = atlas_region
+    return p2r
+
+probename2roi = probename2ROI()
 
 df['r_full_visual_by_time'] = df.apply (lambda row: str2list(row['r_full_visual_by_time']), axis=1)
 df['r_full_auditory_by_time'] = df.apply (lambda row: str2list(row['r_full_auditory_by_time']), axis=1)
@@ -175,12 +188,20 @@ df['dr_auditory_max'] = df.apply (lambda row: np.max(get_dr(row['r_full_auditory
 
 df['ROI'] = df.apply (lambda row: row['Probe_name'][1:], axis=1)
 
-df['ROI_large'] = df.apply(lambda row: lump_ROIs(row), axis=1)
+def get_ROI(Probe_name):
+    if Probe_name.isdigit():
+        return None
+    else:
+        return probename2roi[Probe_name]
+
+df['ROI_large'] = df.apply(lambda row: get_ROI(row['Probe_name']), axis=1)
 
 print(df)
 
 ################
-palette ={'semantics':'orange',
+palette ={'word_onset':'y',
+          'positional':'y',
+          'semantics':'orange',
           'is_last_word':'k',
           'lexicon':'g',
           'is_first_word':'grey',
@@ -300,7 +321,7 @@ for ROI in ROIs:
                     # ci=68,
                     kind='bar',
                     ax=ax)
-    g.set(ylim=[0,None])
+    g.set(ylim=[0,None],xlabel='', ylabel='Feature importance', title='', yticklabels=[])
     fn = f'../../../Figures/encoding_models/scatters/bar_{ROI}_aud_{args.data_type[0]}_{args.filter[0]}.png'
     g.savefig(fn)
     
@@ -313,7 +334,7 @@ for ROI in ROIs:
                     # capsize=.05,
                     # ci=68,
                     kind='bar')
-    g.set(ylim=[0,None])
+    g.set(ylim=[0,None],xlabel='', ylabel='Feature importance', title='', yticklabels=[])
     fn = f'../../../Figures/encoding_models/scatters/bar_{ROI}_vis_{args.data_type[0]}_{args.filter[0]}.png'
     g.savefig(fn)
     plt.close(fig)

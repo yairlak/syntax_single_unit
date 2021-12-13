@@ -8,7 +8,7 @@ Created on Tue Apr 13 15:19:24 2021
 
 import sys, os, argparse, glob
 sys.path.append('..')
-from utils import load_settings_params
+#from utils import load_settings_params
 from neo import io
 import numpy as np
 import scipy.io as sio

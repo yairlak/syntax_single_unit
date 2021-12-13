@@ -1,11 +1,11 @@
 # LAUNCH ALL COMBINATIONS:
 #
 #comparison-name: ['embedding_vs_long', 'wh_subj_obj_len5', 'dec_quest_len2', 'grammatical_number']
-#comparison-name: ['embedding_vs_long', 'wh_subj_obj', 'dec_quest_2words', 'high_low_op_nodes', 'morph_complex', 'grammatical_number', 'gender', 'subject_type', 'high_low_freq', 'pos_simple', 'tense', 'manner_of_articulation', 'word_string']
+comparison-name: ['embedding_vs_long', 'wh_subj_obj', 'dec_quest_2words', 'high_low_op_nodes', 'morph_complex', 'grammatical_number', 'gender', 'subject_type', 'high_low_freq', 'pos_simple', 'tense', 'manner_of_articulation', 'word_string']
 #comparison-name: ['pos_simple', 'pos_first', 'word_string']
-comparison-name: ['manner_of_articulation', 'word_string']
+#comparison-name: ['manner_of_articulation', 'word_string']
 comparison-name-test: [null]
-patient: ['479_11', '479_25', '482', '489', '493', '499', '502', '504', '505', '510', '513', '515', '530', '538', '539', '540', '541']
+patient: ['479_11', '479_25', '482', '499', '502', '505', '510', '513', '515', '530', '538', '539', '540', '541', '543']
 #patient: ['541']
 block-train: ['visual', 'auditory']
 block-test: ['visual', 'auditory']

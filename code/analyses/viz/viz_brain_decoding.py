@@ -13,11 +13,9 @@ import pandas as pd
 import pyvista as pv
 from mne.stats import fdr_correction
 
-print(pv.__version__)
-
 
 # In[2]:
-data_type_filters = ['spike_raw']
+data_type_filters = ['micro_raw', 'micro_high-gamma', 'spike_raw']
 comparison_names = ['number', 'dec_quest_len2', 'embedding_vs_long',
                     'pos_simple', 'word_string_first']
 # comparison_names = ['word_string_first']
@@ -26,6 +24,7 @@ block_types = ['visual', 'auditory']
 
 # In[3]:
 SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
+#SUBJECTS_DIR = '../../../../freesurfer/subjects' # your freesurfer directory
 
 
 fn_results = f'../../../Output/decoding/decoding_results.json'
@@ -205,7 +204,3 @@ for data_type_filter in data_type_filters:
                 plt.savefig(fn+'_all.png')
                 plt.close(fig_plt)
                     # In[ ]:
-                    
-                    
-                    
-                    

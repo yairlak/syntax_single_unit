@@ -77,7 +77,7 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
         fnames = glob.glob(fnames)
         num_units = len(fnames)
         if num_units == 0:
-            print(f'Zero files found {fnames}')
+            print(f'No files were found for {fnames}')
         #print(f'Found {num_units} spike files')
         
         # BUILD HTML

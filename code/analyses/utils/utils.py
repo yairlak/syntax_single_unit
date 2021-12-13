@@ -73,6 +73,10 @@ def get_queries(comparison):
 def update_queries(comp, block_type, fixed_constraint, metadata):
     # If 'queries' value is a string (instead of a list of strings) then queries are based on all values in metadata
     # The string in 'queries' should indicate a field name in metadata.
+    if not comp: # None case
+        print('Empty comparison for block type:', block_type)
+        return comp
+
     if isinstance(comp['queries'], str):
         if comp['queries'] != 'phone_string':
             queries = []; condition_names = []
@@ -119,12 +123,14 @@ def update_queries(comp, block_type, fixed_constraint, metadata):
     # Add fixed constraint if provided in args (for example, to limit to first phone in auditory blocks)
     if fixed_constraint:
         comp['fixed_constraint'] = fixed_constraint
+    if 'fixed_constraint' in comp.keys():
+        fixed_constraint = comp['fixed_constraint']
         comp['queries'] = [f'({q}) and ({fixed_constraint})' for q in comp['queries']]
 
     return comp
 
 
-def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False):
+def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False, order=None):
     '''
     This function generates a filename that contains chosen keys-values pairs from a dictionary.
     For example, the dict can represent hyperparameters of a model or settings.
@@ -152,7 +158,12 @@ def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=Fal
     # add extension
     if len(extension) > 0:
         extension = '.' + extension
-    
+ 
+    if not order:
+        pass
+        #keys_to_use.sort()
+    else:
+        keys_to_use = np.asarray(keys_to_use)[order]
     if show_values_only:
         l = []
         for k in keys_to_use:
@@ -234,7 +245,7 @@ def get_patient_probes_of_region(ROIs, data_types_filters, remove_patients=None)
     roi2probenames = ROI2probenames()
     for ROI in ROIs:
         target_probe_names.extend(roi2probenames[ROI].split(','))
-
+    target_probe_names = [p_name.strip() for p_name in target_probe_names]
     # GET RELEVANT PROBES PER PATIENT
     all_patients = get_all_patient_numbers(remove_patients)
     for p in all_patients:
@@ -269,4 +280,3 @@ def probename2ROI(path2mapping='../../Data/probenames2fsaverage.tsv'):
             assert probename not in p2r.keys()
             p2r[probename] = atlas_region
     return p2r
-

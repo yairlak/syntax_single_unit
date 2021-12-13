@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 #
 METHODS='zero remove'

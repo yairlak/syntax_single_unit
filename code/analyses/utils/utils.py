@@ -245,7 +245,6 @@ def get_patient_probes_of_region(ROIs, data_types_filters, remove_patients=None)
     roi2probenames = ROI2probenames()
     for ROI in ROIs:
         target_probe_names.extend(roi2probenames[ROI].split(','))
-    
     target_probe_names = [p_name.strip() for p_name in target_probe_names]
     # GET RELEVANT PROBES PER PATIENT
     all_patients = get_all_patient_numbers(remove_patients)

@@ -162,11 +162,11 @@ else:
             elif (not reject) and sig_period: # Exiting a sig zone
                 t2 = times[i_t-1]
                 #ax.axvspan(t1, t2, facecolor='g', alpha=0.2)
-                ax.hlines(y=1.05, xmin=t1, xmax=t2, linewidth=8, color='g', alpha=0.3)
+                ax.hlines(y=1.05, xmin=t1, xmax=t2, linewidth=8, color='k', alpha=0.3)
                 sig_period = False
             elif sig_period and (i_t==len(reject_fdr)-1): # Last time point
                 t2 = times[i_t]
-                ax.hlines(y=1.05, xmin=t1, xmax=t2, linewidth=8, color='g', alpha=0.3)
+                ax.hlines(y=1.05, xmin=t1, xmax=t2, linewidth=8, color='k', alpha=0.3)
 
     ax.axhline(chance_level, color='k', linestyle='--', label='chance')
     ax.set_xlabel('Time', fontsize=30)

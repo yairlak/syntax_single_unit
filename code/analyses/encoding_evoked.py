@@ -116,30 +116,57 @@ print(args)
 data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num,
                    args.feature_list)
-# Both neural and feature data into a single raw object
 data.load_raw_data(args.decimate)
-# sfreq_original = data.raws[0].info['sfreq']  # used later for word epoch
-# GET SENTENCE-LEVEL DATA BEFORE SPLIT
+
+# GET WORD-LEVEL DATA
 data.epoch_data(level='word',
                 query=args.query_train,
                 smooth=args.smooth,
                 scale_epochs=False,  # must be same as word level
                 verbose=True)
 
-# PREPARE MATRICES
+# TAKE FEATURES FROM TIME ZERO (i.e., FROM WORD ONSET)
 X = data.epochs[0].copy().pick_types(misc=True).get_data()
-
-# TAKE FEATURES AT TIME ZERO (FEATURE VALUES SHOULD BE ZERO ELSEWHERE)
 times = data.epochs[0].times
 IXs = np.where(times==0)
-X = X[:, :, IXs[0][0]]
-X = np.expand_dims(X, axis=2)
+X = X[:, :, IXs[0][0]] # Take feature values at t=0.
+X = np.expand_dims(X, axis=2) # For compatibility below, add singelton
+ 
+# GET NEURAL ACTIVITY (y)
 y = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data()
 n_epochs, n_channels, n_times = y.shape
-metadata = data.epochs[0].metadata
+print(n_epochs, n_channels, n_times)
 
-# FOR COMPATABILITY BELOW, ADD SINGLETON FOR TIME DIMENSION
-#X = np.repeat(X[:, :, np.newaxis], n_times, axis=2)
+# GET GENERALIZATION DATA (args.query_test)
+if args.query_test != args.query_train:
+    print('Generalization Across Condition (GAC)')
+    print('Model is train on *all* train-query data')
+    print('The model is then tested on subsets (fold) of test-query data')
+    print('To see GAC details: args.query_train and args.query_test')
+    GAC = True
+    data_gen = DataHandler(args.patient, args.data_type, args.filter,
+                           args.probe_name, args.channel_name, args.channel_num,
+                           args.feature_list)
+    # Both neural and feature data into a single raw object
+    data_gen.load_raw_data(args.decimate)
+    # sfreq_original = data.raws[0].info['sfreq']  # used later for word epoch
+    # GET SENTENCE-LEVEL DATA BEFORE SPLIT
+    data_gen.epoch_data(level='word',
+                        query=args.query_test,
+                        smooth=args.smooth,
+                        scale_epochs=False,  # must be same as word level
+                        verbose=True)
+    X_gen = data.epochs[0].copy().pick_types(misc=True).get_data()
+    times = data.epochs[0].times
+    IXs = np.where(times==0)
+    X_gen = X_gen[:, :, IXs[0][0]] # Take feature values at t=0.
+    X_gen = np.expand_dims(X_gen, axis=2) # For compatibility below, add singelton
+    y_gen = data.epochs[0].copy().pick_types(seeg=True, eeg=True).get_data()
+    n_epochs_gen, n_channels_gen, n_times_gen = y_gen.shape
+    print(n_epochs_gen, n_channels_gen, n_times_gen)
+else:
+    GAC = False
+    y_gen = None    
 
 ##################
 # ENCODING MODEL #
@@ -157,60 +184,117 @@ else:
 results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
-    results[feature_name]['total_score'] = []  #
-    results[feature_name]['scores_by_time'] = []  # Same
-    results[feature_name]['stats_by_time'] = []  # Same
-    results[feature_name]['rf_sentence'] = []  # Same
+    for keep in [False, True]:
+        results[feature_name][f'scores_by_time_per_split_{keep}'] = []  # Same
+        results[feature_name][f'stats_by_time_per_split_{keep}'] = []  # Same
+        results[feature_name][f'model_per_split_{keep}'] = []  # Same
+results['times'] = data.epochs[0].times # Take times from first epochs
 
 # DEFINE MODEL
 alphas = np.logspace(-3, 8, 100) 
-estimator = RidgeCV(alphas=alphas,
-                    alpha_per_target = True,
-                    cv=None, # efficient LOO
-                    scoring='r2')
+model = RidgeCV(alphas=alphas,
+                alpha_per_target = True, # Optimize hyper-param per channel
+                cv=None) # efficient LOO
+
 kf_out = KFold(n_splits=args.n_folds_outer,
                shuffle=True,
                random_state=1)
-for feature_name in feature_names:
-    print(f'\n feature: {feature_name}')
-    # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX
-    print(f'X shape: {X.shape}')
-    X_reduced = reduce_design_matrix(X.transpose([2, 0, 1]),
-                                     feature_name,
-                                     data.feature_info,
-                                     args.ablation_method)
-    # TRANSPOSE/RESHAPE
-    X_reduced = X_reduced.transpose([1, 2, 0]) # back to standard MNE order
-    X_reduced = X_reduced[:, :, 0] # remove singleton at time dimension (axis=2)
-    y = y.reshape([n_epochs, -1])
-    print(f'\nTrain model: X (n_trials, n_features) - {X_reduced.shape}, \
-          y (n_trials, n_times * n_outputs) - {y.shape}')
-    
-    y_pred_cv, y_true_cv = [], []
-    for i_split, (IXs_train, IXs_test) in enumerate(kf_out.split(X_reduced, y)):
-        print(f'Split {i_split}')
-        estimator.fit(X_reduced[IXs_train, :], y[IXs_train, :])
-        y_pred = estimator.predict(X_reduced[IXs_test, :])
-        y_pred_cv.append(y_pred)
-        y_true_cv.append(y[IXs_test, :])   
-    
-    y_pred = np.vstack(y_pred_cv)
-    y_true = np.vstack(y_true_cv)
 
-    rs, ps = [],[]
-    for i in range(y_pred.shape[1]): # n_times * n_outputs
-        r, p = stats.spearmanr(y_pred[:, i],
-                               y_true[:, i])   
-        rs.append(r)
-        ps.append(p)
-    scores_by_time = np.asarray(rs).reshape([n_channels, n_times])
-    stats_by_time = np.asarray(ps).reshape([n_channels, n_times])
-    results[feature_name]['total_score'].append(None)
-    results[feature_name]['scores_by_time'].append(scores_by_time)
-    results[feature_name]['stats_by_time'].append(stats_by_time)
-    print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
+for keep in [False, True]:
+    for feature_name in feature_names:
+        print(f'\n feature: {feature_name}')
+        # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX
+        print(f'X shape: {X.shape}')
         
-results['times_word_epoch'] = None
+        X_reduced = reduce_design_matrix(X.transpose([2, 0, 1]),
+                                         feature_name,
+                                         data.feature_info,
+                                         args.ablation_method,
+                                         keep=keep)
+        X_reduced = X_reduced.transpose([1, 2, 0]) # back to standard MNE order
+        X_reduced = X_reduced[:, :, 0] # remove singleton at time dimension (axis=2)
+        y = y.reshape([n_epochs, -1])
+        
+        if GAC:    
+            X_reduced_gen = reduce_design_matrix(X_gen.transpose([2, 0, 1]),
+                                                 feature_name,
+                                                 data.feature_info,
+                                                 args.ablation_method,
+                                                 keep=keep)
+            X_reduced_gen = X_reduced_gen.transpose([1, 2, 0]) # back to standard MNE order
+            X_reduced_gen = X_reduced_gen[:, :, 0] # remove singleton at time dimension (axis=2)
+            y_gen = y_gen.reshape([n_epochs, -1])
+        
+    
+        # TRANSPOSE/RESHAPE
+        print(f'\nTrain model: X (n_trials, n_features) - {X_reduced.shape}, \
+              y (n_trials, n_channels * n_times) - {y.shape}')
+        y_pred_cv, y_true_cv = [], []
+        if GAC:
+            X_cv, y_cv = X_reduced_gen, y_gen
+        else:
+            X_cv, y_cv = X_reduced, y
+            
+        # CROSS-VALIDATION
+        for i_split, (IXs_train, IXs_test) in enumerate(kf_out.split(X_cv, y_cv)):
+            print(f'Split {i_split}, keep: {keep}')
+            #########
+            # TRAIN #
+            #########
+            if GAC: # Generalization Across Conditions
+                if i_split == 0: # TRAIN MODEL ONCE ON ALL TRAIN DATA
+                    model.fit(X_reduced, y)
+                    results[feature_name][f'model_per_split_{keep}'] = model
+            else:
+                model.fit(X_reduced[IXs_train, :], y[IXs_train, :])
+                results[feature_name][f'model_per_split_{keep}'].append(model)
+                
+            ###########
+            # PREDICT #
+            ###########
+            if GAC:
+                # n_test_trials X (n_channels * n_times)
+                y_true = y_gen[IXs_test, :]
+                y_pred = model.predict(X_reduced_gen[IXs_test, :]) 
+            else:
+                y_true = y[IXs_test, :]
+                y_pred = model.predict(X_reduced[IXs_test, :]) 
+                
+            #########
+            # SCORE #
+            #########
+            rs, ps = [],[]
+            n_dim = y_pred.shape[1]
+            for i in range(n_dim): # n_channels * n_times
+                r, p = stats.spearmanr(y_pred[:, i],
+                                       y_true[:, i])   
+                rs.append(r)
+                ps.append(p)
+            # RESHAPE AND ADD TO DICT
+            scores_by_time = np.asarray(rs).reshape([n_channels, n_times])
+            stats_by_time = np.asarray(ps).reshape([n_channels, n_times])
+            results[feature_name][f'scores_by_time_per_split_{keep}'].append(scores_by_time)
+            results[feature_name][f'stats_by_time_per_split_{keep}'].append(stats_by_time)
+            
+            # APPEND
+            y_pred_cv.append(y_pred)
+            y_true_cv.append(y_true)
+            
+        y_pred_all_trials = np.vstack(y_pred_cv) # n_trials X (n_channels * n_times)
+        y_true_all_trials = np.vstack(y_true_cv) # n_trials X (n_channels * n_times)
+    
+        rs, ps = [],[]
+        for i in range(y_pred.shape[1]): # n_channels * n_times
+            r, p = stats.spearmanr(y_pred_all_trials[:, i],
+                                   y_true_all_trials[:, i])   
+            rs.append(r)
+            ps.append(p)
+        scores_by_time = np.asarray(rs).reshape([n_channels, n_times])
+        stats_by_time = np.asarray(ps).reshape([n_channels, n_times])
+        results[feature_name][f'scores_by_time_{keep}'] = scores_by_time
+        results[feature_name][f'stats_by_time_{keep}'] = stats_by_time
+        print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
+        
 
 ########
 # SAVE #
@@ -218,7 +302,7 @@ results['times_word_epoch'] = None
 # FNAME
 list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 'smooth', 'model_type',
                    'probe_name', 'ablation_method',
-                   'query_train', 'each_feature_value']
+                   'query_train', 'feature_list', 'each_feature_value']
 if args.query_train != args.query_test:
     list_args2fname.extend(['query_test'])
 args2fname = args.__dict__.copy()

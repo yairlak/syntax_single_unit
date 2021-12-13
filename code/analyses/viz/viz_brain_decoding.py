@@ -14,7 +14,6 @@ import pyvista as pv
 from mne.stats import fdr_correction
 
 
-
 # In[2]:
 data_type_filters = ['micro_raw', 'micro_high-gamma', 'spike_raw']
 comparison_names = ['number', 'dec_quest_len2', 'embedding_vs_long',
@@ -24,7 +23,8 @@ hemis = ['lh', 'rh']
 block_types = ['visual', 'auditory']
 
 # In[3]:
-SUBJECTS_DIR = '../../../../freesurfer/subjects' # your freesurfer directory
+SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
+#SUBJECTS_DIR = '../../../../freesurfer/subjects' # your freesurfer directory
 
 
 fn_results = f'../../../Output/decoding/decoding_results.json'
@@ -45,9 +45,12 @@ df['reject_fdr_whole_brain'] = reject_fdr.reshape((pvals.shape[0], -1)).tolist()
 # In[5]:
 for data_type_filter in data_type_filters:
     for comparison_name in comparison_names:
-        for hemi in hemis:
-            for block_train in block_types:
-                for block_test in block_types:
+        print(data_type_filter.upper(), comparison_name.upper())
+        for block_train in block_types:
+            for block_test in block_types:
+                fig_plt, axs = plt.subplots(1, 4, figsize=(20, 5))
+                [ax.set_axis_off() for ax in axs]
+                for i_hemi, hemi in enumerate(hemis):
                     # RETRIEVE RELEVANT DATA
                     df_whole_brain = df.loc[df['data-type_filters'] == data_type_filter]
                     df_whole_brain = df_whole_brain.loc[\
@@ -86,8 +89,10 @@ for data_type_filter in data_type_filters:
                     surface='pial'
                     # Read Anatomy
                     fname = f'{subjects_dir}/fsaverage/surf/{hemi}.{surface}'
-                    rr, tris = nib.freesurfer.read_geometry(fname)
-                    tris = tris.astype(np.uint32)
+                    vertices, faces = nib.freesurfer.read_geometry(fname)
+                    rr = vertices.copy()
+                    tris = faces.astype(np.uint32)
+                    faces = np.hstack([np.r_[3, i] for i in faces])
                     
                     # Curvature
                     fname_curv = f'{subjects_dir}/fsaverage/surf/{hemi}.curv'
@@ -100,8 +105,6 @@ for data_type_filter in data_type_filters:
                     
                     
                     # In[9]:
-                    
-                    
                     n_areas = len(ROI_fsaverages)
                     X, Y = np.meshgrid(np.linspace(0, 1, int(n_areas**.5)),
                                        np.linspace(0, 1, int(n_areas**.5)),
@@ -109,7 +112,7 @@ for data_type_filter in data_type_filters:
                     
                     
                     # In[10]:
-                    color = curv
+                    colors = curv
                     
                     def get_color(x, cmap='RdBu_r'):
                         return eval(f'plt.cm.{cmap}((np.clip(x,-1,1)+1)/2.)')
@@ -125,42 +128,79 @@ for data_type_filter in data_type_filters:
                             scores_mean_sig = scores_mean[reject_fdr]
                             chance_level = df_roi['chance_level'].values[0]
                             if scores_mean_sig.shape[0]>0:
-                                color[label.vertices, :] = plt.cm.RdBu_r(scores_mean_sig.max(axis=0)/chance_level/2)[:3]
-                        
+                                colors[label.vertices, :] = plt.cm.RdBu_r(scores_mean_sig.max(axis=0)/chance_level/2)[:3]
+                            
                         
                         # In[14]:
                         
+                    fn = f'../../../Figures/viz_brain/decoding_{comparison_name}_{hemi}_{block_train}_{block_test}_{data_type_filter}'
                     
-                    surf = pv.PolyData(rr, tris)
+                    surf = pv.PolyData(vertices, faces)
+                    surf["colors"] = colors
                     p = pv.Plotter(off_screen=True)
-                    p.add_mesh(surf, color=True, show_edges=False)
-                    # p.show(screenshot='test.png')
-                    # p.close()
+                    p.set_background('w')
+                    
+                    
+                    p.add_mesh(surf,
+                               color='grey',
+                               show_edges=False,
+                               scalars="colors",
+                               cmap='RdBu_r',
+                               interpolate_before_map=False,
+                               clim=[0, 2*chance_level],
+                               rgb=True,
+                               annotations = {chance_level:'chance'})
+                    
+                    # https://docs.pyvista.org/examples/02-plot/scalar-bars.html
+                        # p.export_html('test.html')
+                    
+                    #ZY
+                    p.view_zy()
+                    p.camera.roll += 90
+                    aspect = {'lh':'lateral', 'rh':'medial'}[hemi]
+                    zoom = {'medial':1.65, 'lateral':1.8}[aspect]
+                    p.camera.zoom(zoom)
+                    p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
+                    axs[i_hemi*2].imshow(p.image)
+                    
+                    # YZ
+                    p.view_yz()
+                    
+                    
+                    aspect = {'lh':'medial', 'rh':'lateral'}[hemi]
+                    zoom = {'medial':1.65, 'lateral':1.8}[aspect]
+                    p.camera.zoom(zoom)
+                    if hemi == 'rh':
+                        p.add_scalar_bar(height=0.25,
+                                         vertical=True,
+                                         position_x=0.9,
+                                         position_y=0.74,
+                                         color='k',
+                                         title_font_size=20,
+                                         label_font_size=16,
+                                         title='Accuracy')
+                        p.update_scalar_bar_range([0, 2*chance_level])
+                    p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
+                    axs[i_hemi*2+1].imshow(p.image)
+                    
                     
                     fig = ipv.figure(width=500, height=500)
                     brain = ipv.plot_trisurf(rr[:, 0], 
                                               rr[:, 1], 
                                               rr[:, 2],
                                               triangles=tris,
-                                              color=color)
+                                              color=colors)
                     
                     ipv.squarelim()
-                    # fig.xlabel = ''
-                    # fig.ylabel = ''
-                    # fig.zlabel = ''
                     ipv.style.axes_off()
                     ipv.style.box_off()
-                    # ipv.view(90, 0)
-                    # # ipv.show()
-                    fn = f'../../../Figures/viz_brain/decoding_{comparison_name}_{hemi}_{block_train}_{block_test}_{data_type_filter}'
                     ipv.pylab.save(fn+'.html')
-                    # ipv.savefig(fn+'.png', fig=fig)
-                    # pil_image = ipv.pylab.screenshot(format='png', headless=True)
+                    fig.close()
+                    
+                    
                     print(f'Saved to {fn}')
-                    
+                fn = f'../../../Figures/viz_brain/decoding_{comparison_name}_{block_train}_{block_test}_{data_type_filter}'
+                plt.tight_layout()
+                plt.savefig(fn+'_all.png')
+                plt.close(fig_plt)
                     # In[ ]:
-                    
-                    
-                    
-                    
-

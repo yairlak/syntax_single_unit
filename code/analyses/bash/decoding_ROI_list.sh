@@ -10,7 +10,7 @@ TMAX=1.2
 
 # TAKE ALL PATINETS
 COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string_first"
-COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple"
+COMPARISONS="number embedding_vs_long dec_quest_len2"
 DTYPE_FILTERS="micro_raw spike_raw micro_high-gamma"
 BLOCK_TRAINS="visual auditory"
 BLOCK_TESTS="visual auditory"

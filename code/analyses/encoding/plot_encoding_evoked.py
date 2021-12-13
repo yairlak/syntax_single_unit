@@ -80,8 +80,7 @@ args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography'.spl
 
 
 print('args\n', args)
-#list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 'smooth',
-list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 
+list_args2fname = ['patient', 'data_type', 'filter', 'decimate', 'smooth',
                    'model_type', 'probe_name', 'ablation_method',
                    'query_train', 'each_feature_value']
                    #'query_train', 'feature_list', 'each_feature_value']

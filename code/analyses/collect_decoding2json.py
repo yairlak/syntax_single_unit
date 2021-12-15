@@ -87,7 +87,10 @@ for data_type in data_types:
                         try:
                             results = pickle.load(open(fname_path2pkl, 'rb'))
                             print(f'Reading: {fname_pkl}')
-                            scores, pvals, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+                            scores, pvals, U1s, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+                            if len(pvals[0])==2: # binary case
+                                pvals = [t[0] for t in pvals] # first and second sublists should be identical
+
                             dict_decoding_results['data_type'].append(data_type)
                             dict_decoding_results['filter'].append(filt)
                             dict_decoding_results['data-type_filters'].append(f'{data_type}_{filt}')

@@ -173,12 +173,25 @@ if (args.GAC or args.GAM):
 else:
     multi_class = 'raise'
 
-scores, pvals, U1s = [], [], []
+scores, pvals, effect_sizes = [], [], []
+classes = list(set(y_trues))
 for i_t in range(y_hats.shape[1]): # loop over n_times 
     scores.append(roc_auc_score(y_trues, y_hats[:, i_t], multi_class=multi_class))
-    U1, p = stats.mannwhitneyu(y_trues, y_hats[:, i_t])
-    pvals.append(p)
-    U1s.append(U1)
+    ps, U1s = [],[] # len = n_classes
+    for c in classes:
+        ixs_class1 = np.where(y_trues == c)
+        ixs_vs_all = np.where(y_trues != c)
+        p1 = y_hats[ixs_class1, i_t]
+        p2 = y_hats[ixs_vs_all, i_t]
+        dist_class1 = -np.log((p1-1)/p1)
+        dist_class2 = -np.log((p2-1)/p2)
+        U1, p = stats.mannwhitneyu(dist_class1[0, :],
+                                   dist_class2[0, :],
+                                   alternative='two-sided')
+        ps.append(p)
+        U1s.append(U1)
+    pvals.append(ps) # list of sublists; len(list)=n_times, len(sublist)=n_classes
+    effect_sizes.append(U1s)
 
 # The shape of scores is: num_splits X num_timepoints ( X num_timepoints)
 scores = np.asarray(scores).squeeze()
@@ -197,5 +210,5 @@ args2fname = get_args2fname(args) # List of args
 fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
 fname_pkl = os.path.join(args.path2output, fname_pkl)
 with open(fname_pkl, 'wb') as f:
-     pickle.dump([scores, pvals, U1s, data.epochs[0].times, temp_estimator, clf, comparisons, (stimuli, stimuli_gen), args], f)
+     pickle.dump([scores, pvals, effect_sizes, data.epochs[0].times, temp_estimator, clf, comparisons, (stimuli, stimuli_gen), args], f)
 print(f'Results saved to: {fname_pkl}')

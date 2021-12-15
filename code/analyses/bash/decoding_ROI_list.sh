@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 #
 CLASSIFIER='logistic'

@@ -79,7 +79,7 @@ if args.from_pkl:
     fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
     fname_pkl = os.path.join(args.path2output, fname_pkl)
     results = pickle.load(open(fname_pkl, 'rb'))
-    scores, pvals, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+    scores, pvals, U1s, times, time_gen, clf, comparisons, stimuli, args_decoding = results
     chance_level = 1/len(stimuli[0])
     gat = args_decoding.gat
     clf = args_decoding.classifier
@@ -91,6 +91,8 @@ else:
 # STATS #
 #########
 if args.from_pkl:
+    if len(pvals[0])==2: # binary case
+        pvals = [t[0] for t in pvals] # first and second sublists should be identical
     reject_fdr, pvals_fdr = fdr_correction(pvals, alpha=alpha, method='indep')
 else:
     pvals = df['pvals'].values # n_ROIs X n_times
@@ -148,9 +150,13 @@ if gat:
     ax.set_title(f'{args.comparison_name} {args.block_train} {args.comparison_name_test} {args.block_test}')
     plt.colorbar(im, ax=ax)
 else:
-    ax.plot(times, np.mean(scores, 0),label='score', color='k', lw=3)
-    y_min = np.mean(scores, 0) - np.std(scores, 0)/np.sqrt(scores.shape[0])
-    y_max = np.mean(scores, 0) + np.std(scores, 0)/np.sqrt(scores.shape[0])
+    #scores_mean = np.mean(scores, 0)
+    #scores_sem = np.std(scores, 0)/np.sqrt(scores.shape[0])
+    scores_mean = scores
+    scores_sem = 0
+    ax.plot(times, scores_mean, label='score', color='k', lw=3)
+    y_min = scores_mean - scores_sem
+    y_max = scores_mean + scores_sem
     ax.fill_between(times, y_min, y_max, alpha=0.2, color='grey')
     # MARK SIGNIFICANCE ZONES
     if any(reject_fdr):

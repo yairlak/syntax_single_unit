@@ -661,6 +661,8 @@ def prepare_metadata(patient, verbose=False):
 
     word_ON_duration = 200 # [msec]
     word2features, word2features_new = load_word_features()
+    n_categories = len(word2features['semantic_categories'])
+    #print(word2features['semantic_categories'])
     #print(word2features_new)
     num_blocks = len(log_all_blocks)
 
@@ -668,7 +670,7 @@ def prepare_metadata(patient, verbose=False):
     keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'stimulus_number',
             'word_position', 'word_string', 'pos', 'dec_quest', 'grammatical_number', 'wh_subj_obj',
             'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf',
-            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role']
+            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'semantic_categories']
     metadata = dict([(k, []) for k in keys])
 
     cnt = 1
@@ -724,6 +726,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme'].append(word2features[word_string][0])
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
+                metadata['semantic_categories'].append(word2features[word_string][3])
                 metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
                 metadata['word_freq'].append(word_freq)
                 metadata['word_zipf'].append(word_zipf)
@@ -743,6 +746,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme'].append(word2features[word_string][0])
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
+                metadata['semantic_categories'].append(word2features[word_string][3])
                 metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
                 metadata['word_freq'].append(word_freq)
                 metadata['word_zipf'].append(word_zipf)
@@ -764,6 +768,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme'].append('')
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
+                metadata['semantic_categories'].append(np.zeros(n_categories))
                 metadata['last_word'].append(False)
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
@@ -785,6 +790,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme'].append('')
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
+                metadata['semantic_categories'].append(np.zeros(n_categories))
                 metadata['last_word'].append(False)
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
@@ -811,6 +817,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme'].append('')
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
+                metadata['semantic_categories'].append(np.zeros(n_categories))
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
                 metadata['sentence_string'].append(
@@ -1069,13 +1076,26 @@ def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
     morphemes = sheet['morpheme']
     morpheme_types = sheet['morpheme_type']
     word_type = sheet['word_type'] # function or content word
+    semantic_features = sheet['semantic_feature']
 
-    for w, m, t, cf in zip(words, morphemes, morpheme_types, word_type):
+    # k-hot representation of semantic features
+    n_words = len(semantic_features)
+    semantic_features = [list(map(lambda s:s.strip(), l.split(','))) for l in semantic_features] # list of sublists (of semantic features)
+    semantic_features_unique = sorted(list(set().union(*semantic_features))) # unique set of semantic features
+    n_semantic_features = len(semantic_features_unique)
+    semantic_features_IXs = [[semantic_features_unique.index(e) for e in sl] for sl in semantic_features] # list of sublists of indexes
+    semantic_features_k_hot = np.zeros((n_words, n_semantic_features))
+    for i_word, IXs_features in enumerate(semantic_features_IXs):
+        semantic_features_k_hot[i_word, IXs_features] = 1
+    word2features['semantic_categories'] = semantic_features_unique
+
+
+    for w, m, t, cf, sem_feat in zip(words, morphemes, morpheme_types, word_type, semantic_features_k_hot):
         if np.isnan(t):
             t=0
         if not isinstance(m, str):
             m=''
-        word2features[w.lower()] = (m, t, cf)
+        word2features[w.lower()] = (m, t, cf, sem_feat)
 
 
     word2features['exercised'] = word2features['excercised']

@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 #
 CV_FOLDS_IN=5
@@ -18,7 +18,7 @@ DTYPES="micro spike macro"
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
 
-queue="Nspin_long"
+queue="Unicog_long"
 walltime="72:00:00"
 
 

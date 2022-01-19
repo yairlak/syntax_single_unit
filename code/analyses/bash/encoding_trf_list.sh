@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 #
 CV_FOLDS_IN=5
@@ -19,7 +19,7 @@ DTYPES="micro spike"
 FILTERS="raw high-gamma"
 
 
-queue="Nspin_long"
+queue="Unicog_long"
 walltime="72:00:00"
 
 
@@ -27,11 +27,11 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FLIST="is_first_word word_onset positional phonology lexicon syntax"
+    FLIST="is_first_word word_onset positional phonology lexicon semantics syntax"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FLIST="is_first_word word_onset positional orthography lexicon syntax"
+    FLIST="is_first_word word_onset positional orthography lexicon semantics syntax"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi

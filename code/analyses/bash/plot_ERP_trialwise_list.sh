@@ -1,10 +1,10 @@
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 # 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
-PATIENTS="499"
+PATIENTS="479_11 502"
 
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike microphone"

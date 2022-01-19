@@ -21,12 +21,12 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=[''], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=[''],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')
@@ -35,16 +35,18 @@ parser.add_argument('--decimate', default=50, type=int,
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')
-parser.add_argument('--channel-name', default=[], nargs='*', action='append',
+parser.add_argument('--channel-name', default=None, nargs='*', action='append',
                     type=str, help='Pick specific channels names')
-parser.add_argument('--channel-num', default=[], nargs='*', action='append',
+parser.add_argument('--channel-num', default=None, nargs='*', action='append',
                     type=int, help='channel number (if empty all channels)')
 # MISC
 parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
+                    default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
-                    default = ['is_first_word', 'orthography', 'is_last_word'],
+                    #default = ['is_first_word', 'orthography', 'is_last_word'],
+                    #default = 'is_first_word word_onset positional orthography lexicon syntax semantics'.split(),
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
                     default=os.path.join('..', '..', '..',
@@ -60,7 +62,7 @@ parser.add_argument('--ablation-method', default='remove',
                         by reducing/ablating a feature family')
 parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 

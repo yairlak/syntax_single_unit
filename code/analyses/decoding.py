@@ -184,6 +184,8 @@ for i_t in range(y_hats.shape[1]): # loop over n_times
         p1 = y_hats[ixs_class1, i_t]
         p2 = y_hats[ixs_vs_all, i_t]
         dist_class1 = -np.log((p1-1)/p1)
+        print(dist_class1)
+        print(dist_class1.shape)
         dist_class2 = -np.log((p2-1)/p2)
         U1, p = stats.mannwhitneyu(dist_class1[0, :],
                                    dist_class2[0, :],

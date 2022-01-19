@@ -17,7 +17,8 @@ class Features():
         features_groupped['syntax'] = ['grammatical_number', 'gender', 'embedding',
                                        'wh_subj_obj', 'dec_quest',
                                        'syntactic_role', 'diff_thematic_role'] 
-        features_groupped['semantics'] = ['glove'] # try with a larger dim
+        #features_groupped['semantics'] = ['glove'] # try with a larger dim
+        features_groupped['semantics'] = ['semantic_categories'] # Taken from Paradigm/word_features.docx
         self.features_groupped = features_groupped
 
     def add_punctuation(self):
@@ -54,6 +55,7 @@ class Features():
                     get_feature_values(feature,
                                        self.metadata,
                                        dict_prop['one-hot'])
+                print(feature, feature_values.shape, len(curr_names))
                 names.extend(curr_names)
                 if feature_values.ndim > 1:
                     feature_values = np.squeeze(feature_values)
@@ -151,7 +153,12 @@ def get_feature_values(feature, metadata, one_hot):
         values = metadata[feature]
         values = np.asarray([vec for vec in values])
         names = ['glove-' + str(i) for i in range(1, 26)]
-
+    
+    if feature == 'semantic_categories':
+        values = metadata[feature]
+        values = np.stack(values)
+        names = ['abstract', 'action', 'body', 'emotion', 'event', 'flower', 'food', 'fun', 'mental', 'movement', 'music', 'negative', 'object', 'perception', 'person', 'question', 'relation', 'search', 'sleep', 'speech', 'vehicle', 'water'] 
+    
     #########################
     # PHONOLOGICAL FEATURES #
     #########################
@@ -439,5 +446,11 @@ def get_feature_style(feature_name):
         dict_prop['lw'] = 3
         dict_prop['one-hot'] = False
         dict_prop['scale'] = 'standard'
+    
+    if feature_name == 'semantic_categories':
+        dict_prop['color'] = 'xkcd:orange'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = False
 	
     return dict_prop

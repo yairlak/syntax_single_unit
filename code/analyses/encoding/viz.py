@@ -226,7 +226,7 @@ def plot_rf_r(times, scores_mean, sem_mean, reject_fdr,
                 feature_names.append(f_name)
     else:
         feature_names = feature_info.keys()
-
+    
     n_features = len(feature_names)
 
     y_lim = 1 + (1+n_features)*0.02
@@ -267,6 +267,7 @@ def plot_rf_r(times, scores_mean, sem_mean, reject_fdr,
         feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
         # feature_importance = np.minimum(feature_importance, 2*np.ones_like(feature_importance))
         # feature_importance[~mask_sig] = 0
+        print(feature_name, color, ls, lw, marker, feature_importance)
         ax.plot(times*1e3,
                 feature_importance,
                 color=color, ls=ls, lw=lw,

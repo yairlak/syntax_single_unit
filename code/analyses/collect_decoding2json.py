@@ -155,7 +155,7 @@ df['pval_fdr'] = df.apply(lambda row: get_pval_fdr(row), axis=1)
 
 #print(df)
 if not df.empty:
-    fn_json = os.path.join(args.path2output, 'decoding_results.json')
+    fn_json = os.path.join(args.path2output, 'decoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json')
     df.to_json(fn_json)
     print(f'JSON file saved to: {fn_json}')
 else:

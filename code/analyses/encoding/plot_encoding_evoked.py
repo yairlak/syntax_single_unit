@@ -60,7 +60,7 @@ parser.add_argument('--ablation-method', default='remove',
                         by reducing/ablating a feature family')
 parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 

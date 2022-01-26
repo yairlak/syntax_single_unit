@@ -89,10 +89,11 @@ for patient in patients.split():
             if data_type=='spike' and filt != 'raw':
                 continue
             args.filter = filt
-            print(f'Patient - {patient}, {data_type}, {filt}') 
             results = {'auditory':None, 'visual':None}
+            feature_info = {'auditory':None, 'visual':None}
             found_both_blocks = True
             for block in ['auditory', 'visual']:
+                print(f'Patient - {patient}, {data_type}, {filt}, {block}') 
 
                 args.query_train = {'auditory':'block in [2,4,6] and word_length>1',
                                     'visual':'block in [1,3,5] and word_length>1'}[block]
@@ -110,7 +111,7 @@ for patient in patients.split():
                 fname = 'evoked_' + dict2filename(args2fname, '_', list_args2fname, '', True)
 
                 try:
-                    results[block], ch_names, args_trf, feature_info = \
+                    results[block], ch_names, args_trf, feature_info[block] = \
                         pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
                 except:
                     print(f'File not found: {args.path2output}/{fname}.pkl')
@@ -124,7 +125,8 @@ for patient in patients.split():
             
             for i_ch, ch_name in enumerate(ch_names):
                 probe_name = get_probe_name(ch_name, args.data_type)
-                for feature in list(set(list(feature_info.keys()))) + ['full']:
+                feature_info_keys = list(feature_info['auditory'].keys()) + list(feature_info['auditory'].keys())
+                for feature in list(set(feature_info_keys)) + ['full']:
                     
                     dict_cv_score, mean_score = {}, {}
                     for block in ['auditory', 'visual']:
@@ -137,6 +139,7 @@ for patient in patients.split():
                         if feature in results[block].keys():
                             # FEATURE (scores by time)
                             scores_by_time_all_CVs_channels = results[block][feature]['scores_by_time_per_split_False']
+                            stats_by_time_all_CVs_channels = results[block][feature]['stats_by_time_per_split_False']
                             cv_score = []
                             for cv in range(len(scores_by_time_all_CVs_channels)):
                                 #print(scores_by_time_all_CVs_channels[0].shape)
@@ -174,7 +177,9 @@ for patient in patients.split():
                         hemi = dict_hemi[probe_name[st]]
                     else:
                         hemi = None
-                    df = df.append({'Probe_name':probe_name,
+                    df = df.append({'data_type':data_type,
+                                    'filter':filt,
+                                    'Probe_name':probe_name,
                                     'Hemisphere':hemi,
                                     'Ch_name':ch_name,
                                     'Patient':patient, 

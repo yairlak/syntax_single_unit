@@ -196,9 +196,9 @@ model = RidgeCV(alphas=alphas,
                 alpha_per_target = True, # Optimize hyper-param per channel
                 cv=None) # efficient LOO
 
-kf_out = KFold(n_splits=args.n_folds_outer,
-               shuffle=True,
-               random_state=1)
+#kf_out = KFold(n_splits=args.n_folds_outer,
+#               shuffle=True,
+#               random_state=1)
 
 for keep in [False, True]:
     for feature_name in feature_names:
@@ -236,7 +236,8 @@ for keep in [False, True]:
             X_cv, y_cv = X_reduced, y
             
         # CROSS-VALIDATION
-        for i_split, (IXs_train, IXs_test) in enumerate(kf_out.split(X_cv, y_cv)):
+        loo = KFold(X_cv.shape[0], shuffle=True, random_state=1)
+        for i_split, (IXs_train, IXs_test) in enumerate(loo.split(X_cv, y_cv)):
             print(f'Split {i_split}, keep: {keep}')
             #########
             # TRAIN #

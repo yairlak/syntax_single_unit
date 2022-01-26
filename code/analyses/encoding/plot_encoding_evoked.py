@@ -24,9 +24,9 @@ parser = argparse.ArgumentParser(description='Plot TRF results')
 parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[''], help='electrode type')
+                    action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=[''],
+                    default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')

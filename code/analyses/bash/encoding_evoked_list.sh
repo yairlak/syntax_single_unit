@@ -18,7 +18,7 @@ DTYPES="micro spike macro"
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
 
-queue="Unicog_long"
+queue="Nspin_long"
 walltime="72:00:00"
 
 

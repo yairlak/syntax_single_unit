@@ -1,0 +1,1 @@
+python3 /neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/collect_evoked_encoding.py --decimate 50 --smooth 50 --ablation-method remove --feature-list is_first_word word_onset positional phonology lexicon syntax semantics

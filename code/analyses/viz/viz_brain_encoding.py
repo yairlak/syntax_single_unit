@@ -113,7 +113,7 @@ hemis=['lh', 'rh']
 surface='pial'
 
 
-def get_color(x, cmap='seismic'):
+def get_color(x, cmap='RdBu_r'):
     return eval(f'plt.cm.{cmap}((np.clip(x,-1,1)+1)/2.)')
 
 
@@ -150,15 +150,17 @@ for feature in features:
         
         for label in labels:
             df_roi = df.loc[df['Feature'] == feature]
-            max_dr = df_roi['dr_auditory_max'].max()
-            print(feature, max_dr)
+            # max_dr = df_roi['dr_visual_max'].max()
+            # print(feature, max_dr)
             df_roi = df_roi.loc[df_roi['ROI_fsaverage'] == label.name]
-            colors[label.vertices, :] = [0,
-                                         df_roi['dr_auditory_max'].mean()/max_dr,
-                                         0]
+            #colors[label.vertices, :] = [0,
+                                         #df_roi['dr_auditory_max'].mean()/max_dr,
+             #                            df_roi['dr_auditory_max'].mean(),
+             #                            0]
             # d = df_roi['dr_visual_total'].mean()
-            # color[label.vertices, :] = get_color(d)[:3]
-        
+            if df_roi['dr_visual_max'].mean()>0.05:
+                colors[label.vertices, :] = get_color(df_roi['dr_visual_max'].mean()/0.1)[:3]
+            #
         
         # In[14]:
         
@@ -172,12 +174,12 @@ for feature in features:
         
         
         p.add_mesh(surf,
-                   color='grey',
+                   #color='grey',
                    show_edges=False,
                    scalars="colors",
                    cmap='RdBu_r',
                    interpolate_before_map=False,
-                   #clim=[0, 2*chance_level],
+                   clim=[0, 0.1],
                    rgb=True)
                    #annotations = {chance_level:'chance'})
         
@@ -188,7 +190,7 @@ for feature in features:
         p.view_zy()
         p.camera.roll += 90
         aspect = {'lh':'lateral', 'rh':'medial'}[hemi]
-        zoom = {'medial':1.65, 'lateral':1.8}[aspect]
+        zoom = {'medial':1.1, 'lateral':1.2}[aspect]
         p.camera.zoom(zoom)
         p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
         axs[i_hemi*2].imshow(p.image)
@@ -198,18 +200,20 @@ for feature in features:
         
         
         aspect = {'lh':'medial', 'rh':'lateral'}[hemi]
-        zoom = {'medial':1.65, 'lateral':1.8}[aspect]
+        #zoom = {'medial':1.65, 'lateral':1.8}[aspect]
+        zoom = {'medial':1.1, 'lateral':1.2}[aspect]
         p.camera.zoom(zoom)
         if hemi == 'rh':
-            p.add_scalar_bar(height=0.25,
+            p.add_scalar_bar(height=0.5,
+                             width=0.1,
                              vertical=True,
-                             position_x=0.9,
-                             position_y=0.74,
+                             position_x=0.85,
+                             position_y=0.25,
                              color='k',
-                             title_font_size=20,
-                             label_font_size=16,
-                             title='Accuracy')
-#            p.update_scalar_bar_range([0, 2*chance_level])
+                             title_font_size=40,
+                             label_font_size=30,
+                             title='Brain score')
+            p.update_scalar_bar_range([0, 0.1])
         p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
         axs[i_hemi*2+1].imshow(p.image)
         
@@ -229,7 +233,8 @@ for feature in features:
         
         
         print(f'Saved to {fn}')
-    # fn = f'../../../Figures/viz_brain/encoding_{feature}_{data_type}_{filt}'
-    # plt.tight_layout()
-    # # plt.savefig(fn+'_all.png')
-    # plt.close(fig_plt)
+    fn = f'../../../Figures/viz_brain/encoding_{feature}_{data_type}_{filt}'
+    plt.tight_layout()
+    #plt.subplots_adjust(right=0.85)
+    plt.savefig(fn+'_all.png')
+    plt.close(fig_plt)

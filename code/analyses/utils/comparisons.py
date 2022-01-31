@@ -293,6 +293,16 @@ def comparison_list():
     comparisons['all_phones']['sort'] = ['phone_string']
     # comparisons['all_phones']['sort'] = 'clustering'
     comparisons['all_phones']['y-tick-step'] = 1
+
+# ALL PHONES
+    comparisons['all_phones'] = {}
+    comparisons['all_phones']['queries'] = 'phone_string'
+    comparisons['all_phones']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_phones']['fixed_constraint'] = "phone_string>0"
+    comparisons['all_phones']['colors'] = ['b', 'r']
+    comparisons['all_phones']['sort'] = ['phone_string']
+    # comparisons['all_phones']['sort'] = 'clustering'
+    comparisons['all_phones']['y-tick-step'] = 1
     
 # ALL WORDS
     comparisons['all_words_visual'] = {}

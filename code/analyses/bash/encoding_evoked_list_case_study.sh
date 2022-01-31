@@ -4,7 +4,7 @@ CLUSTER=0
 #
 CV_FOLDS_IN=5
 CV_FOLDS_OUT=5
-METHODS='remove'
+METHODS='zero' # 'zero remove'
 SMOOTH=50
 DECIMATE=50
 
@@ -46,7 +46,7 @@ for BLOCK in $BLOCKS; do
                         #echo $PATIENT $DTYPE $FILTER
                         path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
 
-                        filename_py="encoding_trf.py --patient "$PATIENT" --data-type "$DTYPE" --filter "$FILTER" --query-train "$QTRAIN" --query-test "$QTEST" --feature-list "$FLIST" --n-folds-inner "$CV_FOLDS_IN" --n-folds-outer "$CV_FOLDS_OUT" --ablation-method "$METHOD" --smooth "$SMOOTH" --decimate "$DECIMATE" --each-feature-value"
+                        filename_py="encoding_evoked.py --patient "$PATIENT" --data-type "$DTYPE" --filter "$FILTER" --query-train "$QTRAIN" --query-test "$QTEST" --feature-list "$FLIST" --n-folds-inner "$CV_FOLDS_IN" --n-folds-outer "$CV_FOLDS_OUT" --ablation-method "$METHOD" --smooth "$SMOOTH" --decimate "$DECIMATE" --each-feature-value"
 
                         output_log='logs/out_trf_'$PATIENT'_'$DTYPE'_'$FILTER
                         error_log='logs/err_trf_'$PATIENT'_'$DTYPE'_'$FILTER

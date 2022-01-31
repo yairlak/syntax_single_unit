@@ -65,6 +65,9 @@ parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1"
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
+parser.add_argument('--keep', default=False, action='store_true',
+                    help="If True, plot the case for which the feature was. \
+                          kept as the only one instead of removed from the model")
 
 
 #############
@@ -104,7 +107,7 @@ results, ch_names, args_evoked, feature_info = \
     pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
 print(args_evoked)
 
-keep = True
+keep = args.keep
 # nd-array of size n_times
 times = results['times']
 # dict with feature-name keys, 

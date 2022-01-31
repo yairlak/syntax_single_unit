@@ -12,7 +12,7 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 import sys
 import pickle
-from viz import plot_rf_coefs, plot_rf_r
+from viz import plot_evoked_coefs, plot_evoked_r
 sys.path.append('..')
 from utils.utils import dict2filename
 import matplotlib.pyplot as plt
@@ -21,12 +21,12 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=[],
+parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
+                    action='append', default=['micro'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=[],
+                    default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')
@@ -43,9 +43,9 @@ parser.add_argument('--channel-num', default=None, nargs='*', action='append',
 parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
-                    default=None,
+                    # default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
-                    #default = ['is_first_word', 'orthography', 'is_last_word'],
+                    default = ['is_first_word', 'is_last_word', 'orthography'],
                     #default = 'is_first_word word_onset positional orthography lexicon syntax semantics'.split(),
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
@@ -104,15 +104,26 @@ results, ch_names, args_evoked, feature_info = \
     pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
 print(args_evoked)
 
-keep = True
+n_channels, n_times = results['full']['scores_by_time_False'].shape
+
+keep = False
 # nd-array of size n_times
 times = results['times']
 # dict with feature-name keys, 
 # each contains a list (len=n_splits) with n_channels X n_times results array
-scores_by_time_per_split = {k:results[k][f'scores_by_time_per_split_{keep}'] for k in results.keys() if not k.startswith('times')}
+scores_by_time_per_split = {k:results[k][f'scores_by_time_per_split_{keep}']
+                            for k in results.keys() if not k.startswith('times')}
+coefs_by_time_per_split = {k:results[k][f'model_per_split_{keep}']
+                           for k in results.keys() if not k.startswith('times')}
+
+
+stats_by_time = {k:results[k][f'stats_by_time_{keep}']
+                     for k in results.keys() if not k.startswith('times')}
+    
+
 # dict with feature-name keys, 
 # each contains a n_channels X n_times results array
-stats_by_time = {k:results[k][f'stats_by_time_{keep}'] for k in results.keys() if not k.startswith('times')}
+
 
 #######
 # FDR #
@@ -127,33 +138,65 @@ for k in stats_by_time.keys():
 ############
 # PLOTTING #
 ############
-n_splits = len(scores_by_time_per_split['full'])
+#n_splits = len(scores_by_time_per_split['full'])
 
 for i_channel, ch_name in enumerate(ch_names):
-    scores_mean = {k:np.asarray(scores_by_time_per_split[k]).mean(axis=0)[i_channel, :]
-                   for k in scores_by_time_per_split.keys()}
-    scores_sem = {k:np.asarray(scores_by_time_per_split[k]).std(axis=0)[i_channel, :]/np.sqrt(n_splits)
-                  for k in scores_by_time_per_split.keys()}
+    #scores_mean = {k:np.asarray(scores_by_time_per_split[k]).mean(axis=0)[i_channel, :]
+    #               for k in scores_by_time_per_split.keys()}
+    #scores_sem = {k:np.asarray(scores_by_time_per_split[k]).std(axis=0)[i_channel, :]/np.sqrt(n_splits)
+    #              for k in scores_by_time_per_split.keys()}
+    scores_by_time = {k:results[k][f'scores_by_time_{keep}'][i_channel, :]
+                      for k in results.keys() if not k.startswith('times')}
+    stats_by_time = {k:results[k][f'stats_by_time_{keep}'][i_channel, :]
+                     for k in results.keys() if not k.startswith('times')}
+    sem_by_time = {k:np.zeros_like(results[k][f'stats_by_time_{keep}'][i_channel, :])
+                     for k in results.keys() if not k.startswith('times')}
+    
+    coefs_mean , coefs_sem= {}, {}
+    for k in coefs_by_time_per_split.keys():
+        coefs_all_splits = []
+        for i_model, model in enumerate(coefs_by_time_per_split[k]):
+            coefs_all_splits.append(model.coef_.reshape(n_channels, n_times, -1)[i_channel, :, :])
+        coefs_all_splits = np.dstack(coefs_all_splits)
+        coefs_mean[k] = coefs_all_splits.mean(axis=2)
+        coefs_sem[k] = coefs_all_splits.std(axis=2)/np.sqrt(i_model+1)
+                   
+    
+    
     reject_fdr_curr_channel = {k:reject_fdr[k][i_channel, :]
                                for k in reject_fdr.keys()}
     
-    fig_r2 = plot_rf_r(times,
-                       scores_mean,
-                       scores_sem,
-                       reject_fdr_curr_channel, # after FDR correction
-                       ch_name, feature_info, args, keep)
+    fig_r2 = plot_evoked_r(times,
+                           scores_by_time,
+                           sem_by_time,
+                           reject_fdr_curr_channel, # after FDR correction
+                           ch_name, feature_info, args, keep)
 
     fname_fig = os.path.join(args.path2figures, 
                              args.patient[0],
                              args.data_type[0],
-                             'rf_r_' +
+                             'evoked_r_' +
                              fname + f'_{ch_name}_groupped_{keep}.png')
     fig_r2.savefig(fname_fig)
     plt.close(fig_r2)
     print('Figure saved to: ', fname_fig)
 
 
+    fig_coef = plot_evoked_coefs(times,
+                                 coefs_mean,
+                                 coefs_sem,
+                                 reject_fdr_curr_channel, # after FDR correction
+                                 ch_name, feature_info, args, keep)
 
+    fname_fig = os.path.join(args.path2figures, 
+                             args.patient[0],
+                             args.data_type[0],
+                             'evoked_fig_coef_' +
+                             fname + f'_{ch_name}_groupped_{keep}.png')
+    fig_coef.savefig(fname_fig)
+    plt.close(fig_coef)
+    print('Figure saved to: ', fname_fig)
+    
 
     #############
     # PLOT COEF #

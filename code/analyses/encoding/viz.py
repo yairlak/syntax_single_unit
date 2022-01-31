@@ -182,7 +182,7 @@ def get_curve_style(feature_name, feature_info):
     return color, ls, lw, marker
 
 
-def plot_rf_r(times, scores_mean, sem_mean, reject_fdr,
+def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
               ch_name, feature_info, args, keep=False):
     fig, ax = plt.subplots(figsize=(15,10))
     
@@ -267,7 +267,9 @@ def plot_rf_r(times, scores_mean, sem_mean, reject_fdr,
         feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
         # feature_importance = np.minimum(feature_importance, 2*np.ones_like(feature_importance))
         # feature_importance[~mask_sig] = 0
-        print(feature_name, color, ls, lw, marker, feature_importance)
+        
+        
+        #print(feature_name, color, ls, lw, marker, feature_importance)
         ax.plot(times*1e3,
                 feature_importance,
                 color=color, ls=ls, lw=lw,
@@ -288,3 +290,45 @@ def plot_rf_r(times, scores_mean, sem_mean, reject_fdr,
 
     return fig
 
+
+def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_name, feature_info, args, keep, group=False):
+    
+    # PLOT
+    fig, ax = plt.subplots(figsize=(15,10))
+    ax.set_title(f'{ch_name}', fontsize=24)
+    color = 'k'
+    # ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    # ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  # we already handled the x-label with ax1
+    # ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
+    # ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
+    # ax2.tick_params(axis='y', labelcolor=color)
+    # ax2.set_ylim((0, 1)) 
+    
+    feature_names = feature_info.keys()
+    for i_feature, feature_name in enumerate(feature_names):
+        print(feature_name)
+        color, ls, lw, marker = get_curve_style(feature_name, feature_info)
+        st, ed = feature_info[feature_name]['IXs']
+        if group:
+            # IX_max_abs = np.argmax(np.abs(coefs_mean[st:ed, :]), axis=0)
+            coef_curr_feature = np.mean(coefs_mean[st:ed, :], axis=0)
+            ax.plot(times, coef_curr_feature, color=color, ls=ls, lw=lw,
+                    marker=marker, markersize=15, label=feature_name)
+        else:
+            #for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
+            coef_curr_feature = coefs_mean['full'][:, st:ed]
+            ax.plot(coef_curr_feature.T, color=color, ls=ls, lw=lw, label=feature_name)
+    
+    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
+    ax.set_xlabel('Time (msec)', fontsize=20)
+    ax.set_ylabel(r'Beta', fontsize=20)
+    ax.set_ylim((None, None)) 
+    if args.block_type == 'visual':
+        ax.axvline(x=0, ls='--', color='k')
+        ax.axvline(x=500, ls='--', color='k')
+    ax.axhline(ls='--', color='k')    
+    ax.tick_params(axis='both', labelsize=18)
+    #ax2.tick_params(axis='both', labelsize=18)
+    plt.subplots_adjust(right=0.65)
+    
+    return fig

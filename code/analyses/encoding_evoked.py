@@ -5,6 +5,7 @@ Created on Mon Jan 25 14:48:59 2021
 
 @author: yl254115
 """
+import copy
 import argparse
 import os
 import pickle
@@ -25,10 +26,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -43,7 +44,7 @@ parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \
                     (must be identical).')
 # QUERY
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1",
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1",
                     help='E.g., limits to first phone in auditory blocks\
                         "and first_phone == 1"')
 parser.add_argument('--query-test', default=None,
@@ -51,17 +52,17 @@ parser.add_argument('--query-test', default=None,
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
-#parser.add_argument('--feature-list',
-#                    default=['is_first_word',
-#                              'is_last_word',
-#                              'phonological_features'],
-#                    nargs='*',
-#                    help='Feature to include in the encoding model')
 parser.add_argument('--feature-list',
+                    default=['is_first_word',
+                              'is_last_word',
+                              'orthography'],
                     nargs='*',
-#                    action='append',
-                    default=None,
                     help='Feature to include in the encoding model')
+# parser.add_argument('--feature-list',
+#                     nargs='*',
+# #                    action='append',
+#                     default=None,
+#                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
@@ -71,8 +72,8 @@ parser.add_argument('--model-type', default='ridge',
 parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -248,7 +249,7 @@ for keep in [False, True]:
                     results[feature_name][f'model_per_split_{keep}'] = model
             else:
                 model.fit(X_reduced[IXs_train, :], y[IXs_train, :])
-                results[feature_name][f'model_per_split_{keep}'].append(model)
+                results[feature_name][f'model_per_split_{keep}'].append(copy.deepcopy(model))
                 
             ###########
             # PREDICT #

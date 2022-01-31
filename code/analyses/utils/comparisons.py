@@ -108,14 +108,18 @@ def comparison_list():
     comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
 
     comparisons['505_LFGP6_30p2'] = {}
+    # comparisons['505_LFGP6_30p2']['queries'] = ["word_string.str.contains('w') and ~word_string.str.startswith('W') and ~word_string.str.startswith('w')",
+    #                                             "word_string.str.startswith('W')",
+    #                                             "word_string.str.startswith('w')",
+    #                                             "(word_string.str.contains('m') or word_string.str.contains('v')) and (~word_string.str.contains('W') and ~word_string.str.contains('w'))"]
     comparisons['505_LFGP6_30p2']['queries'] = ["word_string.str.contains('w') and ~word_string.str.startswith('W') and ~word_string.str.startswith('w')",
-                                                "word_string.str.startswith('W')",
-                                                "word_string.str.startswith('w')",
-                                                "(word_string.str.contains('m') or word_string.str.contains('v')) and (~word_string.str.contains('W') and ~word_string.str.contains('w'))"]
-    comparisons['505_LFGP6_30p2']['condition_names'] = ['Middle or end w', 'Starts with W (sentence onset)', 'Starts with w', 'No w']
-    comparisons['505_LFGP6_30p2']['colors'] = ['g', 'r', 'r', 'k']
-    comparisons['505_LFGP6_30p2']['ls'] = ['-', '-', '--', '-']
-    comparisons['505_LFGP6_30p2']['lw'] = [3, 3, 3, 3]
+                                                "word_string.str.startswith('W') or word_string.str.startswith('w')"]
+                                                #"(word_string.str.contains('m') or word_string.str.contains('v')) and (~word_string.str.contains('W') and ~word_string.str.contains('w'))"]
+    
+    comparisons['505_LFGP6_30p2']['condition_names'] = ['Middle or end w', 'Starts with w', 'No w']
+    comparisons['505_LFGP6_30p2']['colors'] = ['g', 'r', 'k']
+    comparisons['505_LFGP6_30p2']['ls'] = ['-', '-', '-']
+    comparisons['505_LFGP6_30p2']['lw'] = [3, 3, 3]
     comparisons['505_LFGP6_30p2']['level'] = 'word'
     comparisons['505_LFGP6_30p2']['y-tick-step'] = 20
     comparisons['505_LFGP6_30p2']['sort'] = ['word_string']
@@ -260,6 +264,7 @@ def comparison_list():
     comparisons['all_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_trials']['colors'] = ['b', 'r']
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
+    #comparisons['all_trials']['sort'] = 'rate'
     comparisons['all_trials']['y-tick-step'] = 50
     #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
     comparisons['all_trials']['tmin_tmax'] = [-0.25, 3.5]
@@ -279,16 +284,26 @@ def comparison_list():
     comparisons['all_words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_words']['colors'] = ['b', 'r']
     #comparisons['all_words']['sort'] = ['word_string']
-    comparisons['all_words']['sort'] = ['word_length', 'word_string']
-    #comparisons['all_words']['sort'] = 'clustering'
+    #comparisons['all_words']['sort'] = ['word_length', 'word_string']
+    comparisons['all_words']['sort'] = 'rate'
     comparisons['all_words']['y-tick-step'] = 20
     comparisons['all_words']['level'] = 'word'
-    comparisons['all_words']['tmin_tmax'] = [-0.5, 1.5]
+    comparisons['all_words']['tmin_tmax'] = [-0.3, 0.6]
 
 # ALL PHONES
     comparisons['all_phones'] = {}
     comparisons['all_phones']['queries'] = ["phone_position>0 and (block in [1, 3, 5])", "phone_position>0 and (block in [2, 4, 6])"]
     comparisons['all_phones']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_phones']['colors'] = ['b', 'r']
+    comparisons['all_phones']['sort'] = ['phone_string']
+    # comparisons['all_phones']['sort'] = 'clustering'
+    comparisons['all_phones']['y-tick-step'] = 1
+
+# ALL PHONES
+    comparisons['all_phones'] = {}
+    comparisons['all_phones']['queries'] = 'phone_string'
+    comparisons['all_phones']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_phones']['fixed_constraint'] = "phone_string>0"
     comparisons['all_phones']['colors'] = ['b', 'r']
     comparisons['all_phones']['sort'] = ['phone_string']
     # comparisons['all_phones']['sort'] = 'clustering'

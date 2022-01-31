@@ -45,7 +45,7 @@ parser.add_argument('--feature-list',
 #                    action='append',
                     # default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
-                    default = ['is_first_word', 'is_last_word', 'orthography'],
+                    default = 'is_first_word_is_last_word_orthography'.split(),
                     #default = 'is_first_word word_onset positional orthography lexicon syntax semantics'.split(),
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
@@ -65,6 +65,9 @@ parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1"
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
+parser.add_argument('--keep', default=False, action='store_true',
+                    help="If True, plot the case for which the feature was. \
+                          kept as the only one instead of removed from the model")
 
 
 #############
@@ -95,13 +98,12 @@ if not os.path.exists(os.path.join(args.path2figures, args.patient[0], args.data
 
 args2fname = args.__dict__.copy()
 fname = dict2filename(args2fname, '_', list_args2fname, '', True)
-fname = 'evoked_' +  fname
 
 #########################
 # LOAD ENCODING RESULTS #
 #########################
 results, ch_names, args_evoked, feature_info = \
-    pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
+    pickle.load(open(os.path.join(args.path2output, 'evoked_' + fname + '.pkl'), 'rb'))
 print(args_evoked)
 
 n_channels, n_times = results['full']['scores_by_time_False'].shape
@@ -191,7 +193,7 @@ for i_channel, ch_name in enumerate(ch_names):
     fname_fig = os.path.join(args.path2figures, 
                              args.patient[0],
                              args.data_type[0],
-                             'evoked_fig_coef_' +
+                             'evoked_coef_' +
                              fname + f'_{ch_name}_groupped_{keep}.png')
     fig_coef.savefig(fname_fig)
     plt.close(fig_coef)

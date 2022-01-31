@@ -184,7 +184,7 @@ def get_curve_style(feature_name, feature_info):
 
 def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
               ch_name, feature_info, args, keep=False):
-    fig, ax = plt.subplots(figsize=(15,10))
+    fig, ax = plt.subplots(figsize=(20,10))
     
     # Draw full-model results
     # scores_full_mean = scores['full']['scores_by_time'][0][i_channel, :]
@@ -231,6 +231,7 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
 
     y_lim = 1 + (1+n_features)*0.02
     ax2.set_ylim((0, y_lim))
+    y_lim = 0.05 
     
     for i_feature, feature_name in enumerate(feature_names):
         color, ls, lw, marker = get_curve_style(feature_name, feature_info)
@@ -253,7 +254,7 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
                 elif sig_period and (i_t==len(reject_fdr)-1): # Last time point
                     t2 = times[i_t]
                     i_t_ed = -1
-                    ax.hlines(y=1.02+i_feature*0.02, xmin=t1*1e3, xmax=t2*1e3,
+                    ax.hlines(y=y_lim+i_feature*0.02, xmin=t1*1e3, xmax=t2*1e3,
                                linewidth=8, color=color, alpha=0.3)
                     mask_sig[i_t_st:i_t_ed] = 1
 
@@ -263,12 +264,11 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
             # feature_importance = scores_mean[feature_name]*(2*scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
             feature_importance = scores_mean[feature_name]
         else:
-            feature_importance = scores_mean[feature_name]*(scores_mean['full'] - scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
+            #feature_importance = scores_mean[feature_name]*(scores_mean['full'] - scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
+            feature_importance = (scores_mean['full'] - scores_mean[feature_name])
         feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
         # feature_importance = np.minimum(feature_importance, 2*np.ones_like(feature_importance))
         # feature_importance[~mask_sig] = 0
-        
-        
         #print(feature_name, color, ls, lw, marker, feature_importance)
         ax.plot(times*1e3,
                 feature_importance,
@@ -279,14 +279,15 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
     ax.set_xlabel('Time (msec)', fontsize=40)
     # ax.set_ylabel(r'$\Delta r$', fontsize=40)
     ax.set_ylabel('Feature importance', fontsize=40)
-    ax.set_ylim((0, y_lim))
+    ax.set_ylim((0, y_lim+(1+n_features)*0.02))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')
     ax.tick_params(axis='both', labelsize=35)
     ax2.tick_params(axis='both', labelsize=35)
-    #plt.subplots_adjust(right=0.65)
+    ax.legend(loc='center left', bbox_to_anchor=(1.5, 0, 0.5, 1.2), ncol=int(np.ceil(len(feature_names)/20)), fontsize=16)
+    plt.subplots_adjust(right=0.5)
 
     return fig
 
@@ -294,7 +295,7 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
 def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_name, feature_info, args, keep, group=False):
     
     # PLOT
-    fig, ax = plt.subplots(figsize=(15,10))
+    fig, ax = plt.subplots(figsize=(20,10))
     ax.set_title(f'{ch_name}', fontsize=24)
     color = 'k'
     # ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -306,7 +307,7 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_
     
     feature_names = feature_info.keys()
     for i_feature, feature_name in enumerate(feature_names):
-        print(feature_name)
+        
         color, ls, lw, marker = get_curve_style(feature_name, feature_info)
         st, ed = feature_info[feature_name]['IXs']
         if group:
@@ -315,11 +316,14 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_
             ax.plot(times, coef_curr_feature, color=color, ls=ls, lw=lw,
                     marker=marker, markersize=15, label=feature_name)
         else:
-            #for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
+       #     for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
             coef_curr_feature = coefs_mean['full'][:, st:ed]
-            ax.plot(coef_curr_feature.T, color=color, ls=ls, lw=lw, label=feature_name)
+            #ax.plot(times, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_info[feature_name]['names'])
+            ax.plot(times, coef_curr_feature, ls=ls, lw=lw, label=feature_info[feature_name]['names'])
+            print(feature_name)
     
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
+    #ax.legend(loc='center left', bbox_to_anchor=(1.5, 0, 0.5, 1.2), ncol=int(np.ceil(len(feature_names)/10)), fontsize=16)
+    ax.legend(loc='center left', bbox_to_anchor=(1.2, 0, 0.5, 1.2), ncol=int(np.ceil(coefs_mean['full'].shape[1]/20)), fontsize=16)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'Beta', fontsize=20)
     ax.set_ylim((None, None)) 
@@ -329,6 +333,6 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=18)
     #ax2.tick_params(axis='both', labelsize=18)
-    plt.subplots_adjust(right=0.65)
+    plt.subplots_adjust(right=0.5)
     
     return fig

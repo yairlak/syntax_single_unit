@@ -17,103 +17,11 @@ from mne.stats import fdr_correction
 SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
 
 # In[5]:
-alpha = 0.05
 data_type = 'micro'
-filt = 'raw'
 fn_trf_results = f'../../../Output/encoding_models/evoked_encoding_results_decimate_50_smooth_50.json'
 df = pd.read_json(fn_trf_results)
 
 df = df.loc[df['data_type'] == data_type]
-df = df.loc[df['filter'] == filt]
-
-
-def get_dr(r_full, r):
-    if (not r_full is None) and (not r is None):
-        if isinstance(r_full, str):
-            r = [float(e) for e in r[1:-1].split()]
-            r_full = [float(e) for e in r_full[1:-1].split()]
-            dr = np.asarray(r_full) - np.asarray(r)
-        elif isinstance(r_full, float):
-            if np.isnan(r_full) or np.isnan(r):
-                return np.nan
-            else:
-                dr = np.asarray(r_full) - np.asarray(r)
-        else:
-            dr = np.asarray(r_full) - np.asarray(r)
-    else:
-        dr=np.nan
-    return dr
-# df['dr_visual_total'] = df.apply (lambda row: get_dr(row['r_full_visual'],
-#                                                row['r_visual']), axis=1)
-# df['dr_auditory_total'] = df.apply (lambda row: get_dr(row['r_full_auditory'],
-#                                                  row['r_auditory']), axis=1)
-
-df['dr_visual_by_time'] = df.apply (lambda row: get_dr(row['r_full_visual_by_time'],
-                                               row['r_visual_by_time']), axis=1)
-df['dr_auditory_by_time'] = df.apply (lambda row: get_dr(row['r_full_auditory_by_time'],
-                                                 row['r_auditory_by_time']), axis=1)
-
-
-def find_max(dr_by_time):
-    if isinstance(dr_by_time, float):
-        if np.isnan(dr_by_time):
-            return np.nan
-        else:
-            return dr_by_time.max()
-    else:
-        return np.asarray(dr_by_time).max()
-                
-df['dr_visual_max'] = df.apply (lambda row: find_max(row['dr_visual_by_time']), axis=1)
-df['dr_auditory_max'] = df.apply (lambda row: find_max(row['dr_auditory_by_time']), axis=1)
-df['r_full_visual_max'] = df.apply (lambda row: find_max(row['r_full_visual_by_time']), axis=1)
-df['r_full_auditory_max'] = df.apply (lambda row: find_max(row['r_full_auditory_by_time']), axis=1)
-
-
-def get_mask_significance(row, block, feature):
-    pvals = row[f'stats{feature}_{block}_by_time']
-    if pvals is None:
-        return None
-    pvals = np.asarray(pvals)
-    reject_fdr, pvals_fdr = fdr_correction(pvals,
-                                           alpha=alpha,
-                                           method='indep')
-    
-    return reject_fdr
-
-
-def get_r_significant(row, block, feature):
-    rs = row[f'r{feature}_{block}_by_time']
-    mask = row[f'mask_significance_{block}{feature}']
-    if mask is None:
-        return None
-    rs_masked = np.asarray(rs)[mask]
-    return rs_masked
-    
-for block in ['auditory', 'visual']:
-    for feature in ['', '_full']:
-        df[f'mask_significance_{block}{feature}'] = df.apply(lambda row: get_mask_significance(row, block, feature), axis=1)
-
-for block in ['auditory', 'visual']:
-    for feature in ['', '_full']:
-        df[f'r_significant_{block}{feature}'] = df.apply(lambda row: get_r_significant(row, block, feature), axis=1)
-
-
-def get_d_from_diag(row):
-    visual = row['r_significant_visual_full']
-    auditory = row['r_significant_auditory_full']
-    if (visual is not None) and (auditory is not None):
-        d = (visual.mean()-auditory.mean())/np.sqrt(2)
-    else:
-        d = None
-    return d
-
-df['d_from_diag'] = df.apply(lambda row: get_d_from_diag(row), axis=1)
-
-
-#df['d_from_diag'] = df.apply(lambda row: (row['r_full_visual_max']-row['r_full_auditory_max'])/np.sqrt(2), axis=1)
-
-
-# df['d_from_diag'] = df.apply(lambda row: (row['r_full_visual']-row['r_full_auditory'])/np.sqrt(2), axis=1)
 
 # In[6]:
 def probename2ROI(path2mapping='../../../Data/probenames2fsaverage.tsv'):
@@ -164,15 +72,13 @@ hemis=['lh', 'rh']
 surface='pial'
 
 
-def get_color(x, cmap='seismic'):
+def get_color(x, cmap='RdBu_r'):
     return eval(f'plt.cm.{cmap}((np.clip(x,-1,1)+1)/2.)')
-
-
-features = ['phonology', 'lexicon', 'syntax', 'semantics', 'positional']
 
 
 fig_plt, axs = plt.subplots(1, 4, figsize=(20, 5))
 [ax.set_axis_off() for ax in axs]
+
 for i_hemi, hemi in enumerate(hemis):
     
     fname = f'{subjects_dir}/fsaverage/surf/{hemi}.{surface}'
@@ -199,23 +105,17 @@ for i_hemi, hemi in enumerate(hemis):
 
     colors = curv
     
+    
+    
     for label in labels:
         df_roi = df.loc[df['Feature'] == 'full']
-        # max_dr = df_roi['dr_auditory_max'].max()
-        # print(feature, max_dr)
         df_roi = df_roi.loc[df_roi['ROI_fsaverage'] == label.name]
-        #colors[label.vertices, :] = [0,
-                                     #df_roi['dr_auditory_max'].mean()/max_dr,
-         #                            df_roi['dr_auditory_max'].mean(),
-         #                            0]
-        # d = df_roi['dr_visual_total'].mean()
-        colors[label.vertices, :] = get_color(df_roi['d_from_diag'].mean())[:3]
-        #
+        colors[label.vertices, :] = get_color(len(df_roi)/100)[:3]
     
     # In[14]:
     
     
-    fn = f'../../../Figures/viz_brain/encoding_amodality_{hemi}_{data_type}_{filt}'
+    fn = f'../../../Figures/viz_brain/coverage_{hemi}_{data_type}'
     
     surf = pv.PolyData(vertices, faces)
     surf["colors"] = colors
@@ -227,9 +127,9 @@ for i_hemi, hemi in enumerate(hemis):
                #color='grey',
                show_edges=False,
                scalars="colors",
-               cmap='seismic',
+               cmap='RdBu_r',
                interpolate_before_map=False,
-               clim=[0, 0.1],
+               clim=[0, 1],
                rgb=True)
                #annotations = {chance_level:'chance'})
     
@@ -262,8 +162,8 @@ for i_hemi, hemi in enumerate(hemis):
                          color='k',
                          title_font_size=40,
                          label_font_size=30,
-                         title='Visual-Auditory')
-        p.update_scalar_bar_range([-1, 1])
+                         title='#Electrodes')
+        p.update_scalar_bar_range([-100, 100])
     p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
     axs[i_hemi*2+1].imshow(p.image)
     
@@ -280,10 +180,10 @@ for i_hemi, hemi in enumerate(hemis):
     ipv.style.box_off()
     ipv.pylab.save(fn+'.html')
     fig.close()
-    
-    
-    print(f'Saved to {fn}')
-fn = f'../../../Figures/viz_brain/encoding_amodality_{data_type}_{filt}'
+
+
+print(f'Saved to {fn}')
+fn = f'../../../Figures/viz_brain/coverage_{data_type}'
 plt.tight_layout()
 #plt.subplots_adjust(right=0.85)
 plt.savefig(fn+'_all.png')

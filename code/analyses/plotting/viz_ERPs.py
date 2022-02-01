@@ -19,10 +19,10 @@ def f2(seq):
    return checked
 
 
-def get_sorting(metadata, query, sort_info, ch_name, args):
+def get_sorting(epochs, query, sort_info, ch_name, args):
     fields_for_sorting = []
     if  sort_info == 'clustering':
-        word_strings = metadata.query(query)['word_string']
+        word_strings = epochs[query].metadata['word_string']
         if '[1, 3, 5]' in query:
             block = 'block in [1,3,5]'
         elif '[2, 4, 6]' in query:
@@ -39,7 +39,7 @@ def get_sorting(metadata, query, sort_info, ch_name, args):
             yticklabels.extend([target_w]*len(IX_curr_word))
     elif isinstance(sort_info, list):
         for field in sort_info:
-            fields_for_sorting.append(metadata.query(query)[field])
+            fields_for_sorting.append(epochs[query].metadata[field])
         if len(fields_for_sorting) == 1:
             mylist = [(i, j) for (i, j) in zip(range(
                 len(fields_for_sorting[0])), fields_for_sorting[0])]

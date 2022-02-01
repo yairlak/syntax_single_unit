@@ -151,10 +151,15 @@ def get_curve_style(feature_name, feature_info):
     # CHECK IF IT'S A FEATURE NAME OR FEATURE-VALUE NAME
     if feature_name in feature_info.keys():  # is feature name
         color = feature_info[feature_name]['color']
-        if feature_name == 'semantics':
-            color = 'xkcd:orange'
-            color = 'orange'
+        # if feature_name == 'semantics':
+        #     color = 'xkcd:orange'
+        #     color = 'orange'
+        
+        
+       
         f_name = feature_name
+           
+     
     else:  # is value name
         f_name = None
         for k in feature_info.keys():
@@ -178,11 +183,41 @@ def get_curve_style(feature_name, feature_info):
         lw = feature_info[f_name]['lw']
     else:
         lw = 3
+        
+    if feature_name == 'position':
+        #dict_prop['color'] = 'grey'
+        ls = 'dashed'
+        #dict_prop['lw'] = 3
+
+    # PHONOLOGY
+    if feature_name == 'phonology':
+        #dict_prop['color'] = 'm'
+        ls = 'dashdot'
+        #dict_prop['lw'] = 3
+
+    # ORTHOGRAPHY
+    if feature_name == 'orthography':
+        #dict_prop['color'] = 'r'
+        ls = 'dashdot'
+        #dict_prop['lw'] = 3
+
+    # LEXICON
+    if feature_name == 'lexicon':
+        ls = 'dotted'
+        
+    # SEMANTICS
+    if feature_name == 'semantics':
+        ls = 'solid'
+        
+    # SYNTAX
+    if feature_name == 'syntax':
+        ls = (0, (3, 5, 1, 5, 1, 5)) #dashdotdotted
+        
     
     return color, ls, lw, marker
 
 
-def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
+def plot_evoked_r(times, scores_mean, scores_sem, reject_fdr,
               ch_name, feature_info, args, keep=False):
     fig, ax = plt.subplots(figsize=(20,10))
     
@@ -195,8 +230,8 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
     ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)
     ax2.plot(times*1e3, scores_mean['full'], color=color, lw=3)
     ax2.fill_between(times*1e3,
-                    scores_mean['full'] + sem_mean['full'],
-                    scores_mean['full'] - sem_mean['full'],
+                    scores_mean['full'] + scores_sem['full'],
+                    scores_mean['full'] - scores_sem['full'],
                     color=color,
                     alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
@@ -292,18 +327,43 @@ def plot_evoked_r(times, scores_mean, sem_mean, reject_fdr,
     return fig
 
 
-def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_name, feature_info, args, keep, group=False):
+def plot_evoked_coefs(times, coefs_mean, coefs_sem, scores_mean, scores_sem, reject_fdr_curr_channel, ch_name, feature_info, args, keep, group=False):
     
     # PLOT
     fig, ax = plt.subplots(figsize=(20,10))
     ax.set_title(f'{ch_name}', fontsize=24)
+    
+    
     color = 'k'
-    # ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    # ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  # we already handled the x-label with ax1
-    # ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
-    # ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
-    # ax2.tick_params(axis='y', labelcolor=color)
-    # ax2.set_ylim((0, 1)) 
+    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=30)
+    ax2.plot(times, scores_mean['full'], color=color, lw=3)
+    ax2.fill_between(times,
+                    scores_mean['full'] + scores_sem['full'],
+                    scores_mean['full'] - scores_sem['full'],
+                    color=color,
+                    alpha=0.2)
+    ax2.tick_params(axis='y', labelcolor=color)
+    ax2.set_xlim((-0.250, 0.750))
+    ax2.set_ylim((0,1))
+    
+    # if any(reject_fdr['full']):
+    #     sig_period = False
+    #     for i_t, reject in enumerate(reject_fdr['full']):
+    #         if reject and (not sig_period): # Entering a significance zone
+    #             t1 = times[i_t]
+    #             sig_period = True
+    #         elif (not reject) and sig_period: # Exiting a sig zone
+    #             t2 = times[i_t-1]
+    #             #ax.axvspan(t1, t2, facecolor='g', alpha=0.2)
+    #             ax2.hlines(y=1, xmin=t1*1e3, xmax=t2*1e3,
+    #                        linewidth=8, color='k', alpha=0.3)
+    #             sig_period = False
+    #         elif sig_period and (i_t==len(reject_fdr)-1): # Last time point
+    #             t2 = times[i_t]
+    #             ax2.hlines(y=1, xmin=t1*1e3, xmax=t2*1e3,
+    #                        linewidth=8, color='k', alpha=0.3)
+
     
     feature_names = feature_info.keys()
     for i_feature, feature_name in enumerate(feature_names):
@@ -312,9 +372,18 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_
         st, ed = feature_info[feature_name]['IXs']
         if group:
             # IX_max_abs = np.argmax(np.abs(coefs_mean[st:ed, :]), axis=0)
-            coef_curr_feature = np.mean(coefs_mean[st:ed, :], axis=0)
-            ax.plot(times, coef_curr_feature, color=color, ls=ls, lw=lw,
+            coefs = coefs_mean['full'][:, st:ed]
+            n_coefs = coefs.shape[1]
+            coef_curr_feature_group_mean = np.mean(coefs, axis=1)
+            coef_curr_feature_group_sem = np.std(coefs, axis=1)/np.sqrt(n_coefs)
+            ax.plot(times, coef_curr_feature_group_mean,
+                        color=color, ls=ls, lw=lw,
                     marker=marker, markersize=15, label=feature_name)
+            ax.fill_between(x=times,
+                            y1=coef_curr_feature_group_mean-coef_curr_feature_group_sem,
+                            y2=coef_curr_feature_group_mean+coef_curr_feature_group_sem,
+                            alpha=0.2,
+                            color=color)
         else:
        #     for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
             coef_curr_feature = coefs_mean['full'][:, st:ed]
@@ -323,16 +392,17 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, reject_fdr_curr_channel, ch_
             print(feature_name)
     
     #ax.legend(loc='center left', bbox_to_anchor=(1.5, 0, 0.5, 1.2), ncol=int(np.ceil(len(feature_names)/10)), fontsize=16)
-    ax.legend(loc='center left', bbox_to_anchor=(1.2, 0, 0.5, 1.2), ncol=int(np.ceil(coefs_mean['full'].shape[1]/20)), fontsize=16)
-    ax.set_xlabel('Time (msec)', fontsize=20)
-    ax.set_ylabel(r'Beta', fontsize=20)
+    ax.legend(loc='center left', bbox_to_anchor=(1.2, 0, 0.5, 1), ncol=int(np.ceil(coefs_mean['full'].shape[1]/30)), fontsize=16)
+    ax.set_xlabel('Time (msec)', fontsize=30)
+    ax.set_ylabel(r'Beta', fontsize=30)
     ax.set_ylim((None, None)) 
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
+    # ax.set_xlim((-0.250, 0.750))
     ax.tick_params(axis='both', labelsize=18)
     #ax2.tick_params(axis='both', labelsize=18)
-    plt.subplots_adjust(right=0.5)
+    plt.subplots_adjust(right=0.45)
     
     return fig

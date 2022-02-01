@@ -31,11 +31,11 @@ parser.add_argument('--scale-epochs', action="store_true", default=False, help='
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-name', default=['p_g2_30_GA4-LFG'], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='505_LFGP6_30p2', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='all_words_visual', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
@@ -139,11 +139,14 @@ print('-'*100)
 print(epochs.ch_names)
 
 stimulus_strings = []
-metadata['comparison'] = 'Other'
+# metadata['comparison'] = 'Other'
+queries = []
 for condition_name, query in zip(comparison['condition_names'], comparison['queries']):
     IXs = metadata.query(query, engine='python').index
     metadata.loc[IXs, 'comparison'] = condition_name
     stimulus_strings.append(metadata.loc[IXs, 'word_string'])
+    queries.append(query)
+metadata = metadata.query("|".join(queries), engine='python')
 
 
 

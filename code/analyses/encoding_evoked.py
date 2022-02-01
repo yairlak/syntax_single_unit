@@ -26,10 +26,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'])
+parser.add_argument('--patient', action='append', default=[])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['raw'],
+                    action='append', default=[], help='electrode type')
+parser.add_argument('--filter', action='append', default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -53,8 +53,7 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
 parser.add_argument('--feature-list',
-                    default=['is_first_word',
-                              'is_last_word',
+                    default=['positional_full',
                               'orthography'],
                     nargs='*',
                     help='Feature to include in the encoding model')
@@ -72,8 +71,8 @@ parser.add_argument('--model-type', default='ridge',
 parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
-parser.add_argument('--n-folds-inner', default=2, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=2, type=int, help="For CV")
+parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',

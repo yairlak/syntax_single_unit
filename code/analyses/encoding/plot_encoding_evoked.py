@@ -21,12 +21,12 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=[],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')
@@ -43,9 +43,9 @@ parser.add_argument('--channel-num', default=None, nargs='*', action='append',
 parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
-                    # default=None,
+                    default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
-                    default = 'is_first_word_is_last_word_orthography'.split(),
+                    #default = 'is_first_word_is_last_word_orthography'.split(),
                     #default = 'is_first_word word_onset positional orthography lexicon syntax semantics'.split(),
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',

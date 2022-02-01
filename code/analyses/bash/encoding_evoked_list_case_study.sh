@@ -1,10 +1,10 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 #
 CV_FOLDS_IN=5
 CV_FOLDS_OUT=5
-METHODS='zero' # 'zero remove'
+METHODS='remove' # 'zero remove'
 SMOOTH=50
 DECIMATE=50
 
@@ -13,12 +13,12 @@ PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
 
 # Which signal types (micro macro spike)
 # DTYPES="micro macro spike"
-DTYPES="micro macro spike"
-#DTYPES="micro"
+#DTYPES="micro macro spike"
+DTYPES="spike micro"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
-FILTERS="raw"
+#FILTERS="raw"
 
 
 queue="Nspin_long"
@@ -29,7 +29,7 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FEATURES="phonology semantics lexicon syntax"
+    FEATURES="phonology position semantics lexicon syntax"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
@@ -38,7 +38,7 @@ for BLOCK in $BLOCKS; do
     QTEST="'block in [1,3,5] and word_length>1'"
     fi
     for FEATURE in $FEATURES; do
-        FLIST="is_first_word word_onset positional "$FEATURE
+        FLIST="position "$FEATURE
         for METHOD in $METHODS; do
             for PATIENT in $PATIENTS; do
                 for DTYPE in $DTYPES; do

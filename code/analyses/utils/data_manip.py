@@ -670,7 +670,7 @@ def prepare_metadata(patient, verbose=False):
     keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'stimulus_number',
             'word_position', 'word_string', 'pos', 'dec_quest', 'grammatical_number', 'wh_subj_obj',
             'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf',
-            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'semantic_categories']
+            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'semantic_categories', 'semantic_categories_names']
     metadata = dict([(k, []) for k in keys])
 
     cnt = 1
@@ -727,6 +727,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
                 metadata['semantic_categories'].append(word2features[word_string][3])
+                metadata['semantic_categories_names'].append(word2features[word_string][4])
                 metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
                 metadata['word_freq'].append(word_freq)
                 metadata['word_zipf'].append(word_zipf)
@@ -747,6 +748,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme_type'].append(int(word2features[word_string][1]))
                 metadata['word_type'].append(word2features[word_string][2])
                 metadata['semantic_categories'].append(word2features[word_string][3])
+                metadata['semantic_categories_names'].append(word2features[word_string][4])
                 metadata['last_word'].append(metadata['sentence_length'][-1] == metadata['word_position'][-1])
                 metadata['word_freq'].append(word_freq)
                 metadata['word_zipf'].append(word_zipf)
@@ -769,6 +771,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
                 metadata['semantic_categories'].append(np.zeros(n_categories))
+                metadata['semantic_categories_names'].append(np.zeros(n_categories))
                 metadata['last_word'].append(False)
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
@@ -791,6 +794,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
                 metadata['semantic_categories'].append(np.zeros(n_categories))
+                metadata['semantic_categories_names'].append(np.zeros(n_categories))
                 metadata['last_word'].append(False)
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
@@ -818,6 +822,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['morpheme_type'].append('')
                 metadata['word_type'].append('')
                 metadata['semantic_categories'].append(np.zeros(n_categories))
+                metadata['semantic_categories_names'].append(np.zeros(n_categories))
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
                 metadata['sentence_string'].append(
@@ -1090,12 +1095,12 @@ def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
     word2features['semantic_categories'] = semantic_features_unique
 
 
-    for w, m, t, cf, sem_feat in zip(words, morphemes, morpheme_types, word_type, semantic_features_k_hot):
+    for w, m, t, cf, sem_feat_khot, sem_feat in zip(words, morphemes, morpheme_types, word_type, semantic_features_k_hot, semantic_features):
         if np.isnan(t):
             t=0
         if not isinstance(m, str):
             m=''
-        word2features[w.lower()] = (m, t, cf, sem_feat)
+        word2features[w.lower()] = (m, t, cf, sem_feat_khot, sem_feat)
 
 
     word2features['exercised'] = word2features['excercised']

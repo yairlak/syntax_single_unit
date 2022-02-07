@@ -39,35 +39,39 @@ parser.add_argument('--channel-name', default=None, nargs='*', action='append',
                     type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', action='append',
                     type=int, help='channel number (if empty all channels)')
-# MISC
+# FEATURES
 parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
                     default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
-                    #default = 'is_first_word_is_last_word_orthography'.split(),
+                    # default = ['position', 'orthography', 'lexicon', 'syntax', 'semantics'],
+                    #default = ['orthography'],
                     #default = 'is_first_word word_onset positional orthography lexicon syntax semantics'.split(),
                     help='Feature to include in the encoding model')
-parser.add_argument('--path2output',
-                    default=os.path.join('..', '..', '..',
-                                         'Output', 'encoding_models'))
-parser.add_argument('--path2figures',
-                    default=os.path.join('..', '..', '..',
-                                         'Figures', 'encoding_models'))
-parser.add_argument('--model-type', default='ridge',
-                    choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
-parser.add_argument('--ablation-method', default='remove',
-                    choices=['shuffle', 'remove', 'zero'],
-                    help='Method used to calcuated feature importance\
-                        by reducing/ablating a feature family')
-parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
-parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 parser.add_argument('--keep', default=False, action='store_true',
                     help="If True, plot the case for which the feature was. \
                           kept as the only one instead of removed from the model")
+# MODEL
+parser.add_argument('--model-type', default='ridge',
+                    choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
+parser.add_argument('--ablation-method', default='remove',
+                    choices=['shuffle', 'remove', 'zero'],
+                    help='Method used to calcuated feature importance\
+                        by reducing/ablating a feature family')
+
+# MISC
+parser.add_argument('--path2output',
+                    default=os.path.join('..', '..', '..',
+                                         'Output', 'encoding_models'))
+parser.add_argument('--path2figures',
+                    default=os.path.join('..', '..', '..',
+                                         'Figures', 'encoding_models'))
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
 
 
 #############
@@ -178,60 +182,27 @@ for i_channel, ch_name in enumerate(ch_names):
                              args.patient[0],
                              args.data_type[0],
                              'evoked_r_' +
-                             fname + f'_{ch_name}_groupped_{keep}.png')
+                             fname + f'_{ch_name}_keep_{keep}.png')
     fig_r2.savefig(fname_fig)
     plt.close(fig_r2)
     print('Figure saved to: ', fname_fig)
 
 
-    fig_coef = plot_evoked_coefs(times,
-                                 coefs_mean,
-                                 coefs_sem,
-                                 reject_fdr_curr_channel, # after FDR correction
-                                 ch_name, feature_info, args, keep)
-
-    fname_fig = os.path.join(args.path2figures, 
-                             args.patient[0],
-                             args.data_type[0],
-                             'evoked_coef_' +
-                             fname + f'_{ch_name}_groupped_{keep}.png')
-    fig_coef.savefig(fname_fig)
-    plt.close(fig_coef)
-    print('Figure saved to: ', fname_fig)
+    for group in [False, True]:
+        fig_coef = plot_evoked_coefs(times,
+                                     coefs_mean,
+                                     coefs_sem,
+                                     scores_by_time,
+                                     sem_by_time,
+                                     reject_fdr_curr_channel, # after FDR correction
+                                     ch_name, feature_info, args, keep, group)
     
-
-    #############
-    # PLOT COEF #
-    #############
-    #fig_coef = plot_rf_coefs(results, i_channel, ch_name,
-    #                         feature_info, args, False)
-    #fname_fig = os.path.join(args.path2figures,
-    #                         args.patient[0],
-    #                         args.data_type[0],
-    #                         'rf_coef_' +
-    #                         fname + f'_{ch_name}.png')
-    #fig_coef.savefig(fname_fig)
-    #plt.close(fig_coef)
-    #print('Figure saved to: ', fname_fig)
-
-    ######################
-    ## PLOT COEF GROUPED #
-    ######################
-    #fig_coef = plot_rf_coefs(results, i_channel, ch_name,
-    #                         feature_info, args, True)
-    #fname_fig = os.path.join(args.path2figures, 
-    #                         args.patient[0],
-    #                         args.data_type[0],
-    #                         'rf_coef_' +
-    #                         fname + f'_{ch_name}_groupped.png')
-    #fig_coef.savefig(fname_fig)
-    #plt.close(fig_coef)
-    #print('Figure saved to: ', fname_fig)
-
-    #################
-    # PLOT delta R2 #
-    #################
-    
-    
-    
+        fname_fig = os.path.join(args.path2figures, 
+                                 args.patient[0],
+                                 args.data_type[0],
+                                 'evoked_coef_' +
+                                 fname + f'_{ch_name}_keep_{keep}_group_{group}.png')
+        fig_coef.savefig(fname_fig)
+        plt.close(fig_coef)
+        print('Figure saved to: ', fname_fig)
     

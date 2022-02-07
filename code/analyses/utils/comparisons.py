@@ -290,6 +290,19 @@ def comparison_list():
     comparisons['all_words']['level'] = 'word'
     comparisons['all_words']['tmin_tmax'] = [-0.3, 0.6]
 
+
+
+# ALL WORDS
+    comparisons['food_related'] = {}
+    comparisons['food_related']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5]) and word_string.str.contains('chef|salad|mushrooms|ate|grapes|cake|sandwich|eat|meal|tasty|eats|drink|cook|overcooked')",
+                                              "word_string.str.len()>1 and (block in [2, 4, 6]) and ~word_string.str.contains('chef|salad|mushrooms|ate|grapes|cake|sandwich|eat|meal|tasty|eats|drink|cook|overcooked')"]
+    comparisons['food_related']['condition_names'] = ['Food related', 'Food unrelated']
+    comparisons['food_related']['colors'] = ['b', 'r']
+    comparisons['food_related']['sort'] = ['word_string']
+    comparisons['food_related']['y-tick-step'] = 20
+    comparisons['food_related']['level'] = 'word'
+    comparisons['food_related']['tmin_tmax'] = [-0.3, 0.6]
+
 # ALL PHONES
     comparisons['all_phones'] = {}
     comparisons['all_phones']['queries'] = ["phone_position>0 and (block in [1, 3, 5])", "phone_position>0 and (block in [2, 4, 6])"]
@@ -314,9 +327,11 @@ def comparison_list():
     comparisons['all_words_visual']['queries'] = ["word_string.str.len()>1 and (block in [1, 3, 5])"]
     comparisons['all_words_visual']['condition_names'] = ['all_words_visual']
     comparisons['all_words_visual']['colors'] = ['b']
-    comparisons['all_words_visual']['sort'] = ['word_string']
+    comparisons['all_words_visual']['sort'] = 'rate'#['word_string']
     # comparisons['all_words_visual']['sort'] = 'clustering'
+    comparisons['all_words_visual']['tmin_tmax'] = [-0.1, 0.6]
     comparisons['all_words_visual']['y-tick-step'] = 20
+    comparisons['all_words_visual']['level'] = 'word'
 
     comparisons['all_words_audio'] = {}
     comparisons['all_words_audio']['queries'] = ["word_string.str.len()>1 and (block in [2, 4, 6])"]

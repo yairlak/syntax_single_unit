@@ -237,39 +237,39 @@ def get_feature_style(feature_name):
     ##########
 
     # POSITION
-    if feature_name == 'positional':
+    if feature_name == 'position':
         dict_prop['color'] = 'grey'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = 'dashed'
         dict_prop['lw'] = 3
 
     # PHONOLOGY
     if feature_name == 'phonology':
         dict_prop['color'] = 'm'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = 'dashdot'
         dict_prop['lw'] = 3
 
     # ORTHOGRAPHY
     if feature_name == 'orthography':
         dict_prop['color'] = 'r'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = 'dashdot'
         dict_prop['lw'] = 3
 
     # LEXICON
     if feature_name == 'lexicon':
         dict_prop['color'] = 'g'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = 'dotted'
         dict_prop['lw'] = 3
 
     # SEMANTICS
     if feature_name == 'semantics':
         dict_prop['color'] = 'xkcd:orange'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = 'solid'
         dict_prop['lw'] = 3
 
     # SYNTAX
     if feature_name == 'syntax':
         dict_prop['color'] = 'b'
-        dict_prop['ls'] = '-'
+        dict_prop['ls'] = (0, (3, 5, 1, 5, 1, 5)) #dashdotdotted
         dict_prop['lw'] = 3
 
     ############

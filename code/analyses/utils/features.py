@@ -10,6 +10,7 @@ class Features():
         # PRE-DEFINED GROUPED FEATURES
         features_groupped = {}
         features_groupped['positional'] = ['word_position', 'is_last_word']
+        features_groupped['position'] = ['is_first_word', 'word_position', 'is_last_word']
         features_groupped['orthography'] = ['letters', 'word_length']
         features_groupped['phonology'] = ['phonological_features']
         features_groupped['lexicon'] = ['pos_simple', 'word_zipf',

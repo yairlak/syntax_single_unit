@@ -26,11 +26,11 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FLIST="is_first_word word_onset positional phonology lexicon syntax semantics"
+    FLIST="position phonology lexicon syntax semantics"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FLIST="is_first_word word_onset positional orthography lexicon syntax semantics"
+    FLIST="position orthography lexicon syntax semantics"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi

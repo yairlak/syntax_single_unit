@@ -24,18 +24,18 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'micropho
                     default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
-                    default='sentence_onset', help='')
+                    default='word', help='')
 parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=None, nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=['p_g2_30_GA4-LFG'], nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='all_words_visual', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='505_LFGP6_30p2', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
@@ -74,6 +74,12 @@ if args.data_type == 'spike':
     args.vmax = 0.5
 print(args)
 
+
+comparisons = comparisons.comparison_list()
+comparison = comparisons[args.comparison_name].copy()
+if 'channel_name' in comparison.keys():
+    args.channel_name = [comparison['channel_name']]
+
 # LOAD
 data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
@@ -81,8 +87,6 @@ data = DataHandler(args.patient, args.data_type, args.filter,
 data.load_raw_data(verbose=True)
 
 # COMPARISON
-comparisons = comparisons.comparison_list()
-comparison = comparisons[args.comparison_name].copy()
 
 if 'level' in comparison.keys():
     args.level = comparison['level']
@@ -122,6 +126,12 @@ comparison = update_queries(comparison, args.block_type,
 
 print(args.comparison_name)
 pprint(comparison)
+dict_prop = {}
+for i_cond, cond_name in enumerate(comparison['condition_names']):
+    dict_prop[cond_name] = {}
+    for prop in ['colors', 'cmaps', 'ls', 'y-tick-step']:
+        if prop in comparison.keys():
+            dict_prop[cond_name][prop] = comparison[prop][i_cond]
 
 # n_conds = len(comparison['queries'])
 
@@ -146,7 +156,7 @@ for condition_name, query in zip(comparison['condition_names'], comparison['quer
     metadata.loc[IXs, 'comparison'] = condition_name
     stimulus_strings.append(metadata.loc[IXs, 'word_string'])
     queries.append(query)
-metadata = metadata.query("|".join(queries), engine='python')
+metadata = metadata.query("("+ ")|(".join(queries) + ")", engine='python')
 
 
 
@@ -170,15 +180,39 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                     plot=False)
     
     # plot rasters
-    fig, axs = plt.subplots(3, 1, figsize=(20, 20))
-    #plot_order = np.array([1,2])
-    #cmap = ['Blues', 'Reds']
+    
+    
+    
+    if 'figsize' in comparison.keys():
+        figsize = comparison['figsize']
+    else:
+        figsize = (4, 20)
+    
+    
+    gridpsec_kw = {}
+    if 'height_ratios' in comparison.keys():
+        height_ratios = []
+        for cond_id in comparison['condition_names']:
+            if comparison['height_ratios']:
+                n_trials_curr_cond = rasters['data'][cond_id].shape[0]
+            else:
+                n_trials_curr_cond = 1
+            height_ratios.append(n_trials_curr_cond)
+        gridpsec_kw['height_ratios'] = height_ratios
+        if comparison['height_ratios']:
+                height_ratios.append(int(sum(height_ratios)/3))
+        else:
+            height_ratios.append(1)
+    
     
     n_conds = len(list(rasters['data'].keys()))
+    fig, axs = plt.subplots(n_conds+1, 1, figsize=figsize, gridspec_kw=gridpsec_kw)
     for i, cond_id in enumerate(sorted(list(rasters['data'].keys()))):
-        plt.subplot(n_conds+1,1, i+1)
-        if i==0:
-            has_title=True
+        IX_subplot = comparison['condition_names'].index(cond_id)
+        #plt.subplot(n_conds+1,1, IX_subplot+1)
+        plt.sca(axs[IX_subplot])
+        if IX_subplot==0:
+            has_title=False # True
         else:
             has_title=False
 
@@ -192,45 +226,68 @@ for ch, ch_name in enumerate(epochs.ch_names):
             sortby = comparison['sort']
         
 
-        
+        if 'cmaps' in comparison.keys():
+            curr_cmap = dict_prop[cond_id]['cmaps']
+        else:
+            curr_cmap = None
+        if 'colors' in comparison.keys():
+            curr_color = dict_prop[cond_id]['colors']
+        else:
+            curr_color = None
         
         IXs_sort = curr_neuron.plot_raster(rasters,
                                            cond_id=cond_id,
-                                           #cmap=cmap[i],
+                                           cmap=curr_cmap,
                                            cond_name=f'cond_id',
                                            sortby=sortby,
                                            sortorder='ascend',
                                            has_title=has_title)
         
         if comparison['sort'] in ['rate', 'latency']:
-            field = 'word_string'
+            if args.level == 'word':
+                field = 'word_string'
+            elif args.level in ['sentence_onset', 'sentence_offset']:
+                field = 'sentence_string'
             yticklabels = metadata[metadata['comparison'] == cond_id][field].to_numpy()
             yticklabels = yticklabels[IXs_sort]
         
         # generate corresponding ticks
         yticks = range(len(yticklabels))
         # Subsample tick labels
-        yticks = yticks[::args.y_tick_step]
-        yticklabels = yticklabels[::args.y_tick_step]
+        yticks = yticks[::dict_prop[cond_id]['y-tick-step']]
+        yticklabels = yticklabels[::dict_prop[cond_id]['y-tick-step']]
         # Replace ticks
         plt.gca().set_yticks(yticks)
         plt.gca().set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
+        #plt.gca().set_ylabel(cond_id, fontsize=20)
+        if curr_color is not None:
+            #plt.gca().yaxis.label.set_color(curr_color)
+            plt.gca().tick_params(axis='y', colors=curr_color)
+        
         
         if i < n_conds-1:
             plt.xlabel('')
     
-    plt.subplot(n_conds+1,1, n_conds+1)
+    #plt.subplot(n_conds+1,1, n_conds+1)
+    plt.sca(axs[-1])
+    if 'ylim' in comparison.keys():
+        ylim = comparison['ylim']   
+    else:
+        ylim = 70
+    
+    sorted_colors = np.asarray(comparison['colors'])[np.argsort(comparison['condition_names'])].tolist()
     psth_M1 = curr_neuron.get_psth(event='event_time',
                                  df=metadata,
                                  conditions='comparison',
                                  window=[tmin, tmax],
                                  binsize=10,
                                  plot=True,
-                                 ylim=[0, 70])
+                                 ylim=[0, ylim],
+                                 colors=sorted_colors)
                                  #event_name='Block Type')
     plt.title('')
-    
-        
+    plt.subplots_adjust(hspace=-1)
+    #plt.tight_layout()
    
     ##############
     # ERP FIGURE #

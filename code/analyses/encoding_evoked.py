@@ -26,10 +26,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'])
+parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
-parser.add_argument('--filter', action='append', default=['high-gamma'],
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -53,7 +53,7 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
 parser.add_argument('--feature-list',
-                    default=['orthography'],
+                    default=['letter_by_position', 'position', 'word_length'],
                     nargs='*',
                     help='Feature to include in the encoding model')
 # parser.add_argument('--feature-list',
@@ -61,7 +61,7 @@ parser.add_argument('--feature-list',
 # #                    action='append',
 #                     default=None,
 #                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL

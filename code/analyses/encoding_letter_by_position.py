@@ -1,7 +1,7 @@
 import argparse, os, pickle
-from functions.utils import dict2filename
-from functions.data_manip import load_neural_data
-from functions.features import get_features
+from utils.utils import dict2filename
+#from utils.data_manip import load_neural_data
+#from functions.features import get_features
 import numpy as np
 import sklearn
 from sklearn.preprocessing import StandardScaler
@@ -19,8 +19,8 @@ parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='a
 parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-25', 'high-gamma'], action='append', default=['raw'], help='')
 parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default='505_LFGP6_30p2', nargs='*', action='append', type=str, help='Pick specific channels names')
-parser.add_argument('--channe-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
+parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY
 parser.add_argument('--query', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
@@ -48,7 +48,7 @@ args.patient = ['patient_' + p for p in  args.patient]
 #if not args.probe_name:
 #    args.probe_name = ['All']
 print('args\n', args)
-assert len(args.patient)==len(args.data_type)==len(args.filter)==len(args.probe_name)
+assert len(args.patient)==len(args.data_type)==len(args.filter)#==len(args.probe_name)
 # FNAME 
 list_args2fname = ['patient', 'data_type', 'filter', 'level', 'block_type', 'model_type', 'ch_name', 'feature_list', 'query']
 

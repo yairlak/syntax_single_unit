@@ -968,6 +968,10 @@ def extend_metadata(metadata):
     # feature_values = pd.DataFrame(data=feature_values, columns=phonological_features)
     # metadata = pd.concat((metadata, feature_values), axis=1)
     
+    
+    metadata['letter_by_position'] = get_letter_by_position(metadata)
+    
+    
     return metadata
 
 
@@ -1093,14 +1097,14 @@ def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
     for i_word, IXs_features in enumerate(semantic_features_IXs):
         semantic_features_k_hot[i_word, IXs_features] = 1
     word2features['semantic_categories'] = semantic_features_unique
-
+    #print(semantic_features_unique)
 
     for w, m, t, cf, sem_feat_khot, sem_feat in zip(words, morphemes, morpheme_types, word_type, semantic_features_k_hot, semantic_features):
         if np.isnan(t):
             t=0
         if not isinstance(m, str):
             m=''
-        word2features[w.lower()] = (m, t, cf, sem_feat_khot, sem_feat)
+        word2features[w.lower()] = (m, t, cf, sem_feat_khot, ",".join(sem_feat))
 
 
     word2features['exercised'] = word2features['excercised']
@@ -1290,3 +1294,27 @@ def get_dict_ch_names(path2data):
     values = [ll.split()[1] for ll in lines]
     
     return dict(zip(keys, values)), values
+
+
+def get_letter_by_position(df_metadata):
+    alphabet=[letter for letter in 'abcdefghijklmnopqrstuvwxyz']
+    n_letters = len(alphabet)
+    
+    word_strings = df_metadata['word_string']
+    letter_by_position = []
+    for word_string in word_strings:
+        encoding_vec = np.zeros((1, n_letters*3))
+        for i_letter, letter in enumerate(word_string):
+            if letter.lower() in alphabet:
+                if i_letter == 0: # First letter
+                    i_pos = 0
+                elif i_letter == len(word_string) - 1: # Last letter 
+                    i_pos = 2
+                else: # middle letter
+                    i_pos = 1
+                IX = i_pos * n_letters + alphabet.index(letter.lower())
+                encoding_vec[0, IX] = 1
+        letter_by_position.append(encoding_vec)
+   
+    return letter_by_position
+    

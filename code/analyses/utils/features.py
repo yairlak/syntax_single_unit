@@ -154,7 +154,7 @@ def get_feature_values(feature, metadata, one_hot):
         values = np.asarray([vec for vec in values])
         names = ['glove-' + str(i) for i in range(1, 26)]
     
-    if feature == 'semantic_categories':
+    elif feature == 'semantic_categories':
         values = metadata[feature]
         values = np.stack(values)
         names = ['abstract', 'action', 'body', 'emotion', 'event', 'flower', 'food', 'fun', 'mental', 'movement', 'music', 'negative', 'object', 'perception', 'person', 'question', 'relation', 'search', 'sleep', 'speech', 'vehicle', 'water'] 
@@ -187,6 +187,13 @@ def get_feature_values(feature, metadata, one_hot):
             values.append(row_vector)
         names = ['letter-' + w for w in names]
 
+    elif feature == 'letter_by_position':
+        values = metadata[feature]
+        values = np.asarray([vec for vec in values])
+        alphabet=[letter for letter in 'abcdefghijklmnopqrstuvwxyz']
+        positions = ['First', 'Middle', 'Last']
+        names = [letter + '-' + pos for pos in positions for letter in alphabet]
+    
     ######################
     # ALL OTHER FEATURES #
     ######################

@@ -109,10 +109,11 @@ def update_queries(comp, block_type, fixed_constraint, metadata):
             comp['queries'] = queries
             comp['condition_names'] = condition_names
 
-    if not comp['colors']:
+    if ('colors' not in comp.keys()) or (not comp['colors']):
+        comp['colors'] = []
         color_vals = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
         for i, _ in enumerate(comp['queries']):
-            comp['colors'].append(color_vals[ i % 7])
+            comp['colors'].append(color_vals[ i % len(color_vals)])
 
     # Add block constraint
     comp['block_type'] = block_type

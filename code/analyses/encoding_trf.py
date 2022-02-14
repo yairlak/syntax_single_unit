@@ -24,12 +24,12 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['479_11'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['spike'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=25, type=int,
+parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -50,18 +50,16 @@ parser.add_argument('--query-test', default=None,
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
-#parser.add_argument('--feature-list',
-#                    default=['is_first_word',
-#                              'is_last_word',
-#                              'phonological_features'],
-#                    nargs='*',
-#                    help='Feature to include in the encoding model')
 parser.add_argument('--feature-list',
+                    default=['position', 'phonemes', 'lexicon'],
                     nargs='*',
-#                    action='append',
-                    default=None,
                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=False, action='store_true',
+# parser.add_argument('--feature-list',
+#                     nargs='*',
+#                     action='append',
+#                     default=None,
+                    # help='Feature to include in the encoding model')
+parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL
@@ -86,7 +84,7 @@ parser.add_argument('--tmin_rf', default=0, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=1, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=20, type=float,
+parser.add_argument('--decimate', default=50, type=float,
                     help='Set empty list for no decimation.')
 # PATHS
 parser.add_argument('--path2output',
@@ -221,7 +219,7 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         score_sentence, pval = stats.spearmanr(y_pred, y)
         #score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
         #                                   y_sentence[:, test, :])
-        print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
+        #print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
         results[feature_name]['total_score'].append(score_sentence)
 
         # WORD LEVEL (SCORE PER TIME POINT)

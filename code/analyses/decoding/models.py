@@ -21,7 +21,8 @@ def define_model(args, verbose=False):
         if verbose: print('Multiclass classification')
         if args.classifier == 'logistic':
             clf = make_pipeline(OneVsRestClassifier(LogisticRegression(solver='lbfgs',
-                                                                       class_weight='balanced')))
+                                                                       class_weight='balanced',
+                                                                       multi_class='ovr')))
         elif args.classifier == 'svc':
             clf = make_pipeline(OneVsRestClassifier(LinearSVC(class_weight='balanced')))
         elif args.classifier == 'ridge':

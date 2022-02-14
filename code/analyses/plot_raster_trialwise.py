@@ -19,7 +19,7 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='505', help='Patient string')
+parser.add_argument('--patient', default='479_11', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
@@ -35,7 +35,7 @@ parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pic
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='505_LFGP6_30p2', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default= '479_11_LSTG7_15p2', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
@@ -49,7 +49,8 @@ parser.add_argument('--word-ON-duration', default=250, help='Duration for which 
 parser.add_argument('--remove-outliers', action="store_true", default=False, help='Remove outliers based on percentile 25 and 75')
 parser.add_argument('--no-title', action="store_true", default=False)
 parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
-parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
+parser.add_argument('--xticklabels-fontsize', type=int, default=20, help="")
+parser.add_argument('--yticklabels-fontsize', type=int, default=20, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['word_string'], help='Keys to sort according')
 parser.add_argument('--y-tick-step', default=10, type=int, help='If sorted by key, set the yticklabels density')
@@ -99,6 +100,7 @@ data.epoch_data(level=args.level,
                 verbose=True)
 epochs = data.epochs[0]
 metadata = epochs.metadata.copy()
+metadata['sentence_string'] = metadata.apply(lambda row: row['sentence_string'].capitalize(), axis=1)
 
 
 if 'sort' not in comparison.keys():
@@ -176,7 +178,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                     conditions='comparison',
                                     df=metadata,
                                     window=[tmin, tmax],
-                                    binsize=10,
+                                    binsize=5,
                                     plot=False)
     
     # plot rasters
@@ -221,7 +223,9 @@ for ch, ch_name in enumerate(epochs.ch_names):
             sortby, yticklabels, fields_for_sorting = get_sorting_IXs(metadata,
                                                                         cond_id,
                                                                         comparison['sort'],
-                                                                        ch_name, args)
+                                                                        ch_name,
+                                                                        args,
+                                                                        join_ticklabels=True)
         else:
             sortby = comparison['sort']
         
@@ -254,10 +258,12 @@ for ch, ch_name in enumerate(epochs.ch_names):
         # generate corresponding ticks
         yticks = range(len(yticklabels))
         # Subsample tick labels
-        yticks = yticks[::dict_prop[cond_id]['y-tick-step']]
-        yticklabels = yticklabels[::dict_prop[cond_id]['y-tick-step']]
+        if 'y-tick-step' in dict_prop[list(dict_prop.keys())[0]].keys():
+            yticks = yticks[::dict_prop[cond_id]['y-tick-step']]
+            yticklabels = yticklabels[::dict_prop[cond_id]['y-tick-step']]
         # Replace ticks
         plt.gca().set_yticks(yticks)
+        plt.gca().tick_params(axis='x', which='major', labelsize=20)
         plt.gca().set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
         #plt.gca().set_ylabel(cond_id, fontsize=20)
         if curr_color is not None:
@@ -265,8 +271,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
             plt.gca().tick_params(axis='y', colors=curr_color)
         
         
-        if i < n_conds-1:
-            plt.xlabel('')
+        # if i < n_conds-1:
+        plt.xlabel('')
     
     #plt.subplot(n_conds+1,1, n_conds+1)
     plt.sca(axs[-1])
@@ -280,12 +286,15 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                  df=metadata,
                                  conditions='comparison',
                                  window=[tmin, tmax],
-                                 binsize=10,
+                                 binsize=5,
                                  plot=True,
                                  ylim=[0, ylim],
                                  colors=sorted_colors)
                                  #event_name='Block Type')
     plt.title('')
+    plt.xlabel('')
+    plt.ylabel('Firing Rate [Hz]', fontsize=20)
+    plt.gca().tick_params(axis='both', which='major', labelsize=20)
     plt.subplots_adjust(hspace=-1)
     #plt.tight_layout()
    

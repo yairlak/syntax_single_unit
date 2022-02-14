@@ -595,7 +595,7 @@ def load_combinato_sorted_h5(path2data, channel_num, i_ch):  # , probe_name):
 def add_event_to_metadata(metadata, event_time, sentence_number, sentence_string, word_position, word_string, pos, num_words, last_word):
     metadata['event_time'].append(event_time)
     metadata['sentence_number'].append(sentence_number)
-    metadata['sentence_string'].append(sentence_string)
+    metadata['sentence_string'].append(sentence_string.capitalize())
     metadata['word_position'].append(word_position)
     metadata['word_string'].append(word_string)
     metadata['pos'].append(pos)
@@ -864,6 +864,8 @@ def extend_metadata(metadata):
    
 
     metadata['block_type'] = metadata.apply(lambda row: block_type(row), axis=1)
+    metadata['first_word'] = metadata.apply(lambda row: row['sentence_string'].split()[0].capitalize(), axis=1)
+    metadata['second_word'] = metadata.apply(lambda row: row['sentence_string'].split()[1].lower(), axis=1)
     # TENSE
     # LAST LETTER OF POS OF VERBS INDICATE THE TENSE (D - past, P - present, F - future, V - passive, I - infinitive-like, G - ing)
     poss = metadata['pos']

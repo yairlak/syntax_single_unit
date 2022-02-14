@@ -12,7 +12,7 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 import sys
 import pickle
-from viz import plot_rf_coefs, plot_rf_r2
+from viz import plot_rf_coefs, plot_rf_r2, plot_rf_bar_r2
 sys.path.append('..')
 from utils.utils import dict2filename
 import matplotlib.pyplot as plt
@@ -21,14 +21,14 @@ from encoding.models import TimeDelayingRidgeCV
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=[],
+parser.add_argument('--patient', action='append', default=['479_11'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=[],
+                    default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=25,
+parser.add_argument('--smooth', default=50,
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -41,7 +41,8 @@ parser.add_argument('--channel-num', default=[], nargs='*', action='append',
 parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
-                    default=None,
+                    #default=['position', 'phonemes', 'lexicon'],
+                    default=['position', 'phonology', 'lexicon', 'semantics', 'syntax'],
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
                     default=os.path.join('..', '..', '..',
@@ -49,7 +50,7 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models'))
-parser.add_argument('--decimate', default=None, type=float,
+parser.add_argument('--decimate', default=50, type=float,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
@@ -57,8 +58,8 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
-parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
@@ -74,8 +75,8 @@ args.block_type = 'both'
 if not args.query_test:
     args.query_test = args.query_train
 
-args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography_lexicon_syntax'.split('_') 
-args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography'.split('_') 
+#args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography_lexicon_syntax'.split('_') 
+#args.feature_list = ['is_first_word', 'word_onset']+'positional_orthography'.split('_') 
 
 
 
@@ -142,6 +143,19 @@ for i_channel, ch_name in enumerate(ch_names):
                              args.patient[0],
                              args.data_type[0],
                              'rf_r_' +
+                             fname + f'_{ch_name}_groupped.png')
+    fig_r2.savefig(fname_fig)
+    plt.close(fig_r2)
+    print('Figure saved to: ', fname_fig)
+
+    #################
+    # PLOT delta R2 #
+    #################
+    fig_r2 = plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args)
+    fname_fig = os.path.join(args.path2figures, 
+                             args.patient[0],
+                             args.data_type[0],
+                             'rf_bar_r_' +
                              fname + f'_{ch_name}_groupped.png')
     fig_r2.savefig(fname_fig)
     plt.close(fig_r2)

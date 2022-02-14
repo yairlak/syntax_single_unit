@@ -30,24 +30,15 @@ def comparison_list():
 
     # SYNTAX
     comparisons['embedding_vs_long'] = {}
-    comparisons['embedding_vs_long']['queries'] = ["embedding==True",
-                                                   "dec_quest==0 and sentence_length==5 and embedding==0"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedded', 'Long']
-    comparisons['embedding_vs_long']['colors'] = ['b', 'r']
-    comparisons['embedding_vs_long']['ls'] = ['--', '-']
+    comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
+                                                  "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
+                                                  "embedding==True and block_type=='auditory'",
+                                                  "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
+    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
+    comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
+    comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
     comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
-    
-    #comparisons['embedding_vs_long'] = {}
-    #comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
-    #                                               "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
-    #                                               "embedding==True and block_type=='auditory'",
-    #                                               "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
-    #comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
-    #comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
-    #comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
-    #comparisons['embedding_vs_long']['level'] = 'sentence_offset'
-    #comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
     
     comparisons['wh_subj_obj_len5'] = {}
     comparisons['wh_subj_obj_len5']['queries'] = ["wh_subj_obj==1 and sentence_length>3", "wh_subj_obj==-1 and sentence_length>3"]
@@ -145,22 +136,60 @@ def comparison_list():
     
     
     # Examples
-    target_words = [['The', 'the'], ['They'], ['that'], ['What', 'Who', 'Whom']]
+    # target_words = [['The', 'the'], ['They'], ['that'], ['What', 'Who', 'Whom']]
+    # comparisons['479_11_LSTG7_15p2'] = {}
+    # comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string in {l} and (block in [2, 4, 6]" for l in target_words]
+    # n_queries = len(comparisons['479_11_LSTG7_15p2']['queries'])
+    # comparisons['479_11_LSTG7_15p2']['condition_names'] = ['The|the', 'They', 'that', 'What|Who|Whom']
+    # comparisons['479_11_LSTG7_15p2']['colors'] = ['g', 'r', 'm', 'b']
+    # comparisons['479_11_LSTG7_15p2']['cmaps'] = ['Blues'] * n_queries
+    # comparisons['479_11_LSTG7_15p2']['ls'] = ['-'] * n_queries
+    # comparisons['479_11_LSTG7_15p2']['level'] = 'word'
+    # comparisons['479_11_LSTG7_15p2']['figsize'] = (5, 13)
+    # comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [50] * n_queries
+    # comparisons['479_11_LSTG7_15p2']['ylim'] = 25   
+    # comparisons['479_11_LSTG7_15p2']['sort'] = ['word_string']
+    # comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
+    # comparisons['479_11_LSTG7_15p2']['height_ratios'] = True
+    # comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
+    
+    
+    # target_words = ['The', 'They', 'He', 'She', 'We', 'What', 'Who', 'Whom']
+    # comparisons['479_11_LSTG7_15p2'] = {}
+    # comparisons['479_11_LSTG7_15p2']['queries'] = [f"first_word == '{w}' and (block in [2, 4, 6])" for w in target_words]
+    # n_queries = len(comparisons['479_11_LSTG7_15p2']['queries'])
+    # comparisons['479_11_LSTG7_15p2']['condition_names'] = target_words
+    # #comparisons['479_11_LSTG7_15p2']['colors'] = ['g', 'r', 'm', 'b']
+    # comparisons['479_11_LSTG7_15p2']['cmaps'] = ['Blues'] * n_queries
+    # comparisons['479_11_LSTG7_15p2']['ls'] = ['-'] * n_queries
+    # comparisons['479_11_LSTG7_15p2']['level'] = 'sentence_onset'
+    # comparisons['479_11_LSTG7_15p2']['figsize'] = (10, 13)
+    # comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [25] + [50] * (n_queries-1)
+    # comparisons['479_11_LSTG7_15p2']['ylim'] = 40   
+    # comparisons['479_11_LSTG7_15p2']['sort'] = ['second_word', 'sentence_string']
+    # comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.5]
+    # comparisons['479_11_LSTG7_15p2']['height_ratios'] = True
+    # comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
+    all_words = get_all_words()
+    target_words = ['boy', 'wom', 'wink']
+    non_target_words = list(set(all_words) - set([w for w in all_words if w.startswith(tuple(target_words))]))
     comparisons['479_11_LSTG7_15p2'] = {}
-    comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string in {l} and block in [2, 4, 6]" for l in target_words]
+    comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string.str.startswith('{w}') and (block in [2, 4, 6]) and word_position==2" for w in target_words] + [f"(word_string in {non_target_words}) and (block in [2, 4, 6]) and word_position==2"]
     n_queries = len(comparisons['479_11_LSTG7_15p2']['queries'])
-    comparisons['479_11_LSTG7_15p2']['condition_names'] = ['The|the', 'They', 'that', 'What|Who|Whom']
-    comparisons['479_11_LSTG7_15p2']['colors'] = ['g', 'r', 'm', 'b']
+    comparisons['479_11_LSTG7_15p2']['condition_names'] = target_words + ['Other']
+    comparisons['479_11_LSTG7_15p2']['colors'] = None
     comparisons['479_11_LSTG7_15p2']['cmaps'] = ['Blues'] * n_queries
     comparisons['479_11_LSTG7_15p2']['ls'] = ['-'] * n_queries
     comparisons['479_11_LSTG7_15p2']['level'] = 'word'
-    comparisons['479_11_LSTG7_15p2']['figsize'] = (4, 15)
-    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [50] * n_queries
-    comparisons['479_11_LSTG7_15p2']['ylim'] = 50   
-    comparisons['479_11_LSTG7_15p2']['sort'] = 'rate'#['word_string']
-    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
+    comparisons['479_11_LSTG7_15p2']['figsize'] = (10, 13)
+    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [20, 20, 20, 20]
+    comparisons['479_11_LSTG7_15p2']['ylim'] = 100 
+    comparisons['479_11_LSTG7_15p2']['sort'] = ['word_string']
+    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.1, 0.3]
     comparisons['479_11_LSTG7_15p2']['height_ratios'] = True
+    comparisons['479_11_LSTG7_15p2']['fixed_constraint'] = 'block in [2,4,6]'
     comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
+    
     
     target_words = ['He', 'Whom', 'Who', 'They', 'We', 'She', 'What', 'The']
     comparisons['479_11_RPSTG_46p1'] = {}
@@ -197,7 +226,7 @@ def comparison_list():
     comparisons['505_LFGP6_30p2']['y-tick-step'] = [50] * (n_queries)
     comparisons['505_LFGP6_30p2']['sort'] = ['word_string']
     comparisons['505_LFGP6_30p2']['tmin_tmax'] = [-0.1, 0.6]
-    comparisons['505_LFGP6_30p2']['figsize'] = (4, 15)
+    comparisons['505_LFGP6_30p2']['figsize'] = (5, 13)
     comparisons['505_LFGP6_30p2']['ylim'] = 30
     comparisons['505_LFGP6_30p2']['cmaps'] = ['Reds'] * len(comparisons['505_LFGP6_30p2']['queries'])
     comparisons['505_LFGP6_30p2']['height_ratios'] = True
@@ -217,13 +246,33 @@ def comparison_list():
     comparisons['505_LHSG_17p1']['y-tick-step'] = [300, 10, 10, 10]
     comparisons['505_LHSG_17p1']['sort'] = 'rate'
     comparisons['505_LHSG_17p1']['tmin_tmax'] = [-0.05, 0.4]
-    comparisons['505_LHSG_17p1']['figsize'] = (4, 15)
+    comparisons['505_LHSG_17p1']['figsize'] = (5, 13)
     comparisons['505_LHSG_17p1']['ylim'] = 200
     comparisons['505_LHSG_17p1']['cmaps'] = ['Blues'] * n_queries
     comparisons['505_LHSG_17p1']['colors'] = ['g', 'g', 'b', 'r']
     comparisons['505_LHSG_17p1']['height_ratios'] = True
     comparisons['505_LHSG_17p1']['channel_name'] = 'p_g1_17_GA3-LHS'
    
+    comparisons['502_RFSG_57p1'] = {}
+    comparisons['502_RFSG_57p1']['queries'] = ["word_string.str.contains('y|Y|k|K|x|X|w|W|V|v|z|Z') and (block in [1, 3, 5])",
+                                               "~word_string.str.contains('y|Y|k|K|x|X|w|W|V|v|z|Z') and (block in [1, 3, 5])"]
+    n_queries = len(comparisons['502_RFSG_57p1']['queries'])
+    comparisons['502_RFSG_57p1']['condition_names'] = ['With v shape', 'Without v shape']
+    #['|'.join(l) for l in target_words] + ['|'.join(l) for l in control_words]
+    comparisons['502_RFSG_57p1']['ls'] = ['-'] * n_queries
+    comparisons['502_RFSG_57p1']['lw'] = [3] * n_queries
+    comparisons['502_RFSG_57p1']['level'] = 'word'
+    comparisons['502_RFSG_57p1']['y-tick-step'] = [50, 50]
+    comparisons['502_RFSG_57p1']['sort'] = ['word_string']
+    comparisons['502_RFSG_57p1']['tmin_tmax'] = [-0.05, 0.4]
+    comparisons['502_RFSG_57p1']['figsize'] = (5, 13)
+    comparisons['502_RFSG_57p1']['ylim'] = 50
+    comparisons['502_RFSG_57p1']['cmaps'] = ['Reds'] * n_queries
+    comparisons['502_RFSG_57p1']['colors'] = ['g', 'k']
+    comparisons['502_RFSG_57p1']['height_ratios'] = True
+    comparisons['502_RFSG_57p1']['channel_name'] = 'GB4-RFSG1_57p1'
+   
+    
     # ORTHOGRAPHY
     comparisons['the_they'] = {}
     comparisons['the_they']['queries'] = ["word_position==1 and word_string in ['The']", "word_position==1 and word_string in ['They']"]
@@ -352,7 +401,7 @@ def comparison_list():
     comparisons['all_end_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_end_trials']['colors'] = ['r', 'b']
     comparisons['all_end_trials']['cmaps'] = ['Reds', 'Blues']
-    comparisons['all_end_trials']['sort'] = 'rate'#['sentence_length', 'sentence_string']
+    comparisons['all_end_trials']['sort'] = ['sentence_length', 'sentence_string']
     comparisons['all_end_trials']['y-tick-step'] = [50, 50]
     comparisons['all_end_trials']['tmin_tmax'] = [-1.25, 0.5]
     comparisons['all_end_trials']['level'] = 'sentence_offset'
@@ -363,16 +412,28 @@ def comparison_list():
     comparisons['all_trials'] = {}
     comparisons['all_trials']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]
     comparisons['all_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
-    comparisons['all_trials']['colors'] = ['b', 'r']
+    comparisons['all_trials']['colors'] = ['r', 'b']
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
     comparisons['all_trials']['cmaps'] = ['Reds', 'Blues']
-    #comparisons['all_trials']['sort'] = 'rate'
     comparisons['all_trials']['y-tick-step'] = [50, 50]
     #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
     comparisons['all_trials']['tmin_tmax'] = [-0.25, 1.5]
     comparisons['all_trials']['figsize'] = (10, 10)
     comparisons['all_trials']['ylim'] = 30
 
+    comparisons['all_trials_first_words'] = {}
+    comparisons['all_trials_first_words']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]
+    comparisons['all_trials_first_words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_trials_first_words']['colors'] = ['r', 'b']
+    comparisons['all_trials_first_words']['sort'] = ['first_word', 'second_word']#, 'Question']
+    comparisons['all_trials_first_words']['cmaps'] = ['Reds', 'Blues']
+    comparisons['all_trials_first_words']['y-tick-step'] = [10, 10]
+    comparisons['all_trials_first_words']['level'] = 'sentence_onset'
+    #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
+    comparisons['all_trials_first_words']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['all_trials_first_words']['figsize'] = (10, 10)
+    comparisons['all_trials_first_words']['ylim'] = 30
+    
 # ALL TRIALS CHRONOLOGICAL ORDER
     comparisons['all_trials_chrono'] = {}
     comparisons['all_trials_chrono']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]
@@ -457,6 +518,21 @@ def comparison_list():
     comparisons['first_last_word']['condition_names'] = ['First_word', 'Last_word']
     comparisons['first_last_word']['colors'] = ['b', 'g']
 
+    comparisons['first_word'] = {}
+    comparisons['first_word']['queries'] = "first_word"
+    comparisons['first_word']['fixed_constraint'] = "word_string.str.len()>1"
+    comparisons['first_word']['condition_names'] = target_words
+    #comparisons['479_11_LSTG7_15p2']['colors'] = ['g', 'r', 'm', 'b']
+    comparisons['first_word']['cmaps'] = ['Blues'] * n_queries
+    comparisons['first_word']['ls'] = ['-'] * n_queries
+    comparisons['first_word']['level'] = 'sentence_offset'
+    
+    comparisons['first_word']['figsize'] = (10, 13)
+    comparisons['first_word']['y-tick-step'] = [25] + [50] * (n_queries-1)
+    comparisons['first_word']['ylim'] = 40   
+    comparisons['first_word']['sort'] = ['sentence_string']
+    comparisons['first_word']['tmin_tmax'] = [-0.2, 0.6]
+    comparisons['first_word']['height_ratios'] = True
 
 
 
@@ -748,3 +824,59 @@ def get_phone_classes():
     CONSONANTS['SON'] = "M N NG L W R Y"
 
     return VOWELS, CONSONANTS
+
+def get_all_words():
+    all_words = ['a ctors',  'appear', 'appeared',  'arrived', 'arrives',
+                 'ate', 'believed', 'bloomed', 'blooms', 'boy', 'boys', 'cake',
+                  'caught',  'chef', 'collapsed', 'collapses', 'cook',
+                   'cough', 'coughed', 'crawled', 'crawls', 'cried', 'cries',
+                    'did', 'disappeared', 'disappears', 'discovered', 'do',
+                     'does', 'dressed', 'eats', 'exercised', 'falls', 'fell',
+                      'found',
+ 'girl',
+ 'girls',
+ 'grandpa',
+ 'guessed',
+ 'heard',
+ 'hears',
+ 'host',
+ 'hug',
+ 'hugs',
+ 'jumped',
+ 'jumps',
+ 'kicked',
+ 'kissed',
+ 'laughed',
+ 'laughs',
+ 'remained',
+ 'remains',
+ 'revealed',
+ 'said',
+ 'salad',
+ 'sandwich',
+ 'saw',
+ 'scratched',
+ 'shaved',
+ 'showered',
+ 'sliced',
+ 'smelled',
+ 'smiled',
+ 'smiles',
+ 'sneezed',
+ 'sneezes',
+ 'stretched',
+ 'tickle',
+ 'tickles',
+ 'undressed',
+ 'vanish',
+ 'vanished',
+ 'was',
+ 'washed',
+ 'were',
+ 'will',
+ 'wink',
+ 'winked',
+ 'winks',
+ 'woman',
+ 'women']
+    return all_words

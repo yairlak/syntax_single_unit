@@ -26,17 +26,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-<<<<<<< HEAD
 parser.add_argument('--patient', action='append', default=['505'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['micro'], help='electrode type')
+                    action='append', default=['spike'], help='electrode type')
 parser.add_argument('--filter', action='append', default=['raw'],
-=======
-parser.add_argument('--patient', action='append', default=[])
-parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
->>>>>>> b4e2c5c739988b829b9e4b2b200514d1926a6784
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -60,11 +53,7 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
 parser.add_argument('--feature-list',
-<<<<<<< HEAD
-                    default=['letter_by_position', 'position', 'word_length'],
-=======
-                    default=None,
->>>>>>> b4e2c5c739988b829b9e4b2b200514d1926a6784
+                    default=['position', 'orthography'],
                     nargs='*',
                     help='Feature to include in the encoding model')
 # parser.add_argument('--feature-list',
@@ -72,7 +61,7 @@ parser.add_argument('--feature-list',
 # #                    action='append',
 #                     default=None,
 #                     help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=False, action='store_true',
+parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL

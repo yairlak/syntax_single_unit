@@ -19,7 +19,7 @@ def f2(seq):
    return checked
 
 
-def get_sorting(epochs, query, sort_info, ch_name, args):
+def get_sorting(epochs, query, sort_info, ch_name, args, join_ticklabels=True):
     fields_for_sorting = []
     if  sort_info == 'clustering':
         word_strings = epochs[query].metadata['word_string']
@@ -53,7 +53,10 @@ def get_sorting(epochs, query, sort_info, ch_name, args):
                 fields_for_sorting[1])]
             IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2))]
             mylist_sorted = sorted(mylist, key=itemgetter(1, 2))
-            yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
+            if join_ticklabels:
+                yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
+            else:
+                yticklabels = [str(e[1]) for e in mylist_sorted]
         elif len(fields_for_sorting) == 3:
             mylist = [(i, j, k, l) for (i, j, k, l) in zip(range(
                 len(fields_for_sorting[0])),
@@ -62,14 +65,17 @@ def get_sorting(epochs, query, sort_info, ch_name, args):
                 fields_for_sorting[2])]
             IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2, 3))]
             mylist_sorted = sorted(mylist, key=itemgetter(1, 2, 3))
-            yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
+            if join_ticklabels:
+                yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
+            else:
+                yticklabels = [str(e[1]) for e in mylist_sorted]
             
     return IX, yticklabels, fields_for_sorting
 
 
 
 
-def get_sorting_IXs(metadata, cond_id, sort_info, ch_name, args):
+def get_sorting_IXs(metadata, cond_id, sort_info, ch_name, args, join_ticklabels=True):
     metadata = metadata[metadata['comparison']==cond_id]
     fields_for_sorting = []
     if  sort_info == 'clustering':
@@ -104,7 +110,10 @@ def get_sorting_IXs(metadata, cond_id, sort_info, ch_name, args):
                 fields_for_sorting[1])]
             IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2))]
             mylist_sorted = sorted(mylist, key=itemgetter(1, 2))
-            yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
+            if join_ticklabels:
+                yticklabels = [str(e[1])+'-'+str(e[2]) for e in mylist_sorted]
+            else:
+                yticklabels = [str(e[1]) for e in mylist_sorted]
         elif len(fields_for_sorting) == 3:
             mylist = [(i, j, k, l) for (i, j, k, l) in zip(range(
                 len(fields_for_sorting[0])),
@@ -113,7 +122,10 @@ def get_sorting_IXs(metadata, cond_id, sort_info, ch_name, args):
                 fields_for_sorting[2])]
             IX = [i[0] for i in sorted(mylist, key=itemgetter(1, 2, 3))]
             mylist_sorted = sorted(mylist, key=itemgetter(1, 2, 3))
-            yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
+            if join_ticklabels:
+                yticklabels = [str(e[1])+'-'+str(e[2])+'-'+str(e[3]) for e in mylist_sorted]
+            else:
+                yticklabels = [str(e[1]) for e in mylist_sorted]
             
     return IX, yticklabels, fields_for_sorting
 

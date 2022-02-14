@@ -12,7 +12,9 @@ class Features():
         features_groupped['positional'] = ['word_position', 'is_last_word']
         features_groupped['position'] = ['is_first_word', 'word_position', 'is_last_word']
         features_groupped['orthography'] = ['letters', 'word_length']
+        features_groupped['orthography_pos'] = ['letter_by_position', 'word_length']
         features_groupped['phonology'] = ['phonological_features']
+        features_groupped['phonemes'] = ['phone_string']
         features_groupped['lexicon'] = ['pos_simple', 'word_zipf',
                                         'morph_complex', 'tense']
         features_groupped['syntax'] = ['grammatical_number', 'gender', 'embedding',
@@ -170,6 +172,22 @@ def get_feature_values(feature, metadata, one_hot):
         names = [w.lower().capitalize() for w in names]
         names = ['phono-' + w for w in names]
 
+    elif feature == 'phone_string':
+        all_phones = list(set(metadata['phone_string']))
+        names = sorted(list(set(all_phones)-set(['', 'END_OF_WAV'])))
+        num_features = len(names)
+
+        values = []
+        for phone in metadata['phone_string']:
+            row_vector = np.zeros(num_features)
+            if phone in names:
+                IXs = names.index(phone)
+                row_vector[IXs] = 1
+            values.append(row_vector)
+        names = ['Phone-' + p for p in names]
+
+
+
     #####################
     # LETTER   FEATURES #
     #####################
@@ -194,6 +212,10 @@ def get_feature_values(feature, metadata, one_hot):
         alphabet=[letter for letter in 'abcdefghijklmnopqrstuvwxyz']
         positions = ['First', 'Middle', 'Last']
         names = [letter + '-' + pos for pos in positions for letter in alphabet]
+    
+    
+
+
     
     ######################
     # ALL OTHER FEATURES #

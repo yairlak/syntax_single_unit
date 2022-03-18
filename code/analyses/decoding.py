@@ -20,16 +20,16 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='')
 # DATA
-parser.add_argument('--patient', action='append', default=['479_11'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient number')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
-                    action='append', default=['spike'])
+                    action='append', default=[])
 parser.add_argument('--level',
                     choices=['sentence_onset','sentence_offset',
                              'word', 'phone'],
                     default=None)
 parser.add_argument('--filter', choices=['raw', 'high-gamma'],
-                    action='append', default=['raw'], help='')
+                    action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[], nargs='*', action='append',
                     type=str, help='e.g., LSTG, overrides channel_name/num')
 parser.add_argument('--ROIs', default=None, nargs='*', type=str,
@@ -47,7 +47,7 @@ parser.add_argument('--data-type_filters',
 parser.add_argument('--smooth', default=None, type=int,
                     help='gaussian width in [msec]')
 # QUERY
-parser.add_argument('--comparison-name', default='pos_simple',
+parser.add_argument('--comparison-name', default=None,
                     help='See Utils/comparisons.py')
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')
@@ -55,7 +55,7 @@ parser.add_argument('--block-train', choices=['auditory', 'visual'],
                     default='auditory',
                     help='Block type is added to the query in the comparison')
 parser.add_argument('--block-test', choices=['auditory', 'visual'],
-                    default='visual',
+                    default=None,
                     help='Block type is added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=None,
                     help='e.g., "and first_phone == 1"')
@@ -66,6 +66,8 @@ parser.add_argument('--min-trials', default=10, type=float,
 # DECODER
 parser.add_argument('--classifier', default='logistic',
                     choices=['svc', 'logistic', 'ridge'])
+parser.add_argument('--equalize-classes', default=None,
+                    choices=['upsample', 'downsample'])
 parser.add_argument('--gat', default=False, action='store_true',
                     help='If True, GAT will be computed; else, diagonal only')
 # MISC
@@ -117,6 +119,7 @@ X, y, stimuli= prepare_data_for_classification(data.epochs,
                                                comparisons[0]['queries'],
                                                args.classifier,
                                                args.min_trials,
+                                               equalize_classes=args.equalize_classes,
                                                verbose=True)
 stimuli_gen = []
 if args.GAC or args.GAM:
@@ -127,7 +130,6 @@ if args.GAC or args.GAM:
                                                                args.classifier,
                                                                args.min_trials,
                                                                verbose=True)
-
 classes = sorted(list(set(y)))
    
 # SET A MODEL (CLASSIFIER)
@@ -176,15 +178,26 @@ n_perm = 1000
 scores, pvals = [], []
 
 for i_t in range(y_hats.shape[1]):  # loop over n_times
-    scores_true = roc_auc_score(y_trues, y_hats[:, i_t, :],
+    if args.multi_class:
+        scores_true = roc_auc_score(y_trues, y_hats[:, i_t, :],
+                                    multi_class=multi_class,
+                                    average='weighted')
+    else: # Binary case
+        scores_true = roc_auc_score(y_trues, y_hats[:, i_t, 1],
                                 multi_class=multi_class,
                                 average='weighted')
     scores_perm = []
     for i_perm in range(n_perm):
         y_perm = y_trues[np.random.permutation(y_trues.size)]
-        scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, :],
-                                         multi_class=multi_class,
-                                         average='macro'))
+        if args.multi_class:
+            scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, :],
+                                             multi_class=multi_class,
+                                             average='macro'))
+        else:
+            scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, 1],
+                                             multi_class=multi_class,
+                                             average='macro'))
+        
     C = sum(np.asarray(scores_perm) > scores_true)
     pval = (C + 1) / (n_perm + 1)
     scores.append(scores_true)

@@ -117,13 +117,13 @@ if args.data_type not in ['spike', 'microphone']:
             # ANALYTIC SIGNAL (HILBERT)
             raw_band_hilb = raw_band.copy()
             raw_band_hilb.apply_hilbert(envelope=True)
-            # LOG AND THEN Z-SCORE
-            raw_band_hilb_zscore = scipy.stats.zscore(np.log(raw_band_hilb._data), axis=1) # num_channels X num_timepoints
+            # Z-SCORE
+            raw_band_hilb_zscore = scipy.stats.zscore(raw_band_hilb._data, axis=1) # num_channels X num_timepoints
             raw_eight_bands.append(raw_band_hilb_zscore)
         raw_eight_bands = np.asarray(raw_eight_bands) # 8-features (bands) X num_channels X num_timepoints
         print(raw_eight_bands.shape)
 
-        # CLIP AND PCA ACROSS BANDS
+        # CLIP 
         print('Clip and PCA across bands')
         for i_channel in range(raw_eight_bands.shape[1]):
             data_curr_channel = raw_eight_bands[:, i_channel, :].transpose() # num_timepoints X 8-features (bands)

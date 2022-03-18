@@ -9,9 +9,10 @@ TMIN=-0.2
 TMAX=1.2
 
 # TAKE ALL PATINETS
-COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string_first"
-#COMPARISONS="number embedding_vs_long dec_quest_len2"
+#COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string_first"
+COMPARISONS="dec_quest_len2 embedding_vs_long number"
 DTYPE_FILTERS="micro_raw spike_raw micro_high-gamma"
+DTYPE_FILTERS="macro_raw"
 BLOCK_TRAINS="visual auditory"
 BLOCK_TESTS="visual auditory"
 

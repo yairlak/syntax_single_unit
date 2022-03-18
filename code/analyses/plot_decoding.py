@@ -79,8 +79,9 @@ if args.from_pkl:
     fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl', True)
     fname_pkl = os.path.join(args.path2output, fname_pkl)
     results = pickle.load(open(fname_pkl, 'rb'))
-    scores, pvals, U1s, times, time_gen, clf, comparisons, stimuli, args_decoding = results
-    chance_level = 1/len(stimuli[0])
+    scores, pvals, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+    #chance_level = 1/len(stimuli[0])
+    chance_level = 0.5
     gat = args_decoding.gat
     clf = args_decoding.classifier
 else:
@@ -91,8 +92,8 @@ else:
 # STATS #
 #########
 if args.from_pkl:
-    if len(pvals[0])==2: # binary case
-        pvals = [t[0] for t in pvals] # first and second sublists should be identical
+    #if len(pvals[0])==2: # binary case
+    #    pvals = [t[0] for t in pvals] # first and second sublists should be identical
     reject_fdr, pvals_fdr = fdr_correction(pvals, alpha=alpha, method='indep')
 else:
     pvals = df['pvals'].values # n_ROIs X n_times

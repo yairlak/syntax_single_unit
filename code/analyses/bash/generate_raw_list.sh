@@ -2,21 +2,22 @@
 #MAT=" --from-mat"
 MAT=""
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-#PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539"
+PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541 543 544"
 #PATIENTS="479_11 479_25 482 489 493 499 505 513 515 538"
-PATIENTS="499"
+PATIENTS="549"
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike microphone"
-DTYPES="spike micro macro"
+#DTYPES="spike"
 
 # Which filter (raw high-gamma)?
+#FILTERS="raw high-gamma"
 FILTERS="raw high-gamma"
 
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
-queue="Nspin_long"
-walltime="02:00:00"
+queue="Unicog_long"
+walltime="24:00:00"
 
 for PATIENT in $PATIENTS; do
     for DTYPE in $DTYPES; do

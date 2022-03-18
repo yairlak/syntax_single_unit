@@ -97,8 +97,8 @@ for patient in patients.split():
 
                 args.query_train = {'auditory':'block in [2,4,6] and word_length>1',
                                     'visual':'block in [1,3,5] and word_length>1'}[block]
-                args.feature_list = {'auditory':['is_first_word', 'word_onset'] + "positional_phonology_lexicon_syntax_semantics".split('_'),
-                                     'visual':['is_first_word', 'word_onset'] + "positional_orthography_lexicon_syntax_semantics".split('_')}[block]
+                args.feature_list = {'auditory':"position_phonology_lexicon_syntax_semantics".split('_'),
+                                     'visual':"position_orthography_lexicon_syntax_semantics".split('_')}[block]
                 list_args2fname = ['patient', 'data_type', 'filter',
                                    #'decimate', 'smooth', 'model_type',
                                    'decimate', 'smooth', 'model_type',

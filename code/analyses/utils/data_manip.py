@@ -450,11 +450,6 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
                                        sfreq=sfreq, ch_types='seeg')
                 raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info,
                                       verbose=False)
-                if data_type != 'microphone':
-                    # Downsample
-                    if raw.info['sfreq'] > sfreq_down:
-                        print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
-                        raw = raw.resample(sfreq_down, npad='auto')
                 if i_ch == 0:
                     raw_channels = raw.copy()
                 else:
@@ -462,6 +457,12 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
             raws.append(raw_channels)
         del blks
         raws = mne.concatenate_raws(raws)
+        if data_type != 'microphone':
+            # Downsample
+            if raws.info['sfreq'] > sfreq_down:
+                print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
+                raw = raw.resample(sfreq_down, npad='auto')
+
     elif recording_system == 'BlackRock':
         if data_type == 'macro':
             ext = 'ns3'
@@ -579,7 +580,7 @@ def load_combinato_sorted_h5(path2data, channel_num, i_ch):  # , probe_name):
                         #        pn=None
                         #elif isinstance(probe_name, str):
                         #    pn=probe_name
-                        group_names.append(f'{ch_name}_{i_ch}_{sign[0]}{g}')
+                        group_names.append(f"{ch_name.split('-')[1]}_{i_ch}_{sign[0]}{g}")
             else:
                 print('%s was not found!' % os.path.join(path2data, 'micro', 'CSC' + str(channel_num), 'sort_' + sign + '_yl2', 'sort_cat.h5'))
 

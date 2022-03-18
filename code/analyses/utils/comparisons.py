@@ -27,18 +27,37 @@ def comparison_list():
     comparisons['semantic_categories_aud']['sort'] = ['word_string']
     comparisons['semantic_categories_aud']['level'] = 'word'
     comparisons['semantic_categories_aud']['tmin_tmax'] = [-0.25, 0.8]
+    
+    # SEMANTICS
+    comparisons['semantic_categories'] = {}
+    comparisons['semantic_categories']['queries'] = "semantic_categories_names"
+    comparisons['semantic_categories']['condition_names'] = [f'{c}' for c in semantic_categories]
+    comparisons['semantic_categories']['colors'] = []
+    comparisons['semantic_categories']['cmaps'] = ['Reds' for _ in semantic_categories]
+    comparisons['semantic_categories']['sort'] = ['word_string']
+    comparisons['semantic_categories']['level'] = 'word'
+    comparisons['semantic_categories']['tmin_tmax'] = [-0.25, 0.8]
 
     # SYNTAX
     comparisons['embedding_vs_long'] = {}
-    comparisons['embedding_vs_long']['queries'] = ["embedding==True and block_type=='visual'",
+    comparisons['embedding_vs_long']['queries'] = ["embedding==True",
+                                                   "dec_quest==0 and sentence_length==5 and embedding==0"]
+    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long declarative']
+    comparisons['embedding_vs_long']['colors'] = ['b', 'r']
+    comparisons['embedding_vs_long']['ls'] = ['--', '-']
+    comparisons['embedding_vs_long']['level'] = 'sentence_offset'
+    comparisons['embedding_vs_long']['tmin_tmax'] = [-1, 1]
+    
+    comparisons['embedding_vs_long_'] = {}
+    comparisons['embedding_vs_long_']['queries'] = ["embedding==True and block_type=='visual'",
                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
                                                   "embedding==True and block_type=='auditory'",
                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
-    comparisons['embedding_vs_long']['colors'] = ['b', 'b', 'r', 'r']
-    comparisons['embedding_vs_long']['ls'] = ['--', '-', '--', '-']
-    comparisons['embedding_vs_long']['level'] = 'sentence_offset'
-    comparisons['embedding_vs_long']['tmin_tmax'] = [-3.5, 1]
+    comparisons['embedding_vs_long_']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
+    comparisons['embedding_vs_long_']['colors'] = ['b', 'b', 'r', 'r']
+    comparisons['embedding_vs_long_']['ls'] = ['--', '-', '--', '-']
+    comparisons['embedding_vs_long_']['level'] = 'sentence_offset'
+    comparisons['embedding_vs_long_']['tmin_tmax'] = [-3.5, 1]
     
     comparisons['wh_subj_obj_len5'] = {}
     comparisons['wh_subj_obj_len5']['queries'] = ["wh_subj_obj==1 and sentence_length>3", "wh_subj_obj==-1 and sentence_length>3"]

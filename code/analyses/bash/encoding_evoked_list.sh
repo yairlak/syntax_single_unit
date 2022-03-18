@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 #
 CV_FOLDS_IN=5
@@ -14,6 +14,7 @@ PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
 # Which signal types (micro macro spike)
 # DTYPES="micro macro spike"
 DTYPES="micro spike macro"
+#DTYPES="spike"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"

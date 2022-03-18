@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
+from sklearn.utils import resample
 sys.path.append('..')
 
 
@@ -20,7 +21,8 @@ def get_data(args):
 
 
 def prepare_data_for_classification(epochs_list, queries,
-                                    classifier, min_trials=0, 
+                                    classifier, min_trials=0,
+                                    equalize_classes=False,
                                     verbose=False):
     '''
     '''
@@ -64,10 +66,32 @@ def prepare_data_for_classification(epochs_list, queries,
         y.append(np.full(num_trials, val))
         stimuli.append(stimuli_curr_query)
 
+    # UPSAMPLE CLASSES IF NEEDED
+    if equalize_classes == 'upsample':
+        largest_class = np.max([X_curr_query.shape[0] for X_curr_query in X])
+        X_equalized, y_equalized = [], []
+        for X_curr_query, y_curr_query in zip(X, y):
+            n_samples = X_curr_query.shape[0]
+            if n_samples < largest_class:
+                X_curr_query = resample(X_curr_query,
+                                        replace=True,
+                                        n_samples=largest_class,
+                                        random_state=1)
+                y_curr_query = resample(y_curr_query,
+                                        replace=True,
+                                        n_samples=largest_class,
+                                        random_state=1)
+            X_equalized.append(X_curr_query)
+            y_equalized.append(y_curr_query)
+        del X, y
+    else:
+        X_equalized = X
+        y_equalized = y
+    
     # CAT ALONG TRIAL DIMENSION
-    X = np.concatenate(X, axis=0)
-    y = np.concatenate(y, axis=0)
-    return X, y, stimuli
+    X_equalized = np.concatenate(X_equalized, axis=0)
+    y_equalized = np.concatenate(y_equalized, axis=0)
+    return X_equalized, y_equalized, stimuli
 
 
 def get_3by3_train_test_data(epochs_list, phone_strings, n_splits):

@@ -26,7 +26,7 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
 parser.add_argument('--filter', action='append',
                     default=[],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=50,
+parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -42,7 +42,7 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models', 'scatters'))
-parser.add_argument('--decimate', default=50.0, type=float,
+parser.add_argument('--decimate', default=50, type=int,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
@@ -104,8 +104,8 @@ for patient in patients.split():
 
                 args.query_train = {'auditory':'block in [2,4,6] and word_length>1',
                                     'visual':'block in [1,3,5] and word_length>1'}[block]
-                args.feature_list = {'auditory':['is_first_word', 'word_onset'] + "positional_phonology_lexicon_syntax".split('_'),
-                                     'visual':['is_first_word', 'word_onset'] + "positional_orthography_lexicon_syntax".split('_')}[block]
+                args.feature_list = {'auditory':"position_phonology_lexicon_syntax_semantics".split('_'),
+                                     'visual':"position_orthography_lexicon_syntax_senantics".split('_')}[block]
                 args.patient = ['patient_' + patient]
                 list_args2fname = ['patient', 'data_type', 'filter',
                                    'decimate', 'smooth', 'model_type',

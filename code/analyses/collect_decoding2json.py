@@ -45,6 +45,7 @@ args = parser.parse_args()
 data_types = ['micro', 'spike']
 filters = ['raw', 'high-gamma']
 comparison_list = ['dec_quest_len2', 'embedding_vs_long', 'number', 'word_string_first', 'pos_simple']
+# comparison_list = ['dec_quest_len2', 'number']
 block_types = ['visual', 'auditory']
 ROIs = list(utils.ROI2probenames().keys())
 
@@ -87,9 +88,9 @@ for data_type in data_types:
                         try:
                             results = pickle.load(open(fname_path2pkl, 'rb'))
                             print(f'Reading: {fname_pkl}')
-                            scores, pvals, U1s, times, time_gen, clf, comparisons, stimuli, args_decoding = results
-                            if len(pvals[0])==2: # binary case
-                                pvals = [t[0] for t in pvals] # first and second sublists should be identical
+                            scores, pvals, times, time_gen, clf, comparisons, stimuli, args_decoding = results
+                            #if len(pvals[0])==2: # binary case
+                            #    pvals = [t[0] for t in pvals] # first and second sublists should be identical
 
                             dict_decoding_results['data_type'].append(data_type)
                             dict_decoding_results['filter'].append(filt)
@@ -155,7 +156,7 @@ df['pval_fdr'] = df.apply(lambda row: get_pval_fdr(row), axis=1)
 
 #print(df)
 if not df.empty:
-    fn_json = os.path.join(args.path2output, 'decoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json')
+    fn_json = os.path.join(args.path2output, f'decoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json')
     df.to_json(fn_json)
     print(f'JSON file saved to: {fn_json}')
 else:

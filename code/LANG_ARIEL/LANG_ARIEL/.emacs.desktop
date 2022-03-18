@@ -1,0 +1,79 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sun May 28 12:22:22 2017
+;; Desktop file format version 208
+;; Emacs version 25.1.1
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (22826 38606 705387 491000) (desktop . "208") "arielt@phg" nil nil ((((font-backend xft x) (font . "-adobe-courier-bold-r-normal--25-180-100-100-m-150-iso8859-1") (font-parameter . "-adobe-courier-bold-r-normal--25-180-100-100-m-150-iso8859-1") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars . t) (foreground-color . "gray80") (background-color . "black") (mouse-color . "yellow") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 15) (right-fringe . 15) (scroll-bar-foreground) (scroll-bar-background . "grey75") (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 16) (alpha) (fullscreen) (display-type . color) (background-mode . dark) (cursor-color . "red") (sticky) (environment) (minibuffer . t) (frameset--id . "962A-2F1E-430B-3C1E") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (visibility . t) (display . ":0") (explicit-name) (height . 31) (width . 81) (left . 329) (top . 26)) ((min-height . 8) (min-width . 10) (min-height-ignore . 6) (min-width-ignore . 6) (min-height-safe . 2) (min-width-safe . 2) (min-pixel-height . 184) (min-pixel-width . 150) (min-pixel-height-ignore . 138) (min-pixel-width-ignore . 90) (min-pixel-height-safe . 46) (min-pixel-width-safe . 30)) vc (pixel-width . 1261) (pixel-height . 717) (total-width . 84) (total-height . 31) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 1261) (pixel-height . 349) (total-width . 84) (total-height . 15) (normal-height . 0.5) (normal-width . 1.0) (buffer "calc_display_SOA" (selected) (hscroll . 0) (fringes 15 15 nil) (margins nil) (scroll-bars nil 2 t nil 1 t) (vscroll . 0) (dedicated) (point . 226) (start . 1))) (leaf (last . t) (pixel-width . 1261) (pixel-height . 368) (total-width . 84) (total-height . 16) (normal-height . 0.5) (normal-width . 1.0) (buffer "check_En_01_display_times.m" (selected . t) (hscroll . 0) (fringes 15 15 nil) (margins nil) (scroll-bars nil 2 t nil 1 t) (vscroll . 0) (dedicated) (point . 2657) (start . 2183)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("sentences_soa_intra"))
+(setq regexp-search-ring nil)
+(setq register-alist '((114 " DISPLAY_PICTURE Stimuli/Figures_sentences/1.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/2.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/3.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/4.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/5.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/6.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/7.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/8.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/9.png " " DISPLAY_PICTURE Stimuli/Figures_sentences/10.png")))
+(setq file-name-history '("/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "~/ucla/bin/lang/calc_display_SOA" "~/ucla/bin/lang/words_SOA_times" "~/ucla/bin/lang/words_disp_times" "~/ucla/neuralynx/matlab/speech/check_En_01_display_times.m" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/send*" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/LANG_RUN_ME.m" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/LANG_AUDIO_SENTENCES.m" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/log_patient/events_log_2017-03-17_10-44-00.log" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "~/private/bin/link_by_serial_no" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/create_dummy_beeps.m" "/usr/share/psychtoolbox-3/PsychDemos/BasicSoundOutputDemo.m" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/log_patient/events_log_2017-03-16_12-01-02.log" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/log_patient/events_log_2017-03-16_11-32-19.log" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/log_patient/events_log_2017-03-16_11-47-14.log" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/" "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/*.m" "~/LANG_ARIEL/LANG_ARIEL/" "~/LANG_ARIEL/LANG_ARIEL/psych_play_single_sound.m" "~/LANG_ARIEL/LANG_ARIEL/psych_play_seq_sounds.m" "~/LANG_ARIEL/LANG_ARIEL/psych_play_single_sound.m" "~/LANG_ARIEL/LANG_ARIEL/psych_play_sound_seq.m" "~/LANG_ARIEL/LANG_ARIEL/*.m" "~/LANG_ARIEL/LANG_ARIEL/" "~/LANG_ARIEL/LANG_ARIEL/LANG_RUN_ME.m"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/arielt/ucla/neuralynx/matlab/speech/check_En_01_display_times.m"
+  "check_En_01_display_times.m"
+  'matlab-mode
+  '(auto-fill-mode)
+  2657
+  '(2525 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 79))
+  '((mark-ring (2478 2219 1768 1755 1849 2149 2219 2211 2183 2183 2183 2183 2149 1968 1933 2656))))
+
+(desktop-create-buffer 208
+  "/home/arielt/ucla/bin/lang/calc_display_SOA"
+  "calc_display_SOA"
+  'sh-mode
+  nil
+  226
+  '(219 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (238 75 22 22 243 1 1 243 238 218 243 163 229 163 225))))
+
+(desktop-create-buffer 208
+  "/home/arielt/ucla/bin/lang/words_disp_times"
+  "words_disp_times"
+  'sh-mode
+  nil
+  1
+  '(1 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1))))
+
+(desktop-create-buffer 208
+  "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/sendTTL_em.m"
+  "sendTTL_em.m"
+  'matlab-mode
+  '(auto-fill-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 79))
+  '((mark-ring (1 418))))
+
+(desktop-create-buffer 208
+  "/media/arielt/ariel1/arielt/lang_project/LANG_ARIEL/LANG_ARIEL/send_ttl_now.m"
+  "send_ttl_now.m"
+  'matlab-mode
+  '(auto-fill-mode)
+  1
+  '(1 nil)
+  nil
+  nil
+  '((indent-tabs-mode) (buffer-file-coding-system . undecided-unix) (fill-column . 79))
+  '((mark-ring (1))))
+

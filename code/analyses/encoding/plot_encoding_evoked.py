@@ -12,7 +12,8 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 import sys
 import pickle
-from viz import plot_evoked_coefs, plot_evoked_r, plot_evoked_bar_r
+from viz import plot_evoked_coefs, plot_evoked_r
+from viz import plot_evoked_bar_r, plot_evoked_bar_coef
 sys.path.append('..')
 from utils.utils import dict2filename
 import matplotlib.pyplot as plt
@@ -21,7 +22,7 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'],
+parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['spike'], help='electrode type')
@@ -44,7 +45,7 @@ parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
                     #default=['phonemes', 'position'],
-                    default = ['position', 'phonology', 'lexicon', 'syntax', 'semantics'],
+                    default = ['position', 'orthography', 'lexicon', 'syntax', 'semantics'],
                     #default=None,
                     # default=['is_first_word', 'positional', 'orthography', 'lexicon', 'syntax', 'semantics', 'is_last_word'],
                     #default = ['orthography'],
@@ -71,8 +72,8 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models'))
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
 
 
 #############
@@ -151,6 +152,8 @@ for k in stats_by_time.keys():
 #n_splits = len(scores_by_time_per_split['full'])
 
 for i_channel, ch_name in enumerate(ch_names):
+    if i_channel != 67:
+        continue
     #scores_mean = {k:np.asarray(scores_by_time_per_split[k]).mean(axis=0)[i_channel, :]
     #               for k in scores_by_time_per_split.keys()}
     #scores_sem = {k:np.asarray(scores_by_time_per_split[k]).std(axis=0)[i_channel, :]/np.sqrt(n_splits)
@@ -223,6 +226,22 @@ for i_channel, ch_name in enumerate(ch_names):
                              args.patient[0],
                              args.data_type[0],
                              'evoked_bar_' +
+                             fname + f'_{ch_name}_keep_{keep}.png')
+    fig_bar.savefig(fname_fig)
+    plt.close(fig_bar)
+    print('Figure saved to: ', fname_fig)
+    
+    
+    fig_bar = plot_evoked_bar_coef(times,
+                                   coefs_mean,
+                                   coefs_sem,
+                                   reject_fdr_curr_channel, # after FDR correction
+                                   ch_name, feature_info, args, ylim, keep)
+
+    fname_fig = os.path.join(args.path2figures, 
+                             args.patient[0],
+                             args.data_type[0],
+                             'evoked_bar_coef_' +
                              fname + f'_{ch_name}_keep_{keep}.png')
     fig_bar.savefig(fname_fig)
     plt.close(fig_bar)

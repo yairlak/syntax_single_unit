@@ -75,7 +75,7 @@ class DataHandler:
             if self.channel_name:
                 picks = self.channel_name[p]
             if self.channel_num:
-                picks = self.channel_num[p]
+                picks = self.channel_num[p]-1
             if verbose:
                 print('picks:', picks)
             raw_neural.pick(picks)
@@ -362,6 +362,7 @@ def get_data_from_combinato(path2data):
         assert len(curr_ch_names)==len(spikes)
 
         if len(spikes) > 0:
+            print(CSC_num, curr_ch_names)
             ch_names.extend(curr_ch_names)
             for groups, curr_spike_times_msec in enumerate(spikes):
                 curr_spike_times_samples = [int(t*sfreq/1e3) for t in curr_spike_times_msec] # convert to samples from sec
@@ -866,6 +867,7 @@ def extend_metadata(metadata):
     metadata['block_type'] = metadata.apply(lambda row: block_type(row), axis=1)
     metadata['first_word'] = metadata.apply(lambda row: row['sentence_string'].split()[0].capitalize(), axis=1)
     metadata['second_word'] = metadata.apply(lambda row: row['sentence_string'].split()[1].lower(), axis=1)
+    metadata['word_position_reversed'] = metadata.apply(lambda row: 1 + row['sentence_length'] - row['word_position'], axis=1)
     # TENSE
     # LAST LETTER OF POS OF VERBS INDICATE THE TENSE (D - past, P - present, F - future, V - passive, I - infinitive-like, G - ing)
     poss = metadata['pos']

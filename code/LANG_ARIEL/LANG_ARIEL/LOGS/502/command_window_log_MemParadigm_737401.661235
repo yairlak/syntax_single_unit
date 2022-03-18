@@ -1,0 +1,15 @@
+{Error using <a href="matlab:helpUtils.errorDocCallback('length')" style="font-weight:bold">length</a>
+Not enough input arguments.
+
+Error in <a href="matlab:helpUtils.errorDocCallback('DaqDConfigPort', '/Applications/Psychtoolbox/PsychHardware/Daq/DaqDConfigPort.m', 40)" style="font-weight:bold">DaqDConfigPort</a> (<a href="matlab: opentoline('/Applications/Psychtoolbox/PsychHardware/Daq/DaqDConfigPort.m',40,0)">line 40</a>)
+if length(TheDevices(daq).product)>=6,  % check for sufficient length
+
+Error in <a href="matlab:helpUtils.errorDocCallback('initializeDAQ', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/initializeDAQ.m', 5)" style="font-weight:bold">initializeDAQ</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/initializeDAQ.m',5,0)">line 5</a>)
+hwline=DaqDConfigPort(dio,0,0);     % configure digital port A for output
+
+Error in <a href="matlab:helpUtils.errorDocCallback('lang_paradigm', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m', 109)" style="font-weight:bold">lang_paradigm</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m',109,0)">line 109</a>)
+    dio = initializeDAQ;
+
+Error in <a href="matlab:helpUtils.errorDocCallback('LANG_SENTENCES_TEXT', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_SENTENCES_TEXT.m', 13)" style="font-weight:bold">LANG_SENTENCES_TEXT</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_SENTENCES_TEXT.m',13,0)">line 13</a>)
+lang_paradigm(filename_stimuli);
+} 

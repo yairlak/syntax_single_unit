@@ -465,7 +465,7 @@ def plot_evoked_coefs(times, coefs_mean, coefs_sem, scores_mean, scores_sem, rej
                     color=color,
                     alpha=0.2)
     ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_xlim((-0.10, 0.))
+    ax2.set_xlim((-0.1, 0.600))
     ax2.set_ylim((0,1))
     
     # if any(reject_fdr['full']):
@@ -597,6 +597,130 @@ def plot_evoked_bar_r(times, scores_mean, scores_sem, reject_fdr,
                     t2 = times[i_t-1]
                     i_t_ed = i_t
                     #ax.axvspan(t1, t2, facecolor='g', alpha=0.2)
+                    # ax.hlines(y=1.02+i_feature*0.02, xmin=t1*1e3, xmax=t2*1e3,
+                    #            linewidth=8, color=color, alpha=0.3)
+                    sig_period = False
+                    mask_sig[i_t_st:i_t_ed] = 1
+                elif sig_period and (i_t==len(reject_fdr)-1): # Last time point
+                    t2 = times[i_t]
+                    i_t_ed = -1
+                    # ax.hlines(y=y_lim+i_feature*0.02, xmin=t1*1e3, xmax=t2*1e3,
+                    #            linewidth=8, color=color, alpha=0.3)
+                    mask_sig[i_t_st:i_t_ed] = 1
+
+        
+        
+        if keep:
+            # feature_importance = scores_mean[feature_name]*(2*scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
+            feature_importance = scores_mean[feature_name]
+        else:
+            #feature_importance = scores_mean[feature_name]*(scores_mean['full'] - scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
+            feature_importance = (scores_mean['full'] - scores_mean[feature_name])
+        feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
+        
+        IXs = np.where(np.logical_and(times<=0.6, times>=0))
+        feature_importance_mean.append(feature_importance[IXs].mean())
+        feature_importance_max.append(feature_importance[IXs].max())
+        feature_importance_sem.append(feature_importance[IXs].std()/np.sqrt(feature_importance[IXs].size))
+        colors.append(color)
+        # feature_importance = np.minimum(feature_importance, 2*np.ones_like(feature_importance))
+        # feature_importance[~mask_sig] = 0
+        #print(feature_name, color, ls, lw, marker, feature_importance)
+    y_pos = np.arange(len(feature_names))
+    ax.barh(y_pos, feature_importance_mean, xerr=feature_importance_sem, color=colors)#, align='center')
+    ax.set_yticks(y_pos, labels=feature_names)
+    ax.invert_yaxis()  # labels read top-to-bottom
+    
+    # ax.set_xlabel('Time (msec)', fontsize=40)
+    # ax.set_ylabel(r'$\Delta r$', fontsize=40)
+    ax.set_xlim((0, 1.5*np.max(feature_importance_mean)))
+    ax.set_xticks([0, np.max(feature_importance_mean)])
+    ax.set_xlabel('Feature importance', fontsize=40)
+    #ax.set_ylim((0, y_lim+(1+n_features)*0.02))
+    # ax.set_ylim((0, y_lim))
+    # if args.block_type == 'visual':
+    #     ax.axvline(x=0, ls='--', color='k')
+    #     ax.axvline(x=500, ls='--', color='k')
+    # ax.axhline(ls='--', color='k')
+    
+    ax.xaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+    ax.tick_params(axis='both', labelsize=35)
+    # ax2.tick_params(axis='both', labelsize=35)
+    # ax.legend(loc='center left', bbox_to_anchor=(1.5, 0, 0.5, 1.2), ncol=int(np.ceil(len(feature_names)/20)), fontsize=16)
+    plt.subplots_adjust(left=0.25)
+
+    return fig
+
+
+
+def plot_evoked_bar_coef(times, coef_mean, coef_sem, reject_fdr,
+              ch_name, feature_info, args, y_lim=None, keep=False):
+    fig, ax = plt.subplots(figsize=(13,10))
+    
+    # Draw full-model results
+    # scores_full_mean = scores['full']['scores_by_time'][0][i_channel, :]
+    # print(scores_full_mean)
+    # print(scores_full_mean.shape)
+    color = 'k'
+    # ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    # ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)
+    # ax2.plot(times*1e3, scores_mean['full'], color=color, lw=3)
+    # ax2.fill_between(times*1e3,
+    #                 scores_mean['full'] + scores_sem['full'],
+    #                 scores_mean['full'] - scores_sem['full'],
+    #                 color=color,
+    #                 alpha=0.2)
+    # ax2.tick_params(axis='y', labelcolor=color)
+    # ax2.set_xlim((-250, 750))
+    
+    if any(reject_fdr['full']):
+        sig_period = False
+        for i_t, reject in enumerate(reject_fdr['full']):
+            if reject and (not sig_period): # Entering a significance zone
+                t1 = times[i_t]
+                sig_period = True
+            elif (not reject) and sig_period: # Exiting a sig zone
+                t2 = times[i_t-1]
+                #ax.axvspan(t1, t2, facecolor='g', alpha=0.2)
+                # ax2.hlines(y=1, xmin=t1*1e3, xmax=t2*1e3,
+                #            linewidth=8, color='k', alpha=0.3)
+                sig_period = False
+            elif sig_period and (i_t==len(reject_fdr)-1): # Last time point
+                t2 = times[i_t]
+                # ax2.hlines(y=1, xmin=t1*1e3, xmax=t2*1e3,
+                #            linewidth=8, color='k', alpha=0.3)
+
+    feature_names, colors = [], []  # performance of the full model must be calculated
+    if args.each_feature_value:
+        for f in feature_info.keys():
+            for f_name in feature_info[f]['names']:
+                feature_names.append(f_name)
+    else:
+        feature_names = feature_info.keys()
+    
+    n_features = len(feature_names)
+
+    if y_lim is None: 
+        y_lim = 1 + (1+n_features)*0.02
+        # ax2.set_ylim((0, y_lim))
+        y_lim = 0.05 +(1+n_features)*0.02
+    # else:
+    #     ax2.set_ylim((0, 0.6))
+    feature_importance_mean, feature_importance_max, feature_importance_sem = [], [], []
+    for i_feature, feature_name in enumerate(feature_names):
+        color, ls, lw, marker = get_curve_style(feature_name, feature_info)
+        mask_sig = np.zeros_like(reject_fdr[feature_name])
+        if any(reject_fdr[feature_name]):
+            sig_period = False
+            for i_t, reject in enumerate(reject_fdr[feature_name]):
+                if reject and (not sig_period): # Entering a significance zone
+                    t1 = times[i_t]
+                    sig_period = True
+                    i_t_st = i_t
+                elif (not reject) and sig_period: # Exiting a sig zone
+                    t2 = times[i_t-1]
+                    i_t_ed = i_t
+                    #ax.axvspan(t1, t2, facecolor='g', alpha=0.2)
                     ax.hlines(y=1.02+i_feature*0.02, xmin=t1*1e3, xmax=t2*1e3,
                                linewidth=8, color=color, alpha=0.3)
                     sig_period = False
@@ -610,13 +734,9 @@ def plot_evoked_bar_r(times, scores_mean, scores_sem, reject_fdr,
 
         
         
-        if keep:
-            # feature_importance = scores_mean[feature_name]*(2*scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
-            feature_importance = scores_mean[feature_name]
-        else:
-            #feature_importance = scores_mean[feature_name]*(scores_mean['full'] - scores_mean[feature_name])/(scores_mean['full'] + scores_mean[feature_name])
-            feature_importance = (scores_mean['full'] - scores_mean[feature_name])
-        feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
+        feature_importance = coef_mean[feature_name]
+        
+        #feature_importance = np.maximum(feature_importance, np.zeros_like(feature_importance))
         
         IXs = np.where(np.logical_and(times<=0.6, times>=0))
         feature_importance_mean.append(feature_importance[IXs].mean())

@@ -69,9 +69,10 @@ def comparison_list():
     comparisons['dec_quest_len2_vis_aud']['colors'] = ['r', 'r', 'b', 'b']
     comparisons['dec_quest_len2_vis_aud']['ls'] = ['-', '--', '-', '--']
     comparisons['dec_quest_len2_vis_aud']['cmaps'] = ['Reds', 'Reds', 'Blues', 'Blues']
-    comparisons['dec_quest_len2_vis_aud']['sort'] = 'rate'
+    comparisons['dec_quest_len2_vis_aud']['sort'] = ['sentence_string']
     comparisons['dec_quest_len2_vis_aud']['level'] = 'sentence_onset'
     comparisons['dec_quest_len2_vis_aud']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['dec_quest_len2_vis_aud']['y-tick-step'] = [20, 20]
     comparisons['dec_quest_len2_vis_aud']['ylim'] = 35
     
     comparisons['dec_quest_len2_vis'] = {}
@@ -79,12 +80,13 @@ def comparison_list():
                                                 "dec_quest==1 and sentence_length==2 and (block in [1, 3, 5])"]
     comparisons['dec_quest_len2_vis']['condition_names'] = ['Declarative-visual',
                                                                 'Question-visual']
-    comparisons['dec_quest_len2_vis']['colors'] = ['r', 'b']
+    comparisons['dec_quest_len2_vis']['colors'] = ['r', 'r']
     comparisons['dec_quest_len2_vis']['ls'] = ['-', '--']
     comparisons['dec_quest_len2_vis']['cmaps'] = ['Reds', 'Reds']
-    comparisons['dec_quest_len2_vis']['sort'] = 'rate'
+    comparisons['dec_quest_len2_vis']['sort'] = ['sentence_string']
     comparisons['dec_quest_len2_vis']['level'] = 'sentence_onset'
     comparisons['dec_quest_len2_vis']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['dec_quest_len2_vis']['y-tick-step'] = [20, 20]
     comparisons['dec_quest_len2_vis']['ylim'] = 35
     
     comparisons['dec_quest_len2_aud'] = {}
@@ -92,12 +94,13 @@ def comparison_list():
                                                 "dec_quest==1 and sentence_length==2 and (block in [2, 4, 6])"]
     comparisons['dec_quest_len2_aud']['condition_names'] = ['Declarative-auditory',
                                                                 'Question-auditory']
-    comparisons['dec_quest_len2_aud']['colors'] = ['r', 'b']
+    comparisons['dec_quest_len2_aud']['colors'] = ['b', 'b']
     comparisons['dec_quest_len2_aud']['ls'] = ['-', '--']
     comparisons['dec_quest_len2_aud']['cmaps'] = ['Blues', 'Blues']
-    comparisons['dec_quest_len2_aud']['sort'] = 'rate'
+    comparisons['dec_quest_len2_aud']['sort'] = ['sentence_string']
     comparisons['dec_quest_len2_aud']['level'] = 'sentence_onset'
     comparisons['dec_quest_len2_aud']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['dec_quest_len2_aud']['y-tick-step'] = [20, 20]
     comparisons['dec_quest_len2_aud']['ylim'] = 35
     
     
@@ -181,11 +184,11 @@ def comparison_list():
     comparisons['479_11_LSTG7_15p2']['cmaps'] = ['Blues'] * n_queries
     comparisons['479_11_LSTG7_15p2']['ls'] = ['-'] * n_queries
     comparisons['479_11_LSTG7_15p2']['level'] = 'word'
-    comparisons['479_11_LSTG7_15p2']['figsize'] = (10, 13)
-    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [20, 20, 20, 20]
+    comparisons['479_11_LSTG7_15p2']['figsize'] = (5, 13)
+    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [40, 20, 20, 20]
     comparisons['479_11_LSTG7_15p2']['ylim'] = 100 
     comparisons['479_11_LSTG7_15p2']['sort'] = ['word_string']
-    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.1, 0.3]
+    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
     comparisons['479_11_LSTG7_15p2']['height_ratios'] = True
     comparisons['479_11_LSTG7_15p2']['fixed_constraint'] = 'block in [2,4,6]'
     comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
@@ -225,7 +228,7 @@ def comparison_list():
     comparisons['505_LFGP6_30p2']['level'] = 'word'
     comparisons['505_LFGP6_30p2']['y-tick-step'] = [50] * (n_queries)
     comparisons['505_LFGP6_30p2']['sort'] = ['word_string']
-    comparisons['505_LFGP6_30p2']['tmin_tmax'] = [-0.1, 0.6]
+    comparisons['505_LFGP6_30p2']['tmin_tmax'] = [-0.1, 0.4]
     comparisons['505_LFGP6_30p2']['figsize'] = (5, 13)
     comparisons['505_LFGP6_30p2']['ylim'] = 30
     comparisons['505_LFGP6_30p2']['cmaps'] = ['Reds'] * len(comparisons['505_LFGP6_30p2']['queries'])
@@ -244,7 +247,7 @@ def comparison_list():
     comparisons['505_LHSG_17p1']['lw'] = [3] * n_queries
     comparisons['505_LHSG_17p1']['level'] = 'word'
     comparisons['505_LHSG_17p1']['y-tick-step'] = [300, 10, 10, 10]
-    comparisons['505_LHSG_17p1']['sort'] = 'rate'
+    comparisons['505_LHSG_17p1']['sort'] = ['word_string']
     comparisons['505_LHSG_17p1']['tmin_tmax'] = [-0.05, 0.4]
     comparisons['505_LHSG_17p1']['figsize'] = (5, 13)
     comparisons['505_LHSG_17p1']['ylim'] = 200
@@ -260,7 +263,7 @@ def comparison_list():
     comparisons['502_RFSG_57p1']['condition_names'] = ['With v shape', 'Without v shape']
     #['|'.join(l) for l in target_words] + ['|'.join(l) for l in control_words]
     comparisons['502_RFSG_57p1']['ls'] = ['-'] * n_queries
-    comparisons['502_RFSG_57p1']['lw'] = [3] * n_queries
+    comparisons['502_RFSG_57p1']['lw'] = [8] * n_queries
     comparisons['502_RFSG_57p1']['level'] = 'word'
     comparisons['502_RFSG_57p1']['y-tick-step'] = [50, 50]
     comparisons['502_RFSG_57p1']['sort'] = ['word_string']
@@ -272,6 +275,26 @@ def comparison_list():
     comparisons['502_RFSG_57p1']['height_ratios'] = True
     comparisons['502_RFSG_57p1']['channel_name'] = 'GB4-RFSG1_57p1'
    
+    comparisons['502_RFSG_62p1'] = {}
+    comparisons['502_RFSG_62p1']['queries'] = ["word_string.str.contains('l') and ~word_string.str.contains('i|j') and (block in [1, 3, 5])",
+                                               "word_string.str.contains('i|j') and ~word_string.str.contains('l') and (block in [1, 3, 5])",
+                                               "word_string.str.contains('l') and word_string.str.contains('i|j') and (block in [1, 3, 5])",
+                                               "~word_string.str.contains('l|j|i') and (block in [1, 3, 5])"]
+    n_queries = len(comparisons['502_RFSG_62p1']['queries'])
+    comparisons['502_RFSG_62p1']['condition_names'] = [f'condition_{i_cond+1}' for i_cond in range(n_queries)]
+    #['|'.join(l) for l in target_words] + ['|'.join(l) for l in control_words]
+    comparisons['502_RFSG_62p1']['ls'] = ['-'] * n_queries
+    comparisons['502_RFSG_62p1']['lw'] = [3] * n_queries
+    comparisons['502_RFSG_62p1']['level'] = 'word'
+    comparisons['502_RFSG_62p1']['y-tick-step'] = [50] * n_queries
+    comparisons['502_RFSG_62p1']['sort'] = ['word_string']
+    comparisons['502_RFSG_62p1']['tmin_tmax'] = [-0.05, 0.5]
+    comparisons['502_RFSG_62p1']['figsize'] = (5, 13)
+    comparisons['502_RFSG_62p1']['ylim'] = 50
+    comparisons['502_RFSG_62p1']['cmaps'] = ['Reds'] * n_queries
+    # comparisons['502_RFSG_62p1']['colors'] = ['g', 'k']
+    comparisons['502_RFSG_62p1']['height_ratios'] = True
+    comparisons['502_RFSG_62p1']['channel_name'] = 'GB4-RFSG6_62p1'
     
     # ORTHOGRAPHY
     comparisons['the_they'] = {}
@@ -330,11 +353,27 @@ def comparison_list():
 
     # SEQUENTIAL
     comparisons['word_position'] = {}
-    comparisons['word_position']['queries'] = ["word_position==1 or word_position==2", "word_position==4 or word_position==5"]
-    comparisons['word_position']['condition_names'] = ["First-second", "Fourth-fifth"]
-    comparisons['word_position']['colors'] = ["b", "r"]
+    comparisons['word_position']['queries'] = 'word_position'
+    comparisons['word_position']['condition_names'] = []
+    # comparisons['word_position']['colors'] = ["b", "r"]
+    comparisons['word_position']['cmaps'] = ['Reds'] * 5
+    comparisons['word_position']['y-tick-step'] = [50] * 5
+    comparisons['word_position']['height_ratios'] = True
+    comparisons['word_position']['tmin_tmax'] = [-0.1, 0.6]
     comparisons['word_position']['sort'] = ['word_string']
     comparisons['word_position']['level'] = 'word'
+
+    comparisons['word_position_reversed'] = {}
+    comparisons['word_position_reversed']['queries'] = 'word_position_reversed'
+    comparisons['word_position_reversed']['condition_names'] = []
+    # comparisons['word_position']['colors'] = ["b", "r"]
+    comparisons['word_position_reversed']['cmaps'] = ['Reds'] * 5
+    comparisons['word_position_reversed']['y-tick-step'] = [50] * 5
+    comparisons['word_position_reversed']['height_ratios'] = True
+    comparisons['word_position_reversed']['tmin_tmax'] = [-0.1, 0.6]
+    comparisons['word_position_reversed']['ylim'] = 30
+    comparisons['word_position_reversed']['sort'] = ['word_string']
+    comparisons['word_position_reversed']['level'] = 'word'
 
     # ORTHOGRAPHY
     comparisons['word_string_first'] = {}
@@ -350,12 +389,14 @@ def comparison_list():
     comparisons['word_length'] = {}
     #comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]
     comparisons['word_length']['queries'] = 'word_length'
+    comparisons['word_string_first']['fixed_constraint'] = "block in [1,3,5]"
     comparisons['word_length']['condition_names'] = []
-    comparisons['word_length']['colors'] = ['b', 'r']
+    comparisons['word_length']['cmaps'] = ['Reds'] * 10
     comparisons['word_length']['level'] = 'word'
-    comparisons['word_length']['y-tick-step'] = 20
-    comparisons['word_length']['tmin_tmax'] = [-0.5, 1.2]
-    comparisons['word_length']['sort'] = ['block_type', 'chronological_order']
+    comparisons['word_length']['y-tick-step'] = [50] * 10
+    comparisons['word_length']['height_ratios'] = True
+    comparisons['word_length']['tmin_tmax'] = [-0.1, 0.6]
+    comparisons['word_length']['sort'] = ['word_string']
     
     comparisons['word_string_visual'] = {}
     comparisons['word_string_visual']['queries'] = "word_string"
@@ -416,8 +457,9 @@ def comparison_list():
     comparisons['all_trials']['sort'] = ['sentence_length', 'sentence_string']#, 'Question']
     comparisons['all_trials']['cmaps'] = ['Reds', 'Blues']
     comparisons['all_trials']['y-tick-step'] = [50, 50]
+    comparisons['all_trials']['yticklabels'] = 'sentence_length'
     #comparisons['all_trials']['sort'] = ['chronological_order']#, 'Question']
-    comparisons['all_trials']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['all_trials']['tmin_tmax'] = [-0.25, 2.5]
     comparisons['all_trials']['figsize'] = (10, 10)
     comparisons['all_trials']['ylim'] = 30
 

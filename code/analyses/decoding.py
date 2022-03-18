@@ -47,7 +47,7 @@ parser.add_argument('--data-type_filters',
 parser.add_argument('--smooth', default=None, type=int,
                     help='gaussian width in [msec]')
 # QUERY
-parser.add_argument('--comparison-name', default='pos_simple',
+parser.add_argument('--comparison-name', default='dec_quest_len2',
                     help='See Utils/comparisons.py')
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')
@@ -176,15 +176,25 @@ n_perm = 1000
 scores, pvals = [], []
 
 for i_t in range(y_hats.shape[1]):  # loop over n_times
-    scores_true = roc_auc_score(y_trues, y_hats[:, i_t, :],
+    if args.multi_class:
+        scores_true = roc_auc_score(y_trues, y_hats[:, i_t, :],
+                                    multi_class=multi_class,
+                                    average='weighted')
+    else: # Binary case
+        scores_true = roc_auc_score(y_trues, y_hats[:, i_t, 1],
                                 multi_class=multi_class,
                                 average='weighted')
     scores_perm = []
     for i_perm in range(n_perm):
         y_perm = y_trues[np.random.permutation(y_trues.size)]
-        scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, :],
-                                         multi_class=multi_class,
-                                         average='macro'))
+        if args.multi_class:
+            scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, :],
+                                             multi_class=multi_class,
+                                             average='macro'))
+        else:
+            scores_perm.append(roc_auc_score(y_perm, y_hats[:, i_t, 1],
+                                             multi_class=multi_class,
+                                             average='macro'))
     C = sum(np.asarray(scores_perm) > scores_true)
     pval = (C + 1) / (n_perm + 1)
     scores.append(scores_true)

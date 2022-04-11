@@ -148,7 +148,7 @@ for k in stats_by_time.keys():
 #n_splits = len(scores_by_time_per_split['full'])
 
 for i_channel, ch_name in enumerate(ch_names):
-    if not 'GB4-RFSG1_57p1' in ch_name:
+    if ch_name not in ['GB4-RFSG1_57p1', 'GB4-RFSG6_62p1']:
         continue
     #scores_mean = {k:np.asarray(scores_by_time_per_split[k]).mean(axis=0)[i_channel, :]
     #               for k in scores_by_time_per_split.keys()}

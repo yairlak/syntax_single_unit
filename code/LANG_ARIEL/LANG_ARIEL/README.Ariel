@@ -1,0 +1,10 @@
+When installing new Psychtoolboxes:
+
+Rename, in:
+/usr/lib/debug/usr/lib/psychtoolbox-3/PsychBasic
+/usr/lib/debug/usr/lib/psychtoolbox-3/PsychHardware
+
+all mex files to have the suffix: .mexa64
+
+-- Ariel.
+2017-01-19.

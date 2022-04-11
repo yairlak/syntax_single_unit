@@ -1,0 +1,8 @@
+{Index exceeds the number of array elements (0).
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('lang_paradigm', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m', 58)" style="font-weight:bold">lang_paradigm</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m',58,0)">line 58</a>)
+if sendTTL(1) == 'Y', sendTTL = 1; else sendTTL = 0; end
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('LANG_AUDIO_SENTENCES', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_AUDIO_SENTENCES.m', 17)" style="font-weight:bold">LANG_AUDIO_SENTENCES</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_AUDIO_SENTENCES.m',17,0)">line 17</a>)
+lang_paradigm(filename_stimuli);
+} 

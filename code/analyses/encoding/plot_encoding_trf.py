@@ -21,7 +21,7 @@ from encoding.models import TimeDelayingRidgeCV
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['479_11'],
+parser.add_argument('--patient', action='append', default=['515'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['spike'], help='electrode type')
@@ -33,7 +33,7 @@ parser.add_argument('--smooth', default=50,
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignores channel-name/num)')
-parser.add_argument('--channel-name', default=[], nargs='*', action='append',
+parser.add_argument('--channel-name', default=['p_g1_75_GC2-LMT'], nargs='*', action='append',
                     type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', action='append',
                     type=int, help='channel number (if empty all channels)')

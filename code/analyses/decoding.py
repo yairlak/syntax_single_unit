@@ -47,7 +47,11 @@ parser.add_argument('--data-type_filters',
 parser.add_argument('--smooth', default=None, type=int,
                     help='gaussian width in [msec]')
 # QUERY
+<<<<<<< HEAD
 parser.add_argument('--comparison-name', default=None,
+=======
+parser.add_argument('--comparison-name', default='dec_quest_len2',
+>>>>>>> 925ff470f6a5cc03461fc4b08da224d24bac44da
                     help='See Utils/comparisons.py')
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')

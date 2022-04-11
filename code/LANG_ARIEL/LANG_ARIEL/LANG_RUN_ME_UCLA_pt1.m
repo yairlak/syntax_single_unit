@@ -1,0 +1,11 @@
+function [] = LANG_RUN_ME_UCLA_pt1()
+% LANG_RUN_ME    
+
+% Author: Ariel Tankus.
+% Created: 31.01.2017.
+
+
+LANG_BLOCK1_WORDS();
+LANG_BLOCK1_NONWORDS();
+LANG_BLOCK2_SENTENCES();
+LANG_BLOCK1_WORDS_PRESS();

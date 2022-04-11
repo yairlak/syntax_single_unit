@@ -17,11 +17,13 @@ from mne.stats import fdr_correction
 SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
 
 # In[5]:
-data_type = 'micro'
+data_type = 'spike'
+filt = 'raw'
 fn_trf_results = f'../../../Output/encoding_models/evoked_encoding_results_decimate_50_smooth_50.json'
 df = pd.read_json(fn_trf_results)
-
 df = df.loc[df['data_type'] == data_type]
+df = df.loc[df['filter'] == filt]
+thresh_num_elec = 30
 
 # In[6]:
 def probename2ROI(path2mapping='../../../Data/probenames2fsaverage.tsv'):
@@ -39,10 +41,22 @@ def probename2ROI(path2mapping='../../../Data/probenames2fsaverage.tsv'):
 probename2ROI = probename2ROI()
 
 def get_fsaverage_roi(row):
-    if row['Probe_name'] in probename2ROI.keys():
-        fsaverage_roi = probename2ROI[row['Probe_name']]
+    # print(row['Probe_name'])
+    if data_type == 'micro':
+        probe_name = row['Probe_name']
+    elif data_type=='spike':
+        if row['Probe_name'].startswith('G'):
+            probe_name = row['Probe_name'].split('-')[1].split('_')[0]
+            probe_name = ''.join([c for c in probe_name if not c.isdigit()])
+        else:
+            probe_name = None
+    else:
+        probe_name = None
+    if probe_name in probename2ROI.keys():
+        fsaverage_roi = probename2ROI[probe_name]
     else:
         fsaverage_roi = None
+    # print(probe_name)
     return fsaverage_roi
     
 
@@ -73,11 +87,11 @@ surface='pial'
 
 
 def get_color(x, cmap='RdBu_r'):
-    return eval(f'plt.cm.{cmap}((np.clip(x,-1,1)+1)/2.)')
+    return eval(f'plt.cm.{cmap}({x})')
 
 
-fig_plt, axs = plt.subplots(1, 4, figsize=(20, 5))
-[ax.set_axis_off() for ax in axs]
+fig_plt, axs = plt.subplots(2, 2, figsize=(10, 10))
+[ax.set_axis_off() for l_ax in list(axs) for ax in l_ax]
 
 for i_hemi, hemi in enumerate(hemis):
     
@@ -106,11 +120,15 @@ for i_hemi, hemi in enumerate(hemis):
     colors = curv
     
     
-    
+    max_elec = 0
+    nums_elec = []
     for label in labels:
         df_roi = df.loc[df['Feature'] == 'full']
         df_roi = df_roi.loc[df_roi['ROI_fsaverage'] == label.name]
-        colors[label.vertices, :] = get_color(len(df_roi)/100)[:3]
+        nums_elec.append(len(df_roi))
+        if len(df_roi) > max_elec:
+            max_elec = len(df_roi)
+        colors[label.vertices, :] = get_color(len(df_roi)/thresh_num_elec)[:3]
     
     # In[14]:
     
@@ -140,10 +158,13 @@ for i_hemi, hemi in enumerate(hemis):
     p.view_zy()
     p.camera.roll += 90
     aspect = {'lh':'lateral', 'rh':'medial'}[hemi]
-    zoom = {'medial':1.1, 'lateral':1.2}[aspect]
+    zoom = {'medial':1.65, 'lateral':1.8}[aspect]
     p.camera.zoom(zoom)
     p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
-    axs[i_hemi*2].imshow(p.image)
+    x_plt = {'lh':0, 'rh':1}[hemi]
+    y_plt = {'lateral':0, 'medial':1}[aspect]
+    axs[y_plt, x_plt].imshow(p.image)
+    
     
     # YZ
     p.view_yz()
@@ -151,23 +172,37 @@ for i_hemi, hemi in enumerate(hemis):
     
     aspect = {'lh':'medial', 'rh':'lateral'}[hemi]
     #zoom = {'medial':1.65, 'lateral':1.8}[aspect]
-    zoom = {'medial':1.1, 'lateral':1.2}[aspect]
+    zoom = {'medial':1.65, 'lateral':1.8}[aspect]
     p.camera.zoom(zoom)
-    if hemi == 'rh':
-        p.add_scalar_bar(height=0.5,
-                         width=0.1,
-                         vertical=True,
-                         position_x=0.85,
-                         position_y=0.25,
-                         color='k',
-                         title_font_size=40,
-                         label_font_size=30,
-                         title='#Electrodes')
-        p.update_scalar_bar_range([-100, 100])
     p.show(screenshot=fn+f'_{aspect}.png', auto_close=False)
-    axs[i_hemi*2+1].imshow(p.image)
+    x_plt = {'lh':0, 'rh':1}[hemi]
+    y_plt = {'lateral':0, 'medial':1}[aspect]
+    axs[y_plt, x_plt].imshow(p.image)
     
-    
+    # ADD COLORBAR
+    if hemi == 'rh':
+        fig_cbar, ax = plt.subplots(1,1,figsize=(5, 2))
+        zoom = 0.1
+        p.camera.zoom(zoom)
+        cbar = p.add_scalar_bar(height=1.4,
+                                width=1,
+                                vertical=False,
+                                position_x=0,
+                                position_y=0,
+                                color='k',
+                                title_font_size=190,
+                                label_font_size=0,
+                                fmt='%1.2f',
+                                title='#elec')
+        # p.update_scalar_bar_range([0, 2*chance_level])
+        p.update_scalar_bar_range([0, 1])
+        ax.imshow(p.image)
+        ax.set_axis_off()
+        fn = f'../../../Figures/viz_brain/coverage_{data_type}'
+        plt.subplots_adjust(left=0, right=1)
+        plt.savefig(fn+'_colorbar.png')
+        plt.close(fig_cbar)
+
     fig = ipv.figure(width=500, height=500)
     brain = ipv.plot_trisurf(rr[:, 0], 
                               rr[:, 1], 
@@ -184,6 +219,7 @@ for i_hemi, hemi in enumerate(hemis):
 
 print(f'Saved to {fn}')
 fn = f'../../../Figures/viz_brain/coverage_{data_type}'
+plt.figure(fig_plt.number)
 plt.tight_layout()
 #plt.subplots_adjust(right=0.85)
 plt.savefig(fn+'_all.png')

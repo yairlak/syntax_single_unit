@@ -17,37 +17,37 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='530', help='Patient string')
+parser.add_argument('--patient', default='505', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='spike', help='electrode type')
+                    default='micro', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
-                    default='sentence_onset', help='')
-parser.add_argument('--filter', default='raw', help='')
+                    default='word', help='')
+parser.add_argument('--filter', default='high-gamma', help='')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=[], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='word_string_auditory', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='505_LFGP6_30p2', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
 parser.add_argument('--tmin', default=-0.1, type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
 parser.add_argument('--tmax', default=0.6, type=float, help='crop window')
-parser.add_argument('--baseline', default=[], type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
-parser.add_argument('--baseline-mode', choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], default=None, help='Type of baseline method')
+parser.add_argument('--baseline', default=None, type=str, help='Baseline to apply as in mne: (a, b), (None, b), (a, None), (None, None) or None')
+parser.add_argument('--baseline-mode',  default=None, choices=['mean', 'ratio', 'logratio', 'percent', 'zscore', 'zlogratio'], help='Type of baseline method')
 # MISC
 parser.add_argument('--SOA', default=500, help='SOA in design [msec]')
 parser.add_argument('--word-ON-duration', default=250, help='Duration for which word word presented in the RSVP [msec]')
 parser.add_argument('--remove-outliers', action="store_true", default=False, help='Remove outliers based on percentile 25 and 75')
-parser.add_argument('--no-title', action="store_true", default=False)
+parser.add_argument('--no-title', action="store_true", default=True)
 parser.add_argument('--yticklabels-sortkey', type=int, default=[], help="")
-parser.add_argument('--yticklabels-fontsize', type=int, default=14, help="")
+parser.add_argument('--yticklabels-fontsize', type=int, default=20, help="")
 parser.add_argument('--dont-write', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--sort-key', default=['word_string'], help='Keys to sort according')
 parser.add_argument('--y-tick-step', default=100, type=int, help='If sorted by key, set the yticklabels density')
@@ -60,6 +60,7 @@ parser.add_argument('--save2', default=[], help='If empty saves figure to defaul
 
 
 args = parser.parse_args()
+
 
 assert not (args.data_type == 'spike' and args.scale_epochs == True)
 args.patient = 'patient_' + args.patient
@@ -77,10 +78,12 @@ data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
 # Both neural and feature data into a single raw object
 data.load_raw_data(verbose=True)
+print(data.raws[0].info['sfreq'])
 
 # COMPARISON
 comparisons = comparisons.comparison_list()
 comparison = comparisons[args.comparison_name].copy()
+
 
 if 'level' in comparison.keys():
     args.level = comparison['level']
@@ -114,25 +117,25 @@ print(args.comparison_name)
 pprint(comparison)
 
 # PICK
-if args.probe_name:
-    picks = probename2picks(args.probe_name, epochs.ch_names, args.data_type)
-    epochs.pick_channels(picks)
-elif args.channel_name:
-    epochs.pick_channels(args.channel_name)
-elif args.channel_num:
-    epochs.pick(args.channel_num)
+# if args.probe_name:
+#     picks = probename2picks(args.probe_name, epochs.ch_names, args.data_type)
+#     epochs.pick_channels(picks)
+# elif args.channel_name:
+#     epochs.pick_channels(args.channel_name)
+# elif args.channel_num:
+#     epochs.pick(args.channel_num)
 
-# Filter non-responsive channels
-if args.responsive_channels_only:
-    if args.data_type == 'spike':
-        filt = 'gaussian-kernel' # if spikes, plot raw but calc signficance for responsivness based on smoothed data.
-    else:
-        filt = args.filter
-    picks = pick_responsive_channels(epochs.ch_names, args.patient, args.data_type, filt, [args.block_type], p_value=0.01)
-    if picks:
-        epochs.pick_channels(picks)
-    else:
-        raise('No responsive channels were found')
+# # Filter non-responsive channels
+# if args.responsive_channels_only:
+#     if args.data_type == 'spike':
+#         filt = 'gaussian-kernel' # if spikes, plot raw but calc signficance for responsivness based on smoothed data.
+#     else:
+#         filt = args.filter
+#     picks = pick_responsive_channels(epochs.ch_names, args.patient, args.data_type, filt, [args.block_type], p_value=0.01)
+#     if picks:
+#         epochs.pick_channels(picks)
+#     else:
+#         raise('No responsive channels were found')
 
 
 print('-'*100)
@@ -144,9 +147,9 @@ if args.filter != 'high-gamma': # high-gamma is already baselined during epochin
         print('Apply baseline:')
         epochs.apply_baseline(args.baseline, verbose=True)
 else: #baseline high-gamma (e.g., to dB)
-    pass
-    #if args.baseline and args.baseline_mode:
-    #    epochs._data = rescale(epochs.get_data(), epochs.times, args.baseline, args.baseline_mode) 
+    # pass
+    if args.baseline and args.baseline_mode:
+        epochs._data = mne.baseline.rescale(epochs.get_data(), epochs.times, args.baseline, args.baseline_mode) 
 #print(epochs._data[:2, :100])
 
 # CROP
@@ -192,19 +195,28 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                                 query,
                                                 comparison['sort'],
                                                 ch_name, args)
+                
+                    
                 data_curr_query, yticklabels = average_repeated_trials(data_curr_query, yticklabels)
             nums_trials.append(data_curr_query.shape[0]) # query and pick channel
         print('Number of trials from each query:', nums_trials)
         nums_trials_cumsum = np.cumsum(nums_trials)
         nums_trials_cumsum = [0] + nums_trials_cumsum.tolist()
         # Prepare subplots
+        if 'figsize' in comparison.keys():
+            figsize = comparison['figsize']
+        else:
+            if args.level == 'word':
+                figsize = (4, 20)
+            else:
+                figsize = (15, 10)
         if args.level == 'word':
-            fig, _ = plt.subplots(figsize=(30, 100))
+            fig, axs = plt.subplots(len(nums_trials)+1, 1,figsize=figsize, gridspec_kw={'height_ratios':nums_trials + [int(sum(nums_trials)/3)]})
             num_queries = len(comparison['queries'])
             #height_ERP = int(np.ceil(sum(nums_trials)/num_queries))
             height_ERP = np.max(nums_trials)
         else:
-            fig, _ = plt.subplots(figsize=(15, 10))
+            fig, axs = plt.subplots(len(nums_trials)+1, 1,figsize=figsize, gridspec_kw={'height_ratios':nums_trials + [int(sum(nums_trials)/3)]})
             num_queries = len(comparison['queries'])
             height_ERP = int(np.ceil(sum(nums_trials)/num_queries))
         if num_queries > 1:
@@ -213,7 +225,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
             spacing = 0
         nrows = sum(nums_trials)+height_ERP+spacing*num_queries; ncols = 10 # number of rows in subplot grid per query. Width is set to 10. num_queries is added for 1-row spacing
         # prepare axis for ERPs 
-        ax2 = plt.subplot2grid((nrows, ncols+1), (sum(nums_trials)+spacing*num_queries, 0), rowspan=height_ERP, colspan=10) # Bottom figure for ERP
+        # ax2 = plt.subplot2grid((nrows, ncols+1), (sum(nums_trials)+spacing*num_queries, 0), rowspan=height_ERP, colspan=10) # Bottom figure for ERP
         # Collect data from all queries and sort based on args.sort_key
         data = []
         evoked_dict = dict()
@@ -232,10 +244,15 @@ for ch, ch_name in enumerate(epochs.ch_names):
                 lw = comparison['lw'][i_query]
                 styles[condition_name] = {"linewidth":lw}
             else:
-                lw = 3 # default linewidth
+                lw = 8 # default linewidth
                 styles[condition_name] = {"linewidth":lw}
 
             data_curr_query = epochs[query].pick(ch_name).get_data()[:, 0, :] # query and pick channel
+            # if args.baseline and args.data_type == 'high-gamma':
+            #     data_curr_query = mne.baseline.rescale(data_curr_query,
+            #                                            epochs.times,
+            #                                            args.baseline,
+            #                                            args.baseline_mode)
             #####################
             # TRIAL-WISE FIGURE #
             #####################
@@ -245,6 +262,8 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                                               query,
                                                               comparison['sort'],
                                                               ch_name, args)
+            if 'yticklabels' in comparison.keys():
+                yticklabels = epochs[query].metadata[comparison['yticklabels']].to_numpy()[IX]
             data_curr_query = data_curr_query[IX, :] # sort data
             
             if args.average_repeated_trials:
@@ -254,9 +273,12 @@ for ch, ch_name in enumerate(epochs.ch_names):
                     
                     
             # plot query data
-            ax = plt.subplot2grid((nrows, ncols+1), (nums_trials_cumsum[i_query]+spacing*(i_query+1), 0), rowspan=height_query_data, colspan=10) # add axis to main figure
+            # ax = plt.subplot2grid((nrows, ncols+1), (nums_trials_cumsum[i_query]+spacing*(i_query+1), 0), rowspan=height_query_data, colspan=10) # add axis to main figure
             if args.data_type == 'spike':
-                cmap = 'binary'
+                if 'cmaps' in comparison.keys():
+                    cmap = comparison['cmaps'][i_query]
+                else:
+                    cmap = 'binary'
             else:
                 cmap = 'RdBu_r'
             if args.data_type == 'spike' and args.filter == 'raw':
@@ -267,25 +289,31 @@ for ch, ch_name in enumerate(epochs.ch_names):
                         data_curr_query_smoothed[t, :] = gaussian_filter1d(data_curr_query[t, :], float(args.smooth_raster)*1000) # 1000Hz is assumed as sfreq
                 #im = ax.imshow(data_curr_query_smoothed, interpolation='nearest', aspect='auto', vmin=args.vmin, vmax=args.vmax, cmap=cmap)
                 #print(data_curr_query_smoothed.shape[0])
-                im = ax.imshow(data_curr_query_smoothed, cmap=cmap, interpolation='none', aspect='auto')
+                im = axs[i_query].imshow(data_curr_query_smoothed, cmap=cmap, interpolation='none', aspect='auto')
+                # axs[i_query].set_facecolor('r')
+                # axs[i_query].patch.set_alpha(0.5)
             else:
-                im = ax.imshow(data_curr_query, interpolation='nearest', aspect='auto', cmap=cmap)
-            ax.tick_params(axis='x', which='both', bottom='off', labelbottom='off')
-            ax.set_xticks([])
+                im = axs[i_query].imshow(data_curr_query, interpolation='nearest', aspect='auto', cmap=cmap)
+            axs[i_query].tick_params(axis='x', which='both',
+                                     bottom='off', labelbottom='off')
+            axs[i_query].set_xticks([])
+            if color is not None:
+                axs[i_query].tick_params(axis='y', colors=color)
             if isinstance(comparison['sort'], list):
-                ax.set_yticks(range(0, len(fields_for_sorting[0]), args.y_tick_step))
+                axs[i_query].set_yticks(range(0, len(fields_for_sorting[0]), args.y_tick_step[i_query]))
 
                 #yticklabels = np.sort(fields_for_sorting[0])[::args.y_tick_step]
-                yticklabels = yticklabels[::args.y_tick_step]
+                yticklabels = yticklabels[::args.y_tick_step[i_query]]
                 if args.yticklabels_sortkey:
                     yticklabels = [l.split('-')[args.yticklabels_sortkey].capitalize() for l in yticklabels]
-                ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
+                axs[i_query].set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
             elif comparison['sort'] == 'clustering':
-                ax.set_yticks(range(0, len(yticklabels), args.y_tick_step))
+                axs[i_query].set_yticks(range(0, len(yticklabels), args.y_tick_step[i_query]))
                 yticklabels = yticklabels[::args.y_tick_step]
-                ax.set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
-            ax.set_ylabel(condition_name, fontsize=10, color=color, rotation=0, labelpad=20)
-            ax.axvline(x=0, color='k', ls='--', lw=3) 
+                axs[i_query].set_yticklabels(yticklabels, fontsize=args.yticklabels_fontsize)
+            # ax.set_ylabel(condition_name, fontsize=10, color=color, rotation=0, labelpad=20)
+            timezero = list(epochs.times).index(0)
+            axs[i_query].axvline(x=timezero, color='k', ls='--', lw=3) 
             # TAKE MEAN FOR ERP FIGURE 
             if args.data_type == 'spike':
                 # Gausssian smoothing of raster ERPs
@@ -326,15 +354,19 @@ for ch, ch_name in enumerate(epochs.ch_names):
         ##############
         
         if args.data_type == 'spike':
-            label_y = 'firing rate (Hz)'
-            ylim = [-1, 20]
-            # ylim = [None, None]
-            yticks = [0, 10, 20, 30, 40]
+            # label_y = 'firing rate (Hz)'
+            label_y = ''
+            if 'ylim' in comparison.keys():
+                ymax = comparison['ylim']
+            else:
+                ymax = 40
+            ylim = (-1, ymax)
+            yticks = range(0, ymax, 20)
         else:
             if args.filter == 'high-gamma':
-                label_y = 'dB'
-                ylim = [-1.5, 1.5]
-                yticks = [-1.5, -1, 0, 1, 1.5]
+                label_y = ''
+                ylim = [-1, 1]
+                yticks = [ylim[0], 0, ylim[1]]
             else:
                 label_y = 'IQR-scale'
                 ylim = [-3, 3]
@@ -344,23 +376,34 @@ for ch, ch_name in enumerate(epochs.ch_names):
                                                colors=colors_dict,
                                                linestyles=linestyles_dict,
                                                picks=ch_name,
-                                               axes=ax2, title='')
-        ax2.legend(bbox_to_anchor=(1.05, 1), loc=2)
-        ax2.set_ylabel(label_y, fontsize=16, rotation=0, labelpad=20)
-        ax2.set_ylim(ylim)
-        ax2.set_yticks(yticks)
+                                               axes=axs[-1], title='')
+        # ax2.legend(bbox_to_anchor=(1.05, 1), loc=2)
+        axs[-1].legend().set_visible(False)
+        axs[-1].set_ylabel(label_y, fontsize=16, rotation=0, labelpad=20)
+        axs[-1].set_xlabel('') # Remove xlabel
+        axs[-1].tick_params(axis='both', labelsize=20)
+        axs[-1].set_ylim(ylim)
+        axs[-1].set_yticks(yticks)
+        if 'tmin_tmax' in comparison.keys():
+            xticks = [0, comparison['tmin_tmax'][1]]
+            axs[-1].set_xticks(xticks)
 
         #############
         # COLOR BAR #
         #############
         if args.data_type != 'spike':
-            cbaxes = plt.subplot2grid((nrows, ncols+1), (0, 10), rowspan=sum(nums_trials), colspan=1) # cbar
-            cbar = plt.colorbar(im, cax=cbaxes)
+            fig_cbar, ax_cbar = plt.subplots(1,1,figsize=(2,2))
+            # cbaxes = plt.subplot2grid((nrows, ncols+1), (0, 10), rowspan=int(sum(nums_trials)/10), colspan=1) # cbar
+            cbar = plt.colorbar(im, cax=ax_cbar)
             if args.filter == 'high-gamma':
                 label_cbar = 'dB'
             else:
                 label_cbar = 'IQR-scale'
             cbar.set_label(label=label_cbar, size=22)
+            plt.tight_layout()
+            plt.savefig(fname_fig[:-4]+'_cbar.png')
+            print('fig saved to: %s' % fname_fig[:-4]+'_cbar.png')
+            plt.close(fig_cbar)
 
         if comparison['sort']:
             str_sort = 'Trials are sorted by:%s' % comparison['sort'][0]
@@ -369,11 +412,11 @@ for ch, ch_name in enumerate(epochs.ch_names):
         # Add main title
         if not args.no_title:
             fig.suptitle('%s, %s\n%s\n%s' % (args.patient, ch_name, args.comparison_name, str_sort), fontsize=12)
-        plt.subplots_adjust(left=0.25, right=0.85)
+        # plt.subplots_adjust(left=0.2, right=0.95, bottom=0.05, top=0.95)
         ########
         # SAVE #
         ########
         plt.tight_layout()
-        plt.savefig(fname_fig)
+        plt.savefig(fname_fig, facecolor=fig.get_facecolor(), edgecolor='none')
         print('fig saved to: %s' % fname_fig)
         plt.close()

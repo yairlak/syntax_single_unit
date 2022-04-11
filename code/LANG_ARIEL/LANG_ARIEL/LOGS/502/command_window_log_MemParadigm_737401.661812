@@ -1,0 +1,16 @@
+
+Only one DAQ device detected and this is the horribly broken OSX OS.
+Will return daq device index as the one with the highest index number,
+assuming it to be interface #0, as our interface matching is too
+unreliable on OSX, thanks to Apple's broken operating systems. Good luck!
+{Undefined function or variable "pre_send_time".
+
+Error in <a href="matlab:helpUtils.errorDocCallback('send_ttl_now', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/send_ttl_now.m', 25)" style="font-weight:bold">send_ttl_now</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/send_ttl_now.m',25,0)">line 25</a>)
+    timeSinceStart = pre_send_time;
+
+Error in <a href="matlab:helpUtils.errorDocCallback('lang_paradigm', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m', 118)" style="font-weight:bold">lang_paradigm</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/lang_paradigm.m',118,0)">line 118</a>)
+send_ttl_now(START_SEC);
+
+Error in <a href="matlab:helpUtils.errorDocCallback('LANG_SENTENCES_TEXT', '/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_SENTENCES_TEXT.m', 13)" style="font-weight:bold">LANG_SENTENCES_TEXT</a> (<a href="matlab: opentoline('/Users/CNLmac3/Documents/Paradigms/LANG_ARIEL/LANG_SENTENCES_TEXT.m',13,0)">line 13</a>)
+lang_paradigm(filename_stimuli);
+} 

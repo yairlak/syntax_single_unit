@@ -1,0 +1,1285 @@
+1 at 261397.7834, (100)
+PTB-INFO: Retina display. Enabling panel fitter for scaled Retina compatibility mode.
+
+
+PTB-INFO: This is Psychtoolbox-3 for Apple OS X, under Matlab 64-Bit (Version 3.0.15 - Build date: Feb  7 2019).
+PTB-INFO: Support status on this operating system release: OSX version 10.14 is not officially supported or tested at all for this release.
+PTB-INFO: Type 'PsychtoolboxVersion' for more detailed version information.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT License, with
+PTB-INFO: some restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+
+
+
+PTB-INFO: OpenGL-Renderer is Intel Inc. :: Intel Iris Pro OpenGL Engine :: 2.1 INTEL-12.9.22
+PTB-INFO: Renderer has 1536 MB of VRAM and a maximum 1536 MB of texture memory.
+PTB-INFO: VBL startline = 2400 , VBL Endline = -1
+PTB-INFO: Beamposition queries unsupported or defective on this system. Using basic timestamping as fallback.
+PTB-INFO: Timestamps returned by Screen('Flip') will be therefore less robust and accurate.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.686163 ms [59.929896 Hz]. (59 valid samples taken, stddev=1.273098 ms.)
+PTB-INFO: Small deviations between reported values are normal and no reason to worry.
+
+WARNING: Couldn't compute a reliable estimate of monitor refresh interval! Trouble with VBL syncing?!?
+
+
+----- ! PTB - ERROR: SYNCHRONIZATION FAILURE ! ----
+
+One or more internal checks (see Warnings above) indicate that synchronization
+of Psychtoolbox to the vertical retrace (VBL) is not working on your setup.
+
+This will seriously impair proper stimulus presentation and stimulus presentation timing!
+Please read 'help SyncTrouble' for information about how to solve or work-around the problem.
+You can force Psychtoolbox to continue, despite the severe problems, by adding the command
+Screen('Preference', 'SkipSyncTests', 1); at the top of your script, if you really know what you are doing.
+
+
+PTB-INFO: Psychtoolbox imaging pipeline starting up for window with requested imagingmode 33793 ...
+PTB-INFO: Will use 8 bits per color component framebuffer for stimulus drawing.
+PTB-INFO: Enabling panel fitter. Providing virtual framebuffer of 1920 x 1200 pixels size.
+PTB-INFO: Will use 8 bits per color component framebuffer for stimulus post-processing (if any).
+1 at 261401.8045, (1)
+5 at 261401.8796, (2)
+17 at 261404.8574, (3)
+7 at 261404.9232, (4)
+3 at 261404.9807, (5)
+1 at 261405.0129, (6)
+7 at 261405.062, (7)
+
+ans =
+
+    'Stimuli/Sound_sentences/44.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/125.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/86.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/9.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/41.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/109.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/34.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/53.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/15.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/106.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/130.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/123.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/28.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/21.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/147.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/78.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/51.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/116.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/138.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/60.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/33.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/47.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/152.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/82.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/22.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/52.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/73.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/115.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/89.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/18.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/57.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/101.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/12.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/124.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/10.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/40.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/128.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/32.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/121.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/16.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/58.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/104.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/27.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/49.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/88.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/13.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/102.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/45.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/71.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/137.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/66.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/105.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/2.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/90.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/74.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/31.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/141.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/25.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/3.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/37.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/62.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/20.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/7.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/85.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/65.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/81.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/26.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/56.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/150.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/117.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/23.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/96.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/76.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/80.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/54.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/72.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/4.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/132.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/98.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/64.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/50.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/94.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/14.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/48.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/119.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/75.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/8.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/67.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/112.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/108.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/91.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/133.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/17.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/68.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/97.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/114.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/142.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/87.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/144.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/148.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/69.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/111.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/113.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/118.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/120.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/36.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/145.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/134.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/143.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/42.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/126.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/38.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/103.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/43.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/35.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/93.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/146.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/110.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/46.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/136.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/95.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/151.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/30.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/122.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/77.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/139.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/55.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/107.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/39.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/127.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/149.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/140.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/6.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/131.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/84.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/5.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/24.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/61.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/1.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/92.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/99.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/135.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/70.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/83.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/63.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/29.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/129.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/100.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/79.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/11.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/19.wav'
+
+
+ans =
+
+    'Stimuli/Sound_sentences/59.wav'
+
+PTB-INFO: Using modified PortAudio V19.6.0-devel, revision unknown
+PsychPortAudio initialized. Will use CoreAudio for audio.
+PTB-INFO: New audio device -1 with handle 0 opened as PortAudio stream:
+PTB-INFO: For 1 channels Playback: Audio subsystem is Core Audio, Audio device name is Built-in Output
+PTB-INFO: Real samplerate 44100.000000 Hz. Input latency 0.000000 msecs, Output latency 22.766440 msecs.
+playing now
+49 at 261408.2628, (8)
+51 at 261409.4977, (9)
+playing now
+49 at 261409.5349, (10)
+51 at 261411.6239, (11)
+playing now
+49 at 261411.6569, (12)
+51 at 261413.9342, (13)
+playing now
+49 at 261413.9678, (14)
+51 at 261416.1849, (15)
+playing now
+49 at 261416.218, (16)
+51 at 261418.4141, (17)
+playing now
+49 at 261418.4477, (18)
+51 at 261420.8547, (19)
+playing now
+49 at 261420.8877, (20)
+51 at 261423.2378, (21)
+playing now
+49 at 261423.2708, (22)
+51 at 261425.7265, (23)
+playing now
+49 at 261425.7596, (24)
+51 at 261427.7954, (25)
+playing now
+49 at 261427.8285, (26)
+51 at 261430.0121, (27)
+playing now
+49 at 261430.0459, (28)
+51 at 261432.3225, (29)
+playing now
+49 at 261432.3557, (30)
+51 at 261434.6253, (31)
+playing now
+49 at 261434.6577, (32)
+51 at 261437.1174, (33)
+playing now
+49 at 261437.1504, (34)
+51 at 261439.0924, (35)
+playing now
+49 at 261439.1255, (36)
+51 at 261441.4427, (37)
+playing now
+49 at 261441.4766, (38)
+51 at 261443.8655, (39)
+playing now
+49 at 261443.8983, (40)
+51 at 261446.2055, (41)
+playing now
+49 at 261446.2386, (42)
+51 at 261448.2707, (43)
+playing now
+49 at 261448.3038, (44)
+51 at 261450.467, (45)
+playing now
+49 at 261450.5002, (46)
+51 at 261453.2563, (47)
+playing now
+49 at 261453.2901, (48)
+51 at 261455.3902, (49)
+playing now
+49 at 261455.423, (50)
+51 at 261457.6337, (51)
+playing now
+49 at 261457.6668, (52)
+51 at 261459.6928, (53)
+playing now
+49 at 261459.7261, (54)
+51 at 261461.9814, (55)
+playing now
+49 at 261462.0137, (56)
+51 at 261464.1293, (57)
+playing now
+49 at 261464.1629, (58)
+51 at 261466.3782, (59)
+playing now
+49 at 261466.4114, (60)
+51 at 261468.7735, (61)
+playing now
+49 at 261468.8067, (62)
+51 at 261471.5666, (63)
+playing now
+49 at 261471.5998, (64)
+51 at 261473.4968, (65)
+playing now
+49 at 261473.5301, (66)
+51 at 261476.002, (67)
+playing now
+49 at 261476.0354, (68)
+51 at 261478.2349, (69)
+playing now
+49 at 261478.2683, (70)
+51 at 261480.4696, (71)
+playing now
+49 at 261480.5029, (72)
+51 at 261482.8777, (73)
+playing now
+49 at 261482.9109, (74)
+51 at 261484.8623, (75)
+playing now
+49 at 261484.895, (76)
+51 at 261486.9803, (77)
+playing now
+49 at 261487.0135, (78)
+51 at 261489.4234, (79)
+playing now
+49 at 261489.4558, (80)
+51 at 261491.7296, (81)
+playing now
+49 at 261491.7626, (82)
+51 at 261493.9579, (83)
+playing now
+49 at 261493.9908, (84)
+51 at 261496.3995, (85)
+playing now
+49 at 261496.4333, (86)
+51 at 261498.8779, (87)
+playing now
+49 at 261498.9107, (88)
+51 at 261501.0997, (89)
+playing now
+49 at 261501.1329, (90)
+51 at 261503.728, (91)
+playing now
+49 at 261503.7611, (92)
+51 at 261506.4136, (93)
+playing now
+49 at 261506.4469, (94)
+51 at 261508.6693, (95)
+playing now
+49 at 261508.702, (96)
+51 at 261510.9048, (97)
+playing now
+49 at 261510.9375, (98)
+51 at 261513.7305, (99)
+playing now
+49 at 261513.7644, (100)
+51 at 261516.337, (1)
+playing now
+49 at 261516.3702, (2)
+51 at 261518.4274, (3)
+playing now
+49 at 261518.4605, (4)
+51 at 261520.4171, (5)
+playing now
+49 at 261520.4502, (6)
+51 at 261522.849, (7)
+playing now
+49 at 261522.8814, (8)
+51 at 261525.0666, (9)
+playing now
+49 at 261525.0998, (10)
+51 at 261527.2749, (11)
+playing now
+49 at 261527.3082, (12)
+51 at 261529.6974, (13)
+playing now
+49 at 261529.7305, (14)
+51 at 261532.0882, (15)
+playing now
+49 at 261532.1213, (16)
+51 at 261534.2733, (17)
+playing now
+49 at 261534.3059, (18)
+51 at 261536.5236, (19)
+playing now
+49 at 261536.5569, (20)
+51 at 261538.5883, (21)
+playing now
+49 at 261538.6218, (22)
+51 at 261541.1011, (23)
+playing now
+49 at 261541.1342, (24)
+51 at 261543.5802, (25)
+playing now
+49 at 261543.6131, (26)
+51 at 261545.681, (27)
+playing now
+49 at 261545.7142, (28)
+51 at 261548.1449, (29)
+playing now
+49 at 261548.178, (30)
+51 at 261550.3663, (31)
+playing now
+49 at 261550.3992, (32)
+51 at 261552.4616, (33)
+playing now
+49 at 261552.4947, (34)
+51 at 261554.8126, (35)
+playing now
+49 at 261554.8464, (36)
+51 at 261557.1772, (37)
+playing now
+49 at 261557.2097, (38)
+51 at 261559.3783, (39)
+playing now
+49 at 261559.4117, (40)
+51 at 261561.7273, (41)
+playing now
+49 at 261561.7604, (42)
+51 at 261564.5097, (43)
+playing now
+49 at 261564.5427, (44)
+51 at 261566.7564, (45)
+playing now
+49 at 261566.789, (46)
+51 at 261569.141, (47)
+playing now
+49 at 261569.1734, (48)
+51 at 261571.6381, (49)
+playing now
+49 at 261571.6709, (50)
+51 at 261573.9941, (51)
+playing now
+49 at 261574.0271, (52)
+51 at 261576.2955, (53)
+playing now
+49 at 261576.3279, (54)
+51 at 261578.5155, (55)
+playing now
+49 at 261578.5485, (56)
+51 at 261580.7744, (57)
+playing now
+49 at 261580.8069, (58)
+51 at 261583.2522, (59)
+playing now
+49 at 261583.2859, (60)
+51 at 261585.3149, (61)
+playing now
+49 at 261585.3473, (62)
+51 at 261587.9255, (63)
+playing now
+49 at 261587.9581, (64)
+51 at 261590.264, (65)
+playing now
+49 at 261590.2971, (66)
+51 at 261592.2501, (67)
+playing now
+49 at 261592.2832, (68)
+51 at 261594.3568, (69)
+playing now
+49 at 261594.3904, (70)
+51 at 261596.5708, (71)
+playing now
+49 at 261596.6041, (72)
+51 at 261598.9154, (73)
+playing now
+49 at 261598.9486, (74)
+51 at 261601.0836, (75)
+playing now
+49 at 261601.1164, (76)
+51 at 261603.2449, (77)
+playing now
+49 at 261603.2776, (78)
+51 at 261605.2453, (79)
+playing now
+49 at 261605.2789, (80)
+51 at 261607.431, (81)
+playing now
+49 at 261607.4643, (82)
+51 at 261609.3439, (83)
+playing now
+49 at 261609.3771, (84)
+51 at 261611.2862, (85)
+playing now
+49 at 261611.3195, (86)
+51 at 261613.7685, (87)
+playing now
+49 at 261613.8008, (88)
+51 at 261615.6665, (89)
+playing now
+49 at 261615.7003, (90)
+51 at 261618.0038, (91)
+playing now
+49 at 261618.0364, (92)
+51 at 261620.0032, (93)
+playing now
+49 at 261620.0365, (94)
+51 at 261621.9742, (95)
+playing now
+49 at 261622.0074, (96)
+51 at 261624.6278, (97)
+playing now
+49 at 261624.6609, (98)
+51 at 261626.8588, (99)
+playing now
+49 at 261626.8926, (100)
+51 at 261629.3093, (1)
+playing now
+49 at 261629.3428, (2)
+51 at 261631.427, (3)
+playing now
+49 at 261631.4598, (4)
+51 at 261633.7305, (5)
+playing now
+49 at 261633.7631, (6)
+51 at 261636.0015, (7)
+playing now
+49 at 261636.0346, (8)
+51 at 261638.2993, (9)
+playing now
+49 at 261638.3334, (10)
+51 at 261640.5744, (11)
+playing now
+49 at 261640.6076, (12)
+51 at 261642.7937, (13)
+playing now
+49 at 261642.8274, (14)
+51 at 261645.3004, (15)
+playing now
+49 at 261645.3336, (16)
+51 at 261647.5949, (17)
+playing now
+49 at 261647.628, (18)
+51 at 261649.8407, (19)
+playing now
+49 at 261649.8739, (20)
+51 at 261652.2339, (21)
+playing now
+49 at 261652.2669, (22)
+51 at 261654.0178, (23)
+playing now
+49 at 261654.0517, (24)
+51 at 261656.1466, (25)
+playing now
+49 at 261656.1797, (26)
+51 at 261658.306, (27)
+playing now
+49 at 261658.3392, (28)
+51 at 261660.6776, (29)
+playing now
+49 at 261660.7101, (30)
+51 at 261662.9645, (31)
+playing now
+49 at 261662.9976, (32)
+51 at 261665.361, (33)
+playing now
+49 at 261665.394, (34)
+51 at 261667.6158, (35)
+playing now
+49 at 261667.649, (36)
+51 at 261670.1649, (37)
+playing now
+49 at 261670.1986, (38)
+51 at 261672.6883, (39)
+playing now
+49 at 261672.7216, (40)
+51 at 261675.0695, (41)
+playing now
+49 at 261675.1025, (42)
+51 at 261677.5994, (43)
+playing now
+49 at 261677.6325, (44)
+51 at 261679.6573, (45)
+playing now
+49 at 261679.6913, (46)
+51 at 261682.2751, (47)
+playing now
+49 at 261682.3082, (48)
+51 at 261684.5414, (49)
+playing now
+49 at 261684.5747, (50)
+51 at 261686.5683, (51)
+playing now
+49 at 261686.6015, (52)
+51 at 261689.0814, (53)
+playing now
+49 at 261689.1146, (54)
+51 at 261691.2649, (55)
+playing now
+49 at 261691.2978, (56)
+51 at 261693.3178, (57)
+playing now
+49 at 261693.3507, (58)
+51 at 261695.4889, (59)
+playing now
+49 at 261695.5221, (60)
+51 at 261697.6793, (61)
+playing now
+49 at 261697.7125, (62)
+51 at 261699.8446, (63)
+playing now
+49 at 261699.8775, (64)
+51 at 261702.7186, (65)
+playing now
+49 at 261702.7522, (66)
+51 at 261704.8932, (67)
+playing now
+49 at 261704.9263, (68)
+51 at 261707.0538, (69)
+playing now
+49 at 261707.0869, (70)
+51 at 261709.3436, (71)
+playing now
+49 at 261709.3768, (72)
+51 at 261711.5532, (73)
+playing now
+49 at 261711.5862, (74)
+51 at 261713.4396, (75)
+playing now
+49 at 261713.473, (76)
+51 at 261715.6946, (77)
+playing now
+49 at 261715.7275, (78)
+51 at 261718.1508, (79)
+playing now
+49 at 261718.1839, (80)
+51 at 261720.7368, (81)
+playing now
+49 at 261720.7702, (82)
+51 at 261723.2496, (83)
+playing now
+49 at 261723.2836, (84)
+51 at 261725.1221, (85)
+playing now
+49 at 261725.1552, (86)
+51 at 261727.3666, (87)
+playing now
+49 at 261727.3995, (88)
+51 at 261729.4632, (89)
+playing now
+49 at 261729.4957, (90)
+51 at 261731.5143, (91)
+playing now
+49 at 261731.5476, (92)
+51 at 261734.0503, (93)
+playing now
+49 at 261734.0844, (94)
+51 at 261736.7252, (95)
+playing now
+49 at 261736.7583, (96)
+51 at 261738.8983, (97)
+playing now
+49 at 261738.9314, (98)
+51 at 261741.3929, (99)
+playing now
+49 at 261741.4262, (100)
+51 at 261743.5211, (1)
+playing now
+49 at 261743.5543, (2)
+51 at 261745.3992, (3)
+playing now
+49 at 261745.4323, (4)
+51 at 261747.7067, (5)
+playing now
+49 at 261747.7399, (6)
+51 at 261749.658, (7)
+playing now
+49 at 261749.6917, (8)
+51 at 261751.692, (9)
+playing now
+49 at 261751.7251, (10)
+51 at 261754.0033, (11)
+
+
+INFO: PTB's Screen('Flip', 10) command seems to have missed the requested stimulus presentation deadline
+INFO: a total of 3 times out of a total of 4 flips during this session.
+
+INFO: This number is fairly accurate (and indicative of real timing problems in your own code or your system)
+INFO: if you provided requested stimulus onset times with the 'when' argument of Screen('Flip', window [, when]);
+INFO: If you called Screen('Flip', window); without the 'when' argument, this count is more of a ''mild'' indicator
+INFO: of timing behaviour than a hard reliable measurement. Large numbers may indicate problems and should at least
+INFO: deserve your closer attention. Cfe. 'help SyncTrouble', the FAQ section at www.psychtoolbox.org and the
+INFO: examples in the PDF presentation in PsychDocumentation/Psychtoolbox3-Slides.pdf for more info and timing tips.
+
+
+
+WARNING: This session of your experiment was run by you with the setting Screen('Preference', 'SkipSyncTests', 1).
+WARNING: This means that some internal self-tests and calibrations were skipped. Your stimulus presentation timing
+WARNING: may have been wrong. This is fine for development and debugging of your experiment, but for running the real
+WARNING: study, please make sure to set Screen('Preference', 'SkipSyncTests', 0) for maximum accuracy and reliability.
+Closing log_file writer.

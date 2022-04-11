@@ -17,7 +17,7 @@ from mne.stats import fdr_correction
 SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
 
 # In[5]:
-data_type = 'micro'
+data_type = 'spike'
 filt = 'raw'
 fn_trf_results = f'../../../Output/encoding_models/evoked_encoding_results_decimate_50_smooth_50.json'
 df = pd.read_json(fn_trf_results)
@@ -26,48 +26,15 @@ df = df.loc[df['data_type'] == data_type]
 df = df.loc[df['filter'] == filt]
 alpha = 0.05
 
-def get_dr(r_full, r):
-    if (not r_full is None) and (not r is None):
-        if isinstance(r_full, str):
-            r = [float(e) for e in r[1:-1].split()]
-            r_full = [float(e) for e in r_full[1:-1].split()]
-            dr = np.asarray(r_full) - np.asarray(r)
-        elif isinstance(r_full, float):
-            if np.isnan(r_full) or np.isnan(r):
-                return np.nan
-            else:
-                dr = np.asarray(r_full) - np.asarray(r)
-        else:
-            dr = np.asarray(r_full) - np.asarray(r)
-    else:
-        dr=np.nan
-    return dr
-# df['dr_visual_total'] = df.apply (lambda row: get_dr(row['r_full_visual'],
-#                                                row['r_visual']), axis=1)
-# df['dr_auditory_total'] = df.apply (lambda row: get_dr(row['r_full_auditory'],
-#                                                  row['r_auditory']), axis=1)
-
-df['dr_visual_by_time'] = df.apply (lambda row: get_dr(row['r_full_visual_by_time'],
-                                               row['r_visual_by_time']), axis=1)
-df['dr_auditory_by_time'] = df.apply (lambda row: get_dr(row['r_full_auditory_by_time'],
-                                                 row['r_auditory_by_time']), axis=1)
+patients = list(set(df['Patient']))
+for p in sorted(patients):
+    df_curr = df.loc[df['Patient'] == p]
+    print(f'patient {p}: len(df_curr)')
+print(f'Total: {len(df)}')
 
 
-def find_max(dr_by_time):
-    if isinstance(dr_by_time, float):
-        if np.isnan(dr_by_time):
-            return np.nan
-        else:
-            return dr_by_time.max()
-    else:
-        return np.asarray(dr_by_time).max()
-                
-df['dr_visual_max'] = df.apply (lambda row: find_max(row['dr_visual_by_time']), axis=1)
-df['dr_auditory_max'] = df.apply (lambda row: find_max(row['dr_auditory_by_time']), axis=1)
-df['r_full_visual_max'] = df.apply (lambda row: find_max(row['r_full_visual_by_time']), axis=1)
-df['r_full_auditory_max'] = df.apply (lambda row: find_max(row['r_full_auditory_by_time']), axis=1)
-
-
+pvals_aud = df['stats_full_auditory_by_time'].values # n_ROIs X n_times
+pvals_cat = np.concatenate(pvals_aud)
 
 def get_mask_significance(row, block, feature):
     pvals = row[f'stats{feature}_{block}_by_time']
@@ -98,10 +65,6 @@ for block in ['auditory', 'visual']:
         df[f'r_significant_{block}{feature}'] = df.apply(lambda row: get_r_significant(row, block, feature), axis=1)
 
 
-#df['d_from_diag'] = df.apply(lambda row: (row['r_significant_visual_full'].mean()-row['r_significant_auditory_full'].mean())/np.sqrt(2), axis=1)
-
-
-# df['d_from_diag'] = df.apply(lambda row: (row['r_full_visual']-row['r_full_auditory'])/np.sqrt(2), axis=1)
 
 # In[6]:
 def probename2ROI(path2mapping='../../../Data/probenames2fsaverage.tsv'):
@@ -152,6 +115,9 @@ hemis=['lh', 'rh']
 surface='pial'
 
 
+cmaps = {}
+cmaps['auditory'] = 'Blues'
+cmaps['visual'] = 'Reds'
 def get_color(x, cmap='RdBu_r'):
     return eval(f'plt.cm.{cmap}((np.clip(x,-1,1)+1)/2.)')
 
@@ -206,7 +172,8 @@ for block in ['auditory', 'visual']:
              #                            0]
             # d = df_roi['dr_visual_total'].mean()
             df_roi['mean_r_sig'] = df_roi.apply(lambda row: get_mean(row), axis=1)
-            colors[label.vertices, :] = get_color(df_roi['mean_r_sig'].mean())[:3]
+            colors[label.vertices, :] = get_color(df_roi['mean_r_sig'].mean(),
+                                                  cmap=cmaps[block])[:3]
             #
         
         # In[14]:

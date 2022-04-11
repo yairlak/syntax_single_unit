@@ -17,7 +17,7 @@ from mne.stats import fdr_correction
 SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
 
 # In[5]:
-data_type = 'spike'
+data_type = 'micro'
 filt = 'raw'
 fn_trf_results = f'../../../Output/encoding_models/evoked_encoding_results_decimate_50_smooth_50.json'
 df = pd.read_json(fn_trf_results)
@@ -29,7 +29,7 @@ alpha = 0.05
 patients = list(set(df['Patient']))
 for p in sorted(patients):
     df_curr = df.loc[df['Patient'] == p]
-    print(f'patient {p}: len(df_curr)')
+    print(f'patient {p}: {len(df_curr)}')
 print(f'Total: {len(df)}')
 
 

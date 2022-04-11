@@ -254,8 +254,8 @@ def comparison_list():
     comparisons['505_LFGP6_30p2']['height_ratios'] = True
     comparisons['505_LFGP6_30p2']['channel_name'] = 'p_g2_30_GA4-LFG'
    
-    target_words = [['She', 'she'], ['showered', 'shaved', 'chef'], ['mushrooms', 'pushed', 'vanish', 'washed']]
-    control_words = [['smiles', 'smile', 'smiled', 'sing', 'sneezes', 'sneeze', 'sneezed']]
+    target_words = [['She'], ['she', 'showered', 'shaved', 'chef'], ['mushrooms', 'pushed', 'vanish', 'washed']]
+    control_words = [['He', 'We']]
     comparisons['505_LHSG_17p1'] = {}
     comparisons['505_LHSG_17p1']['queries'] = [f"word_string in {l} and (block in [2, 4, 6])" for l in target_words] \
                                                 + [f"word_string in {l} and (block in [2, 4, 6])" for l in control_words]
@@ -265,11 +265,11 @@ def comparison_list():
     comparisons['505_LHSG_17p1']['ls'] = ['-'] * n_queries
     comparisons['505_LHSG_17p1']['lw'] = [3] * n_queries
     comparisons['505_LHSG_17p1']['level'] = 'word'
-    comparisons['505_LHSG_17p1']['y-tick-step'] = [300, 10, 10, 10]
+    comparisons['505_LHSG_17p1']['y-tick-step'] = [300, 6, 6, 10]
     comparisons['505_LHSG_17p1']['sort'] = ['word_string']
     comparisons['505_LHSG_17p1']['tmin_tmax'] = [-0.05, 0.4]
     comparisons['505_LHSG_17p1']['figsize'] = (5, 13)
-    comparisons['505_LHSG_17p1']['ylim'] = 200
+    comparisons['505_LHSG_17p1']['ylim'] = 100
     comparisons['505_LHSG_17p1']['cmaps'] = ['Blues'] * n_queries
     comparisons['505_LHSG_17p1']['colors'] = ['g', 'g', 'b', 'r']
     comparisons['505_LHSG_17p1']['height_ratios'] = True
@@ -456,15 +456,28 @@ def comparison_list():
 
 
 # ALL TRIALS
+    comparisons['all_trials_last_word'] = {}
+    comparisons['all_trials_last_word']['queries'] = ["is_last_word==1 and (block in [1, 3, 5])", "is_last_word==1 and (block in [2, 4, 6])"]
+    comparisons['all_trials_last_word']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_trials_last_word']['colors'] = ['r', 'b']
+    comparisons['all_trials_last_word']['cmaps'] = ['Reds', 'Blues']
+    comparisons['all_trials_last_word']['sort'] = ['sentence_length', 'sentence_string']
+    comparisons['all_trials_last_word']['y-tick-step'] = [50, 50]
+    comparisons['all_trials_last_word']['tmin_tmax'] = [-1.25, 0.5]
+    comparisons['all_trials_last_word']['level'] = 'sentence_offset'
+    comparisons['all_trials_last_word']['ylim'] = 40
+    comparisons['all_trials_last_word']['figsize'] = (10, 10)
+    
     comparisons['all_end_trials'] = {}
-    comparisons['all_end_trials']['queries'] = ["is_last_word==1 and (block in [1, 3, 5])", "is_last_word==1 and (block in [2, 4, 6])"]
+    comparisons['all_end_trials']['queries'] = ["word_string == '.' and (block in [1, 3, 5])",
+                                                "phone_string=='END_OF_WAV' and (block in [2, 4, 6])"]
     comparisons['all_end_trials']['condition_names'] = ['Visual blocks', 'Auditory blocks']
     comparisons['all_end_trials']['colors'] = ['r', 'b']
     comparisons['all_end_trials']['cmaps'] = ['Reds', 'Blues']
     comparisons['all_end_trials']['sort'] = ['sentence_length', 'sentence_string']
     comparisons['all_end_trials']['y-tick-step'] = [50, 50]
     comparisons['all_end_trials']['tmin_tmax'] = [-1.25, 0.5]
-    comparisons['all_end_trials']['level'] = 'sentence_offset'
+    comparisons['all_end_trials']['level'] = 'sentence_end'
     comparisons['all_end_trials']['ylim'] = 40
     comparisons['all_end_trials']['figsize'] = (10, 10)
 

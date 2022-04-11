@@ -10,6 +10,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
+def get_cmap(n, name='hsv'):
+    '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
+    RGB color; the keyword argument name must be a standard mpl colormap name.'''
+    return plt.cm.get_cmap(name, n)
+
 def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     rfs = results['full']['rf_sentence'] # list of models with len=num_cv-splits
     times_rf = rfs[0].delays_*1000/rfs[0].sfreq
@@ -27,7 +32,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     # negative_r2 = scores_by_time_mean>0
     
     # PLOT
-    fig, ax = plt.subplots(figsize=(15,10))
+    fig, ax = plt.subplots(figsize=(35,20))
     ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
     ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
@@ -47,11 +52,13 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
             ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw,
                     marker=marker, markersize=15, label=feature_name)
         else:
+            cmap = get_cmap(len(feature_info[feature_name]['names']))
             for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
                 coef_curr_feature = coefs_mean[st+i_value, :]
-                ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw, label=feature_value)
+                ax.plot(times_rf, coef_curr_feature, color=cmap(i_value), ls=ls, lw=lw, label=feature_value)
     
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
+    #ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/20)), fontsize=24)
+    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=5, fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'Beta', fontsize=20)
     ax.set_ylim((None, None)) 
@@ -61,7 +68,7 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=18)
     ax2.tick_params(axis='both', labelsize=18)
-    plt.subplots_adjust(right=0.65)
+    plt.subplots_adjust(right=0.3)
     
     return fig
 

@@ -161,6 +161,9 @@ class DataHandler:
             elif level == 'sentence_offset':
                 tmin_, tmax_ = (-3.5, 1.5)
                 metadata_level = metadata.loc[(metadata['is_last_word'] == 1)]
+            elif level == 'sentence_end':
+                tmin_, tmax_ = (-3.5, 1.5)
+                metadata_level = metadata.loc[(metadata['word_string'] == '.') | (metadata['phone_string'] == 'END_OF_WAV')]
             elif level == 'word':
                 tmin_, tmax_ = (-1.5, 2.5)
                 metadata_level = metadata.loc[((metadata['word_onset'] == 1) &
@@ -194,8 +197,10 @@ class DataHandler:
             # EPOCHING #
             ############
             epochs = mne.Epochs(self.raws[p], events, event_id, tmin_, tmax_,
-                                metadata=metadata_level, baseline=None,
-                                preload=True, reject=None)
+                                metadata=metadata_level,
+                                baseline=None,
+                                reject=None,
+                                preload=True)
             if any(epochs.drop_log):
                 print('Dropped:', epochs.drop_log)
 
@@ -1143,6 +1148,8 @@ def load_word_features(path2stimuli=os.path.join('..', '..', 'Paradigm'),
                     word2features_new[s][0][f] = ''
                 elif f == 'sentence_string':
                     pass
+                elif f == 'sentence_length':
+                    word2features_new[s][0][f] = len(row['sentence_string'].split())
                 else:
                     word2features_new[s][0][f] = 0
 

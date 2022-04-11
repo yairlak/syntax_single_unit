@@ -4,15 +4,15 @@ CLUSTER=0
 # 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
-PATIENTS="479_11 502"
+PATIENTS="505"
 
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike microphone"
-#DTYPES="spike"
+DTYPES="spike"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
-#FILTERS="raw"
+FILTERS="raw"
 
 #LEVELS="sentence_onset sentence_offset"
 COMPARISONS="all_trials all_trials_chrono all_end_trials"
@@ -20,7 +20,8 @@ COMPARISONS="all_trials all_trials_chrono all_end_trials"
 #COMPARISONS="all_trials all_trials_chrono all_end_trials embedding_vs_long grammatical_number dec_quest_len2"
 #COMPARISONS="grammatical_number"
 #COMPARISONS="479_11_LSTG7_15p2"
-#COMPARISONS="505_LFGP6_30p2"
+COMPARISONS="505_LFGP6_30p2"
+COMPARISONS="505_LHSG_17p1"
 #COMPARISONS="all_trials all_trials_chrono all_end_trials"
 
 #LEVELS="word"

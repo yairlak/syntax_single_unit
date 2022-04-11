@@ -22,6 +22,7 @@ class Features():
                                        'syntactic_role', 'diff_thematic_role'] 
         #features_groupped['semantics'] = ['glove'] # try with a larger dim
         features_groupped['semantics'] = ['semantic_categories'] # Taken from Paradigm/word_features.docx
+        features_groupped['word_string'] = ['word_string']
         self.features_groupped = features_groupped
 
     def add_punctuation(self):
@@ -214,9 +215,6 @@ def get_feature_values(feature, metadata, one_hot):
         names = [letter + '-' + pos for pos in positions for letter in alphabet]
     
     
-
-
-    
     ######################
     # ALL OTHER FEATURES #
     ######################
@@ -241,6 +239,8 @@ def get_feature_values(feature, metadata, one_hot):
                     IX = names.index(str(curr_value))
                     row_vector[0, IX] = 1
                 values.append(row_vector)
+            if feature == 'word_string':
+                feature = 'ws'
             names = [feature + '-' + str(name) for name in names]
 
         else:  # A SINGLE CONTINUOUS FEATURE
@@ -456,6 +456,12 @@ def get_feature_style(feature_name):
     
     #####################################
     # PHONE STRING
+    if feature_name == 'word_string':
+        dict_prop['color'] = 'g'
+        dict_prop['ls'] = '-'
+        dict_prop['lw'] = 3
+        dict_prop['one-hot'] = True
+    
     if feature_name == 'phone_string':
         dict_prop['color'] = 'm'
         dict_prop['ls'] = '--'

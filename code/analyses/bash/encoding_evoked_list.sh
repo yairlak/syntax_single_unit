@@ -10,13 +10,15 @@ DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
+PATIENTS="505"
 
 # Which signal types (micro macro spike)
-# DTYPES="micro macro spike"
-DTYPES="micro spike macro"
+DTYPES="micro macro spike"
+DTYPES="spike"
 
 # Which filter (raw high-gamma)?
 FILTERS="raw high-gamma"
+FILTERS="raw"
 
 queue="Nspin_long"
 walltime="72:00:00"

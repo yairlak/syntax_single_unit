@@ -59,7 +59,7 @@ parser.add_argument('--feature-list',
 #                     action='append',
 #                     default=None,
                     # help='Feature to include in the encoding model')
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 # MODEL

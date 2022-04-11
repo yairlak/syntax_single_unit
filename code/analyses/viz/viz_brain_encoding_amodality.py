@@ -19,7 +19,7 @@ SUBJECTS_DIR = '/volatile/freesurfer/subjects' # your freesurfer directory
 # In[5]:
 alpha = 0.05
 thresh_r = 0.3 # For visualization only; max value of cbar
-data_type = 'spike'
+data_type = 'micro'
 filt = 'raw'
 fn_trf_results = f'../../../Output/encoding_models/evoked_encoding_results_decimate_50_smooth_50.json'
 df = pd.read_json(fn_trf_results)
@@ -136,7 +136,9 @@ subjects_dir = SUBJECTS_DIR
 hemis=['lh', 'rh']
 surface='pial'
 
-
+cmaps = {}
+cmaps['auditory'] = 'Blues'
+cmaps['visual'] = 'Reds'
 def get_color(x, cmap='seismic'):
     return eval(f'plt.cm.{cmap}(x)')
 
@@ -181,7 +183,8 @@ for block in ['auditory', 'visual']:
              #                            0]
             # d = df_roi['dr_visual_total'].mean()
             # colors[label.vertices, :] = get_color(df_roi['d_from_diag'].mean())[:3]
-            colors[label.vertices, :] = get_color(df_roi[f'r_mean_significant_full_{block}'].mean()/thresh_r)[:3]
+            colors[label.vertices, :] = get_color(df_roi[f'r_mean_significant_full_{block}'].mean()/thresh_r,
+                                                  cmap=cmaps[block])[:3]
             #
         
         # In[14]:
@@ -199,7 +202,7 @@ for block in ['auditory', 'visual']:
                    #color='grey',
                    show_edges=False,
                    scalars="colors",
-                   cmap='seismic',
+                   cmap=cmaps[block],
                    interpolate_before_map=False,
                    clim=[0, 1],
                    rgb=True)

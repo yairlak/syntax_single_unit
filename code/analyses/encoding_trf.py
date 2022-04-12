@@ -24,10 +24,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -50,15 +50,15 @@ parser.add_argument('--query-test', default=None,
 parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
-parser.add_argument('--feature-list',
-                    default=None,
-                    nargs='*',
-                    help='Feature to include in the encoding model')
 # parser.add_argument('--feature-list',
-#                     nargs='*',
-#                     action='append',
 #                     default=None,
-                    # help='Feature to include in the encoding model')
+#                     nargs='*',
+#                     help='Feature to include in the encoding model')
+parser.add_argument('--feature-list',
+                     nargs='*',
+                     action='append',
+                     default=['position', 'semantics'],
+                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
@@ -150,7 +150,9 @@ results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
     results[feature_name]['total_score'] = []  # len = num outer cv splits
+    results[feature_name]['pval_sentence'] = []  # len = num outer cv splits
     results[feature_name]['scores_by_time'] = []  # len = num outer cv splits
+    results[feature_name]['stats_by_time'] = []
     results[feature_name]['rf_sentence'] = []  # len = num outer cv splits
 
 outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
@@ -216,11 +218,18 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         n_outputs = y.shape[2]
         y = y.reshape([-1, n_outputs], order='F')
         y_pred = y_pred.reshape([-1, n_outputs], order='F')
-        score_sentence, pval = stats.spearmanr(y_pred, y)
+        n_dim = y_pred.shape[1]
+        total_scores, pval_sentences = [], []
+        for i_elec in range(n_dim): # n_channels * n_times
+            score_sentence, pval_sentence = stats.spearmanr(y_pred[:, i_elec], y[:, i_elec])
+            total_scores.append(score_sentence)
+            pval_sentences.append(pval_sentence)
+            
         #score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
         #                                   y_sentence[:, test, :])
         #print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
         results[feature_name]['total_score'].append(score_sentence)
+        results[feature_name]['pval_sentence'].append(pval_sentences)
 
         # WORD LEVEL (SCORE PER TIME POINT)
         if args.ablation_method in ['zero', 'shuffle']:
@@ -237,12 +246,13 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         max_delay = None if delays[0] >= 0 else delays[0]
         valid_samples = slice(min_delay, max_delay)
         print('Word level: scoring per each time point')
-        scores_by_time = eval_TRF_across_epochs(rf_sentence,
+        scores_by_time, stats_by_time = eval_TRF_across_epochs(rf_sentence,
                                                 X_test_word_reduced,
                                                 y_test_word,
                                                 valid_samples,
                                                 args)
         results[feature_name]['scores_by_time'].append(scores_by_time)
+        results[feature_name]['stats_by_time'].append(stats_by_time)
         print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
         
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]

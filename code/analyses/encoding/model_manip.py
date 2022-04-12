@@ -12,6 +12,7 @@ from mne.decoding import ReceptiveField
 from sklearn.preprocessing import StandardScaler, RobustScaler
 from sklearn import linear_model
 from sklearn.metrics import r2_score
+from scipy import stats
 #from tqdm import tqdm
 
 
@@ -44,20 +45,21 @@ def eval_TRF_across_epochs(rf, X_test, y_test, valid_samples, args):
     y_pred = y_pred[valid_samples]
     y_masked = y_test[valid_samples]
     n_times, n_epochs, n_outputs = y_masked.shape
-    scores = []
+    scores, pvals = [], []
     for t in range(n_times):
         #curr_score = r2_score(y_masked[t, :, :], y_pred[t, :, :],
         #                      multioutput='raw_values')
-        curr_score = [] # List of r scores with len = n_electrodes
+        curr_scores, curr_pvals = [], [] # List of r scores with len = n_electrodes
         for i_elec in range(n_outputs):
             # For each output, column-wise Pearson correlation 
             # between predicted and actual neural activity.
-            currcoef = np.corrcoef(y_masked[t, :, i_elec],
-                                   y_pred[t, :, i_elec],
-                                   rowvar=False)  # 2 X 2 symmetric matrix
-            curr_score.append(currcoef[0, 1])
-        scores.append(curr_score)
-    return np.asarray(scores)
+            r, p = stats.spearmanr(y_masked[t, :, i_elec],
+                                   y_pred[t, :, i_elec])
+            curr_scores.append(r)
+            curr_pvals.append(p)
+        scores.append(curr_scores)
+        pvals.append(curr_pvals)
+    return np.asarray(scores), np.asarray(pvals)
 
 
 def reduce_design_matrix(X, feature_name, feature_info, ablation_method,

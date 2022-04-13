@@ -24,10 +24,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['479_11'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -51,7 +51,7 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
                     help='If true, data is scaled *after* epoching')
 # FEATURES
 parser.add_argument('--feature-list',
-                    default=None,
+                    default=['position', 'phonology', 'lexicon', 'semantics', 'syntax'],
                     nargs='*',
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=False, action='store_true',
@@ -81,6 +81,17 @@ parser.add_argument('--tmax_rf', default=1, type=float,
                     help='End time of receptive-field kernel')
 parser.add_argument('--decimate', default=50, type=float,
                     help='Set empty list for no decimation.')
+
+
+def get_valid_samples(sfreq, tmin_rf, tmax_rf):
+    delays = np.arange(int(np.round(tmin_rf * sfreq)),
+                           int(np.round(tmax_rf * sfreq) + 1))
+    min_delay = None if delays[-1] <= 0 else delays[-1]
+    max_delay = None if delays[0] >= 0 else delays[0]
+    valid_samples = slice(min_delay, max_delay)
+    return valid_samples
+
+
 # PATHS
 parser.add_argument('--path2output',
                     default=os.path.join
@@ -144,40 +155,41 @@ else:
 results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
-    results[feature_name]['total_score'] = []  # len = num outer cv splits
-    results[feature_name]['pval_sentence'] = []  # len = num outer cv splits
-    results[feature_name]['scores_by_time'] = []  # len = num outer cv splits
-    results[feature_name]['stats_by_time'] = []
     results[feature_name]['rf_sentence'] = []  # len = num outer cv splits
 
 outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
-for i_split, (train, test) in enumerate(outer_cv.split(
-                                        X_sentence.transpose([1, 2, 0]),
-                                        y_sentence.transpose([1, 2, 0]))):
+
+
+for feature_name in feature_names:
+    y_pred_sentence_cv, y_true_sentence_cv = [], []
+    y_pred_word_cv, y_true_word_cv = [], []
+    for i_split, (train, test) in enumerate(outer_cv.split(
+                                            X_sentence.transpose([1, 2, 0]),
+                                            y_sentence.transpose([1, 2, 0]))):
     
-    # WORD LEVEL
-    print('Prepare test data at word level')
-    sentences_test = metadata_sentences['sentence_string'].to_numpy()[test]
-    blocks_test = metadata_sentences['block'].to_numpy()[test]
-    
-    query_test_sentences = ' or '.join(
-        [f'(sentence_string=="{s}" and block=={b})'
-         for s, b in zip(sentences_test, blocks_test)])
-    data.epoch_data(level='word',
-                    tmin=args.tmin_word, tmax=args.tmax_word,
-                    query=f'({args.query_test}) and \
-                        ({query_test_sentences})',
-                    scale_epochs=False,  # same for train
-                    verbose=False)
-    # print(set(data.epochs[0].metadata['word_string']))
-    X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
-        transpose([2, 0, 1])
-    
-    y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
-        get_data().transpose([2, 0, 1])
-    
-    for feature_name in feature_names:
-        print(f'\n Split {i_split+1}/{args.n_folds_outer}, {feature_name}')
+        print(f'\n {feature_name}, Split {i_split+1}/{args.n_folds_outer}')
+        # SENTENCE LEVEL
+        sentences_test = metadata_sentences['sentence_string'].to_numpy()[test]
+        blocks_test = metadata_sentences['block'].to_numpy()[test]
+        
+        query_test_sentences = ' or '.join(
+            [f'(sentence_string=="{s}" and block=={b})'
+             for s, b in zip(sentences_test, blocks_test)])
+        data.epoch_data(level='word',
+                        tmin=args.tmin_word, tmax=args.tmax_word,
+                        query=f'({args.query_test}) and \
+                            ({query_test_sentences})',
+                        scale_epochs=False,  # same for train
+                        verbose=False)
+        # print(set(data.epochs[0].metadata['word_string']))
+        X_test_word = data.epochs[0].copy().pick_types(misc=True).get_data().\
+            transpose([2, 0, 1])
+        
+        y_test_word = data.epochs[0].copy().pick_types(seeg=True, eeg=True).\
+            get_data().transpose([2, 0, 1])
+        
+        
+        
         # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX
         X_sentence_reduced = reduce_design_matrix(X_sentence, feature_name,
                                                   data.feature_info,
@@ -185,71 +197,82 @@ for i_split, (train, test) in enumerate(outer_cv.split(
         ###############
         # TRAIN MODEL #
         ###############
-        if args.ablation_method == 'remove' or \
-            (args.ablation_method in ['zero', 'shuffle'] and
-             feature_name == 'full'):
-            print(f'\nTrain TRF: X (n_times, n_trials, n_features)- \
-                  {X_sentence_reduced[:, train, :].shape}, \
-                  y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
-            rf_sentence = train_TRF(
-                                    X_sentence_reduced[:, train, :],
-                                    y_sentence[:, train, :],
-                                    data.sfreq, args)
-            results[feature_name]['rf_sentence'].append(rf_sentence)
+        print(f'\nTrain TRF: X (n_times, n_trials, n_features)- \
+              {X_sentence_reduced[:, train, :].shape}, \
+              y (n_times, n_trials, n_outputs) - {y_sentence[:, train, :].shape}')
+        rf_sentence = train_TRF(
+                                X_sentence_reduced[:, train, :],
+                                y_sentence[:, train, :],
+                                data.sfreq, args)
+        results[feature_name]['rf_sentence'].append(rf_sentence)
 
         ##############
         # EVAL MODEL #
         ##############
-
         # SENTENCE LEVEL (SCORE FOR ENTIRE SENTENCE)
         print('Sentence level: score for the entire duration')
-        y_pred = rf_sentence.predict(X_sentence_reduced[:, test, :])
-        y_pred = y_pred[rf_sentence.valid_samples_]
-        y = y_sentence[rf_sentence.valid_samples_, test, :]
+        y_pred_sentence = rf_sentence.predict(X_sentence_reduced[:, test, :])
+        y_pred_sentence = y_pred_sentence[rf_sentence.valid_samples_]
+        y_true_sentence = y_sentence[rf_sentence.valid_samples_, test, :]
 
-        # Re-vectorize and call scorer
-        score_sentence = []
+        # RESHAPE
+        n_outputs = y_true_sentence.shape[2]
+        y_true_sentence = y_true_sentence.reshape([-1, n_outputs], order='F') # (n_times * n_epochs) X n_electrodes
+        y_pred_sentence = y_pred_sentence.reshape([-1, n_outputs], order='F')
         
-        n_outputs = y.shape[2]
-        y = y.reshape([-1, n_outputs], order='F')
-        y_pred = y_pred.reshape([-1, n_outputs], order='F')
-        n_dim = y_pred.shape[1]
-        total_scores, pval_sentences = [], []
-        for i_elec in range(n_dim): # n_channels * n_times
-            score_sentence, pval_sentence = stats.spearmanr(y_pred[:, i_elec], y[:, i_elec])
-            total_scores.append(score_sentence)
-            pval_sentences.append(pval_sentence)
-            
-        #score_sentence = rf_sentence.score(X_sentence_reduced[:, test, :],
-        #                                   y_sentence[:, test, :])
-        #print(f'Sentence-level test score: r = {score_sentence[0]:.3f}')
-        results[feature_name]['total_score'].append(score_sentence)
-        results[feature_name]['pval_sentence'].append(pval_sentences)
-
+        # APPEND ACROSS CV SPLITS
+        y_pred_sentence_cv.append(y_pred_sentence)
+        y_true_sentence_cv.append(y_true_sentence)
+        
+        
         # WORD LEVEL (SCORE PER TIME POINT)
-        if args.ablation_method in ['zero', 'shuffle']:
-            start_sample = int(data.sfreq * args.tmin_word)
-        else:
-            start_sample = 0
         X_test_word_reduced = reduce_design_matrix(X_test_word, feature_name,
                                                    data.feature_info,
                                                    args.ablation_method,
-                                                   start_sample)
-        delays = np.arange(int(np.round(args.tmin_rf * data.sfreq)),
-                           int(np.round(args.tmax_rf * data.sfreq) + 1))
-        min_delay = None if delays[-1] <= 0 else delays[-1]
-        max_delay = None if delays[0] >= 0 else delays[0]
-        valid_samples = slice(min_delay, max_delay)
-        print('Word level: scoring per each time point')
-        scores_by_time, stats_by_time = eval_TRF_across_epochs(rf_sentence,
-                                                X_test_word_reduced,
-                                                y_test_word,
-                                                valid_samples,
-                                                args)
-        results[feature_name]['scores_by_time'].append(scores_by_time)
-        results[feature_name]['stats_by_time'].append(stats_by_time)
-        print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
+                                                   start_sample=0)
+        # PREDICT TRIAL-WISE ACTIVITY
+        valid_samples = get_valid_samples(data.sfreq, args.tmin_rf, args.tmax_rf)
+        y_pred_word = rf_sentence.predict(X_test_word_reduced)  # n_times X n_epochs X n_electrodes
+        y_pred_word = y_pred_word[valid_samples]
+        y_true_word = y_test_word[valid_samples]
         
+        # APPEND ACROSS CV SPLITS
+        y_pred_word_cv.append(y_pred_word)
+        y_true_word_cv.append(y_true_word)
+    
+    # MERGE ACROSS CV SPLITS
+    y_pred_sentence = np.concatenate(y_pred_sentence_cv, axis=0)
+    y_true_sentence = np.concatenate(y_true_sentence_cv, axis=0)
+    y_pred_word = np.concatenate(y_pred_word_cv, axis=1)
+    y_true_word = np.concatenate(y_true_word_cv, axis=1)
+    
+    rs_sentence, ps_sentence = [], []
+    rs_word, ps_word = [], []
+    for i_elec in range(n_outputs):
+        # STATS SENTENCE LEVEL
+        r_sentence, p_sentence = stats.spearmanr(y_pred_sentence[:, i_elec], y_true_sentence[:, i_elec])
+        # STATS WORD LEVEL
+        n_times = y_pred_word.shape[0]
+        r_word, p_word = [], []
+        for t in range(n_times):
+            r_t_word, p_t_word = stats.spearmanr(y_pred_word[t, :, i_elec],
+                                                 y_true_word[t, :, i_elec])
+            r_word.append(r_t_word)
+            p_word.append(p_t_word)
+        rs_sentence.append(r_sentence)
+        ps_sentence.append(p_sentence)
+        rs_word.append(r_word)
+        ps_word.append(p_word)
+    
+
+
+    results[feature_name]['rs_word'] = np.asarray(rs_word) # n_electrodes X n_times
+    results[feature_name]['ps_word'] = np.asarray(ps_word) # n_electrodes X n_times
+    results[feature_name]['rs_sentence'] = np.asarray(rs_sentence) # len = n_electrodes
+    results[feature_name]['ps_sentence'] = np.asarray(ps_sentence) # len = n_electrodes
+    print(f'\nWord-level test score: maximal r = {results[feature_name]["rs_word"].max():.3f}')
+        
+       
 results['times_word_epoch'] = data.epochs[0].times[valid_samples]
 
 ########
@@ -268,7 +291,7 @@ print(fname)
 if not os.path.exists(args.path2output):
     os.makedirs(args.path2output)
 ch_names = data.epochs[0].copy().pick_types(seeg=True, eeg=True).ch_names
-fn = os.path.join(args.path2output, fname + '.pkl')
+fn = os.path.join(args.path2output, 'TRF_' + fname + '.pkl')
 with open(fn, 'wb') as f:
     pickle.dump([results, ch_names, args, data.feature_info], f)
 print(f'Results were saved to {fn}')

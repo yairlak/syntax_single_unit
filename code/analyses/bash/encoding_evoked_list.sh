@@ -9,26 +9,11 @@ SMOOTH=50
 DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
-PATIENTS="505"
+PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
+DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
-# Which signal types (micro macro spike)
-<<<<<<< HEAD
-# DTYPES="micro macro spike"
-DTYPES="micro spike macro"
-#DTYPES="spike"
-=======
-DTYPES="micro macro spike"
-DTYPES="spike"
->>>>>>> 171d63c11a138ab0a704d1d14473ea9c96300cd6
-
-# Which filter (raw high-gamma)?
-FILTERS="raw high-gamma"
-FILTERS="raw"
-
-queue="Nspin_long"
+queue="Nspin_bigM"
 walltime="72:00:00"
-
 
 BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
@@ -44,8 +29,9 @@ for BLOCK in $BLOCKS; do
     fi
     for METHOD in $METHODS; do
         for PATIENT in $PATIENTS; do
-            for DTYPE in $DTYPES; do
-                for FILTER in $FILTERS; do
+            for DTYPE_FILTER in $DTYPES_FILTERS; do
+                    DTYPE=${DTYPE_FILTER%%_*}
+                    FILTER=${DTYPE_FILTER##*_}
                     #echo $PATIENT $DTYPE $FILTER
                     path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
 
@@ -64,7 +50,6 @@ for BLOCK in $BLOCKS; do
                         echo $CMD
                         #' 1>'$output_log' 2>'$error_log 
                     fi
-                done 
             done
         done
     done

@@ -105,10 +105,21 @@ for patient in patients.split():
                                    'query_train', 'feature_list', 'each_feature_value']
 
                 args2fname = args.__dict__.copy()
-                fname = 'evoked_' + dict2filename(args2fname, '_', list_args2fname, '', True)
 
+                # EVOKED
+                fname = 'evoked_' + dict2filename(args2fname, '_', list_args2fname, '', True)
                 try:
-                    results[block], ch_names, args_trf, feature_info[block] = \
+                    results_evoked[block], ch_names_evoked, args_evoked, feature_info_evoked[block] = \
+                        pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
+                except:
+                    print(f'File not found: {args.path2output}/{fname}.pkl')
+                    found_both_blocks = False
+                    continue
+                
+                # TRF
+                fname = dict2filename(args2fname, '_', list_args2fname, '', True)
+                try:
+                    results_trf[block], ch_names_trf, args_trf, feature_info_trf[block] = \
                         pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
                 except:
                     print(f'File not found: {args.path2output}/{fname}.pkl')
@@ -116,7 +127,7 @@ for patient in patients.split():
                     continue
             
             if not found_both_blocks:
-                print(f'Skipping patient {patient}')
+                print(f'Skipping patient {patient}, {data_type}, {filt}')
                 continue
 
             
@@ -162,14 +173,22 @@ for patient in patients.split():
                                     'Ch_name':ch_name,
                                     'Patient':patient, 
                                     'Feature':feature,
-                                    'r_visual_by_time':scores_by_time['visual']['feature'],
-                                    'r_auditory_by_time':scores_by_time['auditory']['feature'],
-                                    'r_full_visual_by_time':scores_by_time['visual']['full'],
-                                    'r_full_auditory_by_time':scores_by_time['auditory']['full'],
-                                    'stats_visual_by_time':stats_by_time['visual']['feature'],
-                                    'stats_auditory_by_time':stats_by_time['auditory']['feature'],
-                                    'stats_full_visual_by_time':stats_by_time['visual']['full'],
-                                    'stats_full_auditory_by_time':stats_by_time['auditory']['full']},
+                                    'r_visual_by_time_trf':scores_by_time['visual']['feature'],
+                                    'r_auditory_by_time_trf':scores_by_time['auditory']['feature'],
+                                    'r_full_visual_by_time_trf':scores_by_time['visual']['full'],
+                                    'r_full_auditory_by_time_trf':scores_by_time['auditory']['full'],
+                                    'stats_visual_by_time_trf':stats_by_time['visual']['feature'],
+                                    'stats_auditory_by_time_trf':stats_by_time['auditory']['feature'],
+                                    'stats_full_visual_by_time_trf':stats_by_time['visual']['full'],
+                                    'stats_full_auditory_by_time_trf':stats_by_time['auditory']['full']},
+                                    'r_visual_by_time_evoked':scores_by_time['visual']['feature'],
+                                    'r_auditory_by_time_evoked':scores_by_time['auditory']['feature'],
+                                    'r_full_visual_by_time_evoked':scores_by_time['visual']['full'],
+                                    'r_full_auditory_by_time_evoked':scores_by_time['auditory']['full'],
+                                    'stats_visual_by_time_evoked':stats_by_time['visual']['feature'],
+                                    'stats_auditory_by_time_evoked':stats_by_time['auditory']['feature'],
+                                    'stats_full_visual_by_time_evoked':stats_by_time['visual']['full'],
+                                    'stats_full_auditory_by_time_evoked':stats_by_time['auditory']['full']},
                                     ignore_index=True)
 
 print(df)

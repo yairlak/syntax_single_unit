@@ -40,6 +40,8 @@ def train_TRF(X_train, y_train, sfreq, args):
     return rf
 
 
+
+
 def eval_TRF_across_epochs(rf, X_test, y_test, valid_samples, args):
     y_pred = rf.predict(X_test)  # n_times X n_epochs X n_electrodes
     y_pred = y_pred[valid_samples]

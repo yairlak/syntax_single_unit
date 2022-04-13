@@ -77,8 +77,11 @@ print('Collecting results...')
 
 
 patients="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
+patients="479_11"
 data_types = ['micro', 'macro', 'spike']
+data_types = ['micro']
 filters = ['raw', 'high-gamma']
+filters = ['raw']
 
 args.probe_name = None
 for patient in patients.split():
@@ -89,16 +92,18 @@ for patient in patients.split():
             if data_type=='spike' and filt != 'raw':
                 continue
             args.filter = filt
-            results = {'auditory':None, 'visual':None}
-            feature_info = {'auditory':None, 'visual':None}
+            results_evoked = {'auditory':None, 'visual':None}
+            results_trf = {'auditory':None, 'visual':None}
+            feature_info_evoked = {'auditory':None, 'visual':None}
+            feature_info_trf = {'auditory':None, 'visual':None}
             found_both_blocks = True
             for block in ['auditory', 'visual']:
                 print(f'Patient - {patient}, {data_type}, {filt}, {block}') 
 
                 args.query_train = {'auditory':'block in [2,4,6] and word_length>1',
                                     'visual':'block in [1,3,5] and word_length>1'}[block]
-                args.feature_list = {'auditory':"position_phonology_lexicon_syntax_semantics".split('_'),
-                                     'visual':"position_orthography_lexicon_syntax_semantics".split('_')}[block]
+                args.feature_list = {'auditory':"position_phonology_lexicon_semantics_syntax".split('_'),
+                                     'visual':"position_orthography_lexicon_semantics_syntax".split('_')}[block]
                 list_args2fname = ['patient', 'data_type', 'filter',
                                    'decimate', 'smooth', 'model_type',
                                    'probe_name', 'ablation_method',
@@ -130,25 +135,25 @@ for patient in patients.split():
                 print(f'Skipping patient {patient}, {data_type}, {filt}')
                 continue
 
-            
-            for i_ch, ch_name in enumerate(ch_names):
+            assert ch_names_evoked==ch_names_trf            
+            for i_ch, ch_name in enumerate(ch_names_trf):
                 probe_name = get_probe_name(ch_name, args.data_type)
-                feature_info_keys = list(feature_info['auditory'].keys()) + list(feature_info['auditory'].keys())
+                feature_info_keys = list(feature_info_trf['auditory'].keys()) + list(feature_info_trf['auditory'].keys())
                 for feature in list(set(feature_info_keys)) + ['full']:
                     
-                    # dict_cv_score, mean_score = {}, {}
-                    scores_by_time, stats_by_time = {}, {}
+                    # TRF
+                    scores_by_time_trf, stats_by_time_trf = {}, {}
                     for block in ['auditory', 'visual']:
-                        scores_by_time[block] = {}
-                        stats_by_time[block] = {}
-                        if feature in results[block].keys():
+                        scores_by_time_trf[block] = {}
+                        stats_by_time_trf[block] = {}
+                        if feature in results_trf[block].keys():
                             # FEATURE (scores by time)
-                            scores_by_time[block]['feature'] = results[block][feature]['scores_by_time_False'][i_ch, :]
-                            stats_by_time[block]['feature'] = results[block][feature]['stats_by_time_False'][i_ch, :]
+                            scores_by_time[block]['feature'] = results_trf[block][feature]['scores_by_time']
+                            stats_by_time[block]['feature'] = results_trf[block][feature]['stats_by_time']
                             # FULL MODEL (LATER USED FOR CALCULATING DELTA-R)
                             # FULL MODEL (BY-TIME)
-                            scores_by_time[block]['full'] = results[block]['full']['scores_by_time_False'][i_ch, :]
-                            stats_by_time[block]['full'] = results[block]['full']['stats_by_time_False'][i_ch, :]
+                            scores_by_time[block]['full'] = results_trf[block]['full']['scores_by_time'][i_ch, :]
+                            stats_by_time[block]['full'] = results_trf[block]['full']['stats_by_time'][i_ch, :]
                         else:
                             scores_by_time[block]['feature'] = None
                             stats_by_time[block]['feature'] = None
@@ -180,7 +185,7 @@ for patient in patients.split():
                                     'stats_visual_by_time_trf':stats_by_time['visual']['feature'],
                                     'stats_auditory_by_time_trf':stats_by_time['auditory']['feature'],
                                     'stats_full_visual_by_time_trf':stats_by_time['visual']['full'],
-                                    'stats_full_auditory_by_time_trf':stats_by_time['auditory']['full']},
+                                    'stats_full_auditory_by_time_trf':stats_by_time['auditory']['full'],
                                     'r_visual_by_time_evoked':scores_by_time['visual']['feature'],
                                     'r_auditory_by_time_evoked':scores_by_time['auditory']['feature'],
                                     'r_full_visual_by_time_evoked':scores_by_time['visual']['full'],

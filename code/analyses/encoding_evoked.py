@@ -194,7 +194,7 @@ kf_out = KFold(n_splits=args.n_folds_outer,
                shuffle=True,
                random_state=1)
 
-for keep in [False, True]:
+for keep in [False]:
     for feature_name in feature_names:
         print(f'\n feature: {feature_name}')
         # REMOVE COLUMNS OF TARGET FEATURE FROM DESIGN MATRIX

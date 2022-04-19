@@ -3,7 +3,7 @@ CLUSTER=1
 
 #
 CV_FOLDS_IN=5
-CV_FOLDS_OUT=5
+CV_FOLDS_OUT=20
 METHODS='remove'
 SMOOTH=50
 DECIMATE=50
@@ -13,7 +13,7 @@ PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
 
-queue="Unicog_long"
+queue="Nspin_long"
 walltime="72:00:00"
 
 BLOCKS='visual auditory'

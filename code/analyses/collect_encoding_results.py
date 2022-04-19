@@ -92,11 +92,8 @@ print('Collecting results...')
 
 
 patients="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-patients="479_11"
 data_types = ['micro', 'macro', 'spike']
-data_types = ['micro']
 filters = ['raw', 'high-gamma']
-filters = ['raw']
 
 args.probe_name = None
 for patient in patients.split():
@@ -154,7 +151,7 @@ for patient in patients.split():
             for i_ch, ch_name in enumerate(ch_names_trf):
                 probe_name = get_probe_name(ch_name, args.data_type)
                 feature_info_keys = list(feature_info_trf['auditory'].keys()) + \
-                                    list(feature_info_trf['auditory'].keys())
+                                    list(feature_info_trf['visual'].keys())
                 for feature in list(set(feature_info_keys)) + ['full']:
                     
                     # TRF
@@ -164,43 +161,56 @@ for patient in patients.split():
                             # TRF word feature
                             curr_results[block]['feature']['word']['TRF']['rs'] =  results_trf[block][feature][f'rs_word'][i_ch, :]
                             curr_results[block]['feature']['word']['TRF']['ps'] =  results_trf[block][feature][f'ps_word'][i_ch, :]
+                            curr_results[block]['feature']['word']['TRF']['rs_per_split'] =  results_trf[block][feature][f'rs_word_per_split'][i_ch, :]
+                            curr_results[block]['feature']['word']['TRF']['ps_per_split'] =  results_trf[block][feature][f'ps_word_per_split'][i_ch, :]
                             # TRF sentence feature
                             curr_results[block]['feature']['sentence']['TRF']['rs'] =  results_trf[block][feature][f'rs_sentence'][i_ch]
                             curr_results[block]['feature']['sentence']['TRF']['ps'] =  results_trf[block][feature][f'ps_sentence'][i_ch]
+                            curr_results[block]['feature']['sentence']['TRF']['rs_per_split'] =  results_trf[block][feature][f'rs_sentence_per_split'][i_ch]
+                            curr_results[block]['feature']['sentence']['TRF']['ps_per_split'] =  results_trf[block][feature][f'ps_sentence_per_split'][i_ch]
                             # Evoked word feature
-                            curr_results[block]['feature']['word']['evoked']['rs'] =  results_evoked[block][feature]['scores_by_time_False'][i_ch, :]
-                            curr_results[block]['feature']['word']['evoked']['ps'] =  results_evoked[block][feature]['stats_by_time_False'][i_ch, :]
+                            curr_results[block]['feature']['word']['evoked']['rs'] =  results_evoked[block][feature]['rs_word'][i_ch, :]
+                            curr_results[block]['feature']['word']['evoked']['ps'] =  results_evoked[block][feature]['ps_word'][i_ch, :]
+                            curr_results[block]['feature']['word']['evoked']['rs_per_split'] =  results_evoked[block][feature]['rs_word_per_split'][i_ch, :]
+                            curr_results[block]['feature']['word']['evoked']['ps_per_split'] =  results_evoked[block][feature]['ps_word_per_split'][i_ch, :]
                         else:
                             # TRF word feature
                             curr_results[block]['feature']['word']['TRF']['rs'] =  None
                             curr_results[block]['feature']['word']['TRF']['ps'] =  None
+                            curr_results[block]['feature']['word']['TRF']['rs_per_split'] =  None
+                            curr_results[block]['feature']['word']['TRF']['ps_per_split'] =  None
                             # TRF sentence feature
                             curr_results[block]['feature']['sentence']['TRF']['rs'] =  None
                             curr_results[block]['feature']['sentence']['TRF']['ps'] =  None
+                            curr_results[block]['feature']['sentence']['TRF']['rs_per_split'] =  None
+                            curr_results[block]['feature']['sentence']['TRF']['ps_per_split'] =  None
                             # Evoked word feature
                             curr_results[block]['feature']['word']['evoked']['rs'] =  None
                             curr_results[block]['feature']['word']['evoked']['ps'] =  None
+                            curr_results[block]['feature']['word']['evoked']['rs_per_split'] =  None
+                            curr_results[block]['feature']['word']['evoked']['ps_per_split'] =  None
                             
                         # TRF word full
                         curr_results[block]['full']['word']['TRF']['rs'] =  results_trf[block]['full'][f'rs_word'][i_ch, :]
                         curr_results[block]['full']['word']['TRF']['ps'] =  results_trf[block]['full'][f'ps_word'][i_ch, :]
+                        curr_results[block]['full']['word']['TRF']['rs_per_split'] =  results_trf[block]['full'][f'rs_word_per_split'][i_ch, :]
+                        curr_results[block]['full']['word']['TRF']['ps_per_split'] =  results_trf[block]['full'][f'ps_word_per_split'][i_ch, :]
                         # TRF sentence full
                         curr_results[block]['full']['sentence']['TRF']['rs'] =  results_trf[block]['full'][f'rs_sentence'][i_ch]
                         curr_results[block]['full']['sentence']['TRF']['ps'] =  results_trf[block]['full'][f'ps_sentence'][i_ch]
+                        curr_results[block]['full']['sentence']['TRF']['rs_per_split'] =  results_trf[block]['full'][f'rs_sentence_per_split'][i_ch]
+                        curr_results[block]['full']['sentence']['TRF']['ps_per_split'] =  results_trf[block]['full'][f'ps_sentence_per_split'][i_ch]
                         # Evoked word full
-                        curr_results[block]['full']['word']['evoked']['rs'] =  results_evoked[block]['full']['scores_by_time_False'][i_ch, :]
-                        curr_results[block]['full']['word']['evoked']['ps'] =  results_evoked[block]['full']['stats_by_time_False'][i_ch, :]
+                        curr_results[block]['full']['word']['evoked']['rs'] =  results_evoked[block]['full']['rs_word'][i_ch, :]
+                        curr_results[block]['full']['word']['evoked']['ps'] =  results_evoked[block]['full']['ps_word'][i_ch, :]
+                        curr_results[block]['full']['word']['evoked']['rs_per_split'] =  results_evoked[block]['full']['rs_word_per_split'][i_ch, :]
+                        curr_results[block]['full']['word']['evoked']['ps_per_split'] =  results_evoked[block]['full']['ps_word_per_split'][i_ch, :]
                         
                     
-                    if args.data_type == 'spike':
-                        st = 5
-                    else:
-                        st = 0
                     if probe_name[0] in dict_hemi.keys():
-                        hemi = dict_hemi[probe_name[st]]
+                        hemi = dict_hemi[probe_name[0]]
                     else:
                         hemi = None
-
 
                     df = df.append({'data_type':data_type,
                                     'filter':filt,
@@ -214,35 +224,59 @@ for patient in patients.split():
                                     'ps_feature_visual_word_trf':curr_results['visual']['feature']['word']['TRF']['ps'],
                                     'rs_feature_auditory_word_trf':curr_results['auditory']['feature']['word']['TRF']['rs'],
                                     'ps_feature_auditory_word_trf':curr_results['auditory']['feature']['word']['TRF']['ps'],
+                                    'rs_feature_visual_word_per_split_trf':curr_results['visual']['feature']['word']['TRF']['rs_per_split'],
+                                    'ps_feature_visual_word_per_split_trf':curr_results['visual']['feature']['word']['TRF']['ps_per_split'],
+                                    'rs_feature_auditory_word_per_split_trf':curr_results['auditory']['feature']['word']['TRF']['rs_per_split'],
+                                    'ps_feature_auditory_word_per_split_trf':curr_results['auditory']['feature']['word']['TRF']['ps_per_split'],
                                     # TRF feature sentence
                                     'rs_feature_visual_sentence_trf':curr_results['visual']['feature']['sentence']['TRF']['rs'],
                                     'ps_feature_visual_sentence_trf':curr_results['visual']['feature']['sentence']['TRF']['ps'],
                                     'rs_feature_auditory_sentence_trf':curr_results['auditory']['feature']['sentence']['TRF']['rs'],
                                     'ps_feature_auditory_sentence_trf':curr_results['auditory']['feature']['sentence']['TRF']['ps'],
+                                    'rs_feature_visual_sentence_per_split_trf':curr_results['visual']['feature']['sentence']['TRF']['rs_per_split'],
+                                    'ps_feature_visual_sentence_per_split_trf':curr_results['visual']['feature']['sentence']['TRF']['ps_per_split'],
+                                    'rs_feature_auditory_sentence_per_split_trf':curr_results['auditory']['feature']['sentence']['TRF']['rs_per_split'],
+                                    'ps_feature_auditory_sentence_per_split_trf':curr_results['auditory']['feature']['sentence']['TRF']['ps_per_split'],
                                     # TRF full word
                                     'rs_full_visual_word_trf':curr_results['visual']['full']['word']['TRF']['rs'],
                                     'ps_full_visual_word_trf':curr_results['visual']['full']['word']['TRF']['ps'],
                                     'rs_full_auditory_word_trf':curr_results['auditory']['full']['word']['TRF']['rs'],
                                     'ps_full_auditory_word_trf':curr_results['auditory']['full']['word']['TRF']['ps'],
+                                    'rs_full_visual_word_per_split_trf':curr_results['visual']['full']['word']['TRF']['rs_per_split'],
+                                    'ps_full_visual_word_per_split_trf':curr_results['visual']['full']['word']['TRF']['ps_per_split'],
+                                    'rs_full_auditory_word_per_split_trf':curr_results['auditory']['full']['word']['TRF']['rs_per_split'],
+                                    'ps_full_auditory_word_per_split_trf':curr_results['auditory']['full']['word']['TRF']['ps_per_split'],
                                     # TRF full sentence
                                     'rs_full_visual_sentence_trf':curr_results['visual']['full']['sentence']['TRF']['rs'],
                                     'ps_full_visual_sentence_trf':curr_results['visual']['full']['sentence']['TRF']['ps'],
                                     'rs_full_auditory_sentence_trf':curr_results['auditory']['full']['sentence']['TRF']['rs'],
                                     'ps_full_auditory_sentence_trf':curr_results['auditory']['full']['sentence']['TRF']['ps'],
+                                    'rs_full_visual_sentence_per_split_trf':curr_results['visual']['full']['sentence']['TRF']['rs_per_split'],
+                                    'ps_full_visual_sentence_per_split_trf':curr_results['visual']['full']['sentence']['TRF']['ps_per_split'],
+                                    'rs_full_auditory_sentence_per_split_trf':curr_results['auditory']['full']['sentence']['TRF']['rs_per_split'],
+                                    'ps_full_auditory_sentence_per_split_trf':curr_results['auditory']['full']['sentence']['TRF']['ps_per_split'],
                                     # Evoked feature word
                                     'rs_feature_visual_word_evoked':curr_results['visual']['feature']['word']['evoked']['rs'],
                                     'ps_feature_visual_word_evoked':curr_results['visual']['feature']['word']['evoked']['ps'],
                                     'rs_feature_auditory_word_evoked':curr_results['auditory']['feature']['word']['evoked']['rs'],
                                     'ps_feature_auditory_word_evoked':curr_results['auditory']['feature']['word']['evoked']['ps'],
+                                    'rs_feature_visual_word_per_split_evoked':curr_results['visual']['feature']['word']['evoked']['rs_per_split'],
+                                    'ps_feature_visual_word_per_split_evoked':curr_results['visual']['feature']['word']['evoked']['ps_per_split'],
+                                    'rs_feature_auditory_word_per_split_evoked':curr_results['auditory']['feature']['word']['evoked']['rs_per_split'],
+                                    'ps_feature_auditory_word_per_split_evoked':curr_results['auditory']['feature']['word']['evoked']['ps_per_split'],
                                     # Evoked full word
                                     'rs_full_visual_word_evoked':curr_results['visual']['full']['word']['evoked']['rs'],
                                     'ps_full_visual_word_evoked':curr_results['visual']['full']['word']['evoked']['ps'],
                                     'rs_full_auditory_word_evoked':curr_results['auditory']['full']['word']['evoked']['rs'],
-                                    'ps_full_auditory_word_evoked':curr_results['auditory']['full']['word']['evoked']['ps']},
+                                    'ps_full_auditory_word_evoked':curr_results['auditory']['full']['word']['evoked']['ps'],
+                                    'rs_full_visual_word_per_split_evoked':curr_results['visual']['full']['word']['evoked']['rs_per_split'],
+                                    'ps_full_visual_word_per_split_evoked':curr_results['visual']['full']['word']['evoked']['ps_per_split'],
+                                    'rs_full_auditory_word_per_split_evoked':curr_results['auditory']['full']['word']['evoked']['rs_per_split'],
+                                    'ps_full_auditory_word_per_split_evoked':curr_results['auditory']['full']['word']['evoked']['ps_per_split']},
                                     ignore_index=True)
 
 print(df)
 if not df.empty:
-    fn = f'../../Output/encoding_models/evoked_encoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json'
+    fn = f'../../Output/encoding_models/encoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json'
     df.to_json(fn)
     print(f'JSON file saved to: {fn}')

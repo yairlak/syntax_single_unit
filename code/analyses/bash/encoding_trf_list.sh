@@ -13,7 +13,7 @@ PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
 
-queue="Nspin_long"
+queue="Unicog_long"
 walltime="72:00:00"
 
 BLOCKS='visual auditory'

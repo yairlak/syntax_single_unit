@@ -92,11 +92,8 @@ print('Collecting results...')
 
 
 patients="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-patients="479_11"
 data_types = ['micro', 'macro', 'spike']
-data_types = ['micro']
 filters = ['raw', 'high-gamma']
-filters = ['raw']
 
 args.probe_name = None
 for patient in patients.split():
@@ -154,7 +151,7 @@ for patient in patients.split():
             for i_ch, ch_name in enumerate(ch_names_trf):
                 probe_name = get_probe_name(ch_name, args.data_type)
                 feature_info_keys = list(feature_info_trf['auditory'].keys()) + \
-                                    list(feature_info_trf['auditory'].keys())
+                                    list(feature_info_trf['visual'].keys())
                 for feature in list(set(feature_info_keys)) + ['full']:
                     
                     # TRF
@@ -192,15 +189,10 @@ for patient in patients.split():
                         curr_results[block]['full']['word']['evoked']['ps'] =  results_evoked[block]['full']['stats_by_time_False'][i_ch, :]
                         
                     
-                    if args.data_type == 'spike':
-                        st = 5
-                    else:
-                        st = 0
                     if probe_name[0] in dict_hemi.keys():
-                        hemi = dict_hemi[probe_name[st]]
+                        hemi = dict_hemi[probe_name[0]]
                     else:
                         hemi = None
-
 
                     df = df.append({'data_type':data_type,
                                     'filter':filt,
@@ -243,6 +235,6 @@ for patient in patients.split():
 
 print(df)
 if not df.empty:
-    fn = f'../../Output/encoding_models/evoked_encoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json'
+    fn = f'../../Output/encoding_models/encoding_results_decimate_{args.decimate}_smooth_{args.smooth}.json'
     df.to_json(fn)
     print(f'JSON file saved to: {fn}')

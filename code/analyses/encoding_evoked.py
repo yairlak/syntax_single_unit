@@ -26,10 +26,10 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Train a TRF model')
 # DATA
-parser.add_argument('--patient', action='append', default=[])
+parser.add_argument('--patient', action='append', default=['502'])
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=[], help='electrode type')
-parser.add_argument('--filter', action='append', default=[],
+                    action='append', default=['micro'], help='electrode type')
+parser.add_argument('--filter', action='append', default=['raw'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian-kernal width in milisec or None')
@@ -54,7 +54,7 @@ parser.add_argument('--scale-epochs', default=False, action='store_true',
 # FEATURES
 parser.add_argument('--feature-list',
                     nargs='*',
-                    default=None,
+                    default=['position', 'lexicon'],
                     help='Feature to include in the encoding model')
 parser.add_argument('--each-feature-value', default=True, action='store_true',
                     help="Evaluate model after ablating each feature value. \
@@ -179,9 +179,9 @@ results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
     for keep in [False, True]:
-        results[feature_name][f'scores_by_time_per_split_{keep}'] = []  # Same
-        results[feature_name][f'stats_by_time_per_split_{keep}'] = []  # Same
-        results[feature_name][f'model_per_split_{keep}'] = []  # Same
+        results[feature_name][f'rs_word_per_split'] = []  # Same
+        results[feature_name][f'ps_word_per_split'] = []  # Same
+        results[feature_name][f'model_per_split'] = []  # Same
 results['times'] = data.epochs[0].times # Take times from first epochs
 
 # DEFINE MODEL
@@ -239,10 +239,10 @@ for keep in [False]:
             if GAC: # Generalization Across Conditions
                 if i_split == 0: # TRAIN MODEL ONCE ON ALL TRAIN DATA
                     model.fit(X_reduced, y)
-                    results[feature_name][f'model_per_split_{keep}'] = model
+                    results[feature_name][f'model_per_split'] = model
             else:
                 model.fit(X_reduced[IXs_train, :], y[IXs_train, :])
-                results[feature_name][f'model_per_split_{keep}'].append(copy.deepcopy(model))
+                results[feature_name][f'model_per_split'].append(copy.deepcopy(model))
                 
             ###########
             # PREDICT #
@@ -266,10 +266,10 @@ for keep in [False]:
                 rs.append(r)
                 ps.append(p)
             # RESHAPE AND ADD TO DICT
-            scores_by_time = np.asarray(rs).reshape([n_channels, n_times])
-            stats_by_time = np.asarray(ps).reshape([n_channels, n_times])
-            results[feature_name][f'scores_by_time_per_split_{keep}'].append(scores_by_time)
-            results[feature_name][f'stats_by_time_per_split_{keep}'].append(stats_by_time)
+            rs_word_per_split = np.asarray(rs).reshape([n_channels, n_times])
+            ps_word_per_split = np.asarray(ps).reshape([n_channels, n_times])
+            results[feature_name][f'rs_word_per_split'].append(rs_word_per_split)
+            results[feature_name][f'ps_word_per_split'].append(ps_word_per_split)
             
             # APPEND
             y_pred_cv.append(y_pred)
@@ -278,17 +278,17 @@ for keep in [False]:
         y_pred_all_trials = np.vstack(y_pred_cv) # n_trials X (n_channels * n_times)
         y_true_all_trials = np.vstack(y_true_cv) # n_trials X (n_channels * n_times)
     
-        rs, ps = [],[]
+        rs_word, ps_word = [],[]
         for i in range(y_pred.shape[1]): # n_channels * n_times
             r, p = stats.spearmanr(y_pred_all_trials[:, i],
                                    y_true_all_trials[:, i])   
-            rs.append(r)
-            ps.append(p)
-        scores_by_time = np.asarray(rs).reshape([n_channels, n_times])
-        stats_by_time = np.asarray(ps).reshape([n_channels, n_times])
-        results[feature_name][f'scores_by_time_{keep}'] = scores_by_time
-        results[feature_name][f'stats_by_time_{keep}'] = stats_by_time
-        print(f'\nWord-level test score: maximal r = {scores_by_time.max():.3f}')
+            rs_word.append(r)
+            ps_word.append(p)
+        rs_word = np.asarray(rs_word).reshape([n_channels, n_times])
+        ps_word = np.asarray(ps_word).reshape([n_channels, n_times])
+        results[feature_name][f'rs_word'] = rs_word
+        results[feature_name][f'ps_word'] = ps_word
+        print(f'\nWord-level test score: maximal r = {rs_word.max():.3f}')
         
 
 ########

@@ -258,8 +258,10 @@ for feature_name in feature_names:
             for t in range(n_times):
                 r_t_word, p_t_word = stats.spearmanr(y_pred_word[t, :, i_elec],
                                                      y_true_word[t, :, i_elec])
-                rs_word.append(r_word)
-                ps_word.append(p_word)
+                r_word.append(r_t_word)
+                p_word.append(p_t_word)
+            rs_word.append(r_word)
+            ps_word.append(p_word)
         # RESHAPE AND ADD TO DICT
         results[feature_name][f'rs_word_per_split'].append(np.asarray(rs_word))
         results[feature_name][f'ps_word_per_split'].append(np.asarray(ps_word))

@@ -64,7 +64,7 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['zero', 'remove', 'shuffle'],
                     help='Method to use for calcuating feature importance')
 parser.add_argument('--n-folds-inner', default=5, type=int, help="For CV")
-parser.add_argument('--n-folds-outer', default=5, type=int, help="For CV")
+parser.add_argument('--n-folds-outer', default=20, type=int, help="For CV")
 parser.add_argument('--train-only', default=False, action='store_true',
                     help="Train model and save, without model evaluation")
 parser.add_argument('--eval-only', default=False, action='store_true',
@@ -155,7 +155,11 @@ else:
 results = {}
 for feature_name in feature_names:
     results[feature_name] = {}
-    results[feature_name]['rf_sentence'] = []  # len = num outer cv splits
+    results[feature_name]['rf_sentence_per_split'] = []  # len = num outer cv splits
+    results[feature_name]['rs_sentence_per_split'] = []  # same
+    results[feature_name]['ps_sentence_per_split'] = []  # same
+    results[feature_name]['rs_word_per_split'] = []  # same
+    results[feature_name]['ps_word_per_split'] = []  # same
 
 outer_cv = KFold(n_splits=args.n_folds_outer, shuffle=True, random_state=0)
 
@@ -204,7 +208,7 @@ for feature_name in feature_names:
                                 X_sentence_reduced[:, train, :],
                                 y_sentence[:, train, :],
                                 data.sfreq, args)
-        results[feature_name]['rf_sentence'].append(rf_sentence)
+        results[feature_name]['rf_sentence_per_split'].append(rf_sentence)
 
         ##############
         # EVAL MODEL #
@@ -220,7 +224,17 @@ for feature_name in feature_names:
         y_true_sentence = y_true_sentence.reshape([-1, n_outputs], order='F') # (n_times * n_epochs) X n_electrodes
         y_pred_sentence = y_pred_sentence.reshape([-1, n_outputs], order='F')
         
-        # APPEND ACROSS CV SPLITS
+        # CALC R SCORE FOR CURRENT SPLIT
+        rs_sentence_per_split, ps_sentence_per_split = [],[]
+        for i in range(n_outputs): # n_channels * n_times
+            r, p = stats.spearmanr(y_true_sentence[:, i],
+                                   y_pred_sentence[:, i])   
+            rs_sentence_per_split.append(r)
+            ps_sentence_per_split.append(p)
+        results[feature_name]['rs_sentence_per_split'].append(rs_sentence_per_split)
+        results[feature_name]['ps_sentence_per_split'].append(ps_sentence_per_split)
+              
+        # APPEND ACROSS CV SPLITS (to get a single r value based on all splits)
         y_pred_sentence_cv.append(y_pred_sentence)
         y_true_sentence_cv.append(y_true_sentence)
         
@@ -235,6 +249,21 @@ for feature_name in feature_names:
         y_pred_word = rf_sentence.predict(X_test_word_reduced)  # n_times X n_epochs X n_electrodes
         y_pred_word = y_pred_word[valid_samples]
         y_true_word = y_test_word[valid_samples]
+        
+        # CALC R SCORE FOR CURRENT SPLIT
+        rs_word, ps_word = [],[]
+        for i_elec in range(n_outputs):
+            n_times = y_pred_word.shape[0]
+            r_word, p_word = [], []
+            for t in range(n_times):
+                r_t_word, p_t_word = stats.spearmanr(y_pred_word[t, :, i_elec],
+                                                     y_true_word[t, :, i_elec])
+                rs_word.append(r_word)
+                ps_word.append(p_word)
+        # RESHAPE AND ADD TO DICT
+        results[feature_name][f'rs_word_per_split'].append(np.asarray(rs_word))
+        results[feature_name][f'ps_word_per_split'].append(np.asarray(ps_word))
+    
         
         # APPEND ACROSS CV SPLITS
         y_pred_word_cv.append(y_pred_word)

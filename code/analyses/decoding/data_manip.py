@@ -48,11 +48,6 @@ def prepare_data_for_classification(epochs_list, queries,
         X_curr_query_all_epochs = [epochs[query].get_data() for epochs in epochs_list]
         X_curr_query_all_epochs = np.concatenate(X_curr_query_all_epochs,
                                                  axis=1) # cat along channel dim
-        if verbose:
-            print(f'Class {q}, {num_trials} Trials:')
-            print(query)
-            print(f'Shape of X: {X_curr_query_all_epochs.shape}')
-            print(stimuli_curr_query)
         
         # APPEND ACROSS QUERIES 
         X.append(X_curr_query_all_epochs) 
@@ -84,23 +79,46 @@ def prepare_data_for_classification(epochs_list, queries,
             X_equalized.append(X_curr_query)
             y_equalized.append(y_curr_query)
         del X, y
+    elif equalize_classes == 'downsample':
+        smallest_class = np.min([X_curr_query.shape[0] for X_curr_query in X])
+        X_equalized, y_equalized = [], []
+        for q, (query, X_curr_query, y_curr_query) in enumerate(zip(queries, X, y)):
+            n_samples = X_curr_query.shape[0]
+            if n_samples > smallest_class:
+                IXs = list(range(n_samples))
+                IXs_picked = np.random.choice(IXs, size=smallest_class, replace=False)
+                print(IXs_picked)
+                X_curr_query = X_curr_query[IXs_picked]
+                y_curr_query = y_curr_query[IXs_picked]
+            X_equalized.append(X_curr_query)
+            y_equalized.append(y_curr_query)
+            if verbose:
+                print(f'Class {q}, {num_trials} Trials:')
+                print(query)
+                print(f'Shape of X: {X_curr_query.shape}')
+                print(stimuli_curr_query)
+        del X, y
     else:
         X_equalized = X
         y_equalized = y
     
+
     # CAT ALONG TRIAL DIMENSION
     X_equalized = np.concatenate(X_equalized, axis=0)
     y_equalized = np.concatenate(y_equalized, axis=0)
     return X_equalized, y_equalized, stimuli
 
 
-def get_3by3_train_test_data(epochs_list, phone_strings, n_splits):
+def get_3by3_train_test_data(epochs_list, phone_strings, n_splits, args):
     cv = StratifiedKFold(n_splits=n_splits, random_state=0, shuffle=True)
     data_phones = {}
     for ph in phone_strings:
         data_phones[ph] = {}
         queries = [f'(block in [2, 4, 6]) and (phone_string=="{ph}")']
-        X, y, stimuli = prepare_data_for_classification(epochs_list, queries)
+        X, y, stimuli = prepare_data_for_classification(epochs_list, queries,
+                                                        args.classifier, args.min_trials,
+                                                        args.equalize_classes,
+                                                        verbose=False)
         for i_split, (IXs_train, IXs_test) in enumerate(cv.split(X, y)):
             data_phones[ph][i_split] = {}
             data_phones[ph][i_split]['train'] = {}

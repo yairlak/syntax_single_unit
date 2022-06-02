@@ -1,27 +1,18 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 #
 CV_FOLDS_IN=5
-CV_FOLDS_OUT=5
+CV_FOLDS_OUT=20
 METHODS='remove'
 SMOOTH=50
 DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
+PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
+DTYPES_FILTERS="spike_raw" #micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
-# Which signal types (micro macro spike)
-# DTYPES="micro macro spike"
-DTYPES="micro macro spike"
-#DTYPES="micro"
-
-# Which filter (raw high-gamma)?
-FILTERS="raw high-gamma"
-FILTERS="raw"
-
-
-queue="Nspin_long"
+queue="Nspin_bigM"
 walltime="72:00:00"
 
 
@@ -29,20 +20,24 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FEATURES="phonology semantics lexicon syntax"
+    FEATURES="phonology lexicon semantics syntax"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FEATURES="orthography semantics lexicon syntax"
+    FEATURES="orthography lexicon semantics syntax"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi
+
+    FEATURES="phonemes words"
     for FEATURE in $FEATURES; do
-        FLIST="is_first_word word_onset positional "$FEATURE
+        FLIST="position "$FEATURE
         for METHOD in $METHODS; do
             for PATIENT in $PATIENTS; do
-                for DTYPE in $DTYPES; do
-                    for FILTER in $FILTERS; do
+                for DTYPE_FILTER in $DTYPES_FILTERS; do
+                        DTYPE=${DTYPE_FILTER%%_*}
+                        FILTER=${DTYPE_FILTER##*_}
+
                         #echo $PATIENT $DTYPE $FILTER
                         path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
 
@@ -61,7 +56,6 @@ for BLOCK in $BLOCKS; do
                             echo $CMD
                             #' 1>'$output_log' 2>'$error_log 
                         fi
-                    done 
                 done
             done
         done

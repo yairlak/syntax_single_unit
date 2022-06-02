@@ -47,11 +47,7 @@ parser.add_argument('--data-type_filters',
 parser.add_argument('--smooth', default=None, type=int,
                     help='gaussian width in [msec]')
 # QUERY
-<<<<<<< HEAD
 parser.add_argument('--comparison-name', default=None,
-=======
-parser.add_argument('--comparison-name', default='dec_quest_len2',
->>>>>>> 925ff470f6a5cc03461fc4b08da224d24bac44da
                     help='See Utils/comparisons.py')
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')
@@ -70,7 +66,7 @@ parser.add_argument('--min-trials', default=10, type=float,
 # DECODER
 parser.add_argument('--classifier', default='logistic',
                     choices=['svc', 'logistic', 'ridge'])
-parser.add_argument('--equalize-classes', default=None,
+parser.add_argument('--equalize-classes', default='downsample',
                     choices=['upsample', 'downsample'])
 parser.add_argument('--gat', default=False, action='store_true',
                     help='If True, GAT will be computed; else, diagonal only')
@@ -125,6 +121,8 @@ X, y, stimuli= prepare_data_for_classification(data.epochs,
                                                args.min_trials,
                                                equalize_classes=args.equalize_classes,
                                                verbose=True)
+
+
 stimuli_gen = []
 if args.GAC or args.GAM:
     if args.GAC: print('-'*30, '\nGeneralization Across Conditions\n', '-'*30)

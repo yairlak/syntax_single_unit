@@ -1,5 +1,5 @@
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 #
 CLASSIFIER='logistic'
@@ -10,9 +10,10 @@ TMAX=1.2
 
 # TAKE ALL PATINETS
 #COMPARISONS="number embedding_vs_long dec_quest_len2 pos_simple word_string_first"
-COMPARISONS="dec_quest_len2 embedding_vs_long number"
-DTYPE_FILTERS="micro_raw spike_raw micro_high-gamma"
-DTYPE_FILTERS="macro_raw"
+COMPARISONS="number embedding_vs_long word_string_first pos_simple"
+COMPARISONS="number_all"
+DTYPE_FILTERS="micro_raw micro_high-gamma"
+#DTYPE_FILTERS="macro_raw"
 BLOCK_TRAINS="visual auditory"
 BLOCK_TESTS="visual auditory"
 
@@ -20,7 +21,7 @@ BLOCK_TESTS="visual auditory"
 ROIs=""
 HEMIS="lh rh"
 for HEMI in $HEMIS; do
-    for i in {6..47}; do
+    for i in 6 11 17 21 22 23 24 25 27 28 35 37 38 40 41 44 45; do
         ROIs=$ROIs"Brodmann."$i"-"$HEMI" "
     done
 done

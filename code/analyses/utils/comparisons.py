@@ -666,13 +666,21 @@ def comparison_list():
    
 
     # Nouns:
-    comparisons['number'] = {}
-    comparisons['number']['queries'] = ["grammatical_number==-1 and (pos_simple in ['NN'])", "grammatical_number==1 and (pos_simple in ['NN'])"]
-    comparisons['number']['condition_names'] = ['Singular', 'Plural']
-    comparisons['number']['colors'] = ['b', 'g']
-    comparisons['number']['sort'] = ['word_string']
-    comparisons['number']['level'] = 'word'
-    comparisons['number']['tmin_tmax'] = [-0.2, 0.6]
+    comparisons['number_nouns'] = {}
+    comparisons['number_nouns']['queries'] = ["grammatical_number==-1 and (pos_simple in ['NN'])", "grammatical_number==1 and (pos_simple in ['NN'])"]
+    comparisons['number_nouns']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number_nouns']['colors'] = ['b', 'g']
+    comparisons['number_nouns']['sort'] = ['word_string']
+    comparisons['number_nouns']['level'] = 'word'
+    comparisons['number_nouns']['tmin_tmax'] = [-0.2, 0.6]
+    
+    comparisons['number_all'] = {}
+    comparisons['number_all']['queries'] = ["grammatical_number==-1", "grammatical_number==1"]
+    comparisons['number_all']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number_all']['colors'] = ['b', 'g']
+    comparisons['number_all']['sort'] = ['word_string']
+    comparisons['number_all']['level'] = 'word'
+    comparisons['number_all']['tmin_tmax'] = [-0.2, 0.6]
 
     comparisons['number_pronoun'] = {}
     comparisons['number_pronoun']['queries'] = ["word_string in ['he', 'she']", "word_string in ['We', 'they']"]

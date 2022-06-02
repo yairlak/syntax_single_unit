@@ -1,7 +1,9 @@
 import argparse, os
 import mne
+from decoding.utils import update_args
+from decoding.data_manip import get_data
 from utils import data_manip, classification, comparisons
-from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+from utils.utils import dict2filename, update_queries, probename2picks
 from utils.classification import prepare_data_for_classifier
 from utils.data_manip import DataHandler
 from sklearn.pipeline import make_pipeline
@@ -15,7 +17,7 @@ from sklearn.model_selection import ShuffleSplit
 import matplotlib.pyplot as plt
 from pprint import pprint
 from sklearn.multiclass import OneVsRestClassifier
-from decoding.utils import get_3by3_train_test_data, lump_data_together
+from decoding.data_manip import get_3by3_train_test_data, lump_data_together
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
@@ -30,6 +32,8 @@ parser.add_argument('--level',
                              'word', 'phone'],
                     default='phone', help='')
 parser.add_argument('--smooth', default=None, type=int, help='')
+parser.add_argument('--ROIs', default=None, nargs='*', type=str,
+                    help='e.g., Brodmann.22-lh, overrides probe_name')
 parser.add_argument('--probe-name', default=[], nargs='*',
                     action='append', type=str,
                     help='Probe name to plot (ignore channel-name/num)')
@@ -41,13 +45,34 @@ parser.add_argument('--channel-num', default=[], nargs='*', action='append',
 parser.add_argument('--responsive-channels-only', action='store_true',
                     default=False,
                     help='Include only responsive channels.')
+parser.add_argument('--data-type_filters',
+                    choices=['micro_high-gamma','macro_high-gamma',
+                             'micro_raw','macro_raw', 'spike_raw'], nargs='*',
+                             default=[], help='Only if args.ROIs is used')
 # QUERY
-parser.add_argument('--classifier', default='ridge',
+parser.add_argument('--comparison-name', default=None,
+                    help='See Utils/comparisons.py')
+parser.add_argument('--comparison-name-test', default=None,
+                    help='See Utils/comparisons.py')
+parser.add_argument('--block-train', choices=['auditory', 'visual'],
+                    default='auditory',
+                    help='Block type is added to the query in the comparison')
+parser.add_argument('--block-test', choices=['auditory', 'visual'],
+                    default=None,
+                    help='Block type is added to the query in the comparison')
+parser.add_argument('--fixed-constraint', default=None,
+                    help='e.g., "and first_phone == 1"')
+parser.add_argument('--fixed-constraint-test', default=None,
+                    help='e.g., "and first_phone == 1"')
+parser.add_argument('--classifier', default='logistic',
                     choices=['svc', 'logistic', 'ridge'])
 parser.add_argument('--min-trials', default=10, type=float,
                     help='Minimum number of trials from each class.')
 parser.add_argument('--n-splits', default=2, type=int,
                     help='Number of CV splits.')
+parser.add_argument('--equalize-classes', default='downsample',
+                    choices=['upsample', 'downsample'])
+
 # MISC
 parser.add_argument('--tmin', default=[], type=float, help='crop window. If empty, only crops 0.1s from both sides, due to edge effects.')
 parser.add_argument('--tmax', default=[], type=float, help='crop window')
@@ -59,7 +84,8 @@ parser.add_argument('--path2figures', default=[], help="Channels to analyze and 
 parser.add_argument('--dont-overwrite', default=False, action='store_true', help="If True then file will be overwritten")
 # PARSE
 args = parser.parse_args()
-args.patient = ['patient_' + p for p in  args.patient]
+args = update_args(args)
+
 args.query = ''
 print(mne.__version__)
 
@@ -76,17 +102,12 @@ print(args)
 ########
 # DATA #
 ########
-data = DataHandler(args.patient, args.data_type, args.filter,
-                   args.probe_name, args.channel_name, args.channel_num,
-                   sfreq=1000)
-# Both neural and feature data into a single raw object
-data.load_raw_data()
+data = get_data(args)
 # GET SENTENCE-LEVEL DATA BEFORE SPLIT
 data.epoch_data(level=args.level,
                 query=None,
                 scale_epochs=False,
                 smooth=args.smooth,
-                decimate=args.decimate,
                 verbose=True)
 
 print(data.epochs[0])
@@ -123,7 +144,8 @@ time_gen = GeneralizingEstimator(clf, scoring='roc_auc', n_jobs=-1)
 
 data_phones = get_3by3_train_test_data(data.epochs,
                                        phone_strings,
-                                       args.n_splits)
+                                       args.n_splits,
+                                       args)
 # RUNNING EXAMPLE: trained on (M vs (N, NG)), tested on (B vs (D, G)):
 models = {}  # NESTED DICTS: models[classify_dimension][train_at_feature][ph][CV-split]
 scores = {}  # NESTED DICTS: scores[classify_dimension][train_at_feature][ph][CV-split][test_at_feature]

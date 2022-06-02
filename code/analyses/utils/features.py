@@ -22,7 +22,7 @@ class Features():
                                        'syntactic_role', 'diff_thematic_role'] 
         #features_groupped['semantics'] = ['glove'] # try with a larger dim
         features_groupped['semantics'] = ['semantic_categories'] # Taken from Paradigm/word_features.docx
-        features_groupped['word_string'] = ['word_string']
+        features_groupped['words'] = ['word_string']
         self.features_groupped = features_groupped
 
     def add_punctuation(self):

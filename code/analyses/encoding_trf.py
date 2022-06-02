@@ -79,7 +79,7 @@ parser.add_argument('--tmin_rf', default=0, type=float,
                     help='Start time of receptive-field kernel')
 parser.add_argument('--tmax_rf', default=1, type=float,
                     help='End time of receptive-field kernel')
-parser.add_argument('--decimate', default=50, type=float,
+parser.add_argument('--decimate', default=50, type=int,
                     help='Set empty list for no decimation.')
 
 

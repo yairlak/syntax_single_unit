@@ -196,18 +196,20 @@ def comparison_list():
     target_words = ['boy', 'wom', 'wink']
     non_target_words = list(set(all_words) - set([w for w in all_words if w.startswith(tuple(target_words))]))
     comparisons['479_11_LSTG7_15p2'] = {}
-    comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string.str.startswith('{w}') and (block in [2, 4, 6]) and word_position==2" for w in target_words] + [f"(word_string in {non_target_words}) and (block in [2, 4, 6]) and word_position==2"]
+    # comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string.str.startswith('{w}') and (block in [2, 4, 6]) and word_position==2" for w in target_words] + [f"(word_string in {non_target_words}) and (block in [2, 4, 6]) and word_position==2"]
+    comparisons['479_11_LSTG7_15p2']['queries'] = ["sentence_string.str.contains('boy') and (block in [2, 4, 6]) and dec_quest==0",
+                                                   "~sentence_string.str.contains('boy') and (block in [2, 4, 6]) and dec_quest==0"]
     n_queries = len(comparisons['479_11_LSTG7_15p2']['queries'])
-    comparisons['479_11_LSTG7_15p2']['condition_names'] = target_words + ['Other']
+    comparisons['479_11_LSTG7_15p2']['condition_names'] = ['Contains boy', 'without boy']
     comparisons['479_11_LSTG7_15p2']['colors'] = None
     comparisons['479_11_LSTG7_15p2']['cmaps'] = ['Blues'] * n_queries
     comparisons['479_11_LSTG7_15p2']['ls'] = ['-'] * n_queries
-    comparisons['479_11_LSTG7_15p2']['level'] = 'word'
-    comparisons['479_11_LSTG7_15p2']['figsize'] = (5, 13)
-    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [40, 20, 20, 20]
+    comparisons['479_11_LSTG7_15p2']['level'] = 'sentence_onset'
+    comparisons['479_11_LSTG7_15p2']['figsize'] = (10, 13)
+    comparisons['479_11_LSTG7_15p2']['y-tick-step'] = [20, 20]
     comparisons['479_11_LSTG7_15p2']['ylim'] = 100 
-    comparisons['479_11_LSTG7_15p2']['sort'] = ['word_string']
-    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.4]
+    comparisons['479_11_LSTG7_15p2']['sort'] = ['sentence_string']
+    comparisons['479_11_LSTG7_15p2']['tmin_tmax'] = [-0.05, 0.5]
     comparisons['479_11_LSTG7_15p2']['height_ratios'] = True
     comparisons['479_11_LSTG7_15p2']['fixed_constraint'] = 'block in [2,4,6]'
     comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
@@ -253,6 +255,26 @@ def comparison_list():
     comparisons['505_LFGP6_30p2']['cmaps'] = ['Reds'] * len(comparisons['505_LFGP6_30p2']['queries'])
     comparisons['505_LFGP6_30p2']['height_ratios'] = True
     comparisons['505_LFGP6_30p2']['channel_name'] = 'p_g2_30_GA4-LFG'
+    
+    
+    comparisons['502-LFSG3_27p1'] = {}
+    comparisons['502-LFSG3_27p1']['queries'] = ["word_string.str.contains('h') and word_string.str.contains('e')",
+                                                 "~word_string.str.contains('h') and ~word_string.str.contains('e')",
+                                                 "word_string.str.contains('H')"]
+    
+    comparisons['502-LFSG3_27p1']['condition_names'] = ['Non-initial h', 'Initital H', 'Without h']
+    comparisons['502-LFSG3_27p1']['colors'] = ['g', 'r', 'k']
+    comparisons['502-LFSG3_27p1']['ls'] = ['-', '-', '-']
+    comparisons['502-LFSG3_27p1']['lw'] = [3, 3, 3]
+    comparisons['502-LFSG3_27p1']['level'] = 'word'
+    comparisons['502-LFSG3_27p1']['y-tick-step'] = [50] * (n_queries)
+    comparisons['502-LFSG3_27p1']['sort'] = ['word_string']
+    comparisons['502-LFSG3_27p1']['tmin_tmax'] = [-0.1, 0.6]
+    comparisons['502-LFSG3_27p1']['figsize'] = (5, 13)
+    comparisons['502-LFSG3_27p1']['ylim'] = 30
+    comparisons['502-LFSG3_27p1']['cmaps'] = ['Reds'] * len(comparisons['505_LFGP6_30p2']['queries'])
+    comparisons['502-LFSG3_27p1']['height_ratios'] = True
+    comparisons['502-LFSG3_27p1']['channel_name'] = 'p_g2_30_GA4-LFG'
    
     target_words = [['She'], ['she', 'showered', 'shaved', 'chef'], ['mushrooms', 'pushed', 'vanish', 'washed']]
     control_words = [['He', 'We']]
@@ -570,10 +592,10 @@ def comparison_list():
     comparisons['all_words_visual']['condition_names'] = ['all_words_visual']
     comparisons['all_words_visual']['colors'] = ['r']
     comparisons['all_words_visual']['cmaps'] = ['Reds']
-    comparisons['all_words_visual']['sort'] = 'rate'#['word_string']
+    comparisons['all_words_visual']['sort'] = ['word_string']
     # comparisons['all_words_visual']['sort'] = 'clustering'
     comparisons['all_words_visual']['tmin_tmax'] = [-0.1, 0.6]
-    comparisons['all_words_visual']['y-tick-step'] = 20
+    comparisons['all_words_visual']['y-tick-step'] = [20]
     comparisons['all_words_visual']['level'] = 'word'
 
     comparisons['all_words_audio'] = {}
@@ -585,7 +607,7 @@ def comparison_list():
     comparisons['all_words_audio']['sort'] = ['word_string']
     #comparisons['all_words_audio']['sort'] = 'rate'
     comparisons['all_words_audio']['tmin_tmax'] = [-0.1, 0.6]
-    comparisons['all_words_audio']['y-tick-step'] = 20
+    comparisons['all_words_audio']['y-tick-step'] = [20]
 
 # Sanity checks:
     comparisons['first_last_word'] = {}

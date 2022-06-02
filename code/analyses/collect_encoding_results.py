@@ -161,18 +161,18 @@ for patient in patients.split():
                             # TRF word feature
                             curr_results[block]['feature']['word']['TRF']['rs'] =  results_trf[block][feature][f'rs_word'][i_ch, :]
                             curr_results[block]['feature']['word']['TRF']['ps'] =  results_trf[block][feature][f'ps_word'][i_ch, :]
-                            curr_results[block]['feature']['word']['TRF']['rs_per_split'] =  results_trf[block][feature][f'rs_word_per_split'][i_ch, :]
-                            curr_results[block]['feature']['word']['TRF']['ps_per_split'] =  results_trf[block][feature][f'ps_word_per_split'][i_ch, :]
+                            curr_results[block]['feature']['word']['TRF']['rs_per_split'] =  [l[i_ch, :] for l in results_trf[block][feature][f'rs_word_per_split']]
+                            curr_results[block]['feature']['word']['TRF']['ps_per_split'] =  [l[i_ch, :] for l in results_trf[block][feature][f'ps_word_per_split']]
                             # TRF sentence feature
                             curr_results[block]['feature']['sentence']['TRF']['rs'] =  results_trf[block][feature][f'rs_sentence'][i_ch]
                             curr_results[block]['feature']['sentence']['TRF']['ps'] =  results_trf[block][feature][f'ps_sentence'][i_ch]
-                            curr_results[block]['feature']['sentence']['TRF']['rs_per_split'] =  results_trf[block][feature][f'rs_sentence_per_split'][i_ch]
-                            curr_results[block]['feature']['sentence']['TRF']['ps_per_split'] =  results_trf[block][feature][f'ps_sentence_per_split'][i_ch]
+                            curr_results[block]['feature']['sentence']['TRF']['rs_per_split'] =  [l[i_ch] for l in results_trf[block][feature][f'rs_sentence_per_split']]
+                            curr_results[block]['feature']['sentence']['TRF']['ps_per_split'] =  [l[i_ch] for l in results_trf[block][feature][f'ps_sentence_per_split']]
                             # Evoked word feature
                             curr_results[block]['feature']['word']['evoked']['rs'] =  results_evoked[block][feature]['rs_word'][i_ch, :]
                             curr_results[block]['feature']['word']['evoked']['ps'] =  results_evoked[block][feature]['ps_word'][i_ch, :]
-                            curr_results[block]['feature']['word']['evoked']['rs_per_split'] =  results_evoked[block][feature]['rs_word_per_split'][i_ch, :]
-                            curr_results[block]['feature']['word']['evoked']['ps_per_split'] =  results_evoked[block][feature]['ps_word_per_split'][i_ch, :]
+                            curr_results[block]['feature']['word']['evoked']['rs_per_split'] =  [l[i_ch, :] for l in results_evoked[block][feature][f'rs_word_per_split']]
+                            curr_results[block]['feature']['word']['evoked']['ps_per_split'] =  [l[i_ch, :] for l in results_evoked[block][feature][f'ps_word_per_split']]
                         else:
                             # TRF word feature
                             curr_results[block]['feature']['word']['TRF']['rs'] =  None
@@ -193,18 +193,18 @@ for patient in patients.split():
                         # TRF word full
                         curr_results[block]['full']['word']['TRF']['rs'] =  results_trf[block]['full'][f'rs_word'][i_ch, :]
                         curr_results[block]['full']['word']['TRF']['ps'] =  results_trf[block]['full'][f'ps_word'][i_ch, :]
-                        curr_results[block]['full']['word']['TRF']['rs_per_split'] =  results_trf[block]['full'][f'rs_word_per_split'][i_ch, :]
-                        curr_results[block]['full']['word']['TRF']['ps_per_split'] =  results_trf[block]['full'][f'ps_word_per_split'][i_ch, :]
+                        curr_results[block]['full']['word']['TRF']['rs_per_split'] =  [l[i_ch, :] for l in results_trf[block]['full'][f'rs_word_per_split']]
+                        curr_results[block]['full']['word']['TRF']['ps_per_split'] =  [l[i_ch, :] for l in results_trf[block]['full'][f'ps_word_per_split']]
                         # TRF sentence full
                         curr_results[block]['full']['sentence']['TRF']['rs'] =  results_trf[block]['full'][f'rs_sentence'][i_ch]
                         curr_results[block]['full']['sentence']['TRF']['ps'] =  results_trf[block]['full'][f'ps_sentence'][i_ch]
-                        curr_results[block]['full']['sentence']['TRF']['rs_per_split'] =  results_trf[block]['full'][f'rs_sentence_per_split'][i_ch]
-                        curr_results[block]['full']['sentence']['TRF']['ps_per_split'] =  results_trf[block]['full'][f'ps_sentence_per_split'][i_ch]
+                        curr_results[block]['full']['sentence']['TRF']['rs_per_split'] = [l[i_ch] for l in results_trf[block]['full'][f'rs_sentence_per_split']]
+                        curr_results[block]['full']['sentence']['TRF']['ps_per_split'] = [l[i_ch] for l in results_trf[block]['full'][f'ps_sentence_per_split']]
                         # Evoked word full
                         curr_results[block]['full']['word']['evoked']['rs'] =  results_evoked[block]['full']['rs_word'][i_ch, :]
                         curr_results[block]['full']['word']['evoked']['ps'] =  results_evoked[block]['full']['ps_word'][i_ch, :]
-                        curr_results[block]['full']['word']['evoked']['rs_per_split'] =  results_evoked[block]['full']['rs_word_per_split'][i_ch, :]
-                        curr_results[block]['full']['word']['evoked']['ps_per_split'] =  results_evoked[block]['full']['ps_word_per_split'][i_ch, :]
+                        curr_results[block]['full']['word']['evoked']['rs_per_split'] = [l[i_ch, :] for l in results_evoked[block]['full'][f'rs_word_per_split']]
+                        curr_results[block]['full']['word']['evoked']['ps_per_split'] = [l[i_ch, :] for l in results_evoked[block]['full'][f'ps_word_per_split']]
                         
                     
                     if probe_name[0] in dict_hemi.keys():

@@ -17,13 +17,13 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='479_11', help='Patient string')
+parser.add_argument('--patient', default='544', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='micro', help='electrode type')
+                    default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default='sentence_onset', help='')
-parser.add_argument('--filter', default='high-gamma', help='')
+parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
@@ -33,7 +33,7 @@ parser.add_argument('--channel-name', default=[], nargs='*', type=str, help='Pic
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)
-parser.add_argument('--comparison-name', default='all_end_trials', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
+parser.add_argument('--comparison-name', default='all_words_audio', help='int. Comparison name from Code/Main/functions/comparisons_level.py. see print_comparisons.py')
 parser.add_argument('--block-type', default=[], help='Block type will be added to the query in the comparison')
 parser.add_argument('--fixed-constraint', default=[], help='A fixed constrained added to query. For example first_phone == 1 for auditory blocks')
 parser.add_argument('--average-repeated-trials', action="store_true", default=False, help='')
@@ -139,7 +139,7 @@ pprint(comparison)
 
 
 print('-'*100)
-print(epochs.ch_names)
+print(sorted(epochs.ch_names))
 
 # BASELINE
 if args.filter != 'high-gamma': # high-gamma is already baselined during epoching (generate_epochs.py)
@@ -412,7 +412,7 @@ for ch, ch_name in enumerate(epochs.ch_names):
         # Add main title
         if not args.no_title:
             fig.suptitle('%s, %s\n%s\n%s' % (args.patient, ch_name, args.comparison_name, str_sort), fontsize=12)
-        # plt.subplots_adjust(left=0.2, right=0.95, bottom=0.05, top=0.95)
+        plt.subplots_adjust(left=0.3)
         ########
         # SAVE #
         ########

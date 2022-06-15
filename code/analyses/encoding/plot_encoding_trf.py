@@ -21,7 +21,7 @@ from encoding.models import TimeDelayingRidgeCV
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['544'],
+parser.add_argument('--patient', action='append', default=['505'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['spike'], help='electrode type')
@@ -42,8 +42,8 @@ parser.add_argument('--feature-list',
                     nargs='*',
 #                    action='append',
                     #default=['position', 'phonemes', 'lexicon'],
-                    #default=['position', 'phonology', 'lexicon', 'semantics', 'syntax'],
-                    default=['position', 'phonology'],
+                    default=['position', 'phonology', 'lexicon', 'semantics', 'syntax'],
+                    #default=['phonemes'],
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
                     default=os.path.join('..', '..', '..',
@@ -61,7 +61,7 @@ parser.add_argument('--ablation-method', default='remove',
                         by reducing/ablating a feature family')
 parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
 parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--each-feature-value', default=True, action='store_true',
+parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
 
@@ -98,7 +98,8 @@ fname = 'TRF_' + dict2filename(args2fname, '_', list_args2fname, '', True)
 #########################
 # LOAD ENCODING RESULTS #
 results, ch_names, args_trf, feature_info = \
-    pickle.load(open(os.path.join(args.path2output, 'case_study', 'TRF', fname + '.pkl'), 'rb'))
+    pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
+    #pickle.load(open(os.path.join(args.path2output, 'case_study', 'TRF', fname + '.pkl'), 'rb'))
 print(args_trf)
 # feature_names = list(feature_info.keys())
 # num_features = len(feature_names)

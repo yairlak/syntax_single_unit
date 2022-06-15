@@ -980,6 +980,7 @@ def extend_metadata(metadata):
     
     
     metadata['letter_by_position'] = get_letter_by_position(metadata)
+    metadata['phoneme_by_position'] = get_phoneme_by_position(metadata)
     
     
     return metadata
@@ -1330,3 +1331,23 @@ def get_letter_by_position(df_metadata):
    
     return letter_by_position
     
+
+def get_phone_by_position(df_metadata):
+    phones = df_metadata['phone_string']
+    poss = df_metadata['phone_position']
+    
+    phone_by_position = []
+    for phone, pos in zip(phones, poss):
+        encoding_vec = np.zeros((1, n_phones*3))
+
+        if pos == 0:
+            i_phone = 0
+        elif pos == 
+
+
+        IX = i_pos * n_phones + i_phone
+        phone_by_position.append(vec)
+
+    return phone_by_position
+
+

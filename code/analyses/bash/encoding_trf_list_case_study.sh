@@ -31,7 +31,8 @@ for BLOCK in $BLOCKS; do
 
     FEATURES="phonemes words"
     for FEATURE in $FEATURES; do
-        FLIST="position "$FEATURE
+        #FLIST="position "$FEATURE
+        FLIST=$FEATURE
         for METHOD in $METHODS; do
             for PATIENT in $PATIENTS; do
                 for DTYPE_FILTER in $DTYPES_FILTERS; do

@@ -215,6 +215,37 @@ def comparison_list():
     comparisons['479_11_LSTG7_15p2']['channel_name'] = 'p_g2_15_GA2-LST'
     
     
+    comparisons['479_11_LSTG7_15p2_phone'] = {}
+    # comparisons['479_11_LSTG7_15p2']['queries'] = [f"word_string.str.startswith('{w}') and (block in [2, 4, 6]) and word_position==2" for w in target_words] + [f"(word_string in {non_target_words}) and (block in [2, 4, 6]) and word_position==2"]
+    "AY1 AY2 AY0 AW1 AW2 AW0 OY1 OY2 OY0"
+    comparisons['479_11_LSTG7_15p2_phone']['queries'] = 'phone_string'
+    comparisons['479_11_LSTG7_15p2_phone']['queries'] = ['phone_string.str.startswith("AY")',
+                                                         'phone_string.str.startswith("AW")',
+                                                         'phone_string.str.startswith("OY")',
+                                                         'phone_string.str.startswith("IY")',
+                                                         'phone_string.str.startswith("EY")']
+    n_queries = len(comparisons['479_11_LSTG7_15p2_phone']['queries'])
+    #n_queries = len(comparisons['479_11_LSTG7_15p2']['queries'])
+    comparisons['479_11_LSTG7_15p2_phone']['condition_names'] = ['AY',
+                                                                 'AW',
+                                                                 'OY',
+                                                                 'IY',
+                                                                 'EY']
+    comparisons['479_11_LSTG7_15p2_phone']['colors'] = None
+    comparisons['479_11_LSTG7_15p2_phone']['cmaps'] = ['Blues'] * n_queries
+    comparisons['479_11_LSTG7_15p2_phone']['ls'] = ['-'] * n_queries
+    comparisons['479_11_LSTG7_15p2_phone']['lw'] = [3] * n_queries
+    comparisons['479_11_LSTG7_15p2_phone']['level'] = 'phone'
+    comparisons['479_11_LSTG7_15p2_phone']['figsize'] = (5, 13)
+    comparisons['479_11_LSTG7_15p2_phone']['y-tick-step'] = [200] * n_queries
+    comparisons['479_11_LSTG7_15p2_phone']['ylim'] = 100 
+    #comparisons['479_11_LSTG7_15p2_phone']['sort'] = ['phone_string', 'word_string', 'sentence_string']
+    comparisons['479_11_LSTG7_15p2_phone']['sort'] = ['phone_string']
+    comparisons['479_11_LSTG7_15p2_phone']['tmin_tmax'] = [-0.05, 0.4]
+    comparisons['479_11_LSTG7_15p2_phone']['height_ratios'] = True
+    comparisons['479_11_LSTG7_15p2_phone']['fixed_constraint'] = 'block in [2,4,6]'
+    comparisons['479_11_LSTG7_15p2_phone']['channel_name'] = 'p_g2_15_GA2-LST'
+    
     target_words = ['He', 'Whom', 'Who', 'They', 'We', 'She', 'What', 'The']
     comparisons['479_11_RPSTG_46p1'] = {}
     comparisons['479_11_RPSTG_46p1']['queries'] = [f"word_string=='{w}' and block in [2, 4, 6]" for w in target_words] \
@@ -297,6 +328,57 @@ def comparison_list():
     comparisons['505_LHSG_17p1']['height_ratios'] = True
     comparisons['505_LHSG_17p1']['channel_name'] = 'p_g1_17_GA3-LHS'
    
+    comparisons['505_LHSG_17p1_phone'] = {}
+    #comparisons['505_LHSG_17p1_phone']['queries'] = 'phone_string'
+    # comparisons['505_LHSG_17p1_phone']['queries'] = ['phone_string == "HH"',
+    #                                                  'phone_string == "N"',
+    #                                                  'phone_string == "D"',
+    #                                                  'phone_string.str.startswith("IH")',
+    #                                                  'phone_string.str.startswith("ER")',
+    #                                                  'phone_string.str.startswith("UW")',
+    #                                                  'phone_string == "M"',
+    #                                                  'phone_string == "K"',
+    #                                                  'phone_string == "S"',
+    #                                                  'phone_string == "R"',
+    #                                                  'phone_string == "W"',
+    #                                                  'phone_string.str.startswith("EY")',
+    #                                                  'phone_string.str.startswith("AH")',
+    #                                                  'phone_string == "L"',
+    #                                                  'phone_string == "DH"',
+    #                                                  'phone_string == "SH"',
+    #                                                  'phone_string == "B"',
+    #                                                  'phone_string == "Z"',
+    #                                                  'phone_string == "T"']
+    comparisons['505_LHSG_17p1_phone']['queries'] = ['phone_string == "SH"',
+                                                     'phone_string == "S"',
+                                                     'phone_string == "Z"',
+                                                     'phone_string == "DH"',
+                                                     'phone_string == "D"']
+    n_queries = len(comparisons['505_LHSG_17p1_phone']['queries'])
+    #comparisons['505_LHSG_17p1_phone']['condition_names'] = ['Initial /S/ (she)', 'Initial /S/ (showered|shaved|chef)', 'Non-initial /S/', 'Other stridents']
+    comparisons['505_LHSG_17p1_phone']['condition_names'] = ['HH', 'N', 'D',
+                                                             'IH', 'ER', 'UW',
+                                                             'M', 'K',
+                                                             'S', 'R', 'W',
+                                                             'EY', 'AH', 'L',
+                                                             'DH', 'SH', 'B',
+                                                             'Z', 'T']
+    #comparisons['505_LHSG_17p1_phone']['ls'] = ['-'] * n_queries
+    #comparisons['505_LHSG_17p1_phone']['lw'] = [3] * n_queries
+    comparisons['505_LHSG_17p1_phone']['level'] = 'phone'
+    comparisons['505_LHSG_17p1_phone']['y-tick-step'] = [300] * n_queries
+    comparisons['505_LHSG_17p1_phone']['sort'] = ['phone_string']
+    comparisons['505_LHSG_17p1_phone']['tmin_tmax'] = [-0.05, 0.4]
+    comparisons['505_LHSG_17p1_phone']['figsize'] = (5, 13)
+    comparisons['505_LHSG_17p1_phone']['ylim'] = 100
+    comparisons['505_LHSG_17p1_phone']['cmaps'] = ['Blues'] * n_queries
+    #comparisons['505_LHSG_17p1_phone']['colors'] = ['g', 'g', 'b', 'r']
+    comparisons['505_LHSG_17p1_phone']['height_ratios'] = True
+    comparisons['505_LHSG_17p1_phone']['channel_name'] = 'p_g1_17_GA3-LHS'
+    comparisons['505_LHSG_17p1_phone']['fixed_constraint'] = 'block in [2,4,6]'
+   
+   
+    
     comparisons['502_RFSG_57p1'] = {}
     comparisons['502_RFSG_57p1']['queries'] = ["word_string.str.contains('y|Y|k|K|x|X|w|W|V|v|z|Z') and (block in [1, 3, 5])",
                                                "~word_string.str.contains('y|Y|k|K|x|X|w|W|V|v|z|Z') and (block in [1, 3, 5])"]

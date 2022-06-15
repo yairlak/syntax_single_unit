@@ -86,7 +86,7 @@ def get_curr_words_and_phones(curr_line, path2stimuli):
 def add_words_to_which_phones_belong(words, phones):
     phones_with_words_to_which_they_belong = []
     last_in_word = ''
-    for phone_dict in phones:
+    for i_phone, phone_dict in enumerate(phones):
         new_phone_dict = {}
         new_phone_dict['in_word'] = []
         new_phone_dict['word_number'] = []
@@ -102,6 +102,16 @@ def add_words_to_which_phones_belong(words, phones):
                 else:
                     new_phone_dict['first_phone'] = 0
                 new_phone_dict['word_number'].append(w+1)
+                
+                # CHECK IF LAST PHONE
+                if i_phone == len(phones) - 1: # LAST WORD
+                    new_phone_dict['last_phone'] = 1
+                else: # FIRST OR MIDDLE WORD
+                    if phones[i_phone+1]['xmin'] >= word_dict['xmax']: # IF NEXT PHONE'S ONSET IF AFTER WORD OFFSET
+                        new_phone_dict['last_phone'] = 1
+                    else:
+                        new_phone_dict['last_phone'] = 0
+                
                 phones_with_words_to_which_they_belong.append(new_phone_dict)
 
         assert len(new_phone_dict['in_word']) == 1
@@ -113,6 +123,7 @@ def add_words_to_which_phones_belong(words, phones):
     new_phone_dict = {}
     new_phone_dict['in_word'] = '-'
     new_phone_dict['first_phone'] = -1
+    new_phone_dict['last_phone'] = -1
     new_phone_dict['word_number'] = -1
     new_phone_dict['xmin'] = phones_with_words_to_which_they_belong[-1]['xmax'] # offset of last phone as END_OF_WAV
     new_phone_dict['text'] = 'END_OF_WAV'
@@ -125,7 +136,7 @@ def generate_new_log_lines(phones, curr_onset_time, stimulus_number):
     new_log_lines = []
     for phone_number, phone_dict in enumerate(phones):
         new_time = curr_onset_time + int(phone_dict['xmin']*1e6)
-        new_line = '%i %s %i %i %i %i %s %s\n' % (new_time, 'PHONE_ONSET', phone_dict['first_phone'], phone_number+1, phone_dict['word_number'], stimulus_number, phone_dict['text'], phone_dict['in_word'])
+        new_line = '%i %s %i %i %i %i %i %s %s\n' % (new_time, 'PHONE_ONSET', phone_dict['first_phone'], phone_dict['last_phone'], phone_number+1, phone_dict['word_number'], stimulus_number, phone_dict['text'], phone_dict['in_word'])
         new_log_lines.append(new_line)
 
     return new_log_lines

@@ -12,7 +12,7 @@ dname = os.path.dirname(abspath)
 os.chdir(dname)
 import sys
 import pickle
-from viz import plot_rf_coefs, plot_rf_r2, plot_rf_bar_r2
+from viz import plot_rf_coefs_phone_by_position
 sys.path.append('..')
 from utils.utils import dict2filename
 import matplotlib.pyplot as plt
@@ -107,58 +107,25 @@ print(args_trf)
 ############
 # PLOTTING #
 ############
-
+rfs = results['full']['rf_sentence_per_split'] # list of models with len=num_cv-splits
+times_rf = rfs[0].delays_*1000/rfs[0].sfreq
 for i_channel, ch_name in enumerate(ch_names):
-    #############
-    # PLOT COEF #
-    #############
-    fig_coef = plot_rf_coefs(results, i_channel, ch_name,
-                             feature_info, args, False)
-    fname_fig = os.path.join(args.path2figures,
-                             args.patient[0],
-                             args.data_type[0],
-                             'rf_coef_' +
-                             fname + f'_{ch_name}.png')
-    fig_coef.savefig(fname_fig)
-    plt.close(fig_coef)
-    print('Figure saved to: ', fname_fig)
+    if 'LHSG1_16' not in ch_name:
+        continue
+    for i_t, t in enumerate(times_rf):
+        #############
+        # PLOT COEF #
+        #############
+        fig_phone_by_position = plot_rf_coefs_phone_by_position(results, i_channel, i_t, ch_name,
+                                 feature_info, args, False)
 
-    #####################
-    # PLOT COEF GROUPED #
-    #####################
-    fig_coef = plot_rf_coefs(results, i_channel, ch_name,
-                             feature_info, args, True)
-    fname_fig = os.path.join(args.path2figures, 
-                             args.patient[0],
-                             args.data_type[0],
-                             'rf_coef_' +
-                             fname + f'_{ch_name}_groupped.png')
-    fig_coef.savefig(fname_fig)
-    plt.close(fig_coef)
-    print('Figure saved to: ', fname_fig)
+        fname_fig = os.path.join(args.path2figures,
+                                 args.patient[0],
+                                 args.data_type[0],
+                                 'rf_coef_phone_by_position_' +
+                                 fname + f'_{ch_name}_t_{t}.png')
+        fig_phone_by_position.savefig(fname_fig)
+        plt.close(fig_phone_by_position)
+        print('Figure saved to: ', fname_fig)
 
-    #################
-    # PLOT delta R2 #
-    #################
-    fig_r2 = plot_rf_r2(results, i_channel, ch_name, feature_info, args)
-    fname_fig = os.path.join(args.path2figures, 
-                              args.patient[0],
-                              args.data_type[0],
-                              'rf_r_' +
-                              fname + f'_{ch_name}_groupped.png')
-    fig_r2.savefig(fname_fig)
-    plt.close(fig_r2)
-    print('Figure saved to: ', fname_fig)
-
-    #################
-    # PLOT delta R2 #
-    #################
-    fig_r2 = plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args)
-    fname_fig = os.path.join(args.path2figures, 
-                             args.patient[0],
-                             args.data_type[0],
-                             'rf_bar_r_' +
-                             fname + f'_{ch_name}_groupped.png')
-    fig_r2.savefig(fname_fig)
-    plt.close(fig_r2)
-    print('Figure saved to: ', fname_fig)
+ 

@@ -74,6 +74,88 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     return fig
 
 
+def plot_rf_coefs_phone_by_position(results, i_channel, i_t, ch_name, feature_info, args, group=False):
+    rfs = results['full']['rf_sentence_per_split'] # list of models with len=num_cv-splits
+    times_rf = rfs[0].delays_*1000/rfs[0].sfreq
+    # COEFs
+    coefs = np.asarray([rf.coef_[i_channel, :, :] for rf in rfs])
+    coefs_mean = coefs.mean(axis=0)
+    coefs_std = coefs.std(axis=0)
+    times_word_epoch = results['times_word_epoch']
+    # Scores by time 
+    scores_by_time = np.asarray([scores[i_channel, :] for scores in results['full']['rs_word_per_split']])
+    scores_by_time_mean = scores_by_time.mean(axis=0)
+    scores_by_time_std = scores_by_time.std(axis=0)
+    # Total score
+    total_score = np.asarray([scores[i_channel] for scores in results['full']['rs_sentence_per_split']])
+    # negative_r2 = scores_by_time_mean>0
+    
+    n_coefs, n_times = coefs_mean.shape
+    phones = sorted([name[:name.find('-')] for name in feature_info['phoneme_pos']['names'] if 'First' in name])
+    n_phonemes = len(phones)
+    positions = ['First', 'Middle', 'Last']
+    n_positions = 3
+    
+    feature_names = feature_info['phoneme_pos']['names']
+    
+        # PLOT
+    fig, ax = plt.subplots(figsize=(10,10))
+    
+    ax.set_xlim((0, n_positions-0.5))
+    ax.set_ylim((0, n_phonemes))
+    # axs[0].set_xticks(range(len(positions)))
+    # axs[0].set_xticklabels(positions)
+    # axs[0].set_yticks(range(len(alphabet)))
+    # axs[0].set_yticklabels(alphabet)
+    plt.axis('off')
+    
+    for i_pos, pos in enumerate(positions):
+        ax.text(i_pos, -1, pos.capitalize() + ' phone', fontsize=26)
+        for i_phone, phone in enumerate(phones):
+            IX_phone = feature_names.index(f'{phone}-{pos}')
+            coef = coefs_mean[IX_phone, i_t]
+            color = 'r' if coef>0 else 'b'
+            fontsize = np.abs(coef*1e3*2)
+            # print(i_pos, pos, i_phone, phone, color, fontsize)
+            ax.text(i_pos, i_phone, phone,
+                        fontsize=fontsize,
+                        color=color)
+        # fname_fig = os.path.join(args.path2figures, 
+        #                       args.patient[0],
+        #                       args.data_type[0],
+        #                       'trf_coef_phone_by_position_' +
+        #                       fname + f'_{ch_name}_t_{t}.png')
+        
+    # feature_names = feature_info.keys()
+    # for i_feature, feature_name in enumerate(feature_names):
+    #     color, ls, lw, marker = get_curve_style(feature_name, feature_info)
+    #     st, ed = feature_info[feature_name]['IXs']
+    #     if group:
+    #         # IX_max_abs = np.argmax(np.abs(coefs_mean[st:ed, :]), axis=0)
+    #         coef_curr_feature = np.mean(coefs_mean[st:ed, :], axis=0)
+    #         ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw,
+    #                 marker=marker, markersize=15, label=feature_name)
+    #     else:
+    #         cmap = get_cmap(len(feature_info[feature_name]['names']))
+    #         for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
+    #             coef_curr_feature = coefs_mean[st+i_value, :]
+    #             ax.plot(times_rf, coef_curr_feature, color=cmap(i_value), ls=ls, lw=lw, label=feature_value)
+    
+    # #ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/20)), fontsize=24)
+    # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=3, fontsize=24)
+    # ax.set_xlabel('Time (msec)', fontsize=20)
+    # ax.set_ylabel(r'Beta', fontsize=20)
+    # ax.set_ylim((None, None)) 
+    # if args.block_type == 'visual':
+    #     ax.axvline(x=0, ls='--', color='k')
+    #     ax.axvline(x=500, ls='--', color='k')
+    # ax.axhline(ls='--', color='k')    
+    # ax.tick_params(axis='both', labelsize=18)
+    # ax2.tick_params(axis='both', labelsize=18)
+    # plt.subplots_adjust(right=0.5)
+    
+    return fig
+
 def get_scores_by_time(results, i_channel, feature_name):
     scores_by_time = np.asarray([scores[i_channel, :] for scores in results[feature_name]['rs_word_per_split']])
     scores_by_time_mean = scores_by_time.mean(axis=0)
@@ -97,17 +179,17 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     # Draw full-model results
     #ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
-    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
-    ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
-    ax2.fill_between(times_word_epoch*1e3,
-                     scores_by_time_full_mean+scores_by_time_full_sem,
-                     scores_by_time_full_mean-scores_by_time_full_sem,
-                     color=color,
-                     alpha=0.2)
-    ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylim((0, 1)) 
-    ax2.set_xlim((-100, 600)) 
+    #ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    #ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
+    #ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
+    #ax2.fill_between(times_word_epoch*1e3,
+    #                 scores_by_time_full_mean+scores_by_time_full_sem,
+    #                 scores_by_time_full_mean-scores_by_time_full_sem,
+    #                 color=color,
+    #                 alpha=0.2)
+    #ax2.tick_params(axis='y', labelcolor=color)
+    #ax2.set_ylim((0, 1)) 
+    #ax2.set_xlim((-100, 600)) 
 
     
     feature_names = []  # performance of the full model must be calculated
@@ -143,13 +225,13 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=40)
     ax.set_ylabel(r'$\Delta r$', fontsize=40)
-    ax.set_ylim((0, 0.3))
+    ax.set_ylim((0, 0.1))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=35)
-    ax2.tick_params(axis='both', labelsize=35)
+    #ax2.tick_params(axis='both', labelsize=35)
     # plt.subplots_adjust(right=0.5)
     
     return fig

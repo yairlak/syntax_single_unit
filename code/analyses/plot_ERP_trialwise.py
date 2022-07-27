@@ -17,7 +17,7 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate trial-wise plots')
 # DATA
-parser.add_argument('--patient', default='479_11', help='Patient string')
+parser.add_argument('--patient', default='553', help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'microphone'],
                     default='spike', help='electrode type')
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
@@ -29,7 +29,7 @@ parser.add_argument('--scale-epochs', action="store_true", default=False, help='
 # PICK CHANNELS
 parser.add_argument('--probe-name', default=[], nargs='*', type=str,
                     help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-parser.add_argument('--channel-name', default=['LSTG7_14_p2'], nargs='*', type=str, help='Pick specific channels names')
+parser.add_argument('--channel-name', default=None, nargs='*', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=None, nargs='*', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY (SELECT TRIALS)

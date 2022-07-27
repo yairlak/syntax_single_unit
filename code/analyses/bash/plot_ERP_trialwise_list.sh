@@ -1,13 +1,15 @@
 # Local(0) or Alambic (1)?
-CLUSTER=0
+CLUSTER=1
 
 # 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
-PATIENTS="551"
+PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554_4 554_13"
+PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541 543 544 545 549 551"
+PATIENTS="479_11"
 
 # Which signal types (micro macro spike)
 DTYPES="micro macro spike microphone"
+DTYPES="micro macro spike"
 DTYPES="spike"
 
 # Which filter (raw high-gamma)?
@@ -15,21 +17,23 @@ FILTERS="raw high-gamma"
 FILTERS="raw"
 
 #LEVELS="sentence_onset sentence_offset"
-COMPARISONS="all_trials all_trials_chrono all_end_trials"
+COMPARISONS="all_trials all_trials_chrono all_end_trials all_words_visual all_words_audio all_2words all_2words_end word_string_visual word_string_auditory"
 #COMPARISONS="word_string_visual word_string_auditory"
+#COMPARISONS="all_words_visual all_words_audio"
 #COMPARISONS="all_trials all_trials_chrono all_end_trials embedding_vs_long grammatical_number dec_quest_len2"
 #COMPARISONS="grammatical_number"
 #COMPARISONS="479_11_LSTG7_15p2"
 #COMPARISONS="505_LFGP6_30p2"
 #COMPARISONS="505_LHSG_17p1"
-#COMPARISONS="all_trials all_trials_chrono all_end_trials"
+COMPARISONS="all_trials"
+#COMPARISONS="embedding_vs_long_"
 
 #LEVELS="word"
-#COMPARISONS="all_words"
+#COMPARISONS="all_2words all_2words_end"
 
 
 queue="Nspin_bigM"
-walltime="02:00:00"
+walltime="12:00:00"
 
 
 

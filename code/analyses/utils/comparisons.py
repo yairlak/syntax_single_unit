@@ -636,7 +636,32 @@ def comparison_list():
     comparisons['all_words']['level'] = 'word'
     comparisons['all_words']['tmin_tmax'] = [-0.3, 0.6]
 
+    comparisons['all_2words'] = {}
+    comparisons['all_2words']['queries'] = ["word_position==1 and (block in [1, 3, 5]) and sentence_length==2", "word_position==1 and (block in [2, 4, 6]) and sentence_length==2"]
+    comparisons['all_2words']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_2words']['colors'] = ['r', 'b']
+    comparisons['all_2words']['sort'] = ['dec_quest', 'sentence_string']
+    comparisons['all_2words']['cmaps'] = ['Reds', 'Blues']
+    comparisons['all_2words']['y-tick-step'] = [20, 20]
+    comparisons['all_2words']['yticklabels'] = 'sentence_string'
+    comparisons['all_2words']['tmin_tmax'] = [-0.25, 1.5]
+    comparisons['all_2words']['level'] = 'sentence_onset'
+    comparisons['all_2words']['figsize'] = (10, 10)
+    comparisons['all_2words']['ylim'] = 30
 
+    comparisons['all_2words_end'] = {}
+    comparisons['all_2words_end']['queries'] = ["word_string == '.' and (block in [1, 3, 5]) and sentence_length==2",
+                                                "phone_string=='END_OF_WAV' and (block in [2, 4, 6]) and sentence_length==2"]
+    comparisons['all_2words_end']['condition_names'] = ['Visual blocks', 'Auditory blocks']
+    comparisons['all_2words_end']['colors'] = ['r', 'b']
+    comparisons['all_2words_end']['sort'] = ['dec_quest', 'sentence_string']
+    comparisons['all_2words_end']['cmaps'] = ['Reds', 'Blues']
+    comparisons['all_2words_end']['y-tick-step'] = [20, 20]
+    comparisons['all_2words_end']['yticklabels'] = 'sentence_string'
+    comparisons['all_2words_end']['tmin_tmax'] = [-1.5, 1]
+    comparisons['all_2words_end']['level'] = 'sentence_end'
+    comparisons['all_2words_end']['figsize'] = (10, 10)
+    comparisons['all_2words_end']['ylim'] = 30
 
 # ALL WORDS
     comparisons['food_related'] = {}

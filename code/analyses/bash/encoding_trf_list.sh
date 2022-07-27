@@ -10,21 +10,22 @@ DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
+PATIENTS="545 552 553 554_4 554_13"
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
 
-queue="Nspin_long"
+queue="Nspin_bigM"
 walltime="72:00:00"
 
 BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FLIST="positional phonemes lexicon semantics syntax"
+    FLIST="boundaries phonemes lexicon glove syntax"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FLIST="positional orthography lexicon semantics syntax"
+    FLIST="boundaries orthography lexicon glove syntax"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi

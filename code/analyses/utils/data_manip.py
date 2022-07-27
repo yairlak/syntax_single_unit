@@ -624,15 +624,17 @@ def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_
     
     events = {}
     if block in [2, 4, 6]:
+        # 864156059 PHONE_ONSET 1 0 1 1 1 HH HE
         lines = [l for l in lines if l[1]=='PHONE_ONSET']
         events['event_time'] = [l[0] for l in lines]
         events['block'] = len(events['event_time']) * [block]
         events['word_onset'] = [1 if int(l[2])>0 else 0 for l in lines]
-        events['phone_position'] = [int(l[3]) for l in lines]
-        events['phone_string'] = [l[6] for l in lines]
-        events['word_position'] = [int(l[4]) for l in lines]
-        events['word_string'] = [l[7] for l in lines]
-        events['stimulus_number'] = [int(l[5]) for l in lines]
+        events['is_last_phone'] = [int(l[3]) for l in lines]
+        events['phone_position'] = [int(l[4]) for l in lines]
+        events['phone_string'] = [l[7] for l in lines]
+        events['word_position'] = [int(l[5]) for l in lines]
+        events['word_string'] = [l[8] for l in lines]
+        events['stimulus_number'] = [int(l[6]) for l in lines]
 
     elif block in [1, 3, 5]:
         lines = [l for l in lines if l[1] == 'DISPLAY_TEXT' and l[2] != 'OFF']
@@ -640,6 +642,7 @@ def read_log(block, path2log, log_name_beginning='new_with_phones_events_log_in_
         events['block'] = len(events['event_time']) * [block]
         events['phone_position'] = len(events['event_time']) * [0] # not relevant for visual blocks
         events['phone_string'] = len(events['event_time']) * ['']  # not relevant for visual blocks
+        events['is_last_phone'] = len(events['event_time']) * ['']  # not relevant for visual blocks
         events['word_position'] = [int(l[4]) for l in lines]
         events['word_string'] = [l[5] for l in lines]
         events['stimulus_number'] = [int(l[3]) for l in lines]
@@ -674,7 +677,7 @@ def prepare_metadata(patient, verbose=False):
     num_blocks = len(log_all_blocks)
 
     # Create a dict with the following keys:
-    keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'stimulus_number',
+    keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'is_last_phone', 'stimulus_number',
             'word_position', 'word_string', 'pos', 'dec_quest', 'grammatical_number', 'wh_subj_obj',
             'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf',
             'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'semantic_categories', 'semantic_categories_names']
@@ -699,6 +702,10 @@ def prepare_metadata(patient, verbose=False):
             metadata['word_onset'].append(word_onset)
             phone_pos = int(curr_block_events['phone_position'][i])
             metadata['phone_position'].append(phone_pos)
+            
+            is_last_phone = curr_block_events['is_last_phone'][i]
+            metadata['is_last_phone'].append(is_last_phone)
+            
             metadata['phone_string'].append(curr_block_events['phone_string'][i])
             word_string = curr_block_events['word_string'][i]
             if word_string[-1] == '?' or word_string[-1] == '.':
@@ -806,6 +813,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['word_freq'].append(0)
                 metadata['word_zipf'].append(0)
                 metadata['phone_position'][-1] = 0
+                metadata['is_last_phone'][-1] = 0
             else:
                 raise('Unknown log value')
             # SINCE ONLY IN THE AUDIO LOGS THERE'S END-OF-WAV (WORD_POSITION=0)
@@ -819,6 +827,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['block'].append(curr_block_events['block'][i])
                 metadata['word_onset'].append(0)
                 metadata['phone_position'].append(0)
+                metadata['is_last_phone'].append(0)
                 metadata['phone_string'].append('')
                 metadata['stimulus_number'].append(
                     int(curr_block_events['stimulus_number'][i]))
@@ -978,10 +987,8 @@ def extend_metadata(metadata):
     # feature_values = pd.DataFrame(data=feature_values, columns=phonological_features)
     # metadata = pd.concat((metadata, feature_values), axis=1)
     
-    
     metadata['letter_by_position'] = get_letter_by_position(metadata)
-    metadata['phoneme_by_position'] = get_phoneme_by_position(metadata)
-    
+    metadata['phone_by_position'] = get_phone_by_position(metadata)
     
     return metadata
 
@@ -1333,20 +1340,33 @@ def get_letter_by_position(df_metadata):
     
 
 def get_phone_by_position(df_metadata):
+    phone_set = ['AA1', 'AA2',  'AE1', 'AH0', 'AH1', 'AO1', 'AW1', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH', 'EH1', 'END_OF_WAV', 'ER0', 'ER1',
+                 'EY1', 'F', 'G', 'HH', 'IH0', 'IH1', 'IH2', 'IY0', 'IY1', 'JH', 'K', 'L', 'M', 'N', 'NG', 'OW1', 'OW2', 'OY1', 'P', 'R',
+                  'S', 'SH', 'T', 'TH', 'UH1', 'UW0', 'UW1', 'V', 'W', 'Z']
+    n_phones = len(phone_set)
+
     phones = df_metadata['phone_string']
     poss = df_metadata['phone_position']
+    is_last_phones = df_metadata['is_last_phone']
+    is_first_phones = df_metadata['word_onset']
     
     phone_by_position = []
-    for phone, pos in zip(phones, poss):
+    for phone, pos, is_first_phone, is_last_phone in zip(phones, poss, is_first_phones, is_last_phones):
         encoding_vec = np.zeros((1, n_phones*3))
+        if phone not in phone_set:
+            phone_by_position.append(encoding_vec)
+        else:
+            if is_first_phone:
+                i_pos = 0
+            elif is_last_phone:
+                i_pos = 2
+            else:
+                i_pos = 1
 
-        if pos == 0:
-            i_phone = 0
-        elif pos == 
-
-
-        IX = i_pos * n_phones + i_phone
-        phone_by_position.append(vec)
+            i_phone = phone_set.index(phone)
+            IX = i_pos * n_phones + i_phone
+            encoding_vec[0, IX] = 1
+            phone_by_position.append(encoding_vec)
 
     return phone_by_position
 

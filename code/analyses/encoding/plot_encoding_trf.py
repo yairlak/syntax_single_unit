@@ -21,14 +21,14 @@ from encoding.models import TimeDelayingRidgeCV
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'],
+parser.add_argument('--patient', action='append', default=[],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=[], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=[],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=50,
+parser.add_argument('--smooth', default=50, type=int, 
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -51,7 +51,7 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models'))
-parser.add_argument('--decimate', default=50, type=float,
+parser.add_argument('--decimate', default=50, type=int,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])

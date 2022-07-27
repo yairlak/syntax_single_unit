@@ -97,17 +97,17 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     # Draw full-model results
     #ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
-    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
-    ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
-    ax2.fill_between(times_word_epoch*1e3,
-                     scores_by_time_full_mean+scores_by_time_full_sem,
-                     scores_by_time_full_mean-scores_by_time_full_sem,
-                     color=color,
-                     alpha=0.2)
-    ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylim((0, 1)) 
-    ax2.set_xlim((-100, 600)) 
+    #ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    #ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
+    #ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
+    #ax2.fill_between(times_word_epoch*1e3,
+    #                 scores_by_time_full_mean+scores_by_time_full_sem,
+    #                 scores_by_time_full_mean-scores_by_time_full_sem,
+    #                 color=color,
+    #                 alpha=0.2)
+    #ax2.tick_params(axis='y', labelcolor=color)
+    #ax2.set_ylim((0, 1)) 
+    #ax2.set_xlim((-100, 600)) 
 
     
     feature_names = []  # performance of the full model must be calculated
@@ -143,13 +143,13 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
     # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=40)
     ax.set_ylabel(r'$\Delta r$', fontsize=40)
-    ax.set_ylim((0, 0.3))
+    ax.set_ylim((0, 0.1))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=35)
-    ax2.tick_params(axis='both', labelsize=35)
+    #ax2.tick_params(axis='both', labelsize=35)
     # plt.subplots_adjust(right=0.5)
     
     return fig
@@ -163,7 +163,8 @@ def plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args):
     # Scores by time (full model)
     rs_full_per_split = [rs[i_channel] for rs in results['full']['rs_sentence_per_split']]
 
-    feature_names = list(set(results) - set(['full', 'times_word_epoch']))
+    feature_names = sorted(list(set(results) - set(['full', 'times_word_epoch'])))
+    feature_names = [feature_names[i] for i in [0, 3, 2, 1, 4]]
     feature_importances_mean, feature_importances_sem, colors, ps = [], [], [], []
     for i_feature, feature in enumerate(feature_names):
         rs_feature_per_split = [rs[i_channel] for rs in results[feature]['rs_sentence_per_split']]
@@ -200,6 +201,7 @@ def plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args):
     ax.set_xlabel('Feature importance', fontsize=40)
     
     ax.xaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    ax.set_xlim((0, None))
     ax.tick_params(axis='both', labelsize=24)
     plt.subplots_adjust(left=0.4)
 

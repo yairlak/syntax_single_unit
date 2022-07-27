@@ -4,18 +4,18 @@ CLUSTER=0
 #
 METHODS='zero remove'
 DECIMATE=50
-SMOOTH=25
+SMOOTH=50
 PATIENTS="479_11 479_25 482 489 493 499 502 504 505 510 513 515 530 538 539 540 541"
-#PATIENTS="479_11 502 510 513"
+PATIENTS="479_11"
 EACH=" --each-feature-value"
 
 # Which signal types (micro macro spike)
 #DTYPES="micro macro spike"
-DTYPES="micro spike"
+DTYPES="spike"
 
 # Which filter (raw high-gamma)?
 #FILTERS="raw high-gamma"
-FILTERS="raw high-gamma"
+FILTERS="raw"
 
 
 queue="Nspin_long"

@@ -21,7 +21,7 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['502'],
+parser.add_argument('--patient', action='append', default=['505'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
                     action='append', default=['spike'], help='electrode type')
@@ -111,20 +111,21 @@ results, ch_names, args_evoked, feature_info = \
     pickle.load(open(os.path.join(args.path2output, 'evoked_' + fname + '.pkl'), 'rb'))
 print(args_evoked)
 
-n_channels, n_times = results['full']['scores_by_time_False'].shape
+#print(results['full'].keys())
+n_channels, n_times = results['full']['rs_word'].shape
 
 keep = False
 # nd-array of size n_times
 times = results['times']
 # dict with feature-name keys, 
 # each contains a list (len=n_splits) with n_channels X n_times results array
-scores_by_time_per_split = {k:results[k][f'scores_by_time_per_split_{keep}']
+scores_by_time_per_split = {k:results[k][f'rs_word']
                             for k in results.keys() if not k.startswith('times')}
-coefs_by_time_per_split = {k:results[k][f'model_per_split_{keep}']
+coefs_by_time_per_split = {k:results[k][f'model_per_split']
                            for k in results.keys() if not k.startswith('times')}
 
 
-stats_by_time = {k:results[k][f'stats_by_time_{keep}']
+stats_by_time = {k:results[k][f'ps_word']
                      for k in results.keys() if not k.startswith('times')}
     
 
@@ -146,19 +147,19 @@ for k in stats_by_time.keys():
 # PLOTTING #
 ############
 #n_splits = len(scores_by_time_per_split['full'])
-
+print(ch_names)
 for i_channel, ch_name in enumerate(ch_names):
-    if ch_name not in ['GB4-RFSG1_57p1', 'GB4-RFSG6_62p1']:
+    if ch_name not in ['RFSG1_56_p1', 'RFSG6_61_p1', 'LFGP6_29_p2']:
         continue
     #scores_mean = {k:np.asarray(scores_by_time_per_split[k]).mean(axis=0)[i_channel, :]
     #               for k in scores_by_time_per_split.keys()}
     #scores_sem = {k:np.asarray(scores_by_time_per_split[k]).std(axis=0)[i_channel, :]/np.sqrt(n_splits)
     #              for k in scores_by_time_per_split.keys()}
-    scores_by_time = {k:results[k][f'scores_by_time_{keep}'][i_channel, :]
+    scores_by_time = {k:results[k][f'rs_word'][i_channel, :]
                       for k in results.keys() if not k.startswith('times')}
-    stats_by_time = {k:results[k][f'stats_by_time_{keep}'][i_channel, :]
+    stats_by_time = {k:results[k][f'ps_word'][i_channel, :]
                      for k in results.keys() if not k.startswith('times')}
-    sem_by_time = {k:np.zeros_like(results[k][f'stats_by_time_{keep}'][i_channel, :])
+    sem_by_time = {k:np.zeros_like(results[k][f'ps_word'][i_channel, :])
                      for k in results.keys() if not k.startswith('times')}
     
     coefs_mean , coefs_sem= {}, {}
@@ -208,27 +209,30 @@ for i_channel, ch_name in enumerate(ch_names):
         
         if t<0.1 or t>0.5:
             continue
-        fig, ax = plt.subplots(1, 1, figsize=(10,10))
+        fig, ax = plt.subplots(1, 1, figsize=(10,15))
         
-        ax.set_xlim((0, 2.5))
+        ax.set_xlim((0, 1.1))
         ax.set_ylim((0, 26))
         # axs[0].set_xticks(range(len(positions)))
         # axs[0].set_xticklabels(positions)
         # axs[0].set_yticks(range(len(alphabet)))
         # axs[0].set_yticklabels(alphabet)
         plt.axis('off')
+        fig.subplots_adjust(bottom=0.05, top=0.95)
         
         
         for i_pos, pos in enumerate(positions):
-            ax.text(i_pos, -1, pos.capitalize() + ' letter', fontsize=26)
+            #ax.text(i_pos*0.5, -3, pos.capitalize(),
+            #        fontsize=26, ha='center', va='center')
             for i_letter, letter in enumerate(alphabet):
                 coef = coef_curr_feature[i_t, i_pos*n_letters + i_letter]
                 color = 'r' if coef>0 else 'b'
-                fontsize = np.abs(coef*1e3*5)
-                print(i_pos, pos, i_letter, letter, color, fontsize)
-                ax.text(i_pos, i_letter, letter,
+                fontsize = np.abs(coef*1e3*4)
+                #print(i_pos, pos, i_letter, letter, color, fontsize)
+                ax.text(i_pos*0.5, i_letter, letter,
                             fontsize=fontsize,
-                            color=color)
+                            color=color,
+                            ha='center', va='center')
         fname_fig = os.path.join(args.path2figures, 
                               args.patient[0],
                               args.data_type[0],

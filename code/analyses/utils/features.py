@@ -11,8 +11,10 @@ class Features():
         features_groupped = {}
         features_groupped['positional'] = ['word_position', 'is_last_word']
         features_groupped['position'] = ['is_first_word', 'word_position', 'is_last_word']
+        features_groupped['boundaries'] = ['is_first_word', 'is_last_word']
         features_groupped['orthography'] = ['letters', 'word_length']
         features_groupped['orthography_pos'] = ['letter_by_position', 'word_length']
+        features_groupped['phoneme_pos'] = ['phone_by_position']
         features_groupped['phonology'] = ['phonological_features']
         features_groupped['phonemes'] = ['phone_string']
         features_groupped['lexicon'] = ['pos_simple', 'word_zipf',
@@ -20,7 +22,7 @@ class Features():
         features_groupped['syntax'] = ['grammatical_number', 'gender', 'embedding',
                                        'wh_subj_obj', 'dec_quest',
                                        'syntactic_role', 'diff_thematic_role'] 
-        #features_groupped['semantics'] = ['glove'] # try with a larger dim
+        features_groupped['glove'] = ['glove'] # try with a larger dim
         features_groupped['semantics'] = ['semantic_categories'] # Taken from Paradigm/word_features.docx
         features_groupped['words'] = ['word_string']
         self.features_groupped = features_groupped
@@ -210,10 +212,21 @@ def get_feature_values(feature, metadata, one_hot):
     elif feature == 'letter_by_position':
         values = metadata[feature]
         values = np.asarray([vec for vec in values])
-        alphabet=[letter for letter in 'abcdefghijklmnopqrstuvwxyz']
+        alphabet = [letter for letter in 'abcdefghijklmnopqrstuvwxyz']
         positions = ['First', 'Middle', 'Last']
         names = [letter + '-' + pos for pos in positions for letter in alphabet]
     
+    ##########
+    # PHONES #
+    ##########
+    elif feature == 'phone_by_position':
+        values = metadata[feature]
+        values = np.asarray([vec for vec in values])
+        phone_set = ['AA1', 'AA2',  'AE1', 'AH0', 'AH1', 'AO1', 'AW1', 'AY1', 'AY2', 'B', 'CH', 'D', 'DH', 'EH1', 'END_OF_WAV', 'ER0', 'ER1',
+                 'EY1', 'F', 'G', 'HH', 'IH0', 'IH1', 'IH2', 'IY0', 'IY1', 'JH', 'K', 'L', 'M', 'N', 'NG', 'OW1', 'OW2', 'OY1', 'P', 'R',
+                  'S', 'SH', 'T', 'TH', 'UH1', 'UW0', 'UW1', 'V', 'W', 'Z']
+        positions = ['First', 'Middle', 'Last']
+        names = [phone + '-' + pos for pos in positions for phone in phone_set]
     
     ######################
     # ALL OTHER FEATURES #

@@ -1,8 +1,7 @@
 import os
 import numpy as np
 import warnings
-from utils import load_settings_params
-
+import pandas as pd
 
 def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
     path2channel_names = os.path.join(path2data, 'patient_' + patient, 'Raw', data_type, 'channel_numbers_to_names.txt')
@@ -281,3 +280,22 @@ def probename2ROI(path2mapping='../../Data/probenames2fsaverage.tsv'):
             assert probename not in p2r.keys()
             p2r[probename] = atlas_region
     return p2r
+
+
+def read_MNI_coord_from_xls(fn, data_type, channel_name=None):
+    assert data_type in ['micro', 'macro'] # only these two options allowed
+    ismicro = (data_type == 'micro')
+    
+    df_coords = pd.read_excel(fn)
+    df_coords['isMicro'] = df_coords['electrode'].str.contains('micro-1').values
+    df_coords['isStim'] = df_coords['electrode'].str.contains('stim').values
+    
+    df_coords = df_coords[df_coords['isStim'] == False] # remove stim channels
+    df_coords = df_coords[df_coords['isMicro'] == ismicro] # pick data_type (micro/macro)
+    if channel_name is not None:
+        if data_type == 'micro':
+            df_coords = df_coords[df_coords['electrode'].str.contains(channel_name+'_micro-1', case=False)]
+        else:
+            df_coords = df_coords[df_coords['electrode'].str.contains(channel_name, case=False)]
+    
+    return df_coords

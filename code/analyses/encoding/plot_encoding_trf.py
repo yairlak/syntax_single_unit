@@ -28,7 +28,7 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
 parser.add_argument('--filter', action='append',
                     default=['raw'],
                     help='raw/high-gamma')
-parser.add_argument('--smooth', default=50,
+parser.add_argument('--smooth', default=50, type=int, 
                     help='Gaussian smoothing in msec')
 parser.add_argument('--probe-name', default=None, nargs='*',
                     action='append', type=str,
@@ -43,8 +43,8 @@ parser.add_argument('--feature-list',
 #                    action='append',
                     #default=['position', 'phonemes', 'lexicon'],
                     #default=['position', 'phonology', 'lexicon', 'semantics', 'syntax'],
-                    default=['phoneme_pos'],
-                    #default='boundaries_phonemes_lexicon_glove_syntax'.split('_'),
+                    default=['orthography'],
+                    #default='boundaries_orthography_lexicon_glove_syntax'.split('_'),
                     help='Feature to include in the encoding model')
 parser.add_argument('--path2output',
                     default=os.path.join('..', '..', '..',
@@ -52,7 +52,7 @@ parser.add_argument('--path2output',
 parser.add_argument('--path2figures',
                     default=os.path.join('..', '..', '..',
                                          'Figures', 'encoding_models'))
-parser.add_argument('--decimate', default=50, type=float,
+parser.add_argument('--decimate', default=50, type=int,
                     help='If not empty, decimate data for speed.')
 parser.add_argument('--model-type', default='ridge',
                     choices=['ridge', 'lasso', 'ridge_laplacian', 'standard'])
@@ -60,8 +60,8 @@ parser.add_argument('--ablation-method', default='remove',
                     choices=['shuffle', 'remove', 'zero'],
                     help='Method used to calcuated feature importance\
                         by reducing/ablating a feature family')
-parser.add_argument('--query-train', default="block in [2,4,6] and word_length>1")
-parser.add_argument('--query-test', default="block in [2,4,6] and word_length>1")
+parser.add_argument('--query-train', default="block in [1,3,5] and word_length>1")
+parser.add_argument('--query-test', default="block in [1,3,5] and word_length>1")
 parser.add_argument('--each-feature-value', default=False, action='store_true',
                     help="Evaluate model after ablating each feature value. \
                          If false, ablate all feature values together")
@@ -99,7 +99,8 @@ fname = 'TRF_' + dict2filename(args2fname, '_', list_args2fname, '', True)
 #########################
 # LOAD ENCODING RESULTS #
 results, ch_names, args_trf, feature_info = \
-    pickle.load(open(os.path.join(args.path2output, 'case_study', 'TRF', fname + '.pkl'), 'rb'))
+    pickle.load(open(os.path.join(args.path2output, fname + '.pkl'), 'rb'))
+    #pickle.load(open(os.path.join(args.path2output, 'case_study', 'TRF', fname + '.pkl'), 'rb'))
 print(args_trf)
 # feature_names = list(feature_info.keys())
 # num_features = len(feature_names)
@@ -109,11 +110,14 @@ print(args_trf)
 ############
 
 for i_channel, ch_name in enumerate(ch_names):
+    # if 'RFSG1_56_p1' not in ch_name:
+    if 'LFGP6_29_p2' not in ch_name:
+         continue
     #############
     # PLOT COEF #
     #############
     fig_coef = plot_rf_coefs(results, i_channel, ch_name,
-                             feature_info, args, False)
+                             feature_info, args, group=False)
     fname_fig = os.path.join(args.path2figures,
                              args.patient[0],
                              args.data_type[0],
@@ -140,25 +144,25 @@ for i_channel, ch_name in enumerate(ch_names):
     #################
     # PLOT delta R2 #
     #################
-    fig_r2 = plot_rf_r2(results, i_channel, ch_name, feature_info, args)
-    fname_fig = os.path.join(args.path2figures, 
-                              args.patient[0],
-                              args.data_type[0],
-                              'rf_r_' +
-                              fname + f'_{ch_name}_groupped.png')
-    fig_r2.savefig(fname_fig)
-    plt.close(fig_r2)
-    print('Figure saved to: ', fname_fig)
+    # fig_r2 = plot_rf_r2(results, i_channel, ch_name, feature_info, args)
+    # fname_fig = os.path.join(args.path2figures, 
+    #                           args.patient[0],
+    #                           args.data_type[0],
+    #                           'rf_r_' +
+    #                           fname + f'_{ch_name}_groupped.png')
+    # fig_r2.savefig(fname_fig)
+    # plt.close(fig_r2)
+    # print('Figure saved to: ', fname_fig)
 
     #################
     # PLOT delta R2 #
     #################
-    fig_r2 = plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args)
-    fname_fig = os.path.join(args.path2figures, 
-                             args.patient[0],
-                             args.data_type[0],
-                             'rf_bar_r_' +
-                             fname + f'_{ch_name}_groupped.png')
-    fig_r2.savefig(fname_fig)
-    plt.close(fig_r2)
-    print('Figure saved to: ', fname_fig)
+    # fig_r2 = plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args)
+    # fname_fig = os.path.join(args.path2figures, 
+    #                          args.patient[0],
+    #                          args.data_type[0],
+    #                          'rf_bar_r_' +
+    #                          fname + f'_{ch_name}_groupped.png')
+    # fig_r2.savefig(fname_fig)
+    # plt.close(fig_r2)
+    # print('Figure saved to: ', fname_fig)

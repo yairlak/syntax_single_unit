@@ -6,14 +6,17 @@ CLUSTER=1
 MAT=""
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-
+PATIENTS="545"
 
 # Which signal types (micro macro spike)
 # Which filter (raw high-gamma)?
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw microphone_raw"
+#DTYPES_FILTERS="micro_raw micro_high-gamma spike_raw microphone_raw"
+#DTYPES_FILTERS="macro_raw macro_high-gamma"
 
 
-queue="Nspin_long"
+queue="Unicog_long"
+queue="Nspin_bigM"
 walltime="72:00:00"
 
 for PATIENT in $PATIENTS; do

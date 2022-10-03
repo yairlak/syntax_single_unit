@@ -10,13 +10,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 from scipy.stats import sem, ttest_ind
+from arpabetandipaconvertor.arpabet2phoneticalphabet import ARPAbet2PhoneticAlphabetConvertor
+from mne.stats import permutation_cluster_1samp_test
 
 def get_cmap(n, name='hsv'):
     '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
     RGB color; the keyword argument name must be a standard mpl colormap name.'''
     return plt.cm.get_cmap(name, n)
 
-def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
+def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):    
     rfs = results['full']['rf_sentence_per_split'] # list of models with len=num_cv-splits
     times_rf = rfs[0].delays_*1000/rfs[0].sfreq
     # COEFs
@@ -33,15 +35,15 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
     # negative_r2 = scores_by_time_mean>0
     
     # PLOT
-    fig, ax = plt.subplots(figsize=(35,20))
-    ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
+    fig, ax = plt.subplots(figsize=(15,10))
+    # ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
-    ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  # we already handled the x-label with ax1
-    ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
-    ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
-    ax2.tick_params(axis='y', labelcolor=color)
-    ax2.set_ylim((0, 1)) 
+    # ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+    # ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  # we already handled the x-label with ax1
+    # ax2.plot(times_word_epoch*1000, scores_by_time_mean, color=color, lw=3)    
+    # ax2.fill_between(times_word_epoch*1000, scores_by_time_mean+scores_by_time_std, scores_by_time_mean-scores_by_time_std, color=color, alpha=0.2)
+    # ax2.tick_params(axis='y', labelcolor=color)
+    # ax2.set_ylim((0, 1)) 
     
     feature_names = feature_info.keys()
     for i_feature, feature_name in enumerate(feature_names):
@@ -55,26 +57,60 @@ def plot_rf_coefs(results, i_channel, ch_name, feature_info, args, group=False):
         else:
             cmap = get_cmap(len(feature_info[feature_name]['names']))
             for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
-                coef_curr_feature = coefs_mean[st+i_value, :]
-                ax.plot(times_rf, coef_curr_feature, color=cmap(i_value), ls=ls, lw=lw, label=feature_value)
+                color, ls, lw, marker = get_curve_style(feature_value, feature_info)
+                coef_curr_feature = coefs[:, st+i_value, :]
+                # T_obs, clusters, cluster_p_values, H0 = \
+                # permutation_cluster_1samp_test(coef_curr_feature, n_permutations=10000,
+                #                                threshold=0, tail=0,
+                #                                adjacency=None,
+                #                                out_type='mask', verbose=True)
+                
+                
+                
+                
+                # for i_c, c in enumerate(clusters):
+                #     draw = False
+                #     c = c[0]
+                #     if cluster_p_values[i_c] <= 0.001:
+                #         print(cluster_p_values[i_c])
+                #         draw=True
+                    #     h = ax.axvspan(times_rf[c.start], times_rf[c.stop - 1],
+                    #                    ymin=0.2 + 1e-3*i_c, ymax=0.2 + 1e-3*(i_c+1), 
+                    #                    color=color, alpha=0.3)
+                    # else:
+                    #     ax.axvspan(times_rf[c.start], times_rf[c.stop - 1],
+                    #                color=(0.3, 0.3, 0.3),
+                    #                ymin=0.02 + 1e-3*i_c,
+                    #                ymax=0.02 + 1e-3*(i_c+2), 
+                    #                alpha=0.3)
+                    
+                    # if draw:
+                coef_curr_feature_mean = coefs_mean[st+i_value, :]
+                ax.plot(times_rf, coef_curr_feature_mean, color=cmap(i_value),
+                        marker=marker, markersize=30,
+                        ls=ls, lw=lw, label=feature_value)
     
     #ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/20)), fontsize=24)
-    ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=3, fontsize=24)
+    # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=3, fontsize=24)
     ax.set_xlabel('Time (msec)', fontsize=20)
     ax.set_ylabel(r'Beta', fontsize=20)
+    ax.set_xlim((None, 600)) 
     ax.set_ylim((None, None)) 
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=18)
-    ax2.tick_params(axis='both', labelsize=18)
-    plt.subplots_adjust(right=0.5)
+    # ax2.tick_params(axis='both', labelsize=18)
+    # plt.subplots_adjust(right=0.5)
     
     return fig
 
 
 def plot_rf_coefs_phone_by_position(results, i_channel, i_t, ch_name, feature_info, args, group=False):
+    
+    arpabet2ipa_convertor = ARPAbet2PhoneticAlphabetConvertor()
+    
     rfs = results['full']['rf_sentence_per_split'] # list of models with len=num_cv-splits
     times_rf = rfs[0].delays_*1000/rfs[0].sfreq
     # COEFs
@@ -99,60 +135,31 @@ def plot_rf_coefs_phone_by_position(results, i_channel, i_t, ch_name, feature_in
     feature_names = feature_info['phoneme_pos']['names']
     
         # PLOT
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, ax = plt.subplots(1, 1, figsize=(10,15))
     
-    ax.set_xlim((0, n_positions-0.5))
+    ax.set_xlim((0, 1.1))
     ax.set_ylim((0, n_phonemes))
-    # axs[0].set_xticks(range(len(positions)))
-    # axs[0].set_xticklabels(positions)
-    # axs[0].set_yticks(range(len(alphabet)))
-    # axs[0].set_yticklabels(alphabet)
     plt.axis('off')
+    fig.subplots_adjust(bottom=0.05, top=0.95)
+    
+    
     
     for i_pos, pos in enumerate(positions):
-        ax.text(i_pos, -1, pos.capitalize() + ' phone', fontsize=26)
+        # ax.text(i_pos, -1, pos.capitalize() + ' phone', fontsize=26)
         for i_phone, phone in enumerate(phones):
+            if phone == 'END_OF_WAV': continue
             IX_phone = feature_names.index(f'{phone}-{pos}')
             coef = coefs_mean[IX_phone, i_t]
             color = 'r' if coef>0 else 'b'
-            fontsize = np.abs(coef*1e3*2)
-            # print(i_pos, pos, i_phone, phone, color, fontsize)
-            ax.text(i_pos, i_phone, phone,
+            fontsize = np.abs(coef*1e3*4)
+            #print(i_pos, pos, i_letter, letter, color, fontsize)
+            ax.text(i_pos*0.5, i_phone,
+                    # phone,
+                    arpabet2ipa_convertor.convert_to_american_phonetic_alphabet(phone),
                         fontsize=fontsize,
-                        color=color)
-        # fname_fig = os.path.join(args.path2figures, 
-        #                       args.patient[0],
-        #                       args.data_type[0],
-        #                       'trf_coef_phone_by_position_' +
-        #                       fname + f'_{ch_name}_t_{t}.png')
-        
-    # feature_names = feature_info.keys()
-    # for i_feature, feature_name in enumerate(feature_names):
-    #     color, ls, lw, marker = get_curve_style(feature_name, feature_info)
-    #     st, ed = feature_info[feature_name]['IXs']
-    #     if group:
-    #         # IX_max_abs = np.argmax(np.abs(coefs_mean[st:ed, :]), axis=0)
-    #         coef_curr_feature = np.mean(coefs_mean[st:ed, :], axis=0)
-    #         ax.plot(times_rf, coef_curr_feature, color=color, ls=ls, lw=lw,
-    #                 marker=marker, markersize=15, label=feature_name)
-    #     else:
-    #         cmap = get_cmap(len(feature_info[feature_name]['names']))
-    #         for i_value, feature_value in enumerate(feature_info[feature_name]['names']):
-    #             coef_curr_feature = coefs_mean[st+i_value, :]
-    #             ax.plot(times_rf, coef_curr_feature, color=cmap(i_value), ls=ls, lw=lw, label=feature_value)
+                        color=color,
+                        ha='center', va='center')
     
-    # #ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/20)), fontsize=24)
-    # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=3, fontsize=24)
-    # ax.set_xlabel('Time (msec)', fontsize=20)
-    # ax.set_ylabel(r'Beta', fontsize=20)
-    # ax.set_ylim((None, None)) 
-    # if args.block_type == 'visual':
-    #     ax.axvline(x=0, ls='--', color='k')
-    #     ax.axvline(x=500, ls='--', color='k')
-    # ax.axhline(ls='--', color='k')    
-    # ax.tick_params(axis='both', labelsize=18)
-    # ax2.tick_params(axis='both', labelsize=18)
-    # plt.subplots_adjust(right=0.5)
     
     return fig
 
@@ -177,20 +184,7 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
             get_scores_by_time(results, i_channel, 'full')
     
     # Draw full-model results
-    #ax.set_title(f'{ch_name}, $r$ = {total_score.mean():1.2f} +- {total_score.std():1.2f}', fontsize=24)
     color = 'k'
-    #ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
-    #ax2.set_ylabel('Correlation coefficient ($r$)', color=color, fontsize=40)  
-    #ax2.plot(times_word_epoch*1000, scores_by_time_full_mean, color=color, lw=3)
-    #ax2.fill_between(times_word_epoch*1e3,
-    #                 scores_by_time_full_mean+scores_by_time_full_sem,
-    #                 scores_by_time_full_mean-scores_by_time_full_sem,
-    #                 color=color,
-    #                 alpha=0.2)
-    #ax2.tick_params(axis='y', labelcolor=color)
-    #ax2.set_ylim((0, 1)) 
-    #ax2.set_xlim((-100, 600)) 
-
     
     feature_names = []  # performance of the full model must be calculated
     if args.each_feature_value:
@@ -208,31 +202,15 @@ def plot_rf_r2(results, i_channel, ch_name, feature_info, args):
                 scores_by_time_full_mean - scores_by_time_feature_mean,
                 color=color, ls=ls, lw=lw,
                 marker=marker, markersize=30, label=feature_name)
-        #ax2.fill_between(times_word_epoch*1e3,
-        #                 scores_by_time_feature_mean+scores_by_time_feature_sem,
-        #                 scores_by_time_feature_mean-scores_by_time_feature_sem,
-        #                 color=color,
-        #                 alpha=0.2)
-        #print(feature_name, color)
-        
-        #diff = scores_by_time_full - scores_by_time_curr_feature 
-        #diff_mean = diff.mean(axis=0) 
-        #diff_std = diff.mean(axis=0)
-        #ax.plot(times_word_epoch*1000, diff_mean, color=color, ls=ls, lw=lw,
-        #        marker=marker, markersize=15, label=feature_name)
-        #ax.fill_between(times_word_epoch*1e3, diff_mean + diff_std, diff_mean - diff_std , color=color, alpha=0.2)
-    
-    # ax.legend(loc='center left', bbox_to_anchor=(1.12, 0, 0.3, 1), ncol=int(np.ceil(len(feature_names)/40)), fontsize=24)
+
     ax.set_xlabel('Time (msec)', fontsize=40)
     ax.set_ylabel(r'$\Delta r$', fontsize=40)
-    ax.set_ylim((0, 0.1))
+    ax.set_ylim((0, 0.05))
     if args.block_type == 'visual':
         ax.axvline(x=0, ls='--', color='k')
         ax.axvline(x=500, ls='--', color='k')
     ax.axhline(ls='--', color='k')    
     ax.tick_params(axis='both', labelsize=35)
-    #ax2.tick_params(axis='both', labelsize=35)
-    # plt.subplots_adjust(right=0.5)
     
     return fig
 
@@ -245,7 +223,8 @@ def plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args):
     # Scores by time (full model)
     rs_full_per_split = [rs[i_channel] for rs in results['full']['rs_sentence_per_split']]
 
-    feature_names = list(set(results) - set(['full', 'times_word_epoch']))
+    feature_names = sorted(list(set(results) - set(['full', 'times_word_epoch'])))
+    feature_names = [feature_names[i] for i in [0, 3, 2, 1, 4]]
     feature_importances_mean, feature_importances_sem, colors, ps = [], [], [], []
     for i_feature, feature in enumerate(feature_names):
         rs_feature_per_split = [rs[i_channel] for rs in results[feature]['rs_sentence_per_split']]
@@ -282,6 +261,7 @@ def plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args):
     ax.set_xlabel('Feature importance', fontsize=40)
     
     ax.xaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    ax.set_xlim((0, None))
     ax.tick_params(axis='both', labelsize=24)
     plt.subplots_adjust(left=0.4)
 
@@ -290,6 +270,7 @@ def plot_rf_bar_r2(results, i_channel, ch_name, feature_info, args):
 
 
 def get_curve_style(feature_name, feature_info):
+    arpabet2ipa_convertor = ARPAbet2PhoneticAlphabetConvertor()
     marker = None
     # CHECK IF IT'S A FEATURE NAME OR FEATURE-VALUE NAME
     if feature_name in feature_info.keys():  # is feature name
@@ -319,7 +300,9 @@ def get_curve_style(feature_name, feature_info):
             marker = f'${feature_name[-1]}$'
         if 'Phone-' in feature_name:
             m = feature_name.split('-')[-1]
+            m = arpabet2ipa_convertor.convert_to_american_phonetic_alphabet(m)
             marker = f'${m}$'
+            
     
     if ('ls' in feature_info[f_name].keys()) and feature_info[f_name]['ls']:
         ls = feature_info[f_name]['ls']

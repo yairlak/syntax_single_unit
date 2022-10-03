@@ -1,9 +1,11 @@
-import argparse, os, sys, pickle
+import argparse, os, pickle
 from utils.data_manip import DataHandler
 import mne
 from mne.decoding import (cross_val_multiscore, LinearModel, GeneralizingEstimator)
-from utils import classification, comparisons, load_settings_params, data_manip
-from utils.utils import dict2filename, update_queries, probename2picks, pick_responsive_channels
+from utils import classification, load_settings_params, data_manip
+from decoding.utils import get_comparisons, update_args
+from decoding.data_manip import get_data
+from utils.utils import dict2filename, update_queries, probename2picks
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -28,7 +30,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pprint import pprint
 import torch
-import models # custom module with neural-network models (LSTM/GRU/CNN)
+from decoding.data_manip import prepare_data_for_classification
+#import models # custom module with neural-network models (LSTM/GRU/CNN)
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -36,34 +39,52 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
-<<<<<<< HEAD
-parser.add_argument('--patient', action='append', default=['502'],
+# parser.add_argument('--patient', action='append', default=['502', '505', '515', '539', '540', '549'],
+#                     help='Patient string')
+parser.add_argument('--patient', action='append', default=['505'],
                     help='Patient string')
+
+# parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
+#                     action='append', default=['micro', 'micro', 'micro', 'micro', 'micro', 'micro'], help='electrode type')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
                     action='append', default=['micro'], help='electrode type')
+
 parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'],
                     default='word', help='')
-parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-10'], action='append', default=[], help='')
-parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-=======
-parser.add_argument('--patient', action='append', default=[], help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
-parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
-parser.add_argument('--filter', action='append', default=[], help='raw/gaussian-kernel/high-gamma/etc')
-parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
->>>>>>> 52582a65026db42387227d69f974895004273a8a
-parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
-parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
-parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
+# parser.add_argument('--filter', action='append', default=['raw', 'raw', 'raw', 'raw', 'raw', 'raw'], help='')
+parser.add_argument('--filter', action='append', default=['raw'], help='')
+parser.add_argument('--smooth', default=None, help='')
+parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
+# parser.add_argument('--probe-name', default=[['LFSG', 'RFSG'], ['LFGP'], ['LFSG'], ['LFSG'], ['RFSG'], ['LFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+parser.add_argument('--probe-name', default=None, nargs='*', action='append', type=str,
+                    help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
+parser.add_argument('--ROIs', default=None, nargs='*', type=str,
+                    help='e.g., Brodmann.22-lh, overrides probe_name')
+parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str,
+                    help='Pick specific channels names')
+parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int,
+                    help='channel number (if empty list [] then all channels of patient are analyzed)')
+parser.add_argument('--responsive-channels-only', action='store_true', default=False,
+                    help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')
 # QUERY
-parser.add_argument('--comparison-name', default='all_words', help='Comparison name from Code/Main/functions/comparisons.py')
-parser.add_argument('--comparison-name-test', default=[], help='Comparison name from Code/Main/functions/comparisons.py')
-parser.add_argument('--block-type', choices=['auditory', 'visual'], default='visual', help='Block type will be added to the query in the comparison')
-parser.add_argument('--block-type-test', choices=['auditory', 'visual', []], default=[], help='Block type will be added to the query in the comparison')
-parser.add_argument('--query-train', default='block in [1,3,5]', help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
-parser.add_argument('--fixed-constraint', default=[], help='For example, to limit to first phone in auditory blocks "and first_phone == 1"')
-parser.add_argument('--label-from-metadata', default=[], help='Field name in metadata that will be used to generate labels for the different classes. If empty, condition_names in comparison will be used')
-parser.add_argument('--pick-classes', default=[], type=str, nargs='*', help='Limit the classes to this list')
+# QUERY
+parser.add_argument('--comparison-name', default='word_string_all',
+                    help='See Utils/comparisons.py')
+parser.add_argument('--comparison-name-test', default=None,
+                    help='See Utils/comparisons.py')
+parser.add_argument('--block-train', choices=['auditory', 'visual'],
+                    default='auditory',
+                    help='Block type is added to the query in the comparison')
+parser.add_argument('--block-test', choices=['auditory', 'visual'],
+                    default=None,
+                    help='Block type is added to the query in the comparison')
+parser.add_argument('--fixed-constraint', default=None,
+                    help='e.g., "and first_phone == 1"')
+parser.add_argument('--fixed-constraint-test', default=None,
+                    help='e.g., "and first_phone == 1"')
+parser.add_argument('--min-trials', default=9, type=float,
+                    help='Minimum number of trials from each class.')
+
 # MODEL
 parser.add_argument('--model-type', default='logistic', choices=['euclidean', 'logistic', 'lstm', 'cnn']) # 'svc' and 'ridge' are omited since they don't implemnent predict_proba (although there's a work around, using their decision function and map is to probs with eg softmax)
 parser.add_argument('--cuda', default=False, action='store_true', help="If True then file will be overwritten")
@@ -71,17 +92,17 @@ parser.add_argument('--cuda', default=False, action='store_true', help="If True 
 parser.add_argument('--vmin', default=None, type=float, help='')
 parser.add_argument('--vmax', default=None, type=float, help='')
 parser.add_argument('--times', nargs='*', default=[0.1], type=float, help='')
-parser.add_argument('--time-window', default=0.5, type=float, help='')
-parser.add_argument('--num-bins', default=[], type=int, help='')
-parser.add_argument('--min-trials', default=6, type=float, help='Minimum number of trials from each class.')
+parser.add_argument('--time-window', default=0.6, type=float, help='')
+parser.add_argument('--num-bins', default=5, type=int, help='')
 parser.add_argument('--decimate', default=[], type=float, help='If not empty, (for speed) decimate data by the provided factor.')
 parser.add_argument('--path2figures', default=[], help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 parser.add_argument('--dont-overwrite', default=False, action='store_true', help="If True then file will be overwritten")
 parser.add_argument('--path2output', default=[], help="Channels to analyze and merge into a single epochs object (e.g. -c 1 -c 2). If empty then all channels found in the ChannelsCSC folder")
 # PARSE
 args = parser.parse_args()
-args.patient = ['patient_' + p for p in  args.patient]
-print(mne.__version__)
+args = update_args(args)
+# args.patient = ['patient_' + p for p in  args.patient]
+# print(mne.__version__)
 
 ########
 # INIT #
@@ -94,8 +115,9 @@ torch.cuda.manual_seed(0)
 np.random.seed(0)
 
 # Which args to have in fig filename
-list_args2fname = ['patient', 'data_type', 'filter', 'level', 'comparison_name', 'block_type', 'time_window', 'num_bins', 'min_trials', 'query']
-if args.block_type_test: list_args2fname += ['comparison_name_test', 'block_type_test']
+list_args2fname = ['patient', 'data_type', 'filter', 'level', 'comparison_name',
+                   'block_train', 'time_window', 'num_bins', 'min_trials', 'query']
+if args.block_test: list_args2fname += ['comparison_name_test', 'block_test']
 if args.probe_name:
     list_args2fname.append('probe_name')
 elif args.channel_name:
@@ -104,109 +126,78 @@ if args.responsive_channels_only: list_args2fname += ['responsive_channels_only'
 print('args2fname', list_args2fname)
 
 if not args.path2figures:
-    args.path2figures = os.path.join('..', '..', '..', 'Figures', 'RSA')
+    args.path2figures = os.path.join('..', '..', 'Figures', 'RSA')
 if not args.path2output:
-    args.path2output = os.path.join('..', '..', '..', 'Output', 'RSA')
+    args.path2output = os.path.join('..', '..', 'Output', 'RSA')
 print('args\n', args)
 
 
-#############
-# LOAD DATA #
-#############
-data = DataHandler(args.patient, args.data_type, args.filter,
-                   args.probe_name, args.channel_name, args.channel_num)
-# Both neural and feature data into a single raw object
-data.load_raw_data()
-# GET SENTENCE-LEVEL DATA BEFORE SPLIT
-data.epoch_data(level=args.level,
-                query=args.query_train,
-                scale_epochs=False,
-                verbose=True)
+# GET COMPARISONS (CONTRASTS)
+comparisons = get_comparisons(args.comparison_name, # List with two dicts for
+                              args.comparison_name_test) # comparison train and test
 
-print('Channel names:')
-[print(e.ch_names) for e in data.epochs]
+print('\nARGUMENTS:')
+pprint(args.__dict__, width=1)
+if 'level' in comparisons[0].keys():
+    args.level = comparisons[0]['level']
+if len(comparisons[0]['queries'])>2:
+    args.multi_class = True
+else:
+    args.multi_class = False
 
-######################
-# Queries TRAIN/TEST #
-######################
+# LOAD DATA
+print('\nLOADING DATA:')
+args.tmin=None
+args.tmax=None
+data = get_data(args)
 
-# COMPARISON
-comparisons = comparisons.comparison_list()
-comparison = comparisons[args.comparison_name].copy()
-comparison = update_queries(comparison, args.block_type,
-                            args.fixed_constraint, data.epochs[0].metadata)
-print('Comparison:')
-print(comparison)
+print('\nCONTRASTS:')
+metadata = data.epochs[0].metadata
+comparisons[0] = update_queries(comparisons[0], args.block_train, # TRAIN
+                                args.fixed_constraint, metadata)
+comparisons[1] = update_queries(comparisons[1], args.block_test, # TEST
+                                args.fixed_constraint_test, metadata)
+[pprint(comparison) for comparison in comparisons] 
 
-# Generalization to TEST SET
-if args.comparison_name_test:
-    comparison_test = comparisons[args.comparison_name_test].copy()
-    if not args.block_type_test:
-        raise('block-type-test is missing. Comparison-name-test was provided')
-    comparison_test = update_queries(comparison_test, args.block_type_test,
-                                     args.fixed_constraint_test)
-
-
-def prepare_data_for_classifier(epochs, comparison, pick_classes,
-                                field_for_labels=[]):
-    '''
-    '''
-    X = []; y = []; labels = []; cnt = 0
-    for q, query in enumerate(comparison['queries']):
-        if 'heard' in query: # HACK! for word_string
-            continue
-        if 'END_OF_WAV' in query: # HACK! for phone_string
-            continue
-        if epochs[query].get_data().shape[0] < args.min_trials:
-            #print(f'Less than {args.min_trials} trials matched query: {query}')
-            continue
-        if field_for_labels: # add each value of a feature as a label (e.g., for word_length - 2, 3, 4..)
-            label = list(set(epochs[query].metadata[field_for_labels]))
-            assert len(label) == 1
-            label = label[0]
-        else:
-            label = comparison['condition_names'][q]
-        if pick_classes and (label not in pick_classes):
-            continue
-        labels.append(label)
-        curr_data = epochs[query].get_data()
-        X.append(curr_data)
-        num_trials = curr_data.shape[0]
-        y.append(np.full(num_trials, cnt))
-        cnt += 1
-
-    X = np.concatenate(X, axis=0) # cat along the trial dimension
-    y = np.concatenate(y, axis=0)
-
-    return X, y, labels
 
 if args.num_bins:
     bin_size = args.time_window / args.num_bins
 for t in args.times:
     # PREPARE DATA
-    X_list = []
-    for epochs in data.epochs: # loop over epochs from different patients or probes
-        ###############
-        # BINNIZATION #
-        ###############
-        if args.num_bins:
-            X = []
-            for i_bin in range(args.num_bins):
-                print('bin', i_bin)
-                curr_epochs = epochs.copy().crop(t+i_bin*bin_size, t+(i_bin+1)*bin_size)
-                curr_X, y, labels = prepare_data_for_classifier(curr_epochs, comparison, args.pick_classes, args.label_from_metadata)
-                curr_X = np.mean(curr_X, axis=2, keepdims=True) # curr_X: (num_trials X num_channels X 1)
-                X.append(curr_X)
-            X = np.concatenate(X, axis=2) # X: num_trials x num_channels, num_bins
-        else:
-            X, y, labels = prepare_data_for_classifier(epochs.copy().crop(t, t+args.time_window), comparison, args.pick_classes, args.label_from_metadata)
-
-        if not labels:
-            labels = comparison['condition_names']
-        X_list.append(X)
-        #print('Shapes (X, y): ', X.shape, y.shape)
-        [print(X.shape) for X in X_list]
-    X = np.concatenate(X_list, axis=1) # cat different patients/probes as new channel features (num_trials x num_channels, num_bins)
+    # X_list = []
+    ###############
+    # BINNIZATION #
+    ###############
+    if args.num_bins:
+        X = []
+        for i_bin in range(args.num_bins):
+            print('bin', i_bin)
+            epochs_list = [epochs.copy().crop(t+i_bin*bin_size, t+(i_bin+1)*bin_size) for epochs in data.epochs]
+            curr_X, y, labels = prepare_data_for_classification(epochs_list,
+                                                                comparisons[0]['queries'],
+                                                                args.model_type,
+                                                                args.min_trials,
+                                                                equalize_classes=False,
+                                                                verbose=False)
+            curr_X = np.mean(curr_X, axis=2, keepdims=True) # curr_X: (num_trials X num_channels X 1)
+            X.append(curr_X)
+        X = np.concatenate(X, axis=2) # X: num_trials x num_channels, num_bins
+    else:
+        epochs_list = [epochs.copy().crop(t, t+args.time_window) for epochs in data.epochs]
+        X, y, labels = prepare_data_for_classification(epochs_list,
+                                                       comparisons[0]['queries'],
+                                                       args.model_type,
+                                                       args.min_trials,
+                                                       equalize_classes=False,
+                                                       verbose=False)
+        X = np.mean(X, axis=2, keepdims=True)
+    labels = [label[0,1] for label in labels] # take only word string from tuples
+    #     if not labels:
+    #         labels = comparison['condition_names']
+    #     X_list.append(X)
+    #     #print('Shapes (X, y): ', X.shape, y.shape)
+    #     [print(X.shape) for X in X_list]
+    # X = np.concatenate(X_list, axis=1) # cat different patients/probes as new channel features (num_trials x num_channels, num_bins)
   
     ##################################
     # standardize and re-arange dims #
@@ -408,14 +399,16 @@ for t in args.times:
     args2fname = args.__dict__.copy()
     if len(list(set(args2fname['data_type']))) == 1: args2fname['data_type'] = list(set(args2fname['data_type']))
     if len(list(set(args2fname['filter']))) == 1: args2fname['filter'] = list(set(args2fname['filter']))
-    args2fname['probe_name'] = sorted(list(set([item for sublist in args2fname['probe_name'] for item in sublist]))) # !! lump together all probe names !! to reduce filename length
+    if args2fname['probe_name'] is not None:
+        args2fname['probe_name'] = sorted(list(set([item for sublist in args2fname['probe_name'] for item in sublist]))) # !! lump together all probe names !! to reduce filename length
     if 'time' not in list_args2fname: list_args2fname.append('time')
     args2fname['time'] = t
 
     fname_conf = dict2filename(args2fname, '_', list_args2fname, 'pkl', True)
+    os.makedirs(args.path2output, exist_ok=True)
     fname_conf = os.path.join(args.path2output, 'DSM_' + args.model_type + '_' + fname_conf)
     with open(fname_conf, 'wb') as f:
-        pickle.dump([DSM, comparison, args, classes, labels], f)
+        pickle.dump([DSM, comparisons, args, classes, labels], f)
 
     ############################
     # CLUSTER CONFUSION MATRIX #
@@ -486,7 +479,8 @@ for t in args.times:
     args2fname = args.__dict__.copy() 
     if len(list(set(args2fname['data_type']))) == 1: args2fname['data_type'] = list(set(args2fname['data_type']))
     if len(list(set(args2fname['filter']))) == 1: args2fname['filter'] = list(set(args2fname['filter']))
-    args2fname['probe_name'] = sorted(list(set([item for sublist in args2fname['probe_name'] for item in sublist]))) # !! lump together all probe names !! to reduce filename length
+    if args2fname['probe_name'] is not None:
+        args2fname['probe_name'] = sorted(list(set([item for sublist in args2fname['probe_name'] for item in sublist]))) # !! lump together all probe names !! to reduce filename length
     if 'time' not in list_args2fname: list_args2fname.append('time')
     args2fname['time'] = t
     fname_fig = dict2filename(args2fname, '_', list_args2fname, 'png', True)

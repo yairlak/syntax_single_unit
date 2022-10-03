@@ -1,4 +1,6 @@
-import argparse, os
+import argparse
+import os
+import pickle
 import mne
 from decoding.utils import update_args
 from decoding.data_manip import get_data
@@ -113,6 +115,7 @@ data.epoch_data(level=args.level,
 print(data.epochs[0])
 print('Channel names:')
 [print(e.ch_names) for e in data.epochs]
+print(data.epochs[0].times)
 
 ###########
 # STIMULI #
@@ -202,6 +205,8 @@ for classify_dim in ['manner', 'place']:
 ############
 #for classify_dim in ['manner', 'place']: # 3-by-3 matrix of generalization GATs for each classify_dimension
     fig, axs = plt.subplots(3, 3, figsize=(15,15))
+    results = np.empty((3,3), dtype=np.ndarray)
+    results_mean = np.empty((3,3), dtype=np.ndarray)
     for i_train_at_feature, train_at_feature in enumerate(feature_names):
         for i_test_at_feature, test_at_feature in enumerate(feature_names):
             GAT_scores = []
@@ -209,6 +214,8 @@ for classify_dim in ['manner', 'place']:
                 for i_split in range(args.n_splits):
                     GAT_scores.append(scores[classify_dim][i_split][train_at_feature][i_ph][test_at_feature])
             mean_GAT_scores = np.mean(np.dstack(GAT_scores), axis = -1)
+            results[i_train_at_feature, i_test_at_feature] = GAT_scores
+            results_mean[i_train_at_feature, i_test_at_feature] = mean_GAT_scores
             # PLOT
             vmax = np.max(mean_GAT_scores)
             im = axs[2-i_train_at_feature, i_test_at_feature].matshow(mean_GAT_scores,
@@ -241,7 +248,12 @@ for classify_dim in ['manner', 'place']:
     if len(list(set(args.filter))) == 1: args.filter = list(set(args.filter))
     args.probe_name_lumpped = sorted(list(set([item for sublist in args.probe_name for item in sublist]))) # !! lump together all probe names !! to reduce filename length
     print(args.__dict__, list_args2fname)
-    fname_fig = dict2filename(args.__dict__, '_', list_args2fname, 'png', True)
-    fname_fig = os.path.join(args.path2figures, classify_dim + '_' + fname_fig)
+    fname = dict2filename(args.__dict__, '_', list_args2fname, '', True)
+    fname_fig = os.path.join(args.path2figures, classify_dim + '_' + fname + '.png')
     fig.savefig(fname_fig)
     print('Figures saved to: ' + fname_fig)
+
+    fname_pkl = os.path.join(args.path2figures, '..', '..', 'Output', 'decoding', classify_dim + '_' + fname + '.pkl')
+    with open(fname_pkl, 'wb') as f:
+        pickle.dump([results, results_mean, data.epochs[0].times], f)
+

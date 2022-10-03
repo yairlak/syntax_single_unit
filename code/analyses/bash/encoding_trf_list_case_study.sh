@@ -1,7 +1,8 @@
 # Local(0) or Alambic (1)?
-CLUSTER=1
+CLUSTER=0
 
 #
+EACH_FEATURE_VALUE="" # Either "" or " --each-feature-value
 CV_FOLDS_IN=5
 CV_FOLDS_OUT=20
 METHODS='remove'
@@ -10,9 +11,11 @@ DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
 PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-DTYPES_FILTERS="spike_raw" #micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
+PATIENTS="545 552 553 554_4 554_13"
+PATIENTS="505"
+DTYPES_FILTERS="spike_raw micro_raw micro_high-gamma macro_raw macro_high-gamma"
 
-queue="Nspin_bigM"
+queue="Nspin_long"
 walltime="72:00:00"
 
 
@@ -20,18 +23,19 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FEATURES="phonology lexicon semantics syntax"
+    FEATURES="phonemes lexicon glove syntax"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FEATURES="orthography lexicon semantics syntax"
+    FEATURES="orthography lexicon glove syntax"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi
 
-    FEATURES="phonemes words"
+    FEATURES="phoneme_pos"
     for FEATURE in $FEATURES; do
-        FLIST="position "$FEATURE
+        #FLIST="position "$FEATURE
+        FLIST=$FEATURE
         for METHOD in $METHODS; do
             for PATIENT in $PATIENTS; do
                 for DTYPE_FILTER in $DTYPES_FILTERS; do
@@ -41,7 +45,7 @@ for BLOCK in $BLOCKS; do
                         #echo $PATIENT $DTYPE $FILTER
                         path2script="/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/"
 
-                        filename_py="encoding_trf.py --patient "$PATIENT" --data-type "$DTYPE" --filter "$FILTER" --query-train "$QTRAIN" --query-test "$QTEST" --feature-list "$FLIST" --n-folds-inner "$CV_FOLDS_IN" --n-folds-outer "$CV_FOLDS_OUT" --ablation-method "$METHOD" --smooth "$SMOOTH" --decimate "$DECIMATE" --each-feature-value"
+                        filename_py="encoding_trf.py --patient "$PATIENT" --data-type "$DTYPE" --filter "$FILTER" --query-train "$QTRAIN" --query-test "$QTEST" --feature-list "$FLIST" --n-folds-inner "$CV_FOLDS_IN" --n-folds-outer "$CV_FOLDS_OUT" --ablation-method "$METHOD" --smooth "$SMOOTH" --decimate "$DECIMATE$EACH_FEATURE_VALUE
 
                         output_log='logs/out_trf_'$PATIENT'_'$DTYPE'_'$FILTER
                         error_log='logs/err_trf_'$PATIENT'_'$DTYPE'_'$FILTER

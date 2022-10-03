@@ -149,8 +149,11 @@ if args.each_feature_value:
     for f in data.feature_info.keys():
         for f_name in data.feature_info[f]['names']:
             feature_names.append(f_name)
-else:
+elif len(args.feature_list)>1:
     feature_names.extend(args.feature_list)
+else:
+    pass # If args.feature_list has only a single group then feature_names remains ['full']
+
 # INIT RESULTS DICT
 results = {}
 for feature_name in feature_names:

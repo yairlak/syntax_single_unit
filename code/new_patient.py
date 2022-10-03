@@ -5,12 +5,13 @@ parser.add_argument('--patient')
 parser.add_argument('--session')
 parser.add_argument('--copy', action='store_true', default=False)
 args = parser.parse_args()
+print(args)
 
-os.makedirs(f'patient_{args.patient}', exist_ok = True)
-os.makedirs(f'patient_{args.patient}/Raw/micro/ncs', exist_ok = True)
-os.makedirs(f'patient_{args.patient}/Raw/macro/ncs', exist_ok = True)
-os.makedirs(f'patient_{args.patient}/Raw/nev_files', exist_ok = True)
-os.makedirs(f'patient_{args.patient}/Logs', exist_ok = True)
+os.makedirs(os.path.join('..', 'Data', 'UCLA', f'patient_{args.patient}'), exist_ok = True)
+os.makedirs(os.path.join('..', 'Data', 'UCLA', f'patient_{args.patient}/Raw/micro/ncs'), exist_ok = True)
+os.makedirs(os.path.join('..', 'Data', 'UCLA', f'patient_{args.patient}/Raw/macro/ncs'), exist_ok = True)
+os.makedirs(os.path.join('..', 'Data', 'UCLA', f'patient_{args.patient}/Raw/nev_files'), exist_ok = True)
+os.makedirs(os.path.join('..', 'Data', 'UCLA', f'patient_{args.patient}/Logs'), exist_ok = True)
 
 
 def find_raw_files(directory, data_type):

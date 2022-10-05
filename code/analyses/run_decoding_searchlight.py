@@ -11,12 +11,17 @@ import os
 import pandas as pd
 import numpy as np
 
+cluster = True
 side = 5
 smooth = 50
 decimate = 50
 comparison_name = 'dec_quest_len2'
 
 stride = side/2
+
+
+queue = 'Nspin_long'
+walltime = '2:00:00'
 
 # LOAD COORDINATES
 path2coords = '../../Data/UCLA/MNI_coords/'
@@ -38,7 +43,15 @@ for x in np.arange(x_min, x_max+side, stride):
             cnt += 1
             #if cnt % 1000 == 1: print(f'{cnt}/{n_x * n_y * n_z}')
             print(cnt)
+            job_name = f'slight_{cnt}'
+            output_log = f'slight_{cnt}.out'
+            error_log = f'slight_{cnt}.err'
+            
             # LAUNCH
             cmd = f'python decoding_searchlight.py --smooth {smooth} --decimate {decimate} --x {x} --y {y} --z {z} --side {side} --comparison-name {comparison_name}'
+            if cluster:
+                cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {output_log} -e {error_log}"
+            
+                
             os.system(cmd)
             

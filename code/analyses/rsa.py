@@ -36,7 +36,6 @@ os.chdir(dname)
 
 parser = argparse.ArgumentParser(description='Generate plots for TIMIT experiment')
 # DATA
-<<<<<<< HEAD
 parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
@@ -45,13 +44,6 @@ parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'wor
                     default='word', help='')
 parser.add_argument('--filter', choices=['raw','gaussian-kernel', 'gaussian-kernel-10'], action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[['RFSG']], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
-=======
-parser.add_argument('--patient', action='append', default=[], help='Patient string')
-parser.add_argument('--data-type', choices=['micro','macro', 'spike'], action='append', default=[], help='electrode type')
-parser.add_argument('--level', choices=['sentence_onset','sentence_offset', 'word', 'phone'], default='word', help='')
-parser.add_argument('--filter', action='append', default=[], help='raw/gaussian-kernel/high-gamma/etc')
-parser.add_argument('--probe-name', default=[], nargs='*', action='append', type=str, help='Probe name to plot (will ignore args.channel-name/num), e.g., LSTG')
->>>>>>> 52582a65026db42387227d69f974895004273a8a
 parser.add_argument('--channel-name', default=[], nargs='*', action='append', type=str, help='Pick specific channels names')
 parser.add_argument('--channel-num', default=[], nargs='*', action='append', type=int, help='channel number (if empty list [] then all channels of patient are analyzed)')
 parser.add_argument('--responsive-channels-only', action='store_true', default=False, help='Include only responsive channels in the decoding model. See aud and vis files in Epochs folder of each patient')

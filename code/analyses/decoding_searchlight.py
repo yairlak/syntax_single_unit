@@ -10,7 +10,7 @@ import argparse
 import os
 import pickle
 import pandas as pd
-
+from MNI_coords import UtilsCoords
 from utils.data_manip import DataHandler
 from decoding.utils import update_args, get_comparisons, get_args2fname
 from utils.utils import update_queries, dict2filename
@@ -48,6 +48,7 @@ parser.add_argument('--data-type_filters',
                              default=[], help='Only if args.ROIs is used')
 parser.add_argument('--smooth', default=None, type=int,
                     help='gaussian width in [msec]')
+
 parser.add_argument('--decimate', default=50, type=int)
 parser.add_argument('--sfreq', default=1000,
                     help='Sampling frequency for both neural and feature data \

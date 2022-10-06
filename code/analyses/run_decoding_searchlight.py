@@ -21,17 +21,19 @@ comparison_name = 'dec_quest_len2'
 stride = side/2
 
 
-queue = 'Nspin_long'
+queue = 'Nspin_short'
 walltime = '2:00:00'
 
 # LOAD COORDINATES
 path2code =  '/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/'
 path2code = '/home/yair/projects/syntax_single_unit/code/analyses'
-script_name = 'decoding_searchlight.py'
+logdir = 'logs'
+script_name = 'decoding.py'
+
+# LOAD COORDINATES
 path2coords = '../../Data/UCLA/MNI_coords/'
 fn_coords = 'electrode_locations.csv'
 df = pd.read_csv(os.path.join(path2coords, fn_coords))
-
 
 x_min, x_max = df['MNI_x'].min(), df['MNI_x'].max()
 y_min, y_max = df['MNI_z'].min(), df['MNI_y'].max()
@@ -44,8 +46,7 @@ n_channels = []
 for x in np.arange(x_min, x_max+side, stride):
     for y in np.arange(y_min, y_max+side, stride):
         for z in np.arange(z_min, z_max+side, stride):
-            
-                       # PICK CHANNELS IN CUBE
+            # PICK CHANNELS IN CUBE
             df_cube = UtilsCoords.pick_channels_by_cube(df,
                                                         (x, y, z),
                                                         side=side,
@@ -55,6 +56,7 @@ for x in np.arange(x_min, x_max+side, stride):
             # GET DATA AND DECODE
             if not df_cube.empty:
                 cnt += 1
+                #print(df_cube)
                 
                 patients = df_cube['patient'].astype('str').to_list()
                 data_types = df_cube['ch_type'].to_list()
@@ -71,11 +73,10 @@ for x in np.arange(x_min, x_max+side, stride):
                     cmd += f' --patient {patient} --data-type {data_type} --filter {filt} --channel-name {" ".join(channel_name)}'
                 cmd += f' --level sentence_onset'
                 cmd += f' --smooth {smooth} --decimate {decimate}'
-                cmd += f' --x {x} --y {y} --z {z} --side {side}'
+                cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side {side}'
                 cmd += f' --comparison-name {comparison_name}'
                 if cluster:
-                    cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {output_log} -e {error_log}"
+                    cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
                 
-                print(cmd)  
-                #os.system(cmd)
-            
+                # print(cmd)  
+                os.system(cmd)

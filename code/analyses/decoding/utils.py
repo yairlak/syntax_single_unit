@@ -85,6 +85,11 @@ def get_args2fname(args):
     elif args.probe_name:
         list_args2fname.append('probe_name')
     list_args2fname += ['smooth', 'decimate']
+    
+    if args.side:
+        list_args2fname += ['side']
+    if args.coords:
+        list_args2fname += ['coords']
     #if args.responsive_channels_only:
     #    list_args2fname += ['responsive_channels_only']
 

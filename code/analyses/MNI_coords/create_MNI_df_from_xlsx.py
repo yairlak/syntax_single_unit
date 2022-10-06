@@ -40,9 +40,9 @@ def create_bipoloar_coords_macro(df):
             d['probe_name'] = probe_name
             d['ch_num'] = f"{df_bipolar['ch_num'].values[0]}-{df_bipolar['ch_num'].values[1]}"
             d['ch_type'] = 'macro'
-            d['MNI_x'] = df_bipolar['MNI_x'].mean()
-            d['MNI_y'] = df_bipolar['MNI_y'].mean()
-            d['MNI_z'] = df_bipolar['MNI_z'].mean()
+            d['MNI_x'] = df_bipolar['MNI_x'].mean().round(2)
+            d['MNI_y'] = df_bipolar['MNI_y'].mean().round(2)
+            d['MNI_z'] = df_bipolar['MNI_z'].mean().round(2)
             list_dicts.append(d)
     
     df_macro_new = pd.DataFrame(list_dicts)

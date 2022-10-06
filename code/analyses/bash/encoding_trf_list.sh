@@ -9,12 +9,11 @@ SMOOTH=50
 DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-PATIENTS="545 552 553 554_4 554_13"
+PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554_4 554_13"
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
+DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma"
 
-
-queue="Nspin_bigM"
+queue="Unicog_long"
 walltime="72:00:00"
 
 BLOCKS='visual auditory'

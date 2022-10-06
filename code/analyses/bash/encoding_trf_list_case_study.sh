@@ -2,7 +2,7 @@
 CLUSTER=0
 
 #
-EACH_FEATURE_VALUE="" # Either "" or " --each-feature-value
+EACH_FEATURE_VALUE=" --each-feature-value" # Either "" or " --each-feature-value
 CV_FOLDS_IN=5
 CV_FOLDS_OUT=20
 METHODS='remove'
@@ -10,9 +10,7 @@ SMOOTH=50
 DECIMATE=50
 
 # Which patients to run (e.g., 479_11 479_25 482 487 493 502 504 505 510 513 515)?
-PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 549 551"
-PATIENTS="545 552 553 554_4 554_13"
-PATIENTS="505"
+PATIENTS="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554_4 554_13"
 DTYPES_FILTERS="spike_raw micro_raw micro_high-gamma macro_raw macro_high-gamma"
 
 queue="Nspin_long"
@@ -23,18 +21,16 @@ BLOCKS='visual auditory'
 for BLOCK in $BLOCKS; do
     if [ $BLOCK == "auditory" ]
     then
-    FEATURES="phonemes lexicon glove syntax"
+    FEATURES="phonemes lexicon glove syntax phoneme_pos"
     QTRAIN="'block in [2,4,6] and word_length>1'"
     QTEST="'block in [2,4,6] and word_length>1'"
     else
-    FEATURES="orthography lexicon glove syntax"
+    FEATURES="orthography lexicon glove syntax orthography_pos"
     QTRAIN="'block in [1,3,5] and word_length>1'"
     QTEST="'block in [1,3,5] and word_length>1'"
     fi
 
-    FEATURES="phoneme_pos"
     for FEATURE in $FEATURES; do
-        #FLIST="position "$FEATURE
         FLIST=$FEATURE
         for METHOD in $METHODS; do
             for PATIENT in $PATIENTS; do

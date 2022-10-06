@@ -402,7 +402,10 @@ def get_data_from_mat(data_type, path2data, ch_names_from_file):
     channel_data, ch_names = [], []
     for i_ch, CSC_file in enumerate(CSC_files):
         curr_channel_data = io.loadmat(CSC_file)    
-        sfreq = int(1/curr_channel_data['samplingInterval'])
+        if 'sr' in curr_channel_data.keys():
+            sfreq = curr_channel_data['sr']
+        else:
+            sfreq = int(1/curr_channel_data['samplingInterval'])
         channel_data.append(curr_channel_data['data'])
         
         if ch_names_from_file:
@@ -504,6 +507,25 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         raws = mne.io.RawArray(cont_data['data'], info, verbose=False)
 
     return raws
+
+
+
+def ns2mat(data_type, path2data):
+    if data_type == 'macro':
+        ext = 'ns3'
+    elif data_type == 'micro':
+        ext = 'ns5'
+    fn_br = glob.glob(os.path.join(path2data, '*.' + ext))
+    assert len(fn_br) == 1
+    
+    # EXTRACT NEURAL DATA
+    nsx_file = NsxFile(fn_br[0])
+    print(dir(nsx_file))
+    print(nsx_file.basic_header)
+    cont_data = nsx_file.getdata()
+    nsx_file.close()
+    print(cont_data.keys()) 
+    return cont_data['data'], cont_data['elec_ids'], cont_data['ExtendedHeaderIndices'], cont_data['samp_per_s']
 
 
 def identify_recording_system(path2data):
@@ -1369,5 +1391,6 @@ def get_phone_by_position(df_metadata):
             phone_by_position.append(encoding_vec)
 
     return phone_by_position
+
 
 

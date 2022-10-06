@@ -21,12 +21,12 @@ from mne.stats import fdr_correction
 
 parser = argparse.ArgumentParser(description='Plot TRF results')
 # DATA
-parser.add_argument('--patient', action='append', default=['505'],
+parser.add_argument('--patient', action='append', default=['502'],
                     help='Patient string')
 parser.add_argument('--data-type', choices=['micro', 'macro', 'spike'],
-                    action='append', default=['spike'], help='electrode type')
+                    action='append', default=['macro'], help='electrode type')
 parser.add_argument('--filter', action='append',
-                    default=['raw'],
+                    default=['high-gamma'],
                     help='raw/high-gamma')
 parser.add_argument('--smooth', default=50, type=int,
                     help='Gaussian smoothing in msec')

@@ -48,6 +48,8 @@ def comparison_list():
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
     comparisons['embedding_vs_long']['tmin_tmax'] = [-1, 1]
     
+    
+    # REMOVE SMALL CLAUSE FROM EMBEDDING=FALSE
     comparisons['embedding_vs_long_'] = {}
     comparisons['embedding_vs_long_']['queries'] = ["embedding==True and block_type=='visual'",
                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='visual'",
@@ -353,7 +355,7 @@ def comparison_list():
                                                      'phone_string == "S"',
                                                      'phone_string == "Z"',
                                                      'phone_string == "DH"',
-                                                     'phone_string == "D"']
+                                                     'phone_string == "JH"']
     n_queries = len(comparisons['505_LHSG_17p1_phone']['queries'])
     #comparisons['505_LHSG_17p1_phone']['condition_names'] = ['Initial /S/ (she)', 'Initial /S/ (showered|shaved|chef)', 'Non-initial /S/', 'Other stridents']
     comparisons['505_LHSG_17p1_phone']['condition_names'] = ['HH', 'N', 'D',
@@ -499,6 +501,18 @@ def comparison_list():
     comparisons['word_position_reversed']['level'] = 'word'
 
     # ORTHOGRAPHY
+    
+    # ORTHOGRAPHY
+    comparisons['word_string_all'] = {}
+    comparisons['word_string_all']['queries'] = "word_string"
+    comparisons['word_string_all']['condition_names'] = []
+    comparisons['word_string_all']['colors'] = []
+    comparisons['word_string_all']['level'] = 'word'
+    comparisons['word_string_all']['y-tick-step'] = 20
+    comparisons['word_string_all']['tmin_tmax'] = [-0.5, 1.2]
+    comparisons['word_string_all']['sort'] = ['block_type', 'chronological_order']
+    
+    
     comparisons['word_string_first'] = {}
     comparisons['word_string_first']['queries'] = "word_string"
     comparisons['word_string_first']['fixed_constraint'] = "word_position==1"
@@ -512,7 +526,7 @@ def comparison_list():
     comparisons['word_length'] = {}
     #comparisons['word_length']['queries'] = ["word_length>1 and word_length<4", "word_length>5"]
     comparisons['word_length']['queries'] = 'word_length'
-    comparisons['word_string_first']['fixed_constraint'] = "block in [1,3,5]"
+    comparisons['word_length']['fixed_constraint'] = "block in [1,3,5]"
     comparisons['word_length']['condition_names'] = []
     comparisons['word_length']['cmaps'] = ['Reds'] * 10
     comparisons['word_length']['level'] = 'word'
@@ -523,7 +537,7 @@ def comparison_list():
     
     comparisons['word_string_visual'] = {}
     comparisons['word_string_visual']['queries'] = "word_string"
-    comparisons['word_string_visual']['fixed_constraint'] = "block_type=='visual'"
+    # comparisons['word_string_visual']['fixed_constraint'] = "block_type=='visual'"
     comparisons['word_string_visual']['condition_names'] = []
     comparisons['word_string_visual']['colors'] = []
     comparisons['word_string_visual']['level'] = 'word'
@@ -584,7 +598,12 @@ def comparison_list():
     comparisons['all_end_trials']['level'] = 'sentence_end'
     comparisons['all_end_trials']['ylim'] = 40
     comparisons['all_end_trials']['figsize'] = (10, 10)
-
+    
+    comparisons['sentence_string_end_trial'] = {}
+    comparisons['sentence_string_end_trial']['queries'] = "sentence_length"
+    comparisons['sentence_string_end_trial']['level'] = 'sentence_end'
+    # comparisons['sentence_string_end_trial']['fixed_constraint'] = "sentence_length==2"
+    
 # ALL TRIALS
     comparisons['all_trials'] = {}
     comparisons['all_trials']['queries'] = ["word_position==1 and (block in [1, 3, 5])", "word_position==1 and (block in [2, 4, 6])"]

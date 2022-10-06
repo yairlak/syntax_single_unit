@@ -18,8 +18,17 @@ from pprint import pprint
 from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
+<<<<<<< HEAD
 parser.add_argument('--patient', default = '556')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='BlackRock')
+=======
+<<<<<<< HEAD
+parser.add_argument('--patient', default = '553')
+=======
+parser.add_argument('--patient', default = '545')
+>>>>>>> d6d2a703505d03bd6159975eb2f4db1b9c6fef66
+parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='Neuralynx')
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 parser.add_argument('--IXs-block-logs', default=[0,1,2,3,4,5], help='Since there could be more cheetah logs than block, these indexes define the log indexes of interest')
 parser.add_argument('--dt', default = 5, help='size of half window for cross-correlation in seconds')
 parser.add_argument('--refine-with-mic', action='store_true', default=False)
@@ -66,7 +75,11 @@ plt.close(fig)
 # READ LOGS AND KEEP ONLY THOSE WITH SENT TRIGGERS #
 ####################################################
 
+<<<<<<< HEAD
+if args.patient in ['539', '541', '544', '551', '553', '554_4']:
+=======
 if args.patient in ['539', '541', '544', '545', '551', '552', '553', '554_4', '554_13']:
+>>>>>>> d6d2a703505d03bd6159975eb2f4db1b9c6fef66
     start_event = 3 # First three triggers are missing
     missing_first_events = 3
 else:

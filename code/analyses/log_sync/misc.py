@@ -5,7 +5,7 @@ Created on Sun Apr 11 09:01:17 2021
 
 @author: yl254115
 """
-from skimage.feature import match_template
+#from skimage.feature import match_template
 import sys
 sys.path.append('..')
 #from utils import load_settings_params

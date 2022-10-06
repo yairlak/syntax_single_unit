@@ -13,6 +13,7 @@ import numpy as np
 from MNI_coords import UtilsCoords
 
 cluster = False
+launch = True
 side = 8
 smooth = 50
 decimate = 50
@@ -34,6 +35,8 @@ script_name = 'decoding.py'
 path2coords = '../../Data/UCLA/MNI_coords/'
 fn_coords = 'electrode_locations.csv'
 df = pd.read_csv(os.path.join(path2coords, fn_coords))
+
+df = df.query('patient != 544 & patient != 551')
 
 x_min, x_max = df['MNI_x'].min(), df['MNI_x'].max()
 y_min, y_max = df['MNI_z'].min(), df['MNI_y'].max()
@@ -78,5 +81,8 @@ for x in np.arange(x_min, x_max+side, stride):
                 if cluster:
                     cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
                 
-                # print(cmd)  
-                os.system(cmd)
+                
+                if launch:
+                    os.system(cmd)
+                else:
+                    print(cmd)

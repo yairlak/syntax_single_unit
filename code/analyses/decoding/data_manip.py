@@ -10,7 +10,8 @@ def get_data(args):
     data = DataHandler(args.patient, args.data_type, args.filter,
                    args.probe_name, args.channel_name, args.channel_num)
     # Both neural and feature data into a single raw object
-    data.load_raw_data(decimate=args.decimate)
+    data.load_raw_data(decimate=args.decimate,
+                       verbose=True)
     data.epoch_data(level=args.level,
                     scale_epochs=False,
                     tmin=args.tmin,

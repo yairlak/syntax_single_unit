@@ -55,17 +55,24 @@ class DataHandler:
         '''
 
         self.raws = []  # list of raw MNE objects
+        # IXs_to_remove = []
         for p, (patient, data_type, filt) in enumerate(zip(self.patient,
                                                            self.data_type,
                                                            self.filter)):
             # Load RAW object
             path2rawdata = f'../../Data/UCLA/{patient}/Raw/mne'
             fname_raw = '%s_%s_%s-raw.fif' % (patient, data_type, filt)
-
-            raw_neural = mne.io.read_raw_fif(os.path.join(path2rawdata,
-                                                          fname_raw),
-                                             preload=True)
-
+            fname_raw = os.path.join(path2rawdata, fname_raw)
+            
+            if os.path.isfile(fname_raw):
+                raw_neural = mne.io.read_raw_fif(fname_raw, preload=True)
+            else:
+                print('!'*100)
+                print(f'Skipping file, NOT FOUND: {fname_raw}')
+                print('!'*100)
+                # IXs_to_remove.append(self.patient.index(patient))
+                continue
+            
             # PICK
             picks = None
             if self.probe_name:
@@ -78,8 +85,14 @@ class DataHandler:
                 picks = self.channel_num[p]-1
             if verbose:
                 print('picks:', picks)
-            raw_neural.pick(picks)
-
+            try:
+                raw_neural.pick(picks)
+            except Exception as errmsg:
+                print('!'*100)
+                print(f'Skipping file, PICK FAILED: {fname_raw}; {errmsg}')
+                print('!'*100)
+                # IXs_to_remove.append(self.patient.index(patient))
+            
             # DECIMATE
             if decimate:
                 raw_neural.resample(int(raw_neural.info['sfreq']/decimate))
@@ -104,9 +117,19 @@ class DataHandler:
                 self.feature_info = feature_data.feature_info
             self.raws.append(raw_neural)
 
+        
+        # if IXs_to_remove:
+        #     for IX in IXs_to_remove:
+        #         del self.patient[IX]
+        #         del self.data_type[IX]
+        #         del self.filter[IX]
+        #         if self.channel_name:
+        #             del self.channel_name[IX]
+        
         if verbose:
             print(self.raws)
             [print(raw.ch_names) for raw in self.raws]
+            print(self.patient, self.data_type, self.filter)
 
     def epoch_data(self, level,
                    tmin=None, tmax=None,  query=None,
@@ -139,7 +162,7 @@ class DataHandler:
         None.
 
         '''
-
+        print(self.patient, self.data_type, self.filter)
         self.epochs = []
         for p, (patient, data_type) in enumerate(zip(self.patient,
                                                      self.data_type)):

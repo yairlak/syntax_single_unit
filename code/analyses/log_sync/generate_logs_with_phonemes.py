@@ -2,13 +2,19 @@ import os, glob, argparse
 
 parser = argparse.ArgumentParser()
 <<<<<<< HEAD
+<<<<<<< HEAD
 parser.add_argument('--patient', default='556', type=str)
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 parser.add_argument('--patient', default='554_4', type=str)
 =======
 parser.add_argument('--patient', default='554_13', type=str)
 >>>>>>> d6d2a703505d03bd6159975eb2f4db1b9c6fef66
+<<<<<<< HEAD
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
+=======
 >>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 parser.add_argument('--hospital', default='UCLA', type=str)
 parser.add_argument('--blocks', action='append', default=[], type=str)

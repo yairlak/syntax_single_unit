@@ -10,10 +10,16 @@ import argparse
 import os
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
 from MNI_coords import UtilsCoords
 
 cluster = True
 side = 8
+=======
+
+cluster = True
+side = 5
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 smooth = 50
 decimate = 50
 comparison_name = 'dec_quest_len2'
@@ -21,6 +27,7 @@ comparison_name = 'dec_quest_len2'
 stride = side/2
 
 
+<<<<<<< HEAD
 queue = 'Nspin_short'
 walltime = '2:00:00'
 
@@ -29,6 +36,12 @@ path2code =  '/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/a
 #path2code = '/home/yair/projects/syntax_single_unit/code/analyses'
 logdir = 'logs'
 script_name = 'decoding_searchlight.py'
+=======
+queue = 'Nspin_long'
+walltime = '2:00:00'
+
+# LOAD COORDINATES
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 path2coords = '../../Data/UCLA/MNI_coords/'
 fn_coords = 'electrode_locations.csv'
 df = pd.read_csv(os.path.join(path2coords, fn_coords))
@@ -45,6 +58,7 @@ n_channels = []
 for x in np.arange(x_min, x_max+side, stride):
     for y in np.arange(y_min, y_max+side, stride):
         for z in np.arange(z_min, z_max+side, stride):
+<<<<<<< HEAD
             
                        # PICK CHANNELS IN CUBE
             df_cube = UtilsCoords.pick_channels_by_cube(df,
@@ -84,3 +98,20 @@ for x in np.arange(x_min, x_max+side, stride):
             
                 
         ###exit() 
+=======
+            cnt += 1
+            #if cnt % 1000 == 1: print(f'{cnt}/{n_x * n_y * n_z}')
+            print(cnt)
+            job_name = f'slight_{cnt}'
+            output_log = f'slight_{cnt}.out'
+            error_log = f'slight_{cnt}.err'
+            
+            # LAUNCH
+            cmd = f'python decoding_searchlight.py --smooth {smooth} --decimate {decimate} --x {x} --y {y} --z {z} --side {side} --comparison-name {comparison_name}'
+            if cluster:
+                cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {output_log} -e {error_log}"
+            
+                
+            os.system(cmd)
+            
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff

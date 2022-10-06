@@ -19,10 +19,13 @@ from data_manip import read_events, read_logs
 
 parser = argparse.ArgumentParser()
 <<<<<<< HEAD
+<<<<<<< HEAD
 parser.add_argument('--patient', default = '556')
 parser.add_argument('--recording-system', choices=['Neuralynx', 'BlackRock'], default='BlackRock')
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 0402d6c821bb152bb80f3e58dd8137e5009891ff
 parser.add_argument('--patient', default = '553')
 =======
 parser.add_argument('--patient', default = '545')

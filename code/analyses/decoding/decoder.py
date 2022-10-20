@@ -22,8 +22,6 @@ def decode_comparison(epochs_list, comparisons, args):
                                                    args.min_trials,
                                                    equalize_classes=args.equalize_classes,
                                                    verbose=True)
-    
-    
     stimuli_gen = []
     if args.GAC or args.GAM:
         if args.GAC: print('-'*30, '\nGeneralization Across Conditions\n', '-'*30)
@@ -32,7 +30,9 @@ def decode_comparison(epochs_list, comparisons, args):
                                                                    comparisons[1]['queries'],
                                                                    args.classifier,
                                                                    args.min_trials,
+                                                                   equalize_classes=args.equalize_classes,
                                                                    verbose=True)
+        print(stimuli_gen)
     classes = sorted(list(set(y)))
        
     # SET A MODEL (CLASSIFIER)

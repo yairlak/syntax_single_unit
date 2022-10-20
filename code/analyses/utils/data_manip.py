@@ -456,9 +456,9 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
     else:
         recording_system = identify_recording_system(path2data)
     print(f'Recording system identified - {recording_system}')
-    
     if recording_system == 'Neuralynx':
         reader = neo.io.NeuralynxIO(dirname=path2data)
+        print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
         sfreq = reader._sigs_sampling_rate
         print(f'Neural files: Start time {time0}, End time {timeend}')

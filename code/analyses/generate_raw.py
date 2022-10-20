@@ -7,17 +7,11 @@
 
 import os
 import argparse
-import re
-from utils import load_settings_params, data_manip
+from utils import data_manip
 import mne
 import numpy as np
-from pprint import pprint
 from sklearn.preprocessing import RobustScaler
-from scipy.ndimage import gaussian_filter1d
-from sklearn.decomposition import PCA
 import scipy
-from neo.io import NeuralynxIO
-import matplotlib.pyplot as plt
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)

@@ -95,5 +95,21 @@ def get_args2fname(args):
 
     return list_args2fname
 
-
+def get_channel_names_from_cube_center(df_coords,
+                                       x_center, y_center, z_center,
+                                       side,
+                                       data_types):
+    
+    df_coords = df_coords.query(f'ch_type in {data_types}')
+    x_constraint = f'(MNI_x <= {x_center + side}) & (MNI_x >= {x_center - side})'
+    y_constraint = f'(MNI_y <= {y_center + side}) & (MNI_y >= {y_center - side})'
+    z_constraint = f'(MNI_z <= {z_center + side}) & (MNI_z >= {z_center - side})'
+    df_in_cube = df_coords.query(f'{x_constraint} & {y_constraint} & {z_constraint}')
+    
+    patients = df_in_cube['patient'].to_list()
+    channel_names = df_in_cube['electrode'].to_list()
+    probe_names = df_in_cube['probe_name'].to_list()
+    channel_nums = df_in_cube['ch_num'].to_list()
+    
+    return patients, channel_names, probe_names, channel_nums
 

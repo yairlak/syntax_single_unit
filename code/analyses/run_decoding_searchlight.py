@@ -6,19 +6,19 @@ Created on Tue Oct  4 10:19:32 2022
 @author: yair
 """
 
-import argparse
 import os
 import pandas as pd
 import numpy as np
 from MNI_coords import UtilsCoords
 
 cluster = False
-launch = True
+launch = False
 side = 8
 smooth = 50
 decimate = 50
 comparison_name = 'dec_quest_len2'
-
+block_train = 'auditory'
+block_test = 'visual'
 stride = side/2
 
 
@@ -59,8 +59,8 @@ for x in np.arange(x_min, x_max+side, stride):
             # GET DATA AND DECODE
             if not df_cube.empty:
                 cnt += 1
-                #print(df_cube)
-                
+                print(cnt)
+
                 patients = df_cube['patient'].astype('str').to_list()
                 data_types = df_cube['ch_type'].to_list()
                 filters = ['raw'] * len(data_types)
@@ -69,7 +69,7 @@ for x in np.arange(x_min, x_max+side, stride):
                 job_name = f'slight_{cnt}'
                 output_log = f'slight_{cnt}.out'
                 error_log = f'slight_{cnt}.err'
-                
+
                 # LAUNCH
                 cmd = f'python {os.path.join(path2code, script_name)}'
                 for patient, data_type, filt, channel_name in zip(patients, data_types, filters, channel_names):
@@ -78,11 +78,15 @@ for x in np.arange(x_min, x_max+side, stride):
                 cmd += f' --smooth {smooth} --decimate {decimate}'
                 cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side {side}'
                 cmd += f' --comparison-name {comparison_name}'
+                cmd += f' --block-train {block_train}'
+                if block_test:
+                    cmd += f' --block-test {block_test}'
                 if cluster:
                     cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
-                
-                
+
+
                 if launch:
                     os.system(cmd)
                 else:
                     print(cmd)
+

@@ -83,7 +83,8 @@ def prepare_data_for_classification(epochs_list, queries,
     elif equalize_classes == 'downsample':
         smallest_class = np.min([X_curr_query.shape[0] for X_curr_query in X])
         X_equalized, y_equalized = [], []
-        for q, (query, X_curr_query, y_curr_query) in enumerate(zip(queries, X, y)):
+        for q, (query, stimuli_curr_query, X_curr_query, y_curr_query) in enumerate(zip(queries, stimuli, 
+                                                                    X, y)):
             n_samples = X_curr_query.shape[0]
             if n_samples > smallest_class:
                 IXs = list(range(n_samples))

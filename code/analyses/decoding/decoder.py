@@ -32,6 +32,7 @@ def decode_comparison(epochs_list, comparisons, args):
                                                                    comparisons[1]['queries'],
                                                                    args.classifier,
                                                                    args.min_trials,
+                                                                   equalize_classes=args.equalize_classes,
                                                                    verbose=True)
     classes = sorted(list(set(y)))
        

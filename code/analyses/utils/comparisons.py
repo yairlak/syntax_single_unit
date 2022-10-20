@@ -42,11 +42,11 @@ def comparison_list():
     comparisons['embedding_vs_long'] = {}
     comparisons['embedding_vs_long']['queries'] = ["embedding==True",
                                                    "dec_quest==0 and sentence_length==5 and embedding==0"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedded Visual', 'Long declarative']
+    comparisons['embedding_vs_long']['condition_names'] = ['Embedding', 'Long declarative']
     comparisons['embedding_vs_long']['colors'] = ['b', 'r']
     comparisons['embedding_vs_long']['ls'] = ['--', '-']
     comparisons['embedding_vs_long']['level'] = 'sentence_offset'
-    comparisons['embedding_vs_long']['tmin_tmax'] = [-1, 1]
+    comparisons['embedding_vs_long']['tmin_tmax'] = [-1.5, 1]
     
     
     # REMOVE SMALL CLAUSE FROM EMBEDDING=FALSE
@@ -806,7 +806,7 @@ def comparison_list():
     comparisons['number_all']['colors'] = ['b', 'g']
     comparisons['number_all']['sort'] = ['word_string']
     comparisons['number_all']['level'] = 'word'
-    comparisons['number_all']['tmin_tmax'] = [-0.2, 0.6]
+    comparisons['number_all']['tmin_tmax'] = [-0.2, 1.2]
 
     comparisons['number_pronoun'] = {}
     comparisons['number_pronoun']['queries'] = ["word_string in ['he', 'she']", "word_string in ['We', 'they']"]

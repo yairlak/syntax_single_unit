@@ -12,13 +12,14 @@ import pandas as pd
 import numpy as np
 from MNI_coords import UtilsCoords
 
-cluster = False
+cluster = True
 launch = True
 side = 8
 smooth = 50
 decimate = 50
-comparison_name = 'dec_quest_len2'
-
+comparison_name = 'number_all'
+block_train = 'auditory'
+block_test = 'visual'
 stride = side/2
 
 
@@ -27,7 +28,7 @@ walltime = '2:00:00'
 
 # LOAD COORDINATES
 path2code =  '/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/'
-path2code = '/home/yair/projects/syntax_single_unit/code/analyses'
+#path2code = '/home/yair/projects/syntax_single_unit/code/analyses'
 logdir = 'logs'
 script_name = 'decoding.py'
 
@@ -59,7 +60,7 @@ for x in np.arange(x_min, x_max+side, stride):
             # GET DATA AND DECODE
             if not df_cube.empty:
                 cnt += 1
-                #print(df_cube)
+                print(cnt)
                 
                 patients = df_cube['patient'].astype('str').to_list()
                 data_types = df_cube['ch_type'].to_list()
@@ -78,6 +79,9 @@ for x in np.arange(x_min, x_max+side, stride):
                 cmd += f' --smooth {smooth} --decimate {decimate}'
                 cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side {side}'
                 cmd += f' --comparison-name {comparison_name}'
+                cmd += f' --block-train {block_train}'
+                if block_test:
+                    cmd += f' --block-test {block_test}'
                 if cluster:
                     cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
                 

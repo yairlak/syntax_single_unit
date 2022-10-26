@@ -517,9 +517,11 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         #keys = [int(ll.split()[0]) for ll in lines]
         #values = [ll.split()[1] for ll in lines]
         #dict_ch_names = dict(zip(keys, values))
+        elec_ids = np.asarray(cont_data['elec_ids'])
+        elec_ids = list(set(elec_ids) - set(range(129, 300)))
+        print(elec_ids)
         dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data))
         ch_names = []
-        elec_ids = np.asarray(cont_data['elec_ids'])
         if data_type == 'macro':
             elec_ids -= 128
         for elec_id in elec_ids:

@@ -456,11 +456,12 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
     else:
         recording_system = identify_recording_system(path2data)
     print(f'Recording system identified - {recording_system}')
-    
     if recording_system == 'Neuralynx':
         reader = neo.io.NeuralynxIO(dirname=path2data)
+        print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
-        sfreq = reader._sigs_sampling_rate
+        # sfreq = reader._sigs_sampling_rate
+        sfreq = reader.get_signal_sampling_rate()
         print(f'Neural files: Start time {time0}, End time {timeend}')
         print(f'Sampling rate [Hz]: {sfreq}')
         blks = reader.read(lazy=True)
@@ -516,18 +517,20 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         #keys = [int(ll.split()[0]) for ll in lines]
         #values = [ll.split()[1] for ll in lines]
         #dict_ch_names = dict(zip(keys, values))
-        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', 'micro'))
+        
+        # MACRO DATA MUST HAVE A FILE WITH A MAPPING FROM CHANNEL NUMBERS TO NAMES, AT os.path.join(path2data, 'channel_numbers_to_names.txt')
+        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', data_type))
         ch_names = []
         for elec_id in cont_data['elec_ids']:
-            if int(elec_id) in dict_ch_names.keys():
-                ch_name = dict_ch_names[elec_id]
-            else:
-                ch_name = f'CSC{elec_id}'
+            assert int(elec_id) in dict_ch_names.keys() # check if electrode number can be mapped to a name
+            ch_name = dict_ch_names[elec_id]
+            #else:
+            #    ch_name = f'CSC{elec_id}'
             ch_names.append(ch_name)
         info = mne.create_info(ch_names=ch_names,
                                sfreq=sfreq,
                                ch_types='seeg')
-        raws = mne.io.RawArray(cont_data['data'], info, verbose=False)
+        raws = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
 
     return raws
 
@@ -1240,7 +1243,7 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
     output: probes (dict) - key is the probe names; value is a list of lists (per patient), with channel numbers for micro or macro data. For example, probes['LSTG']['micro'] = [[25, 26, ...], [36, ..]]
     '''
     def get_file_probe_names(path2mat_folder, micro_macro):
-        with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt')) as f:
+        with open(os.path.join(path2mat_folder, 'channel_numbers_to_names.txt'), 'r') as f:
             lines = f.readlines()
         channel_numbers  = [l.strip().split('\t')[0] for l in lines]
         file_names = [l.strip().split('\t')[1] for l in lines]
@@ -1352,7 +1355,7 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
 
 
 def get_dict_ch_names(path2data):
-    fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt')
+    fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt', 'r')
     with open(fn_channel_names, 'r') as f:
         lines = f.readlines()
     keys = [int(ll.split()[0]) for ll in lines]

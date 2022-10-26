@@ -56,7 +56,7 @@ def comparison_list():
                                                   "embedding==True and block_type=='auditory'",
                                                   "dec_quest==0 and sentence_length==5 and embedding==0 and block_type=='auditory'"]
     comparisons['embedding_vs_long_']['condition_names'] = ['Embedded Visual', 'Long Visual', 'Embedded Auditory', 'Long Auditory']
-    comparisons['embedding_vs_long_']['colors'] = ['b', 'b', 'r', 'r']
+    comparisons['embedding_vs_long_']['colors'] = ['r', 'r', 'b', 'b']
     comparisons['embedding_vs_long_']['ls'] = ['--', '-', '--', '-']
     comparisons['embedding_vs_long_']['level'] = 'sentence_offset'
     comparisons['embedding_vs_long_']['tmin_tmax'] = [-3.5, 1]

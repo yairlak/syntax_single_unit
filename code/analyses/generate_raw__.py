@@ -1,5 +1,6 @@
 #  Generate raw mne files (fif formant) from mat or combinato files:
-# - In the case of data-type = 'macro' bi-polar referencing is applied.
+# - In the case of data-type = 'macro' Laplacian referencing is applied.
+# - Detrending
 # - Notch filtering of line noise is performed.
 # - clipping using robustScalar transform is applied
 #   by using -5 and 5 for lower/upper bounds.
@@ -8,20 +9,22 @@
 import os
 import argparse
 from utils import data_manip
-import mne
 import numpy as np
+from mne.filter import filter_data
 from sklearn.preprocessing import RobustScaler
 import scipy
+from utils.preprocessing import laplacian_reference, hilbert3
+from sklearn.decomposition import PCA
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--patient', default='479_11', help='Patient number')
+parser.add_argument('--patient', default='505', help='Patient number')
 parser.add_argument('--data-type',
                     choices=['micro', 'macro', 'spike', 'microphone'],
-                    default='spike', help='macro/micro/spike')
+                    default='macro', help='macro/micro/spike')
 parser.add_argument('--filter', default='raw',
                     choices=['raw', 'high-gamma'])
 parser.add_argument('--from-mat',
@@ -47,58 +50,52 @@ raw = data_manip.generate_mne_raw(args.data_type,
                                   args.sfreq_downsample,
                                   args.ch_names_from_file)
 
+print(raw.ch_names)
+
 if args.data_type != 'microphone':
-    # Downsample
+    ##############
+    # DOWNSAMPLE #
+    ##############
     if raw.info['sfreq'] > args.sfreq_downsample:
         print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], args.sfreq_downsample))
         raw = raw.resample(args.sfreq_downsample, npad='auto')
-print(raw)
-###############
-# REFERENCING #
-###############
-if args.data_type == 'macro': #bipolar ref for macro
-    print("Applying Bipolar reference")
-    reference_ch = [ch for ch in raw.copy().info['ch_names']]
-    anodes = reference_ch[0:-1]
-    cathodes = reference_ch[1::]
-    to_del = []
-    for i, (a, c) in enumerate(zip(anodes,cathodes)):
-         if [i for i in a if not i.isdigit()] != [i for i in c if not i.isdigit()]:
-              to_del.append(i)
-    for idx in to_del[::-1]:
-         del anodes[idx]
-         del cathodes[idx]
-    #for a, c in zip(anodes, cathodes): print(a,c)
-    raw = mne.set_bipolar_reference(raw.copy(), anodes, cathodes)
-print(raw)
-print(raw.ch_names)
 
-###################
-# Basic FILTERING #
-###################
+# PROCSESING MICRO/MACRO LFPs
 if args.data_type not in ['spike', 'microphone']:
+    ###########
+    # DETREND #
+    ###########
+    print('Detrending')
+    raw._data = scipy.signal.detrend(raw.copy().get_data(), axis=0)
+    
+    ###################
+    # Basic FILTERING #
+    ###################
+    cutoff_l, cutoff_h = 0.5, None
+    print('Filtering data from {} to {}'.format(cutoff_l, cutoff_h))
+    raw._data = filter_data(raw.copy().get_data(), raw.info['sfreq'],
+                            cutoff_l, cutoff_h, verbose=0)
+    
+    ###############
+    # REFERENCING #
+    ###############
+    if args.data_type == 'macro': # Laplacian ref for macro
+        print("Applying Laplacian reference")
+        raw._data = laplacian_reference(raw.copy().get_data(), raw.ch_names)
+        
     ################
     # NOTCH (line) #
     ################
     for line_freq in args.line_frequency:
-        raw.notch_filter(np.arange(line_freq, 5*line_freq, line_freq), fir_design='firwin') # notch filter
-    raw.filter(0.05, 200, fir_design='firwin') # Band-pass filter
-    if args.filter == 'raw' and args.data_type != 'microphone':
-
-        ############
-        # CLIPPING #
-        ############
-        print("Clipping based on robust scaling")
-        data = raw.copy().get_data()
-        transformer = RobustScaler().fit(data.T)
-        data_scaled = transformer.transform(data.T).T # num_channels X num_timepoints
-        lower, upper = -5, 5
-        data_scaled[data_scaled>upper] = upper
-        data_scaled[data_scaled<lower] = lower
-        raw._data = data_scaled
-        # raw._data = transformer.inverse_transform(data_scaled.T).T # INVERSE TRANSFORM
-    elif args.filter=='high-gamma':
-        print('Extracting high-gamma')
+        print(f"Notch filtering for: {line_freq}")
+        raw.notch_filter(np.arange(line_freq, 5*line_freq, line_freq),
+                         fir_design='firwin') # notch filter
+    
+    ##############
+    # HIGH-GAMMA #
+    ##############
+    if args.filter=='high-gamma':
+        print('Computing high-gamma')
         bands_centers = [73.0, 79.5, 87.8, 96.9, 107.0, 118.1, 130.4, 144.0] # see e.g., Moses, Mesgarani..Chang, (2016)
         bands_low = [70, 76, 83, 92.6, 101.2, 112.8, 123.4, 137.4]
         bands_high = [76, 83, 92.6, 101.2, 112.8, 123.4, 137.4, 150.6]
@@ -116,8 +113,7 @@ if args.data_type not in ['spike', 'microphone']:
             raw_eight_bands.append(raw_band_hilb_zscore)
         raw_eight_bands = np.asarray(raw_eight_bands) # 8-features (bands) X num_channels X num_timepoints
         print(raw_eight_bands.shape)
-
-        # CLIP 
+        
         print('Clip and PCA across bands')
         for i_channel in range(raw_eight_bands.shape[1]):
             data_curr_channel = raw_eight_bands[:, i_channel, :].transpose() # num_timepoints X 8-features (bands)
@@ -125,15 +121,27 @@ if args.data_type not in ['spike', 'microphone']:
             lower, upper = -5, 5 # zscore limits
             data_curr_channel[data_curr_channel>upper] = upper
             data_curr_channel[data_curr_channel<lower] = lower
-            raw._data[i_channel, :] = data_curr_channel.mean(axis=1)
-            
-            # PCA
-            #pca = PCA(n_components=1)
-            #raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
+            # raw._data[i_channel, :] = data_curr_channel.mean(axis=1)
+            pca = PCA(n_components=1)
+            print(data_curr_channel.shape)
+            raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
 
+         
+    ############
+    # CLIPPING #
+    ############
+    elif args.filter=='raw':      
+        print("Clipping based on robust scaling")
+        transformer = RobustScaler().fit(raw.copy().get_data().T)
+        data_scaled = transformer.transform(raw.copy().get_data().T).T # num_channels X num_timepoints
+        lower, upper = -5, 5
+        data_scaled[data_scaled>upper] = upper
+        data_scaled[data_scaled<lower] = lower
+        raw._data = data_scaled
 
 filename = '%s_%s_%s-raw.fif' % (args.patient, args.data_type, args.filter)
 os.makedirs(os.path.join(path2rawdata, 'mne'), exist_ok=True)
 raw.save(os.path.join(path2rawdata, 'mne', filename), overwrite=True)
 print('Raw fif saved to: %s' % os.path.join(path2rawdata, filename))
+
 

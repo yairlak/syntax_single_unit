@@ -26,7 +26,7 @@ parser.add_argument('--comparison-name', default='dec_quest_len2',
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')
 parser.add_argument('--block-train', choices=['auditory', 'visual'],
-                    default='auditory',
+                    default='visual',
                     help='Block type is added to the query in the comparison')
 parser.add_argument('--block-test', choices=['auditory', 'visual'],
                     default=None,
@@ -39,7 +39,14 @@ args2fname = ['comparison_name', 'comparison_name_test',
               'block_train', 'block_test',
               'smooth', 'decimate',
               'side']   # List of args
+args2fname = ['comparison_name',
+              'block_train']   # List of args
 fn_pattern = dict2filename(args.__dict__, '_', args2fname, '', True)
+
+fn_pattern = 'embedding_vs_long_auditory_macro'
+fn_pattern = 'number_all_auditory_number_all_visual_macro'
+# fn_pattern = 'embedding_vs_long_auditory_embedding_vs_long_visual'
+# fn_pattern = 'embedding_vs_long_visual_macro'
 fns = glob.glob(os.path.join(args.path2output, fn_pattern + '*.pkl'))
 
 
@@ -51,4 +58,7 @@ df = pd.DataFrame(results, columns=['scores', 'pvals', 'times',
                                     'temp_estimator', 'clf', 'comparisons',
                                     'stimuli', 'args'])
 
-df.to_json(os.path.join(args.path2output, 'df_' + fn_pattern + '.json'))
+fn_out = os.path.join(args.path2output, 'df_' + fn_pattern + '.json')
+df.to_json(fn_out)
+print(df)
+print('DataFrame with results saved to: {fn_out}')

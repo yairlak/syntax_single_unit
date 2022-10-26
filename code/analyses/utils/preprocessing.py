@@ -10,6 +10,8 @@ import numpy as np
 import scipy.signal
 from mne.filter import filter_data
 from scipy import fftpack
+from sklearn.preprocessing import RobustScaler
+from sklearn.decomposition import PCA
 
 LINE_NOISE = [50, 60]
 
@@ -168,3 +170,50 @@ def apply_filters(data, frequency_bands):
 
     data['features']['frequency_bands'] = frequency_bands
     return data
+
+
+def clip_data_with_RobustScaler(curr_data, lower=-3, upper=3, scale=False):
+    # curr_data: # n_channels X n_timepoints
+    
+    transformer = RobustScaler().fit(curr_data.T) # num_timepoints X n_channels
+    data_scaled = transformer.transform(curr_data.T) 
+    data_scaled[data_scaled>upper] = upper
+    data_scaled[data_scaled<lower] = lower
+    if scale:
+        # n_channels X n_timepoints
+        return data_scaled.T
+    else:
+        # back to original signal
+        # n_channels X n_timepoints
+        return transformer.inverse_transform(data_scaled).T 
+
+
+def extract_spectral_activity_with_pca(raw, 
+                                       bands_centers,
+                                       bands_low, bands_high):
+    
+    raw_eight_bands = []
+    for i_band, (band_low, band_high) in enumerate(zip(bands_low, bands_high)):
+        # BAND-PASS
+        raw_band = raw.copy()
+        raw_band.filter(band_low, band_high)
+        # ANALYTIC SIGNAL (HILBERT)
+        raw_band_hilb = raw_band.copy()
+        raw_band_hilb.apply_hilbert(envelope=True)
+        # Z-SCORE
+        print('Clip band data', band_low, band_high)
+        data_clipped = clip_data_with_RobustScaler(raw_band_hilb._data,
+                                                   lower=-3, upper=3)
+        raw_band_hilb_zscore = scipy.stats.zscore(data_clipped, axis=1) # num_channels X num_timepoints
+        raw_eight_bands.append(raw_band_hilb_zscore)
+    raw_eight_bands = np.asarray(raw_eight_bands) # 8-features (bands) X num_channels X num_timepoints
+    print(raw_eight_bands.shape)
+    
+    print('PCA across bands')
+    for i_channel in range(raw_eight_bands.shape[1]):
+        data_curr_channel = raw_eight_bands[:, i_channel, :].transpose() # num_timepoints X 8-features (bands)
+        pca = PCA(n_components=1)
+        #print(data_curr_channel.shape)
+        raw._data[i_channel, :] = pca.fit_transform(data_curr_channel).reshape(-1) # first PC across the 8 bands in high-gamma
+    
+    return raw

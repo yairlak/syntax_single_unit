@@ -23,7 +23,7 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'micropho
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default=None, help='')
-parser.add_argument('--filter', default='raw', help='')
+parser.add_argument('--filter', default='high-gamma', help='')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS
@@ -366,14 +366,14 @@ for ch, ch_name in enumerate(epochs.ch_names):
             ylim = (-1, ymax)
             yticks = range(0, ymax, 20)
         else:
-            if args.filter == 'high-gamma':
-                label_y = ''
-                ylim = [-1, 1]
-                yticks = [ylim[0], 0, ylim[1]]
-            else:
-                label_y = 'IQR-scale'
-                ylim = [-3, 3]
-                yticks = [-3, -1.96, 0, 1.96, 3]
+            #if args.filter == 'high-gamma':
+            label_y = ''
+            ylim = [-1, 1]
+            yticks = [ylim[0], 0, ylim[1]]
+            #else:
+            #    label_y = 'IQR-scale'
+            #    ylim = [-3, 3]
+            #    yticks = [-3, -1.96, 0, 1.96, 3]
         #fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False, colors=colors_dict, picks=ch_name, axes=ax2, ylim={'eeg':ylim}, title='')
         fig_erp = mne.viz.plot_compare_evokeds(evoked_dict, show=False,
                                                colors=colors_dict,

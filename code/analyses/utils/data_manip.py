@@ -460,7 +460,8 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         reader = neo.io.NeuralynxIO(dirname=path2data)
         print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
-        sfreq = reader._sigs_sampling_rate
+        # sfreq = reader._sigs_sampling_rate
+        sfreq = reader.get_signal_sampling_rate()
         print(f'Neural files: Start time {time0}, End time {timeend}')
         print(f'Sampling rate [Hz]: {sfreq}')
         blks = reader.read(lazy=True)
@@ -516,9 +517,12 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         #keys = [int(ll.split()[0]) for ll in lines]
         #values = [ll.split()[1] for ll in lines]
         #dict_ch_names = dict(zip(keys, values))
-        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', 'micro'))
+        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data))
         ch_names = []
-        for elec_id in cont_data['elec_ids']:
+        elec_ids = np.asarray(cont_data['elec_ids'])
+        if data_type == 'macro':
+            elec_ids -= 128
+        for elec_id in elec_ids:
             if int(elec_id) in dict_ch_names.keys():
                 ch_name = dict_ch_names[elec_id]
             else:
@@ -527,7 +531,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         info = mne.create_info(ch_names=ch_names,
                                sfreq=sfreq,
                                ch_types='seeg')
-        raws = mne.io.RawArray(cont_data['data'], info, verbose=False)
+        raws = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
 
     return raws
 
@@ -554,10 +558,15 @@ def ns2mat(data_type, path2data):
 def identify_recording_system(path2data):
     print(os.getcwd())
     print(path2data)
-    if len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ncs'))):
+    
+    # get recording system for spiking data based on micro
+    if os.path.dirname(path2data) == 'spike': 
+        path2data = os.path.join(os.path.dirname(path2data), 'micro')
+    
+    if len(glob.glob(os.path.join(path2data, '*.ncs'))):
         recording_system = 'Neuralynx'
         # assert neural_files[0][-3:] == 'ncs'
-    elif len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ns*')))>0 or len(glob.glob(os.path.join(path2data, '..', 'micro', '*.mat')))>0:
+    elif len(glob.glob(os.path.join(path2data, '*.ns*')))>0 or len(glob.glob(os.path.join(path2data, '*.mat')))>0:
         recording_system = 'BlackRock'
     else:
         print(f'No neural files found: {path2data}')

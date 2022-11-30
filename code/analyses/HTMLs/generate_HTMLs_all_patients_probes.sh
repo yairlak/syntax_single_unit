@@ -1,8 +1,10 @@
+PATIENTS="479_11 479_25 482 499 502 505 513 515 538 540 541 543 545 549 551 552 553 554_4 554_13 510 530 539 544 556" # NEURALYNX AND BLACKROCK
 
-patient='479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554_4'
+#patient='479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554_4'
 #patient='549'
 
-for comparison_name in 'all_trials' 'all_trials_chrono' 'all_end_trials';
+#for comparison_name in 'all_trials' 'all_trials_chrono' 'all_end_trials';
+for comparison_name in 'all_trials' 'all_end_trials';
 do
     for data_type in 'micro' 'macro' 'spike' 'microphone';
     do
@@ -10,7 +12,7 @@ do
         do
             for level in 'sentence';
             do
-                CMD='python3 generate_HTMLs_all_patients_probes.py --patient '$patient' --data-type '$data_type' --filter '$filter' --level '$level' --comparison-name '$comparison_name
+                CMD='python3 generate_HTMLs_all_patients_probes.py --patient '$PATIENTS' --data-type '$data_type' --filter '$filter' --level '$level' --comparison-name '$comparison_name
                 echo $CMD
                 eval $CMD
             done

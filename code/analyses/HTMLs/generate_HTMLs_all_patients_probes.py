@@ -25,6 +25,7 @@ for patient in args.patient:
     try:
         probe_names, _ = utils.get_probe_names(patient, data_type_for_probe_names)
     except:
+        print('Falied:', patient, args.data_type)
         continue
     print(patient, args.data_type, probe_names)
     # GET TEXT

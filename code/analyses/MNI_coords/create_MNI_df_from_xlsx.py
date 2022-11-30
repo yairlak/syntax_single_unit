@@ -62,23 +62,29 @@ for fn in fns:
     df['ch_type'] = df.apply(lambda row: get_channel_type(row), axis=1)
     
     
-    probe_names, ch_nums = [], []
+    probe_names, ch_nums, ch_names = [], [], []
     for ch_name, ch_type  in zip(df['electrode'], df['ch_type']):
         ch_num = int(ch_name.split('-')[-1])
         if ch_type=='macro':
-            #probe_name = ''.join([c for c in ch_name if not c.isdigit()])
-            probe_name = '-'.join(ch_name.split('-')[:-1])
-            if probe_name[-1] == '-': probe_name = probe_name[:-1]
+            #####probe_name = ''.join([c for c in ch_name if not c.isdigit()])
+            #probe_name = '-'.join(ch_name.split('-')[:-1])
+            #if probe_name[-1] == '-': probe_name = probe_name[:-1]
+            IX_hyperphen = ch_name.rfind('-')
+            probe_name = ch_name[:IX_hyperphen] # remove numbering
         if ch_type=='micro':
             probe_name = ch_name.split('micro')[0][:-1]
         if ch_type=='stim':
             probe_name = ch_name.split('stim')[0][:-1]
         probe_names.append(probe_name)
         ch_nums.append(ch_num)
+        ch_names.append(probe_name+str(ch_num))
     df['probe_name'] = probe_names
     df['ch_num'] = ch_nums
     
-    df = create_bipoloar_coords_macro(df)
+    #df['electrode'] = df.apply(lambda row: row['electrode'].replace('-', '') if row['ch_type'] == 'macro' else row['electrode'], axis=1)
+    df['ch_name'] = ch_names
+
+    #df = create_bipoloar_coords_macro(df)
     
     
     # APPEND
@@ -86,6 +92,6 @@ for fn in fns:
     
 df = pd.concat(dfs)
 df = df.sort_values('patient')
-
+print(df)
 fn_out = 'electrode_locations.csv'
 df.to_csv(os.path.join(path2data, fn_out))

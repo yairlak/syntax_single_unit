@@ -53,7 +53,7 @@ mask_img = image.smooth_img(mask_img, 8.)
 fig_glass = plotting.plot_glass_brain(mask_img, display_mode='lzr')
 fig_glass.savefig(fn + '_glass.png')
 
-# PEROJECT ONTO THE SURFACE
+# PROJECT ONTO THE SURFACE
 texture = surface.vol_to_surf(mask_img, fsaverage.pial_right)
 fig = plotting.plot_surf_stat_map(
     fsaverage.infl_right, texture, hemi='right',
@@ -73,7 +73,7 @@ fig_surf, axs = plotting.plot_img_on_surf(mask_img,
                           colorbar=True,
                           threshold=1e-5)
 
-# PEROJECT ONTO THE 
+# PROJECT ONTO THE 
 for inflate in [False, True]:
     fig_surf, axs = plotting.plot_img_on_surf(mask_img,
                                               surf_mesh = fsaverage,

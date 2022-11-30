@@ -8,7 +8,7 @@ sys.path.append('..')
 def get_data(args):
     from utils.data_manip import DataHandler
     data = DataHandler(args.patient, args.data_type, args.filter,
-                   args.probe_name, args.channel_name, args.channel_num)
+                       args.probe_name, args.channel_name, args.channel_num)
     # Both neural and feature data into a single raw object
     data.load_raw_data(decimate=args.decimate,
                        verbose=True)
@@ -46,7 +46,10 @@ def prepare_data_for_classification(epochs_list, queries,
         
         
         # GATHER DATA FROM ALL CHANNELS IN EPOCHS_LIST
-        X_curr_query_all_epochs = [epochs[query].get_data() for epochs in epochs_list]
+        X_curr_query_all_epochs = []
+        for epochs in epochs_list:
+            if epochs is not None:
+                X_curr_query_all_epochs.append(epochs[query].get_data())
         X_curr_query_all_epochs = np.concatenate(X_curr_query_all_epochs,
                                                  axis=1) # cat along channel dim
         

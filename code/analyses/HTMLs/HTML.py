@@ -31,7 +31,7 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
     if data_type=='micro':
         fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_G*-{probe_name}?_[]_{comparison_name}_sentence_length_sentence_string.png'
     elif data_type=='macro':
-        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_{probe_name}?-{probe_name}*_[]_{comparison_name}_sentence_length_sentence_string.png'
+        fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*_{probe_name}?_[]_{comparison_name}_sentence_length_sentence_string.png'
     elif data_type=='spike':
         fnames = f'ERP_trialwise_patient_{patient}_{data_type}_{level}_{filt}_*{probe_name}?_*_[]_{comparison_name}_sentence_length_sentence_string.png'
     elif data_type=='microphone':
@@ -51,7 +51,7 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
             text_list.append('<br>\n')
             fn = os.path.join(path2figures[3:], 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type,os.path.basename(fn))
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
-            fn = fn.replace('onset', 'offset')
+            fn = fn.replace('onset', 'end')
             fn = fn.replace('all_trials', 'all_end_trials')
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
             # ADD ENCODING FIGURES
@@ -87,7 +87,7 @@ def HTML_per_probe(patient, comparison_name, data_type, filt, level, probe_name,
             # Trialwise figures
             fn = os.path.join(path2figures[3:], 'Comparisons', comparison_name, 'patient_' + patient, 'ERPs', data_type,os.path.basename(fn))
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
-            fn = fn.replace('onset', 'offset')
+            fn = fn.replace('onset', 'end')
             fn = fn.replace('all_trials', 'all_end_trials')
             text_list.append(f'<img class="right" src="{fn}" stye="width:1024px;height:512px;">\n')
             

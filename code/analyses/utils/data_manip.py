@@ -79,18 +79,23 @@ class DataHandler:
                 picks = probename2picks(self.probe_name[p],
                                         raw_neural.ch_names,
                                         data_type)
-            if self.channel_name:
-                picks = self.channel_name[p]
             if self.channel_num:
                 picks = self.channel_num[p]-1
+            if self.channel_name:
+                picks = self.channel_name[p]
             if verbose:
-                print('picks:', picks)
+                print('Trying to pick:', picks)
+                print(type(picks))
             try:
                 raw_neural.pick(picks)
             except Exception as errmsg:
                 print('!'*100)
-                print(f'Skipping file, PICK FAILED: {fname_raw}; {errmsg}')
+                print(f'PICK FAILED: {fname_raw}; {errmsg}')
+                #print('All channels included')
+                print(f'Skipping: {patient}, {data_type}, {filt}')
                 print('!'*100)
+                self.raws.append(None)
+                continue
                 # IXs_to_remove.append(self.patient.index(patient))
             
             # DECIMATE
@@ -128,7 +133,7 @@ class DataHandler:
         
         if verbose:
             print(self.raws)
-            [print(raw.ch_names) for raw in self.raws]
+            [print(raw.ch_names) for raw in self.raws if raw is not None]
             print(self.patient, self.data_type, self.filter)
 
     def epoch_data(self, level,
@@ -167,6 +172,9 @@ class DataHandler:
         for p, (patient, data_type) in enumerate(zip(self.patient,
                                                      self.data_type)):
             print(f'Epoching {patient}, {data_type}, {level}')
+            if self.raws[p] is None:
+                print(f'Skipping epoching {patient} {data_type}')
+                continue
             ############
             # METADATA #
             ############
@@ -214,7 +222,8 @@ class DataHandler:
             events, event_id = get_events(metadata_level, self.sfreq)
             
             if verbose:
-                print(self.raws[p].first_samp, events)
+                if self.raws[p] is not None:
+                    print(self.raws[p].first_samp, events)
             
             ############
             # EPOCHING #
@@ -343,7 +352,7 @@ def generate_mne_raw(data_type, from_mat, path2rawdata, sfreq_down, ch_names_fro
     info = mne.create_info(ch_names=ch_names, sfreq=sfreq, ch_types=ch_types)
     raw = mne.io.RawArray(channel_data, info)
 
-    
+    del channel_data 
     return raw
 
 
@@ -353,7 +362,7 @@ def get_data_from_combinato(path2data):
 
     sfreq = 1000
 
-    print('Loading spike cluster data')
+    print(f'Loading spike cluster data from: {path2data}')
     
     CSC_folders = glob.glob(os.path.join(path2data, 'CSC?/')) + \
                   glob.glob(os.path.join(path2data, 'CSC??/')) + \
@@ -456,45 +465,36 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
     else:
         recording_system = identify_recording_system(path2data)
     print(f'Recording system identified - {recording_system}')
+    
     if recording_system == 'Neuralynx':
-        reader = neo.io.NeuralynxIO(dirname=path2data)
-        print(dir(reader))
+        reader = neo.rawio.NeuralynxRawIO(dirname=path2data)
+        reader.parse_header()
+        #print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
-        # sfreq = reader._sigs_sampling_rate
         sfreq = reader.get_signal_sampling_rate()
         print(f'Neural files: Start time {time0}, End time {timeend}')
         print(f'Sampling rate [Hz]: {sfreq}')
-        blks = reader.read(lazy=True)
         channels = reader.header['signal_channels']
-        n_channels = len(channels)
         ch_names = [channel[0] for channel in channels]
-        channel_nums = [channel[1] for channel in channels]
         print('Number of channel %i: %s'
                       % (len(ch_names), ch_names))
 
-        raws = []
-        for i_segment, segment in enumerate(blks[0].segments):
-            print(f'Segment - {i_segment+1}/{len(blks[0].segments)}')
-            asignal = segment.analogsignals[0].load()
-            
-            raw_channels = []
-            for i_ch in range(n_channels):
-                info = mne.create_info(ch_names=[ch_names[i_ch]],
-                                       sfreq=sfreq, ch_types='seeg')
-                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info,
-                                      verbose=False)
-                if i_ch == 0:
-                    raw_channels = raw.copy()
-                else:
-                    raw_channels.add_channels([raw])
-            raws.append(raw_channels)
-        del blks
-        raws = mne.concatenate_raws(raws)
-        if data_type != 'microphone':
-            # Downsample
-            if raws.info['sfreq'] > sfreq_down:
-                print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
-                raw = raw.resample(sfreq_down, npad='auto')
+
+        n_segments_list = reader.header['nb_segment'] # list of n_segments
+        chunks = []
+        for i_block, n_segments in enumerate(n_segments_list):
+            for i_segment in range(n_segments):
+                print(f'block {i_block+1}; Segment {i_segment+1}/{n_segments}')
+                curr_chunk = reader.get_analogsignal_chunk(block_index=i_block,
+                                                           seg_index=i_segment)
+                chunks.append(curr_chunk)
+        data = np.vstack(chunks)
+
+        # TO MNE
+        info = mne.create_info(ch_names=ch_names,
+                               sfreq=sfreq, ch_types='seeg')
+        raw = mne.io.RawArray(data.T, info, verbose=True)
+
 
     elif recording_system == 'BlackRock':
         if data_type == 'macro':
@@ -504,36 +504,47 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         fn_br = glob.glob(os.path.join(path2data, '*.' + ext))
         assert len(fn_br) == 1
         nsx_file = NsxFile(fn_br[0])
-        # Extract data - note: 
+        # Extract data - note:
         # Data will be returned based on *SORTED* elec_ids,
         # see cont_data['elec_ids']
         cont_data = nsx_file.getdata()
+        print(cont_data)
         nsx_file.close()
         sfreq = cont_data['samp_per_s']
         print(sfreq)
-        #fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt') 
-        #with open(fn_channel_names, 'r') as f:
-        #    lines = f.readlines()
-        #keys = [int(ll.split()[0]) for ll in lines]
-        #values = [ll.split()[1] for ll in lines]
-        #dict_ch_names = dict(zip(keys, values))
+
+        # CHANNEL NUMBERS
+        #if data_type == 'macro':
+        #    elec_ids -= 128
+        #elif data_type == 'micro':
+        #    elec_ids = np.asarray(list(set(elec_ids) - set(range(129, 300))))
+        # print(elec_ids)
         
-        # MACRO DATA MUST HAVE A FILE WITH A MAPPING FROM CHANNEL NUMBERS TO NAMES, AT os.path.join(path2data, 'channel_numbers_to_names.txt')
-        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data, '..', data_type))
+        # CHANNEL NAME
+        elec_ids = np.asarray(cont_data['elec_ids'])
         ch_names = []
-        for elec_id in cont_data['elec_ids']:
-            assert int(elec_id) in dict_ch_names.keys() # check if electrode number can be mapped to a name
-            ch_name = dict_ch_names[elec_id]
-            #else:
-            #    ch_name = f'CSC{elec_id}'
+        dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data))
+        for elec_id in elec_ids:
+            if data_type == 'macro':
+                curr_elec_id = int(elec_id) - 128
+            else:
+                curr_elec_id = int(elec_id)
+            
+            # RETRIEVE CHANNEL NAME FROM TXT FILE
+            if curr_elec_id in dict_ch_names.keys():
+                ch_name = dict_ch_names[curr_elec_id]
+            else:
+                ch_name = f'CSC{elec_id}'
             ch_names.append(ch_name)
+        #print(ch_names)
+        
+        # TO MNE
         info = mne.create_info(ch_names=ch_names,
                                sfreq=sfreq,
                                ch_types='seeg')
-        raws = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
+        raw = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
 
-    return raws
-
+    return raw
 
 
 def ns2mat(data_type, path2data):
@@ -557,10 +568,15 @@ def ns2mat(data_type, path2data):
 def identify_recording_system(path2data):
     print(os.getcwd())
     print(path2data)
-    if len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ncs'))):
+    
+    # get recording system for spiking data based on micro
+    if os.path.dirname(path2data) == 'spike': 
+        path2data = os.path.join(os.path.dirname(path2data), 'micro')
+    
+    if len(glob.glob(os.path.join(path2data, '*.ncs'))):
         recording_system = 'Neuralynx'
         # assert neural_files[0][-3:] == 'ncs'
-    elif len(glob.glob(os.path.join(path2data, '..', 'micro', '*.ns*')))>0 or len(glob.glob(os.path.join(path2data, '..', 'micro', '*.mat')))>0:
+    elif len(glob.glob(os.path.join(path2data, '*.ns*')))>0 or len(glob.glob(os.path.join(path2data, '*.mat')))>0:
         recording_system = 'BlackRock'
     else:
         print(f'No neural files found: {path2data}')
@@ -1355,7 +1371,7 @@ def get_probes2channels(patients, flag_get_channels_with_spikes=True):
 
 
 def get_dict_ch_names(path2data):
-    fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt', 'r')
+    fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt')
     with open(fn_channel_names, 'r') as f:
         lines = f.readlines()
     keys = [int(ll.split()[0]) for ll in lines]

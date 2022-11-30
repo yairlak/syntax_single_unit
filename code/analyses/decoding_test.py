@@ -14,6 +14,8 @@ from pprint import pprint
 from sklearn.preprocessing import label_binarize
 from sklearn.metrics import roc_auc_score
 from decoding.decoder import decode_comparison
+from utils.utils import read_MNI_coord_from_xls
+import pandas as pd
 
 abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
@@ -28,7 +30,7 @@ parser.add_argument('--data-type', choices=['micro','macro', 'spike'],
 parser.add_argument('--level',
                     choices=['sentence_onset','sentence_offset',
                              'word', 'phone'],
-                    default=None)
+                    default='sentence_onset')
 parser.add_argument('--filter', choices=['raw', 'high-gamma'],
                     action='append', default=[], help='')
 parser.add_argument('--probe-name', default=[], nargs='*', action='append',
@@ -74,7 +76,7 @@ parser.add_argument('--gat', default=False, action='store_true',
 # MISC
 parser.add_argument('--coords', default=None, type=float, nargs='*',
                     help="coordinates (e.g., MNI) for searchlight")
-parser.add_argument('--side-half', default=8, type=float, help='Half the size of the cube in mm')
+parser.add_argument('--side', default=8, type=float, help='Side of cube in mm')
 parser.add_argument('--tmin', default=None, type=float)
 parser.add_argument('--tmax', default=None, type=float)
 #parser.add_argument('--vmin', default=None, type=float, help='')
@@ -91,45 +93,99 @@ args = parser.parse_args()
 # CHECK AND UPDATE USER ARGUMENTS
 args = update_args(args)
 
-# GET COMPARISONS (CONTRASTS)
-comparisons = get_comparisons(args.comparison_name, # List with two dicts for
-                              args.comparison_name_test) # comparison train and test
-
 print('\nARGUMENTS:')
 pprint(args.__dict__, width=1)
-if 'level' in comparisons[0].keys():
-    args.level = comparisons[0]['level']
-if len(comparisons[0]['queries'])>2:
-    args.multi_class = True
-else:
-    args.multi_class = False
 
-# LOAD DATA
 print('\nLOADING DATA:')
-data = get_data(args)
+args.smooth = None
 
-# CONTRAST
-print('\nCONTRASTS:')
-metadata = data.epochs[0].metadata
-comparisons[0] = update_queries(comparisons[0], args.block_train, # TRAIN
-                                args.fixed_constraint, metadata)
-comparisons[1] = update_queries(comparisons[1], args.block_test, # TEST
-                                args.fixed_constraint_test, metadata)
-[pprint(comparison) for comparison in comparisons] 
+patients = '479 482 499 502 505 510 513 515 530 538 539 540 541 543 544 545 549 551 552 553 554 556'.split()
+#patients = ['530']
+path2data = os.path.join('..', '..', 'Data', 'UCLA', 'MNI_coords')
+show_labels = False
 
-# DECODE
-scores, pvals, temp_estimator, clf, stimuli, stimuli_gen = \
-                    decode_comparison(data.epochs, comparisons, args)
 
-# SAVE
-args2fname = get_args2fname(args)  # List of args
-fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl',
-                          show_values_only=True,
-                          order=False,
-                          compress=True)
-fname_pkl = os.path.join(args.path2output, fname_pkl)
-with open(fname_pkl, 'wb') as f:
-    pickle.dump([scores, pvals, data.epochs[0].times,
-                 temp_estimator, clf, comparisons,
-                 (stimuli, stimuli_gen), args], f)
-print(f'Results saved to: {fname_pkl}')
+def get_all_micro_electrodes(dict_row):
+    patient = str(dict_row['patient'])
+    if patient == '479':
+        patient = '479_11'
+    if patient == '554':
+        patient = '554_13'
+    path2fn = f'../../Data/UCLA/patient_{patient}/Raw/micro/channel_numbers_to_names.txt'
+    df_nums2names = pd.read_csv(path2fn,
+                                names=['ch_num', 'ch_name'],
+                                delim_whitespace=True)
+
+    # PICK
+    probe_name = dict_row['probe_name']
+    probe_names = [probe_name+str(i) for i in range(1, 9)]
+    df_nums2names = df_nums2names[df_nums2names['ch_name'].str.contains(f"{'|'.join(probe_names)}")]
+
+    return df_nums2names
+
+    
+
+# LOAD COORDINATES
+path2coords = '../../Data/UCLA/MNI_coords/'
+fn_coords = 'electrode_locations.csv'
+df_coords_all = pd.read_csv(os.path.join(path2coords, fn_coords))
+labels, coords, colors = [], [], []
+for patient in patients:
+    fn_coord = f'sub-{patient}_space-MNI_electrodes.xlsx'
+    df_coords_patient = df_coords_all.query(f'patient=={patient}')
+    for data_type in ['micro', 'macro']:
+        #df_coords = read_MNI_coord_from_xls(os.path.join(path2data, fn_coord),
+        #                                    data_type)
+        if data_type == 'macro':
+            df_coords = df_coords_patient.query('ch_type!="micro"')
+            df_coords = df_coords.query('ch_type!="stim"')
+        elif data_type == 'micro':
+            df_coords = df_coords_patient.query('ch_type!="macro"')
+            df_coords = df_coords.query('ch_type!="stim"')
+            df_coords = df_coords[df_coords["electrode"].str.contains("_micro-1")]
+            dfs_micro = []
+            for i_row, row in df_coords.iterrows():
+                df_micro = get_all_micro_electrodes(row)
+                dfs_micro.append(df_micro)
+            df_coords = pd.concat(dfs_micro)
+        
+        print(df_coords)
+
+        curr_labels = list(df_coords['ch_name'].values)
+        #curr_labels = [l.replace('-', '') for l in curr_labels]
+        print('-'*100)
+        print(patient, data_type)
+        print('-'*100)
+        print(f'Trying to pick {len(curr_labels)} channels')
+
+        #continue
+        if patient == '479':
+            patient = '479_11'
+        if patient == '554':
+            patient = '554_13'
+        args.patient = ['patient_' + patient]
+        args.data_type = [data_type]
+        args.filter = ['raw']
+        args.channel_name = None
+        data = get_data(args)
+        print(f'CHANNEL NAMES ({patient}/{data_type}):')
+        print('-'*100)
+        ch_names_all = data.epochs[0].ch_names
+        print(data.epochs[0].ch_names)
+        print(len(data.epochs[0].ch_names))
+        del data
+        
+        args.channel_name = [curr_labels]
+        data = get_data(args)
+        
+        print(f'CHANNEL NAMES ({patient}/{data_type}):')
+        print('-'*100)
+        ch_names_picked = data.epochs[0].ch_names
+        print(data.epochs[0].ch_names)
+        print(len(data.epochs[0].ch_names))
+        
+        print('-'*100)
+        print('Not picked')
+        print(list(set(ch_names_all)-set(ch_names_picked)))
+        del data
+

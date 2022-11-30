@@ -11,26 +11,31 @@ import pandas as pd
 import numpy as np
 from MNI_coords import UtilsCoords
 
-<<<<<<< HEAD
+# RUN
 cluster = True
 launch = True
-side = 8
+debug = False # !!!! run for only a single set of coordinates
+
+# CUBE
+side_half = 6 # Half the size of the side of cube
+stride = side_half*2 # could be, e.g., side/2
+
+# DATA
 smooth = 50
 decimate = 50
-comparison_name = 'number_all'
-=======
-cluster = False
-launch = False
-side = 8
-smooth = 50
-decimate = 50
+
 comparison_name = 'dec_quest_len2'
->>>>>>> 0fb2e92bb7791deaa9431a9c5c922dbeb61ab070
+
+# DATA TYPES
+isMacro = True
+isMicro = True
+isSpike = True
+
+# BLOCK TYPES
 block_train = 'auditory'
 block_test = 'visual'
-stride = side/2
 
-
+# CLUSTER
 queue = 'Nspin_short'
 walltime = '2:00:00'
 
@@ -43,42 +48,52 @@ script_name = 'decoding.py'
 # LOAD COORDINATES
 path2coords = '../../Data/UCLA/MNI_coords/'
 fn_coords = 'electrode_locations.csv'
-df = pd.read_csv(os.path.join(path2coords, fn_coords))
+df = pd.read_csv(os.path.join(path2coords, fn_coords), index_col=0)
+df = df.query('patient != 504')
 
-df = df.query('patient != 544 & patient != 551')
-
+# Find range of coordinate values
 x_min, x_max = df['MNI_x'].min(), df['MNI_x'].max()
 y_min, y_max = df['MNI_z'].min(), df['MNI_y'].max()
 z_min, z_max = df['MNI_z'].min(), df['MNI_y'].max()
 
-n_x, n_y, n_z = len(np.arange(x_min, x_max+side, side/2)), len(np.arange(y_min, y_max+side, side/2)), len(np.arange(z_min, z_max+side, side/2))
+n_x, n_y, n_z = len(np.arange(x_min, x_max+side_half, stride)), len(np.arange(y_min, y_max+side_half, stride)), len(np.arange(z_min, z_max+side_half, stride))
 
-cnt = 0
+# FOR DEBUG
+if debug:
+    x_min, y_min, z_min = -44.47, -16.7, 7.94
+    x_max = x_min+1
+    y_max = y_min+1
+    z_max = z_min+1
+
+cnt, cnt_run = 0, 0
 n_channels = []
-for x in np.arange(x_min, x_max+side, stride):
-    for y in np.arange(y_min, y_max+side, stride):
-        for z in np.arange(z_min, z_max+side, stride):
+for x in np.arange(x_min, x_max+side_half, stride):
+    for y in np.arange(y_min, y_max+side_half, stride):
+        for z in np.arange(z_min, z_max+side_half, stride):
+            
+            #if cnt % 10 == 0: print(f'{cnt+1}/{n_x * n_y * n_z}')
+            cnt += 1
+            
             # PICK CHANNELS IN CUBE
             df_cube = UtilsCoords.pick_channels_by_cube(df,
                                                         (x, y, z),
-                                                        side=side,
-                                                        isMacro=True,
-                                                        isMicro=False,
+                                                        side_half=side_half,
+                                                        isMacro=isMacro,
+                                                        isMicro=isMicro,
+                                                        isSpike=isSpike,
                                                         isStim=False)
             # GET DATA AND DECODE
             if not df_cube.empty:
-                cnt += 1
-                print(cnt)
-<<<<<<< HEAD
-                
-=======
-
->>>>>>> 0fb2e92bb7791deaa9431a9c5c922dbeb61ab070
+                cnt_run += 1
+                #if 'micro' in df_cube.ch_type.values:
+                #if isSpike:
+                #    df_cube = UtilsCoords.add_spike_rows(df_cube)
+                #print(x, y, z, side_half)
+                #print(df_cube.to_string())
                 patients = df_cube['patient'].astype('str').to_list()
                 data_types = df_cube['ch_type'].to_list()
                 filters = ['raw'] * len(data_types)
-                channel_names = [[e] for e in df_cube['electrode'].to_list()]
-                #if cnt % 1000 == 1: print(f'{cnt}/{n_x * n_y * n_z}')
+                channel_names = [[e] for e in df_cube['ch_name'].to_list()]
                 job_name = f'slight_{cnt}'
                 output_log = f'slight_{cnt}.out'
                 error_log = f'slight_{cnt}.err'
@@ -89,20 +104,18 @@ for x in np.arange(x_min, x_max+side, stride):
                     cmd += f' --patient {patient} --data-type {data_type} --filter {filt} --channel-name {" ".join(channel_name)}'
                 cmd += f' --level sentence_onset'
                 cmd += f' --smooth {smooth} --decimate {decimate}'
-                cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side {side}'
+                cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side-half {side_half*2}'
                 cmd += f' --comparison-name {comparison_name}'
                 cmd += f' --block-train {block_train}'
                 if block_test:
                     cmd += f' --block-test {block_test}'
+                
                 if cluster:
                     cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
-
-
-                if launch:
-                    os.system(cmd)
                 else:
                     print(cmd)
-<<<<<<< HEAD
-=======
+                
+                if launch:
+                    os.system(cmd)
 
->>>>>>> 0fb2e92bb7791deaa9431a9c5c922dbeb61ab070
+print(f'Number of non-empty cubes: {cnt_run}')

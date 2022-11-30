@@ -16,11 +16,11 @@ def get_probe_names(patient, data_type, path2data='../../../Data/UCLA/'):
             probe_names = [s[4::] if s.startswith('G') else s for s in channel_names] # remove prefix if exists (in micro: GA1-, GA2-, etc)
             probe_names = [s[:-1] for s in probe_names] # remove file extension and electrode numbering (e.g., LSTG1, LSTG2, LSTG3) 
         elif data_type == 'macro':
-            probe_names = []
-            for ch_name in channel_names:
-                IX_dash = ch_name.index('-') # bipolar referencing contains a dash, e.g., LSTG1-LSTG2
-                probe_name = ch_name[:(IX_dash-1)] # remove dash *and* channel numbering
-                probe_names.append(probe_name)
+            probe_names = [s[:-1] for s in channel_names] # remove channel numbering
+            #for ch_name in channel_names:
+            #    IX_dash = ch_name.index('-') # bipolar referencing contains a dash, e.g., LSTG1-LSTG2
+            #    probe_name = ch_name[:(IX_dash-1)] # remove dash *and* channel numbering
+            #    probe_names.append(probe_name)
         elif data_type == 'spike':
             #  e.g., GB1-RASTG8_40p1
             probe_names = [s[4::].split('_')[0][:-1] for s in channel_names]
@@ -130,7 +130,7 @@ def update_queries(comp, block_type, fixed_constraint, metadata):
     return comp
 
 
-def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False, order=None):
+def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=False, order=None, compress=False):
     '''
     This function generates a filename that contains chosen keys-values pairs from a dictionary.
     For example, the dict can represent hyperparameters of a model or settings.
@@ -140,6 +140,7 @@ def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=Fal
     :param sep: (str) separator to use in filename, between keys and values of d.
     :param keys_to_use: (list) subset of keys of d. If empty then all keys in d will be appear in filename.
     :param extension: (str) extension of the file name (e.g., 'csv', 'png').
+    :params compress: (bool) if True then repetitions in a list are compressed (e.g., ['micro', 'micro', 'micro'] -> 'micro'
     :return: (str) the filename generated from key-value pairs of d.
     '''
 
@@ -172,7 +173,10 @@ def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=Fal
                     curr_str = sep.join([str(item) for sublist in d[k] for item in sublist])
                     l.append(curr_str)
                 else: # list
-                    l.append(sep.join([str(s) for s in d[k]]))
+                    curr_l = [str(s) for s in d[k]] # convert to string
+                    if compress:
+                        curr_l = list(set(curr_l))
+                    l.append(sep.join(curr_l))
             else: # not a list
                 l.append(str(d[k])) 
         fn = sep.join(l) + extension
@@ -287,7 +291,7 @@ def read_MNI_coord_from_xls(fn, data_type, channel_name=None):
     ismicro = (data_type == 'micro')
     
     df_coords = pd.read_excel(fn)
-    df_coords['isMicro'] = df_coords['electrode'].str.contains('micro-1').values
+    df_coords['isMicro'] = df_coords['electrode'].str.contains('_micro-').values
     df_coords['isStim'] = df_coords['electrode'].str.contains('stim').values
     
     df_coords = df_coords[df_coords['isStim'] == False] # remove stim channels

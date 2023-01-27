@@ -457,45 +457,34 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         recording_system = identify_recording_system(path2data)
     print(f'Recording system identified - {recording_system}')
     if recording_system == 'Neuralynx':
-        reader = neo.io.NeuralynxIO(dirname=path2data)
+        reader = neo.rawio.NeuralynxRawIO(dirname=path2data)
+        reader.parse_header()
         print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
-        # sfreq = reader._sigs_sampling_rate
         sfreq = reader.get_signal_sampling_rate()
         print(f'Neural files: Start time {time0}, End time {timeend}')
         print(f'Sampling rate [Hz]: {sfreq}')
-        blks = reader.read(lazy=True)
         channels = reader.header['signal_channels']
-        n_channels = len(channels)
         ch_names = [channel[0] for channel in channels]
-        channel_nums = [channel[1] for channel in channels]
         print('Number of channel %i: %s'
                       % (len(ch_names), ch_names))
 
-        raws = []
-        for i_segment, segment in enumerate(blks[0].segments):
-            print(f'Segment - {i_segment+1}/{len(blks[0].segments)}')
-            asignal = segment.analogsignals[0].load()
-            
-            raw_channels = []
-            for i_ch in range(n_channels):
-                info = mne.create_info(ch_names=[ch_names[i_ch]],
-                                       sfreq=sfreq, ch_types='seeg')
-                raw = mne.io.RawArray(np.asarray(asignal[:, i_ch]).T, info,
-                                      verbose=False)
-                if i_ch == 0:
-                    raw_channels = raw.copy()
-                else:
-                    raw_channels.add_channels([raw])
-            raws.append(raw_channels)
-        del blks
-        raws = mne.concatenate_raws(raws)
-        if data_type != 'microphone':
-            # Downsample
-            if raws.info['sfreq'] > sfreq_down:
-                print('Resampling data %1.2f -> %1.2f' % (raw.info['sfreq'], sfreq_down))
-                raw = raw.resample(sfreq_down, npad='auto')
-
+        
+        n_segments_list = reader.header['nb_segment'] # list of n_segments
+        chunks = []
+        for i_block, n_segments in enumerate(n_segments_list):
+            for i_segment in range(n_segments):
+                if i_segment % 100 == 0:
+                    print(f'block {i_block+1}; Segment {i_segment+1}/{n_segments}')
+                curr_chunk = reader.get_analogsignal_chunk(block_index=i_block,
+                                                           seg_index=i_segment)
+                chunks.append(curr_chunk)
+        data = np.vstack(chunks)
+        info = mne.create_info(ch_names=ch_names,
+                               sfreq=sfreq, ch_types='seeg')
+        raw = mne.io.RawArray(data.T, info, verbose=True)
+        print(raw)
+        
     elif recording_system == 'BlackRock':
         if data_type == 'macro':
             ext = 'ns3'
@@ -511,19 +500,16 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         nsx_file.close()
         sfreq = cont_data['samp_per_s']
         print(sfreq)
-        #fn_channel_names = os.path.join(path2data, 'channel_numbers_to_names.txt') 
-        #with open(fn_channel_names, 'r') as f:
-        #    lines = f.readlines()
-        #keys = [int(ll.split()[0]) for ll in lines]
-        #values = [ll.split()[1] for ll in lines]
-        #dict_ch_names = dict(zip(keys, values))
         elec_ids = np.asarray(cont_data['elec_ids'])
-        elec_ids = list(set(elec_ids) - set(range(129, 300)))
-        print(elec_ids)
+        
         dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data))
         ch_names = []
         if data_type == 'macro':
             elec_ids -= 128
+        elif data_type == 'micro':
+            elec_ids = np.asarray(list(set(elec_ids) - set(range(129, 300))))
+            
+        print(elec_ids)
         for elec_id in elec_ids:
             if int(elec_id) in dict_ch_names.keys():
                 ch_name = dict_ch_names[elec_id]
@@ -533,9 +519,9 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         info = mne.create_info(ch_names=ch_names,
                                sfreq=sfreq,
                                ch_types='seeg')
-        raws = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
+        raw = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
 
-    return raws
+    return raw
 
 
 

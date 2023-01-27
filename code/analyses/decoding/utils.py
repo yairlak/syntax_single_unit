@@ -72,28 +72,28 @@ def update_args(args):
 def get_args2fname(args):
 
     list_args2fname = ['comparison_name', 'block_train']
-    if args.comparison_name_test:
+    if 'comparison_name_test' in args and args.comparison_name_test:
         list_args2fname += ['comparison_name_test']
     if args.block_test:
         list_args2fname += ['block_test']
-    if args.data_type_filters:
+    if 'data_type_filters' in args and args.data_type_filters:
         list_args2fname += ['data_type_filters']
-    else:
+    elif 'data_type' in args and 'filter' in args:
         list_args2fname += ['data_type', 'filter']
-    if args.ROIs:
+    if 'ROIs' in args and args.ROIs:
         list_args2fname.append('ROIs')
-    elif args.probe_name:
+    elif 'probe_name' in args and args.probe_name:
         list_args2fname.append('probe_name')
+
     list_args2fname += ['smooth', 'decimate']
-    
-    if args.side:
-        list_args2fname += ['side']
-    if args.coords:
+
+    if 'side_half' in args and args.side_half:
+        list_args2fname += ['side_half']
+    if 'coords' in args and args.coords:
         list_args2fname += ['coords']
-    #if args.responsive_channels_only:
-    #    list_args2fname += ['responsive_channels_only']
 
     return list_args2fname
+
 
 def get_channel_names_from_cube_center(df_coords,
                                        x_center, y_center, z_center,

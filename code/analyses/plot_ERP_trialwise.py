@@ -23,7 +23,7 @@ parser.add_argument('--data-type', choices=['micro', 'macro', 'spike', 'micropho
 parser.add_argument('--level', choices=['sentence_onset', 'sentence_offset',
                                         'word', 'phone'],
                     default=None, help='')
-parser.add_argument('--filter', default='high-gamma', help='')
+parser.add_argument('--filter', default='raw', help='')
 parser.add_argument('--smooth', default=None, help='')
 parser.add_argument('--scale-epochs', action="store_true", default=False, help='')
 # PICK CHANNELS

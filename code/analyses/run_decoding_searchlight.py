@@ -7,24 +7,31 @@ Created on Tue Oct  4 10:19:32 2022
 """
 
 import os
+import argparse
 import pandas as pd
 import numpy as np
 from MNI_coords import UtilsCoords
 
-# RUN
-cluster = True
-launch = True
-debug = False # !!!! run for only a single set of coordinates
+parser = argparse.ArgumentParser()
+parser.add_argument('--block-train', default='auditory')
+parser.add_argument('--block-test', default='auditory')
+parser.add_argument('--cluster', action='store_true', default=False)
+parser.add_argument('--launch', action='store_true', default=False)
+parser.add_argument('--debug', action='store_true', default=False)
+parser.add_argument('--print', action='store_true', default=False)
+args = parser.parse_args()
 
 # CUBE
-side_half = 6 # Half the size of the side of cube
-stride = side_half*2 # could be, e.g., side/2
+side_half = 5 # Half the size of the side of cube
+stride = side_half # could be, e.g., side_half/2
 
 # DATA
-smooth = 50
+smooth = 25
 decimate = 50
+k_bins = 4
 
-comparison_name = 'dec_quest_len2'
+#'dec_quest_len2 embedding_vs_long_end embedding_vs_long_3rd_word number_subject number_verb unacc_unerg_dec'
+comparison_name = 'number_subject'
 
 # DATA TYPES
 isMacro = True
@@ -32,12 +39,12 @@ isMicro = True
 isSpike = True
 
 # BLOCK TYPES
-block_train = 'auditory'
-block_test = 'visual'
+#blocks_train = ['auditory', 'visual']
+#blocks_test = ['auditory', 'visual']
 
 # CLUSTER
-queue = 'Nspin_short'
-walltime = '2:00:00'
+queue = 'Nspin_long'
+walltime = '72:00:00'
 
 # LOAD COORDINATES
 path2code =  '/neurospin/unicog/protocols/intracranial/syntax_single_unit/code/analyses/'
@@ -51,7 +58,6 @@ fn_coords = 'electrode_locations.csv'
 df = pd.read_csv(os.path.join(path2coords, fn_coords), index_col=0)
 df = df.query('patient != 504')
 
-# Find range of coordinate values
 x_min, x_max = df['MNI_x'].min(), df['MNI_x'].max()
 y_min, y_max = df['MNI_z'].min(), df['MNI_y'].max()
 z_min, z_max = df['MNI_z'].min(), df['MNI_y'].max()
@@ -59,7 +65,7 @@ z_min, z_max = df['MNI_z'].min(), df['MNI_y'].max()
 n_x, n_y, n_z = len(np.arange(x_min, x_max+side_half, stride)), len(np.arange(y_min, y_max+side_half, stride)), len(np.arange(z_min, z_max+side_half, stride))
 
 # FOR DEBUG
-if debug:
+if args.debug:
     x_min, y_min, z_min = -44.47, -16.7, 7.94
     x_max = x_min+1
     y_max = y_min+1
@@ -99,23 +105,22 @@ for x in np.arange(x_min, x_max+side_half, stride):
                 error_log = f'slight_{cnt}.err'
 
                 # LAUNCH
-                cmd = f'python {os.path.join(path2code, script_name)}'
+                cmd = f'python3 {os.path.join(path2code, script_name)}'
                 for patient, data_type, filt, channel_name in zip(patients, data_types, filters, channel_names):
                     cmd += f' --patient {patient} --data-type {data_type} --filter {filt} --channel-name {" ".join(channel_name)}'
                 cmd += f' --level sentence_onset'
                 cmd += f' --smooth {smooth} --decimate {decimate}'
-                cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side-half {side_half*2}'
+                cmd += f' --coords {round(x, 2)} {round(y, 2)} {round(z, 2)} --side-half {side_half} --stride {stride}'
                 cmd += f' --comparison-name {comparison_name}'
-                cmd += f' --block-train {block_train}'
-                if block_test:
-                    cmd += f' --block-test {block_test}'
+                cmd += f' --k-bins {k_bins}'
+                cmd += f' --block-train {args.block_train}'
+                if args.block_test:
+                    cmd += f' --block-test {args.block_test}'
                 
-                if cluster:
+                if args.cluster:
                     cmd = f"echo {cmd} | qsub -q {queue} -N {job_name} -l walltime={walltime} -o {os.path.join(path2code, logdir, output_log)} -e {os.path.join(path2code, logdir, error_log)}"
-                else:
-                    print(cmd)
-                
-                if launch:
+                if args.launch:
                     os.system(cmd)
-
-print(f'Number of non-empty cubes: {cnt_run}')
+                if not args.cluster or args.print:
+                    print(cmd)
+print(f'Number of non-empty cubes: {cnt_run}/{cnt}')

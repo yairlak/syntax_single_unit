@@ -11,9 +11,9 @@ from .models import define_model
 from sklearn.model_selection import LeaveOneOut, KFold
 import numpy as np
 from sklearn.metrics import roc_auc_score
+from tqdm import tqdm
 
-
-def decode_comparison(epochs_list, comparisons, args):
+def decode_comparison(epochs_list, comparisons, args, n_perm=10000):
     # PREPARE DATA FOR DECODING
     print('\nPERPARING DATA FOR CLASSIFICATION:')
     X, y, stimuli= prepare_data_for_classification(epochs_list,
@@ -30,6 +30,7 @@ def decode_comparison(epochs_list, comparisons, args):
                                                                    comparisons[1]['queries'],
                                                                    args.classifier,
                                                                    args.min_trials,
+                                                                   args.k_bins,
                                                                    equalize_classes=args.equalize_classes,
                                                                    verbose=True)
         print(stimuli_gen)
@@ -76,11 +77,9 @@ def decode_comparison(epochs_list, comparisons, args):
     else:
         multi_class = 'raise'
     
-    n_perm = 1000
-    
     scores, pvals = [], []
     
-    for i_t in range(y_hats.shape[1]):  # loop over n_times
+    for i_t in tqdm(range(y_hats.shape[1])):  # loop over n_times
         if args.multi_class:
             scores_true = roc_auc_score(y_trues, y_hats[:, i_t, :],
                                         multi_class=multi_class,

@@ -74,13 +74,14 @@ parser.add_argument('--gat', default=False, action='store_true',
 # MISC
 parser.add_argument('--coords', default=None, type=float, nargs='*',
                     help="coordinates (e.g., MNI) for searchlight")
-parser.add_argument('--side-half', default=8, type=float, help='Half the size of the cube in mm')
+parser.add_argument('--side-half', default=None, type=float, help='Half the size of the cube in mm')
+parser.add_argument('--stride', default=None, type=float, help='Stride of searchlight if called from outside')
 parser.add_argument('--tmin', default=None, type=float)
 parser.add_argument('--tmax', default=None, type=float)
 #parser.add_argument('--vmin', default=None, type=float, help='')
 #parser.add_argument('--vmax', default=None, type=float, help='')
 parser.add_argument('--decimate', default=50, type=int)
-parser.add_argument('--cat-k-timepoints', type=int, default=1,
+parser.add_argument('--k-bins', type=int, default=1,
                     help='How many time points to concatenate before classification')
 parser.add_argument('--path2figures', default='../../Figures/Decoding')
 parser.add_argument('--path2output', default='../../Output/decoding')
@@ -90,6 +91,18 @@ parser.add_argument('--dont-overwrite', default=False, action='store_true',
 args = parser.parse_args()
 # CHECK AND UPDATE USER ARGUMENTS
 args = update_args(args)
+
+# BUILD TARGET FILENAME AND CHECK IF EXISTS
+args2fname = get_args2fname(args)  # List of args
+fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl',
+                          show_values_only=True,
+                          order=False,
+                          compress=True)
+fname_pkl = os.path.join(args.path2output, fname_pkl)
+print(fname_pkl)
+if args.dont_overwrite and os.path.isfile(fname_pkl):
+    print(f'Aborting - file already exists: {fname_pkl}')
+    quit()
 
 # GET COMPARISONS (CONTRASTS)
 comparisons = get_comparisons(args.comparison_name, # List with two dicts for
@@ -122,12 +135,6 @@ scores, pvals, temp_estimator, clf, stimuli, stimuli_gen = \
                     decode_comparison(data.epochs, comparisons, args)
 
 # SAVE
-args2fname = get_args2fname(args)  # List of args
-fname_pkl = dict2filename(args.__dict__, '_', args2fname, 'pkl',
-                          show_values_only=True,
-                          order=False,
-                          compress=True)
-fname_pkl = os.path.join(args.path2output, fname_pkl)
 with open(fname_pkl, 'wb') as f:
     pickle.dump([scores, pvals, data.epochs[0].times,
                  temp_estimator, clf, comparisons,

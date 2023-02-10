@@ -1,3 +1,6 @@
+patient = 'patient_479_11'
+print(f'Preparing metadata for patient {patient}')
+
 import argparse
 from utils.data_manip import prepare_metadata, extend_metadata
 import pandas as pd
@@ -7,9 +10,10 @@ parser.add_argument('--query', '-q', type=str, default=None)
 parser.add_argument('--columns', '-c', type=str, nargs='*', default=None)
 parser.add_argument('--print-all', '-a', default=False, action='store_true')
 args = parser.parse_args()
+print(args)
+
 
 # GET METADATA BY READING THE LOGS FROM THE FOLLOWING PATIENT:
-patient = 'patient_479_11'
 metadata = prepare_metadata(patient)
 metadata = extend_metadata(metadata)
 
@@ -38,10 +42,10 @@ print('-'*100)
 
 if args.query:
     metadata = metadata.query(args.query)
-    if args.columns:
-        metadata = metadata[args.columns]
-    if args.print_all:
-        with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
-            print(metadata)
-    else:
+if args.columns:
+    metadata = metadata[args.columns]
+if args.print_all:
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
         print(metadata)
+else:
+    print(metadata)

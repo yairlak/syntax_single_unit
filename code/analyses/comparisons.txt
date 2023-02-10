@@ -1,0 +1,548 @@
+Namespace(comparison='dec_quest_len2')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+dec_quest_len2
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Declarative sentence_onset : dec_quest==0 and sentence_length==2
+    sentence_string word_string phone_string
+29       he arrived          He             
+122      he bloomed          He             
+370    he collapses          He             
+279      he crawled          He             
+160        he cried          He             
+213  he disappeared          He             
+308        he falls          He             
+467       he jumped          He             
+239       he laughs          He             
+59       he remains          He             
+592       he shaved          He             
+14      he showered          He             
+0         he smiles          He             
+262      he sneezes          He             
+401     he streched          He             
+608    he undressed          He             
+454     she arrives         She             
+388      she blooms         She             
+193   she collapsed         She             
+330      she crawls         She             
+425       she cries         She             
+145  she disappears         She             
+657     she dressed         She             
+157  she excercised         She             
+422        she fell         She             
+286       she jumps         She             
+148     she laughed         She             
+170    she remained         She             
+434   she scratched         She             
+221      she smiled         She             
+81      she sneezed         She             
+131      she washed         She             
+276     they appear        They             
+273   they appeared        They             
+419      they cough        They             
+557    they coughed        They             
+447     they vanish        They             
+87    they vanished        They             
+40        they wink        They             
+167     they winked        They             
+Number of stimuli (Declarative): 40
+tmin, tmax = -1.2, 3.5
+Question sentence_onset : dec_quest==1 and sentence_length==2
+      sentence_string word_string phone_string
+470     who appeared?         Who             
+242      who arrives?         Who             
+151       who blooms?         Who             
+605    who collapsed?         Who             
+289      who coughed?         Who             
+574      who crawled?         Who             
+560        who cried?         Who             
+529  who disappeared?         Who             
+138        who falls?         Who             
+47        who jumped?         Who             
+78        who laughs?         Who             
+265      who remains?         Who             
+554       who smiles?         Who             
+154      who sneezes?         Who             
+490     who vanished?         Who             
+84         who winks?         Who             
+Number of stimuli (Question): 16
+tmin, tmax = -1.2, 3.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Declarative sentence_onset : dec_quest==0 and sentence_length==2
+     sentence_string word_string phone_string
+3682      he arrived          He           HH
+4099      he bloomed          He           HH
+4153    he collapses          He           HH
+4494      he crawled          He           HH
+3461        he cried          He           HH
+3560  he disappeared          He           HH
+4681        he falls          He           HH
+3784       he jumped          He           HH
+4310       he laughs          He           HH
+3953      he remains          He           HH
+3297       he shaved          He           HH
+4058     he showered          He           HH
+3222       he smiles          He           HH
+4851      he sneezes          He           HH
+4454     he streched          He           HH
+3733    he undressed          He           HH
+3657     she arrives         She           SH
+3340      she blooms         She           SH
+3672   she collapsed         She           SH
+3664      she crawls         She           SH
+4653       she cries         She           SH
+3399  she disappears         She           SH
+4265     she dressed         She           SH
+3549  she excercised         She           SH
+4361        she fell         She           SH
+4302       she jumps         She           SH
+4195     she laughed         She           SH
+4760    she remained         She           SH
+4485   she scratched         She           SH
+4704      she smiled         She           SH
+4273     she sneezed         She           SH
+4395      she washed         She           SH
+4646     they appear        They           DH
+4541   they appeared        They           DH
+3145      they cough        They           DH
+4431    they coughed        They           DH
+4673     they vanish        They           DH
+4119   they vanished        They           DH
+4338       they wink        They           DH
+3571     they winked        They           DH
+Number of stimuli (Declarative): 40
+tmin, tmax = -1.2, 3.5
+Question sentence_onset : dec_quest==1 and sentence_length==2
+       sentence_string word_string phone_string
+3906     who appeared?         Who           HH
+3198      who arrives?         Who           HH
+4138       who blooms?         Who           HH
+4806    who collapsed?         Who           HH
+3348      who coughed?         Who           HH
+3109      who crawled?         Who           HH
+3384        who cried?         Who           HH
+4184  who disappeared?         Who           HH
+3629        who falls?         Who           HH
+3391       who jumped?         Who           HH
+4146       who laughs?         Who           HH
+3100      who remains?         Who           HH
+3621       who smiles?         Who           HH
+3636      who sneezes?         Who           HH
+3928     who vanished?         Who           HH
+4533        who winks?         Who           HH
+Number of stimuli (Question): 16
+tmin, tmax = -1.2, 3.5
+Namespace(comparison='embedding_vs_long_end')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+embedding_vs_long_end
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Embedding sentence_end : embedding==True and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                    sentence_string word_string phone_string
+629         he said that she smiled           .             
+489  she discovered that they cough           .             
+325         she saw that he crawled           .             
+442    they heared that she laughed           .             
+537       we believed that he cried           .             
+22        we guessed that they wink           .             
+433       we heard that she sneezed           .             
+233      we revealed that she jumps           .             
+Number of stimuli (Embedding): 8
+tmin, tmax = -3.5, 1.5
+Long declarative sentence_end : dec_quest==0 and sentence_length==5 and embedding==0 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                 sentence_string word_string phone_string
+582        the boy heard the men           .             
+250  the boy smelled the flowers           .             
+568   the boys kissed the clowns           .             
+635     the boys tickle the girl           .             
+409     the girl kicked the ball           .             
+297    the girls found the bikes           .             
+498     the women hug the friend           .             
+Number of stimuli (Long declarative): 7
+tmin, tmax = -3.5, 1.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Embedding sentence_end : embedding==True and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                     sentence_string word_string phone_string
+3197         he said that she smiled               END_OF_WAV
+4748  she discovered that they cough               END_OF_WAV
+3783         she saw that he crawled               END_OF_WAV
+3383    they heared that she laughed               END_OF_WAV
+3168       we believed that he cried               END_OF_WAV
+4453       we guessed that they wink               END_OF_WAV
+3952       we heard that she sneezed               END_OF_WAV
+3322      we revealed that she jumps               END_OF_WAV
+Number of stimuli (Embedding): 8
+tmin, tmax = -3.5, 1.5
+Long declarative sentence_end : dec_quest==0 and sentence_length==5 and embedding==0 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                  sentence_string word_string phone_string
+3755        the boy heard the men               END_OF_WAV
+3256  the boy smelled the flowers               END_OF_WAV
+4605   the boys kissed the clowns               END_OF_WAV
+3891     the boys tickle the girl               END_OF_WAV
+3620     the girl kicked the ball               END_OF_WAV
+3978    the girls found the bikes               END_OF_WAV
+3847     the women hug the friend               END_OF_WAV
+Number of stimuli (Long declarative): 7
+tmin, tmax = -3.5, 1.5
+Namespace(comparison='embedding_vs_long_3rd_word')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+embedding_vs_long_3rd_word
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Embedding word : embedding==True and word_position==3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                    sentence_string word_string phone_string
+626         he said that she smiled        that             
+486  she discovered that they cough        that             
+322         she saw that he crawled        that             
+439    they heared that she laughed        that             
+534       we believed that he cried        that             
+19        we guessed that they wink        that             
+430       we heard that she sneezed        that             
+230      we revealed that she jumps        that             
+Number of stimuli (Embedding): 8
+tmin, tmax = -1.5, 2.5
+Long declarative word : dec_quest==0 and sentence_length==5 and embedding==0 and word_position==3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                 sentence_string word_string phone_string
+579        the boy heard the men       heard             
+247  the boy smelled the flowers     smelled             
+565   the boys kissed the clowns      kissed             
+632     the boys tickle the girl      tickle             
+406     the girl kicked the ball      kicked             
+294    the girls found the bikes       found             
+495     the women hug the friend         hug             
+Number of stimuli (Long declarative): 7
+tmin, tmax = -1.5, 2.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Embedding word : embedding==True and word_position==3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                     sentence_string word_string phone_string
+3187         he said that she smiled        that           DH
+4740  she discovered that they cough        that           DH
+3773         she saw that he crawled        that           DH
+3374    they heared that she laughed        that           DH
+3159       we believed that he cried        that           DH
+4444       we guessed that they wink        that           DH
+3942       we heard that she sneezed        that           DH
+3312      we revealed that she jumps        that           DH
+Number of stimuli (Embedding): 8
+tmin, tmax = -1.5, 2.5
+Long declarative word : dec_quest==0 and sentence_length==5 and embedding==0 and word_position==3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                  sentence_string word_string phone_string
+3747        the boy heard the men       heard           HH
+3244  the boy smelled the flowers     smelled            S
+4594   the boys kissed the clowns      kissed            K
+3881     the boys tickle the girl      tickle            T
+3611     the girl kicked the ball      kicked            K
+3968    the girls found the bikes       found            F
+3837     the women hug the friend         hug           HH
+Number of stimuli (Long declarative): 7
+tmin, tmax = -1.5, 2.5
+Namespace(comparison='number_subject')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+number_subject
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Singular word : grammatical_number==-1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                 sentence_string word_string phone_string
+416              the boy bloomed         boy             
+327            the boy collapses         boy             
+578        the boy heard the men         boy             
+283               the boy jumped         boy             
+142               the boy laughs         boy             
+56               the boy remains         boy             
+246  the boy smelled the flowers         boy             
+164              the boy sneezes         boy             
+458           the boy was pushed         boy             
+339            the boy will sing         boy             
+520              the girl crawls        girl             
+643               the girl cries        girl             
+312          the girl disappears        girl             
+385                the girl fell        girl             
+405     the girl kicked the ball        girl             
+350              the girl smiled        girl             
+118          the host was warned        host             
+500        the woman was pinched       woman             
+544         the woman will speak       woman             
+Number of stimuli (Singular): 19
+tmin, tmax = -1.5, 2.5
+Plural word : grammatical_number==1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                sentence_string word_string phone_string
+601     the actors were scorned      actors             
+334       the actors will snore      actors             
+564  the boys kissed the clowns        boys             
+631    the boys tickle the girl        boys             
+589           the boys vanished        boys             
+444             the boys winked        boys             
+135            the girls appear       girls             
+616            the girls arrive       girls             
+225             the girls cough       girls             
+293   the girls found the bikes       girls             
+494    the women hug the friend       women             
+Number of stimuli (Plural): 11
+tmin, tmax = -1.5, 2.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Singular word : grammatical_number==-1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                  sentence_string word_string phone_string
+4176              the boy bloomed         boy            B
+3758            the boy collapses         boy            B
+3745        the boy heard the men         boy            B
+4581               the boy jumped         boy            B
+4232               the boy laughs         boy            B
+3439              the boy remains         boy            B
+3242  the boy smelled the flowers         boy            B
+3412              the boy sneezes         boy            B
+3596           the boy was pushed         boy            B
+4283            the boy will sing         boy            B
+3288              the girl crawls        girl            G
+4828               the girl cries        girl            G
+3498          the girl disappears        girl            G
+3794                the girl fell        girl            G
+3608     the girl kicked the ball        girl            G
+4241              the girl smiled        girl            G
+3691          the host was warned        host           HH
+4347        the woman was pinched       woman            W
+4252         the woman will speak       woman            W
+Number of stimuli (Singular): 19
+tmin, tmax = -1.5, 2.5
+Plural word : grammatical_number==1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                 sentence_string word_string phone_string
+4690     the actors were scorned      actors          AE1
+4566       the actors will snore      actors          AE1
+4591  the boys kissed the clowns        boys            B
+3878    the boys tickle the girl        boys            B
+4023           the boys vanished        boys            B
+4329             the boys winked        boys            B
+4012            the girls appear       girls            G
+3232            the girls arrive       girls            G
+4818             the girls cough       girls            G
+3964   the girls found the bikes       girls            G
+3832    the women hug the friend       women            W
+Number of stimuli (Plural): 11
+tmin, tmax = -1.5, 2.5
+Namespace(comparison='number_verb')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+number_verb
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Singular word : dec_quest==0 and tense==0 and grammatical_number==-1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                sentence_string word_string phone_string
+371                he collapses   collapses             
+309                    he falls       falls             
+374            he hears the men       hears             
+240                   he laughs      laughs             
+60                   he remains     remains             
+1                     he smiles      smiles             
+263                  he sneezes     sneezes             
+455                 she arrives     arrives             
+389                  she blooms      blooms             
+331                  she crawls      crawls             
+426                   she cries       cries             
+146              she disappears  disappears             
+287                   she jumps       jumps             
+328           the boy collapses   collapses             
+143              the boy laughs      laughs             
+57              the boy remains     remains             
+165             the boy sneezes     sneezes             
+521             the girl crawls      crawls             
+644              the girl cries       cries             
+313         the girl disappears  disappears             
+232  we revealed that she jumps       jumps             
+Number of stimuli (Singular): 21
+tmin, tmax = -1.5, 2.5
+Plural word : dec_quest==0 and tense==0 and grammatical_number==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                    sentence_string word_string phone_string
+488  she discovered that they cough       cough             
+632        the boys tickle the girl      tickle             
+136                the girls appear      appear             
+617                the girls arrive      arrive             
+226                 the girls cough       cough             
+495        the women hug the friend         hug             
+277                     they appear      appear             
+420                      they cough       cough             
+101             they hug the friend         hug             
+185            they tickle the girl      tickle             
+448                     they vanish      vanish             
+41                        they wink        wink             
+21        we guessed that they wink        wink             
+Number of stimuli (Plural): 13
+tmin, tmax = -1.5, 2.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Singular word : dec_quest==0 and tense==0 and grammatical_number==-1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                 sentence_string word_string phone_string
+4155                he collapses   collapses            K
+4683                    he falls       falls            F
+4404            he hears the men       hears           HH
+4312                   he laughs      laughs            L
+3955                  he remains     remains            R
+3224                   he smiles      smiles            S
+4853                  he sneezes     sneezes            S
+3659                 she arrives     arrives          ER0
+3342                  she blooms      blooms            B
+3666                  she crawls      crawls            K
+4655                   she cries       cries            K
+3401              she disappears  disappears            D
+4304                   she jumps       jumps           JH
+3760           the boy collapses   collapses            K
+4234              the boy laughs      laughs            L
+3441             the boy remains     remains            R
+3414             the boy sneezes     sneezes            S
+3291             the girl crawls      crawls            K
+4831              the girl cries       cries            K
+3501         the girl disappears  disappears            D
+3317  we revealed that she jumps       jumps           JH
+Number of stimuli (Singular): 21
+tmin, tmax = -1.5, 2.5
+Plural word : dec_quest==0 and tense==0 and grammatical_number==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+                     sentence_string word_string phone_string
+4745  she discovered that they cough       cough            K
+3881        the boys tickle the girl      tickle            T
+4016                the girls appear      appear          AH0
+3236                the girls arrive      arrive          ER0
+4822                 the girls cough       cough            K
+3837        the women hug the friend         hug           HH
+4648                     they appear      appear          AH0
+3147                      they cough       cough            K
+3450             they hug the friend         hug           HH
+3134            they tickle the girl      tickle            T
+4675                     they vanish      vanish            V
+4340                       they wink        wink            W
+4449       we guessed that they wink        wink            W
+Number of stimuli (Plural): 13
+tmin, tmax = -1.5, 2.5
+Namespace(comparison='unacc_unerg_dec')
+Preparing metadata for patient patient_479_11
+----------------------------------------------------------------------------------------------------
+unacc_unerg_dec
+----------------------------------------------------------------------------------------------------
+Block: VISUAL
+Unergative word : dec_quest==0 and unaccusative==0 and pos.str.startswith('VB') and ~sentence_string.str.contains('was|were|will') and sentence_length<4 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+     sentence_string word_string phone_string
+280       he crawled     crawled             
+161         he cried       cried             
+468        he jumped      jumped             
+240        he laughs      laughs             
+593        he shaved      shaved             
+1          he smiles      smiles             
+263       he sneezes     sneezes             
+609     he undressed   undressed             
+331       she crawls      crawls             
+426        she cries       cries             
+658      she dressed     dressed             
+287        she jumps       jumps             
+149      she laughed     laughed             
+435    she scratched   scratched             
+222       she smiled      smiled             
+82       she sneezed     sneezed             
+284   the boy jumped      jumped             
+143   the boy laughs      laughs             
+165  the boy sneezes     sneezes             
+445  the boys winked      winked             
+521  the girl crawls      crawls             
+644   the girl cries       cries             
+351  the girl smiled      smiled             
+226  the girls cough       cough             
+420       they cough       cough             
+558     they coughed     coughed             
+41         they wink        wink             
+168      they winked      winked             
+Number of stimuli (Unergative): 28
+tmin, tmax = -1.5, 2.5
+Unaccusative word : dec_quest==0 and unaccusative==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+         sentence_string  word_string phone_string
+30            he arrived      arrived             
+123           he bloomed      bloomed             
+371         he collapses    collapses             
+214       he disappeared  disappeared             
+309             he falls        falls             
+60            he remains      remains             
+455          she arrives      arrives             
+389           she blooms       blooms             
+194        she collapsed    collapsed             
+146       she disappears   disappears             
+423             she fell         fell             
+171         she remained     remained             
+417      the boy bloomed      bloomed             
+328    the boy collapses    collapses             
+57       the boy remains      remains             
+590    the boys vanished     vanished             
+313  the girl disappears   disappears             
+386        the girl fell         fell             
+136     the girls appear       appear             
+617     the girls arrive       arrive             
+277          they appear       appear             
+274        they appeared     appeared             
+448          they vanish       vanish             
+88         they vanished     vanished             
+Number of stimuli (Unaccusative): 24
+tmin, tmax = -1.5, 2.5
+----------------------------------------------------------------------------------------------------
+Block: AUDITORY
+Unergative word : dec_quest==0 and unaccusative==0 and pos.str.startswith('VB') and ~sentence_string.str.contains('was|were|will') and sentence_length<4 and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+      sentence_string word_string phone_string
+4496       he crawled     crawled            K
+3463         he cried       cried            K
+3786        he jumped      jumped           JH
+4312        he laughs      laughs            L
+3299        he shaved      shaved           SH
+3224        he smiles      smiles            S
+4853       he sneezes     sneezes            S
+3735     he undressed   undressed          AH0
+3666       she crawls      crawls            K
+4655        she cries       cries            K
+4267      she dressed     dressed            D
+4304        she jumps       jumps           JH
+4197      she laughed     laughed            L
+4487    she scratched   scratched            S
+4706       she smiled      smiled            S
+4275      she sneezed     sneezed            S
+4583   the boy jumped      jumped           JH
+4234   the boy laughs      laughs            L
+3414  the boy sneezes     sneezes            S
+4332  the boys winked      winked            W
+3291  the girl crawls      crawls            K
+4831   the girl cries       cries            K
+4244  the girl smiled      smiled            S
+4822  the girls cough       cough            K
+3147       they cough       cough            K
+4433     they coughed     coughed            K
+4340        they wink        wink            W
+3573      they winked      winked            W
+Number of stimuli (Unergative): 28
+tmin, tmax = -1.5, 2.5
+Unaccusative word : dec_quest==0 and unaccusative==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('cake|sandwich|mushrooms|grapes|chef|ate|meal|salad|tasty|eat|eats|drink|cook|overcooked|streched|excercised')
+          sentence_string  word_string phone_string
+3684           he arrived      arrived          ER0
+4101           he bloomed      bloomed            B
+4155         he collapses    collapses            K
+3562       he disappeared  disappeared            D
+4683             he falls        falls            F
+3955           he remains      remains            R
+3659          she arrives      arrives          ER0
+3342           she blooms       blooms            B
+3674        she collapsed    collapsed            K
+3401       she disappears   disappears            D
+4363             she fell         fell            F
+4762         she remained     remained            R
+4178      the boy bloomed      bloomed            B
+3760    the boy collapses    collapses            K
+3441      the boy remains      remains            R
+4026    the boys vanished     vanished            V
+3501  the girl disappears   disappears            D
+3797        the girl fell         fell            F
+4016     the girls appear       appear          AH0
+3236     the girls arrive       arrive          ER0
+4648          they appear       appear          AH0
+4543        they appeared     appeared          AH0
+4675          they vanish       vanish            V
+4121        they vanished     vanished            V
+Number of stimuli (Unaccusative): 24
+tmin, tmax = -1.5, 2.5

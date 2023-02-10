@@ -1,8 +1,71 @@
 def comparison_list():
     comparisons = {}
-# 'high_low_op_nodes', 'morph_complex', 'grammatical_number', 'gender', 'subject_type', 'high_low_freq', 'pos_simple', 'tense', 'manner_of_articulation', 'word_string'
-
     vowels, consonants = get_phone_classes()
+# 'high_low_op_nodes', 'morph_complex', 'grammatical_number', 'gender', 'subject_type', 'high_low_freq', 'pos_simple', 'tense', 'manner_of_articulation', 'word_string'
+    food_words = ['cake', 'sandwich', 'mushrooms', 'grapes', 'chef', 'ate', 'meal', 'salad', 'tasty', 'eat', 'eats', 'drink', 'cook', 'overcooked', 'streched', 'excercised']
+
+# SEARCHLIGHT
+    comparisons['dec_quest_len2'] = {}
+    comparisons['dec_quest_len2']['queries'] = ["dec_quest==0 and sentence_length==2", "dec_quest==1 and sentence_length==2"]
+    comparisons['dec_quest_len2']['condition_names'] = ['Declarative', 'Question']
+    comparisons['dec_quest_len2']['colors'] = ['b', 'g']
+    comparisons['dec_quest_len2']['sort'] = ['word_string']
+    comparisons['dec_quest_len2']['level'] = 'sentence_onset'
+    comparisons['dec_quest_len2']['tmin_tmax'] = [-0.5, 2.5]
+    
+    comparisons['dec_quest_len2_end'] = {}
+    comparisons['dec_quest_len2_end']['queries'] = ["dec_quest==0 and sentence_length==2", "dec_quest==1 and sentence_length==2"]
+    comparisons['dec_quest_len2_end']['condition_names'] = ['Declarative', 'Question']
+    comparisons['dec_quest_len2_end']['colors'] = ['b', 'g']
+    comparisons['dec_quest_len2_end']['sort'] = ['word_string']
+    comparisons['dec_quest_len2_end']['level'] = 'sentence_end'
+    comparisons['dec_quest_len2_end']['tmin_tmax'] = [-1, 1.5]
+
+    comparisons['embedding_vs_long_end'] = {}
+    comparisons['embedding_vs_long_end']['queries'] = [f"embedding==True and ~sentence_string.str.contains('{'|'.join(food_words)}')",
+                                                   f"dec_quest==0 and sentence_length==5 and embedding==0 and ~sentence_string.str.contains('{'|'.join(food_words)}')"]
+    comparisons['embedding_vs_long_end']['condition_names'] = ['Embedding', 'Long declarative']
+    comparisons['embedding_vs_long_end']['colors'] = ['b', 'r']
+    comparisons['embedding_vs_long_end']['ls'] = ['--', '-']
+    comparisons['embedding_vs_long_end']['level'] = 'sentence_end'
+    comparisons['embedding_vs_long_end']['tmin_tmax'] = [-1.5, 1]
+    
+    comparisons['embedding_vs_long_3rd_word'] = {}
+    comparisons['embedding_vs_long_3rd_word']['queries'] = [f"embedding==True and word_position==3 and ~sentence_string.str.contains('{'|'.join(food_words)}')",
+                                                   f"dec_quest==0 and sentence_length==5 and embedding==0 and word_position==3 and ~sentence_string.str.contains('{'|'.join(food_words)}')"]
+    comparisons['embedding_vs_long_3rd_word']['condition_names'] = ['Embedding', 'Long declarative']
+    comparisons['embedding_vs_long_3rd_word']['colors'] = ['b', 'r']
+    comparisons['embedding_vs_long_3rd_word']['ls'] = ['--', '-']
+    comparisons['embedding_vs_long_3rd_word']['level'] = 'word'
+    comparisons['embedding_vs_long_3rd_word']['tmin_tmax'] = [-1.5, 1]
+
+    comparisons['number_subject'] = {}
+    comparisons['number_subject']['queries'] = [f"grammatical_number==-1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('{'|'.join(food_words)}')",
+                                                f"grammatical_number==1 and (pos_simple in ['NN']) and word_position<3 and ~sentence_string.str.contains('{'|'.join(food_words)}')"]
+    comparisons['number_subject']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number_subject']['colors'] = ['b', 'g']
+    comparisons['number_subject']['sort'] = ['word_string']
+    comparisons['number_subject']['level'] = 'word'
+    comparisons['number_subject']['tmin_tmax'] = [-1, 1.5]
+    
+    comparisons['number_verb'] = {}
+    comparisons['number_verb']['queries'] = [f"dec_quest==0 and tense==0 and grammatical_number==-1 and pos.str.startswith('VB') and ~sentence_string.str.contains('{'|'.join(food_words)}')",
+                                             f"dec_quest==0 and tense==0 and grammatical_number==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('{'|'.join(food_words)}')"]
+    comparisons['number_verb']['condition_names'] = ['Singular', 'Plural']
+    comparisons['number_verb']['colors'] = ['b', 'g']
+    comparisons['number_verb']['sort'] = ['word_string']
+    comparisons['number_verb']['level'] = 'word'
+    comparisons['number_verb']['tmin_tmax'] = [-1, 1.5]
+
+    comparisons['unacc_unerg_dec'] = {}
+    comparisons['unacc_unerg_dec']['queries'] = [f"dec_quest==0 and unaccusative==0 and pos.str.startswith('VB') and ~sentence_string.str.contains('was|were|will') and sentence_length<4 and ~sentence_string.str.contains('{'|'.join(food_words)}')",
+                                                 f"dec_quest==0 and unaccusative==1 and pos.str.startswith('VB') and ~sentence_string.str.contains('{'|'.join(food_words)}')"]
+    comparisons['unacc_unerg_dec']['condition_names'] = ['Unergative', 'Unaccusative']
+    comparisons['unacc_unerg_dec']['colors'] = ['b', 'g']
+    comparisons['unacc_unerg_dec']['sort'] = ['word_string']
+    comparisons['unacc_unerg_dec']['level'] = 'word'
+    comparisons['unacc_unerg_dec']['tmin_tmax'] = [-1, 1.5]
+
 # FOR HTMLs
     
     semantic_categories = ['abstract', 'action', 'body', 'emotion', 'event',
@@ -39,14 +102,6 @@ def comparison_list():
     comparisons['semantic_categories']['tmin_tmax'] = [-0.25, 0.8]
 
     # SYNTAX
-    comparisons['embedding_vs_long'] = {}
-    comparisons['embedding_vs_long']['queries'] = ["embedding==True",
-                                                   "dec_quest==0 and sentence_length==5 and embedding==0"]
-    comparisons['embedding_vs_long']['condition_names'] = ['Embedding', 'Long declarative']
-    comparisons['embedding_vs_long']['colors'] = ['b', 'r']
-    comparisons['embedding_vs_long']['ls'] = ['--', '-']
-    comparisons['embedding_vs_long']['level'] = 'sentence_offset'
-    comparisons['embedding_vs_long']['tmin_tmax'] = [-1.5, 1]
     
     
     # REMOVE SMALL CLAUSE FROM EMBEDDING=FALSE
@@ -68,14 +123,6 @@ def comparison_list():
     comparisons['wh_subj_obj_len5']['level'] = 'sentence_onset'
     comparisons['wh_subj_obj_len5']['tmin_tmax'] = [-0.5, 3.5]
     
-    comparisons['dec_quest_len2'] = {}
-    comparisons['dec_quest_len2']['queries'] = ["dec_quest==0 and sentence_length==2", "dec_quest==1 and sentence_length==2"]
-    comparisons['dec_quest_len2']['condition_names'] = ['Declarative', 'Question']
-    comparisons['dec_quest_len2']['colors'] = ['b', 'g']
-    comparisons['dec_quest_len2']['sort'] = ['word_string']
-    comparisons['dec_quest_len2']['level'] = 'sentence_onset'
-    comparisons['dec_quest_len2']['tmin_tmax'] = [-0.5, 2.5]
-
 
 
     comparisons['dec_quest_len2_vis_aud'] = {}
@@ -436,7 +483,15 @@ def comparison_list():
     comparisons['he_she']['colors'] = ["b", "r"]
     comparisons['he_she']['sort'] = ['word_string']
     comparisons['he_she']['level'] = 'sentence_onset'
-    comparisons['he_she']['tmin_tmax'] = [-0.2, 0.6]
+    comparisons['he_she']['tmin_tmax'] = [-0.5, 1]
+    
+    comparisons['he_they'] = {}
+    comparisons['he_they']['queries'] = ["word_position==1 and word_string in ['He']", "word_position==1 and word_string in ['They']"]
+    comparisons['he_they']['condition_names'] = ["He", "She"]
+    comparisons['he_they']['colors'] = ["b", "r"]
+    comparisons['he_they']['sort'] = ['word_string']
+    comparisons['he_they']['level'] = 'sentence_onset'
+    comparisons['he_they']['tmin_tmax'] = [-0.5, 1]
     
     comparisons['what_who'] = {}
     comparisons['what_who']['queries'] = ["word_position==1 and word_string in ['What']", "word_position==1 and word_string in ['Who']"]

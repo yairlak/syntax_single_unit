@@ -168,17 +168,22 @@ def dict2filename(d, sep='_', keys_to_use=[], extension='', show_values_only=Fal
     if show_values_only:
         l = []
         for k in keys_to_use:
+            #print(k, d[k])
             if isinstance(d[k], list) and d[k]:
                 if isinstance(d[k][0], list): # nested list
                     curr_str = sep.join([str(item) for sublist in d[k] for item in sublist])
                     l.append(curr_str)
+                    #print(curr_str)
                 else: # list
                     curr_l = [str(s) for s in d[k]] # convert to string
                     if compress:
-                        curr_l = list(set(curr_l))
+                        if k!='coords':
+                            curr_l = list(set(curr_l))
                     l.append(sep.join(curr_l))
+                    #print(sep.join(curr_l))
             else: # not a list
                 l.append(str(d[k])) 
+                #print(str(d[k]))
         fn = sep.join(l) + extension
     else:
         fn = sep.join([sep.join((str(k), str(d[k]))) for k in keys_to_use]) + extension

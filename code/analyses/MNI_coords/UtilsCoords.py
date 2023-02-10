@@ -24,7 +24,7 @@ def get_channel_names(dict_row, data_type=None, oneliner=True):
     else:
         #print(f'WARNING: FILE NOT FOUND {path2fn}')
         return pd.DataFrame() # return empty dataframe
-
+    
     # PICK
     if data_type == 'micro':
         probe_name = dict_row['probe_name']
@@ -95,7 +95,7 @@ def add_8_microwires(df_coords):
     df_micro_all_patients = df_coords[df_coords["electrode"].str.contains("_micro-1")]
     dfs_micro = []
     for i_row, row in df_micro_all_patients.iterrows():
-        df_micro = get_channel_names(row)
+        df_micro = get_channel_names(row, data_type='micro')
         for coord in ['x', 'y', 'z']:
             df_micro[f'MNI_{coord}'] = row[f'MNI_{coord}']
         df_micro['patient'] = row['patient']
@@ -158,19 +158,20 @@ def pick_channels_by_cube(df_coords, center,
     z_min, z_max = center[2] - side_half, center[2] + side_half
     query = f'(MNI_x<{x_max} & MNI_x>{x_min}) & (MNI_y<{y_max} & MNI_y>{y_min}) & (MNI_z<{z_max} & MNI_z>{z_min})'
     df_cube = df_coords.query(query)
-    
-    
+     
     # DUPLICATE FOR 479 554 (Two sessions)
-    df_all = df_cube.query('patient != 479 & patient != 554')
-    df_479 = df_cube.query('patient == 479')
+    df_all = df_cube.copy().query('patient != 479 & patient != 554')
+    df_479 = df_cube.copy().query('patient == 479')
     if not df_479.empty:
         df_479_11 = df_479.copy()
         df_479_11['patient'] = '479_11'
-        df_479_25 = df_479.copy()
-        df_479_25['patient'] = '479_25'
-        df_all = pd.concat([df_all, df_479_11, df_479_25])
-     
-    df_554 = df_cube.query('patient == 554')
+        # REMOVE 479_25. problem with logs
+        #df_479_25 = df_479.copy() 
+        #df_479_25['patient'] = '479_25'
+        #df_all = pd.concat([df_all, df_479_11, df_479_25])
+        df_all = pd.concat([df_all, df_479_11])
+
+    df_554 = df_cube.copy().query('patient == 554')
     if not df_554.empty:
         df_554_4 = df_554.copy()
         df_554_4['patient'] = '554_4'
@@ -181,5 +182,5 @@ def pick_channels_by_cube(df_coords, center,
 
     if isSpike: # For each micro channel, add lines for all spike channels (single units) on the microwire
         df_all = add_spike_rows(df_all)
-
+    
     return df_all

@@ -10,19 +10,31 @@ def get_data(args):
     data = DataHandler(args.patient, args.data_type, args.filter,
                        args.probe_name, args.channel_name, args.channel_num)
     # Both neural and feature data into a single raw object
-    data.load_raw_data(decimate=args.decimate,
+    data.load_raw_data(smooth=args.smooth,
+                       decimate=args.decimate,
                        verbose=True)
     data.epoch_data(level=args.level,
                     scale_epochs=False,
                     tmin=args.tmin,
                     tmax=args.tmax,
-                    smooth=args.smooth,
                     verbose=True)
     return data
 
 
+def add_time_bins(X, k_bins):
+    X_new = []
+    n_epochs, n_ch, n_times = X.shape
+    for t in range(n_times-k_bins+1):
+        current_slice = X[:,:,t:(t+k_bins)]
+        flat_slice = current_slice.reshape(n_epochs, -1)
+        X_new.append(flat_slice)
+    X_new = np.dstack(X_new)
+    return X_new
+
+
 def prepare_data_for_classification(epochs_list, queries,
                                     classifier, min_trials=0,
+                                    k_bins=1,
                                     equalize_classes=False,
                                     verbose=False):
     '''
@@ -53,6 +65,9 @@ def prepare_data_for_classification(epochs_list, queries,
         X_curr_query_all_epochs = np.concatenate(X_curr_query_all_epochs,
                                                  axis=1) # cat along channel dim
         
+
+        if k_bins > 1:
+            X_curr_query_all_epochs = add_time_bins(X_curr_query_all_epochs, k_bins)
         # APPEND ACROSS QUERIES 
         X.append(X_curr_query_all_epochs) 
         
@@ -111,7 +126,7 @@ def prepare_data_for_classification(epochs_list, queries,
     # CAT ALONG TRIAL DIMENSION
     X_equalized = np.concatenate(X_equalized, axis=0)
     y_equalized = np.concatenate(y_equalized, axis=0)
-    return X_equalized, y_equalized, np.asarray(stimuli)
+    return X_equalized, y_equalized, stimuli
 
 
 def get_3by3_train_test_data(epochs_list, phone_strings, n_splits, args):

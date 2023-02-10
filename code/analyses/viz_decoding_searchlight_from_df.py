@@ -31,7 +31,7 @@ parser.add_argument('--alpha', default=0.05, type=float,
 parser.add_argument('--smooth', default=50, type=int,
                     help='gaussian width in [msec]')
 parser.add_argument('--decimate', default=50, type=int)
-parser.add_argument('--side', default=8, type=float, help='Side of cube in mm')
+parser.add_argument('--side-half', default=6, type=float, help='Side of cube in mm')
 parser.add_argument('--mean-max', default='mean', choices = ['mean', 'max'],
                     help='Take mean or max of scores across the time domain')
 # QUERY

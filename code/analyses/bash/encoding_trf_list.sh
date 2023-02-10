@@ -11,7 +11,7 @@ DECIMATE=50
 PATIENTS="479_11 479_25 482 499 502 505 513 515 538 540 541 543 545 549 551 552 553 554_4 554_13 510 530 539 544 556" # NEURALYNX AND BLACKROCK
 DTYPES_FILTERS="micro_raw micro_high-gamma macro_raw macro_high-gamma spike_raw"
 
-queue="Unicog_long"
+queue="Nspin_long"
 walltime="72:00:00"
 
 BLOCKS='visual auditory'

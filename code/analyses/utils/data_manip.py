@@ -37,14 +37,13 @@ class DataHandler:
         self.feature_list = feature_list
 
 
-    def load_raw_data(self, decimate=False, verbose=False):
+    def load_raw_data(self, smooth=False, decimate=False, verbose=False):
         '''
 
         Parameters
         ----------
-        scaling_method : TYPE, optional
-            Which scaling method to use: 'standard' or 'robust'.
-            If None then no scaling is performed. The default is None.
+        smooth : float, optional
+            Smoothing window size in miliseconds. The default is None.
         verbose : TYPE, optional
             Verbosity. The default is False.
 
@@ -98,6 +97,18 @@ class DataHandler:
                 continue
                 # IXs_to_remove.append(self.patient.index(patient))
             
+            # SMOOTH
+            sfreq = raw_neural.info['sfreq']
+            if smooth:
+                width_sec = smooth/1000  # Gaussian-kernal width in [sec]
+                print(f'smoothing data with {width_sec} sec window')
+                data = raw_neural.copy().get_data()
+                for ch in range(data.shape[0]):  # over channels
+                    time_series = data[ch, :]
+                    data[ch, :] = gaussian_filter1d(
+                        time_series, width_sec*sfreq)
+                raw_neural._data = data
+
             # DECIMATE
             if decimate:
                 raw_neural.resample(int(raw_neural.info['sfreq']/decimate))
@@ -138,8 +149,7 @@ class DataHandler:
 
     def epoch_data(self, level,
                    tmin=None, tmax=None,  query=None,
-                   block_type=None, scale_epochs=False, verbose=False,
-                   smooth=None):
+                   block_type=None, scale_epochs=False, verbose=False):
         '''
         Parameters
         ----------
@@ -159,8 +169,6 @@ class DataHandler:
             DESCRIPTION. The default is False.
         verbose : TYPE, optional
             DESCRIPTION. The default is False.
-        smooth : float, optional
-            Smoothing window size in miliseconds. The default is None.
 
         Returns
         -------
@@ -257,16 +265,16 @@ class DataHandler:
                 epochs_features = epochs.copy().pick_types(misc=True)
 
 
-            if smooth:
-                width_sec = smooth/1000  # Gaussian-kernal width in [sec]
-                print(f'smoothing data with {width_sec} sec window')
-                data = epochs_neural.copy().get_data()
-                for ch in range(data.shape[1]):  # over channels
-                    for tr in range(data.shape[0]):  # over trials
-                        time_series = data[tr, ch, :]
-                        data[tr, ch, :] = gaussian_filter1d(
-                            time_series, width_sec*self.sfreq)
-                epochs_neural._data = data
+            #if smooth:
+            #    width_sec = smooth/1000  # Gaussian-kernal width in [sec]
+            #    print(f'smoothing data with {width_sec} sec window')
+            #    data = epochs_neural.copy().get_data()
+            #    for ch in range(data.shape[1]):  # over channels
+            #        for tr in range(data.shape[0]):  # over trials
+            #            time_series = data[tr, ch, :]
+            #            data[tr, ch, :] = gaussian_filter1d(
+            #                time_series, width_sec*self.sfreq)
+            #    epochs_neural._data = data
             
             
             ############################
@@ -744,7 +752,7 @@ def prepare_metadata(patient, verbose=False):
     keys = ['chronological_order', 'event_time', 'block', 'word_onset', 'phone_position', 'phone_string', 'is_last_phone', 'stimulus_number',
             'word_position', 'word_string', 'pos', 'dec_quest', 'grammatical_number', 'wh_subj_obj',
             'word_length', 'sentence_string', 'sentence_length', 'last_word', 'morpheme', 'morpheme_type', 'word_type', 'word_freq', 'word_zipf',
-            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'semantic_categories', 'semantic_categories_names']
+            'gender', 'n_open_nodes', 'tense', 'syntactic_role', 'diff_thematic_role', 'unaccusative', 'semantic_categories', 'semantic_categories_names']
     metadata = dict([(k, []) for k in keys])
 
     cnt = 1
@@ -798,6 +806,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['tense'].append(word2features_new[sn][wp]['tense'])
                 metadata['syntactic_role'].append(word2features_new[sn][wp]['syntactic_role'])
                 metadata['diff_thematic_role'].append(word2features_new[sn][wp]['diff_thematic_role'])
+                metadata['unaccusative'].append(word2features_new[sn][wp]['unaccusative'])
                 metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
                 metadata['pos'].append(word2features_new[sn][wp]['pos'])
                 metadata['wh_subj_obj'].append(word2features_new[sn][wp]['wh_subj_obj'])
@@ -819,6 +828,7 @@ def prepare_metadata(patient, verbose=False):
                 metadata['tense'].append(word2features_new[sn][wp]['tense'])
                 metadata['syntactic_role'].append(word2features_new[sn][wp]['syntactic_role'])
                 metadata['diff_thematic_role'].append(word2features_new[sn][wp]['diff_thematic_role'])
+                metadata['unaccusative'].append(word2features_new[sn][wp]['unaccusative'])
                 metadata['grammatical_number'].append(word2features_new[sn][wp]['grammatical_number'])
                 metadata['pos'].append(word2features_new[sn][wp]['pos'])
                 metadata['wh_subj_obj'].append(0)
@@ -836,12 +846,13 @@ def prepare_metadata(patient, verbose=False):
                 metadata['sentence_length'].append(
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
-                metadata['dec_quest'].append(0)
+                metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
                 metadata['gender'].append(0)
                 metadata['n_open_nodes'].append(0)
                 metadata['tense'].append(0)
                 metadata['syntactic_role'].append(0)
                 metadata['diff_thematic_role'].append(0)
+                metadata['unaccusative'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['pos'].append('')
                 metadata['wh_subj_obj'].append(0)
@@ -859,11 +870,12 @@ def prepare_metadata(patient, verbose=False):
                 metadata['sentence_length'].append(
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
-                metadata['dec_quest'].append(0)
+                metadata['dec_quest'].append(word2features_new[sn][1]['dec_quest'])
                 metadata['gender'].append(0)
                 metadata['n_open_nodes'].append(0)
                 metadata['tense'].append(0)
                 metadata['syntactic_role'].append(0)
+                metadata['unaccusative'].append(0)
                 metadata['diff_thematic_role'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['pos'].append('')
@@ -910,12 +922,13 @@ def prepare_metadata(patient, verbose=False):
                 metadata['sentence_length'].append(
                     word2features_new[sn][wp]['sentence_length'])
                 metadata['word_length'].append(0)
-                metadata['dec_quest'].append(0)
+                metadata['dec_quest'].append(word2features_new[sn][wp]['dec_quest'])
                 metadata['gender'].append(0)
                 metadata['n_open_nodes'].append(0)
                 metadata['tense'].append(0)
                 metadata['syntactic_role'].append(0)
                 metadata['diff_thematic_role'].append(0)
+                metadata['unaccusative'].append(0)
                 metadata['grammatical_number'].append(0)
                 metadata['wh_subj_obj'].append(0)
                 metadata['last_word'].append(False)

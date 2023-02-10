@@ -84,7 +84,7 @@ dict_hemi = {'L':'Left', 'R':'Right'}
 
 print('Collecting results...')
 
-patients="479_11 479_25 482 499 502 505 510 513 515 530 538 539 540 541 543 544"
+patients="479_11 479_25 482 499 502 505 513 515 538 540 541 543 545 549 551 552 553 554_4 554_13 510 530 539 544 556" # NEURALYNX AND BLACKROCK
 data_types = ['micro', 'macro', 'spike']
 filters = ['raw', 'high-gamma']
 

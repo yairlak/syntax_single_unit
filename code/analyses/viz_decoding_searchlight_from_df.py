@@ -12,30 +12,37 @@ import pandas as pd
 import numpy as np
 from utils.utils import dict2filename
 from nilearn import plotting  
-import matplotlib.cm as cm
-from mne.stats import fdr_correction
 import nibabel as nib
-from utils.viz import voxel_masker
-from nilearn import surface
+from utils.viz import create_nifti_statmap, get_time_indices
+from utils.viz import update_dataframe, generate_html_brain, compute_vis_aud_intersection
 from nilearn import datasets
-from nilearn import plotting
 from nilearn import image
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--tmin', default=0.1, type=float,
+parser.add_argument('--tmin', default=-0.5, type=float,
                     help='time slice [sec]')
-parser.add_argument('--tmax', default=0.8, type=float,
+parser.add_argument('--tmax', default=0.5, type=float,
                     help='time slice [sec]')
-parser.add_argument('--alpha', default=0.05, type=float,
-                    help='for FDR correction]')
 parser.add_argument('--smooth', default=50, type=int,
                     help='gaussian width in [msec]')
 parser.add_argument('--decimate', default=50, type=int)
-parser.add_argument('--side-half', default=6, type=float, help='Side of cube in mm')
+parser.add_argument('--side-half', default=5.0, type=float, help='Side of cube in mm')
+parser.add_argument('--stride', default=5.0, type=float, help='Stride')
+
+# STATS
 parser.add_argument('--mean-max', default='mean', choices = ['mean', 'max'],
                     help='Take mean or max of scores across the time domain')
+parser.add_argument('--filter-criterion', default='pval_min',
+                    choices = ['fdr_min', 'pval_min'],
+                    help='filter maps based on fdr or, alternatively, based on pvalue (without fdr)')
+parser.add_argument('--alpha-map', default=0.05, type=float,
+                    help='for FDR correction]')
+parser.add_argument('--alpha-fdr', default=0.05, type=float,
+                    help='for FDR correction]')
+
 # QUERY
-parser.add_argument('--comparison-name', default='dec_quest_len2',
+parser.add_argument('--comparison-name', default='embedding_vs_long_end', #'embedding_vs_long_3rd_word', #'unacc_unerg_dec',
                     help='See Utils/comparisons.py')
 parser.add_argument('--comparison-name-test', default=None,
                     help='See Utils/comparisons.py')
@@ -43,157 +50,226 @@ parser.add_argument('--block-train', choices=['auditory', 'visual'],
                     default='auditory',
                     help='Block type is added to the query in the comparison')
 parser.add_argument('--block-test', choices=['auditory', 'visual'],
-                    default=None,
+                    default='auditory',
                     help='Block type is added to the query in the comparison')
 parser.add_argument('--path2output', default='../../Output/decoding')
+parser.add_argument('--timewise', default=False, action='store_true')
 args = parser.parse_args()
 
+# NILEARN STUFF
+mask_ICV = '../../../templates/mask_ICV.nii'
+fsaverage = datasets.fetch_surf_fsaverage()
+img_ICV = nib.load(mask_ICV)
 
-print('Loading DataFrame from json file...')
-args2fname = ['comparison_name', 'comparison_name_test',
-              'block_train', 'block_test',
+# LOAD DATAFRAME
+args.dummy = '*'
+args2fname = ['comparison_name', 'dummy',
               'smooth', 'decimate',
-              'side']   # List of args
+              'side_half', 'stride']   # List of args
 fn_pattern = dict2filename(args.__dict__, '_', args2fname, '', True)
-fn_pattern = 'dec_quest_len2_auditory_dec_quest_len2_visual'
-fn_pattern = 'dec_quest_len2_None_auditory_None_50_50_8'
-fn_pattern = 'embedding_vs_long_visual_macro'
-fn_pattern = 'embedding_vs_long_auditory_macro'
-fn_pattern = 'embedding_vs_long_auditory_embedding_vs_long_visual'
-fn_pattern = 'number_all_auditory_number_all_visual_macro'
-if fn_pattern == 'dec_quest_len2_None_auditory_None_50_50_8':
-    hack = True
-else:
-    hack = False
+print(f'Loading DataFrame: df_{fn_pattern}.json')
 df = pd.read_json(os.path.join(args.path2output, 'df_' + fn_pattern + '.json'))
-df = df[['scores', 'pvals', 'times', 'args']]
-
-
-print('Getting coordinates, scores and p-values...')
-def get_coords(row, dim, hack):
-    args = row['args']
-    if hack:
-        if dim == 1:
-            return args['x']
-        if dim == 2:
-            return args['y']
-        if dim == 3:
-            return args['z']
-    else:
-        if 'coords' in args.keys():
-            return args['coords'][dim-1]
-        else:
-            return None
-        
-
-df['x'] = df.apply(lambda row: get_coords(row, 1, hack), axis=1)
-df['y'] = df.apply(lambda row: get_coords(row, 2, hack), axis=1)
-df['z'] = df.apply(lambda row: get_coords(row, 3, hack), axis=1)
-df = df.drop('args', axis=1)
-
-# GET INDEX OF TIME SLICE
-times = np.asarray(df['times'][0])
-times_tmin = np.abs(times - args.tmin)
-IX_min = np.argmin(times_tmin)
-if args.tmax:
-    times_tmax = np.abs(times - args.tmax)
-    IX_max = np.argmin(times_tmax)
-else:
-    IX_max = None
-
-# GET SCORES AND PVALS FOR TIME SLICE
-def get_time_slice(row, key, IX_min, IX_max):
-    values = row[key]
-    if (IX_min in range(len(values))) and (IX_max in range(len(values))):
-        if IX_max:
-            return values[IX_min:IX_max+1]
-        else:    
-            return values[IX_min]
-    else:
-        return None
-    
-df['times'] = df.apply(lambda row: get_time_slice(row, 'times', IX_min, IX_max), axis=1)
-df['scores'] = df.apply(lambda row: get_time_slice(row, 'scores', IX_min, IX_max), axis=1)
-if args.mean_max == 'mean':
-    df['scores_statistic'] = df.apply(lambda row: np.mean(row['scores']) if row['scores'] else None, axis=1)
-elif args.mean_max == 'max':
-    df['scores_statistic'] = df.apply(lambda row: np.max(row['scores']) if row['scores'] else None, axis=1)
-df['pvals'] = df.apply(lambda row: get_time_slice(row, 'pvals', IX_min, IX_max), axis=1)
-# df['pvals_max'] = df.apply(lambda row: np.max(row['pvals']) if row['pvals'] else None, axis=1)
-# df['reject_fdr'], df['pvals_fdr'] = fdr_correction(df['pvals'],
-#                                                    alpha=args.alpha,
-#                                                    method='indep')
-# df['reject_fdr_max'] = df.apply(lambda row: np.max(row['pvals_fdr']) if row['pvals'] else None, axis=1)
-
-# df_query = df.query('reject_fdr==True')
-# df_query = df.query('pvals_mean<0.01')
-
-query = 'scores_statistic>0.55'
-df_query = df.query(query)
-assert not df_query.empty, f'Query resulted in an empty DataFrame: "{query}"'
-
-print('Plotting...')
-# VIZ WITH NILEARN
-coords_results = df_query[['x', 'y', 'z']].values
-colors = df_query.apply(lambda row: cm.RdBu_r(row['scores_statistic']), axis=1).values
-colors = np.array(list(colors))
-
-marker_sizes = [16] * colors.shape[0]
-
+df = df[['scores', 'pvals', 'times', 'args', 'block_train', 'block_test']]
 
 # LOAD COORDINATES
 path2coords = '../../Data/UCLA/MNI_coords/'
 fn_coords = 'electrode_locations.csv'
 df_coords = pd.read_csv(os.path.join(path2coords, fn_coords))
-
 coords_montage = df_coords[['MNI_x', 'MNI_y', 'MNI_z']].values
 
-coords = np.vstack((coords_results, coords_montage))
-blacks = np.zeros_like(coords_montage)
-blacks = np.hstack((blacks, np.ones((blacks.shape[0], 1))))
-colors = np.vstack((colors, blacks))
-marker_sizes += [2] * blacks.shape[0]
-view = plotting.view_markers(coords, colors,
-                             marker_size=marker_sizes) 
-
-# view.open_in_browser()
-fn = f'../../Figures/viz_brain/{fn_pattern}_tmin_{args.tmin}_tmax_{args.tmax}_query_{query}_{args.mean_max}'
-view.save_as_html(fn + '.html')
+# GET INDEX OF TIME SLICE
+times = np.asarray(df['times'].tolist()[0])
+IX_tmin, IX_tmax, IXs_slices = get_time_indices(times, 
+                                                args.tmin, args.tmax,
+                                                args.timewise)
 
 
+for IX in IXs_slices: # LOOP OVER TIME RANGE 
+    d_dfs = {}
+    for block_train in ['visual', 'auditory']: # LOOP OVER BOTH BLOCKS
+        d_dfs[block_train] = {}
+        for block_test in ['visual', 'auditory']: # LOOP OVER BOTH BLOCKS
+            
+            if block_test == block_train:
+                query = f'block_train=="{block_train}" & block_test!=block_test'
+            else:
+                query = f'block_train=="{block_train}" & block_test=="{block_test}"'
+            d_dfs[block_train][block_test] = df.copy().query(query)
 
-mask_ICV = '../../../templates/mask_ICV.nii'
-fsaverage = datasets.fetch_surf_fsaverage()
-img_ICV = nib.load(mask_ICV)
-
-masker, value, [a, b, c] = voxel_masker(coords_results, img_ICV, plot=False)
-
-mask_img = masker.mask_img
-mask_img = image.smooth_img(mask_img, 5.)
-fig_glass = plotting.plot_glass_brain(mask_img, display_mode='lzr')
-fig_glass.add_markers(coords_montage, 'k', marker_size=0.01) 
-
-fig_glass.savefig(fn + '_glass.png')
-
-
-# texture = surface.vol_to_surf(mask_img, fsaverage.pial_right)
-# fig = plotting.plot_surf_stat_map(
-#     fsaverage.infl_right, texture, hemi='right',
-#     title='Surface right hemisphere', colorbar=True,
-#     threshold=1e-2, bg_map=fsaverage.sulc_right
-# )
-# texture = surface.vol_to_surf(mask_img, fsaverage.pial_left)
-# fig = plotting.plot_surf_stat_map(
-#     fsaverage.infl_left, texture, hemi='left',
-#     title='Surface right hemisphere', colorbar=True,
-#     threshold=1e-2, bg_map=fsaverage.sulc_right
-# )
-
-for inflate in [False, True]:
-    fig_surf, axs = plotting.plot_img_on_surf(mask_img,
-                                              views=['lateral', 'medial'],
-                                              hemispheres=['left', 'right'],
+            if IX=='All':
+                t = None
+                fn_fig = f'../../Figures/viz_brain/{fn_pattern}_{block_train}_{block_test}_tmin_{args.tmin}_tmax_{args.tmax}_query_{args.filter_criterion}_{args.alpha_map}_{args.mean_max}_t_all'
+            else:
+                IX_tmin, IX_tmax = IX, IX
+                t = times[IX]
+                fn_fig = f'../../Figures/viz_brain/{fn_pattern}_{block_train}_{block_test}_query_{args.filter_criterion}_{args.alpha_map}_{args.mean_max}_t_{t:.2f}'
+               
+                
+            d_dfs[block_train][block_test] = update_dataframe(d_dfs[block_train][block_test],
+                                                              IX_tmin, IX_tmax,
+                                                              mean_max=args.mean_max,
+                                                              alpha_fdr=args.alpha_fdr)
+                
+            # FILTER DATAFRAME BASE ON CRITERION
+            if args.filter_criterion == 'pval_min':
+                query = f'pvals_min<{args.alpha_map}'
+            elif args.filter_criterion == 'fdr_min':
+                query = f'pvals_fdr_min<{args.alpha_fdr}'
+            else:
+                raise('Unknown filter criterion')
+            d_dfs[block_train][block_test] = d_dfs[block_train][block_test].query(query)
+            
+    
+            if d_dfs[block_train][block_test].empty:
+                print(f'Empty dataframe for {block_train}/{block_test}')
+                continue
+            
+            
+            #######################################
+            # HTML BRAIN
+            #######################################
+            
+            print(f'Plotting HTML brain {block_train}/{block_test} {t}')
+            fig_html = generate_html_brain(d_dfs[block_train][block_test],
+                                           coords_montage)
+            fig_html.save_as_html(fn_fig + '.html')
+            
+            #######################################
+            # GLASS BRAIN
+            #######################################
+            
+            print(f'Plotting glass brain {block_train}/{block_test} {t}')
+            smoothing = 5
+            coords_results = d_dfs[block_train][block_test][['x', 'y', 'z']].values
+            nimg = create_nifti_statmap(coords_results,
+                                        args.side_half,
+                                        d_dfs[block_train][block_test]['scores_statistic'],
+                                        img_ICV,
+                                        baseline=0.5)
+            
+            nimg = image.smooth_img(nimg, smoothing)
+            fig_glass = plotting.plot_glass_brain(nimg,
+                                                  resampling_interpolation='nearest',
+                                                  cmap='RdBu_r',
+                                                  colorbar=True,
+                                                  vmin=0.3,
+                                                  vmax=0.7,
+                                                  # threshold=0.5,
+                                                  display_mode='lzr')
+            fig_glass.add_markers(coords_montage, 'k', marker_size=0.01) 
+            fig_glass._cbar.set_label('AAA')
+            fig_glass.savefig(fn_fig + '_glass.png')
+            fig_glass.close()
+    
+            #######################################
+            # INFLATED BRAIN
+            #######################################
+            # REGENERATE NIFTI WITH ZERO BASELINE
+            nimg = create_nifti_statmap(coords_results,
+                                        args.side_half,
+                                        d_dfs[block_train][block_test]['scores_statistic'],
+                                        img_ICV,
+                                        baseline=0)
+            
+            nimg = image.smooth_img(nimg, smoothing)
+            
+            if args.block_train == args.block_test:
+                if args.block_train == 'visual':
+                    cmap = 'RdBu_r'
+                else:
+                    cmap = 'RdBu'
+            else:
+                cmap = 'PuBu_r'
+            for inflate in [False, True]:
+                print(f'Plotting inflated {inflate} brain {block_train}/{block_test} {t}')
+                fig_surf, axs = plotting.plot_img_on_surf(nimg,
+                                                          hemispheres=['left', 'right'],
+                                                          views=['lateral', 'medial', 'ventral'],
+                                                          cmap=cmap,
+                                                          inflate=inflate,
+                                                          threshold=0.5,
+                                                          vmax=1)
+                fig_surf.savefig(fn_fig + f'_surf_inflate_{inflate}.png')
+                plt.close(fig_surf)
+                
+    for intersection_type in ['within_modalities', 'across_modalities']:
+        if IX=='All':
+            fn_fig = f'../../Figures/viz_brain/{fn_pattern}_intersection_{intersection_type}_tmin_{args.tmin}_tmax_{args.tmax}_query_{args.filter_criterion}_{args.alpha_map}_{args.mean_max}_t_all'
+        else:
+            fn_fig = f'../../Figures/viz_brain/{fn_pattern}_intersection_{intersection_type}_query_{args.filter_criterion}_{args.alpha_map}_{args.mean_max}_t_{t:.2f}'
+        
+        if intersection_type == 'within_modalities':
+            df_vis_and_aud = compute_vis_aud_intersection(d_dfs['visual']['visual'],
+                                                          d_dfs['auditory']['auditory'])
+        elif intersection_type == 'across_modalities':
+            df_vis_and_aud = compute_vis_aud_intersection(d_dfs['visual']['auditory'],
+                                                          d_dfs['auditory']['visual'])
+            
+        if df_vis_and_aud.empty:
+            continue
+        #######################################
+        # HTML BRAIN
+        #######################################
+        
+        print(f'Plotting HTML brain {block_train}/{block_test} {t}')
+        fig_html = generate_html_brain(df_vis_and_aud,
+                                       coords_montage)
+        fig_html.save_as_html(fn_fig + '.html')
+        
+        #######################################
+        # GLASS BRAIN
+        #######################################
+        
+        print(f'Plotting glass brain {block_train}/{block_test} {t}')
+        smoothing = 5
+        coords_results = df_vis_and_aud[['x', 'y', 'z']].values
+        nimg = create_nifti_statmap(coords_results,
+                                    args.side_half,
+                                    df_vis_and_aud['scores_statistic'],
+                                    img_ICV,
+                                    baseline=0.5)
+        
+        nimg = image.smooth_img(nimg, smoothing)
+        fig_glass = plotting.plot_glass_brain(nimg,
+                                              resampling_interpolation='nearest',
+                                              cmap='RdBu_r',
                                               colorbar=True,
-                                              inflate=inflate,
-                                              threshold=1e-3)
-    fig_surf.savefig(fn + f'_surf_inflate_{inflate}.png')
+                                              vmin=0.3,
+                                              vmax=0.7,
+                                              # threshold=0.5,
+                                              display_mode='lzr')
+        fig_glass.add_markers(coords_montage, 'k', marker_size=0.01) 
+        fig_glass._cbar.set_label('AAA')
+        fig_glass.savefig(fn_fig + '_glass.png')
+        fig_glass.close()
+        
+        #######################################
+        # INFLATED BRAIN
+        #######################################
+        # REGENERATE NIFTI WITH ZERO BASELINE
+        nimg = create_nifti_statmap(coords_results,
+                                    args.side_half,
+                                    df_vis_and_aud['scores_statistic'],
+                                    img_ICV,
+                                    baseline=0)
+        
+        nimg = image.smooth_img(nimg, smoothing)
+        
+        if args.block_train == args.block_test:
+            if args.block_train == 'visual':
+                cmap = 'RdBu_r'
+            else:
+                cmap = 'RdBu'
+        else:
+            cmap = 'PuBu_r'
+        for inflate in [False, True]:
+            print(f'Plotting inflated {inflate} brain {block_train}/{block_test} {t}')
+            fig_surf, axs = plotting.plot_img_on_surf(nimg,
+                                                      hemispheres=['left', 'right'],
+                                                      views=['lateral', 'medial', 'ventral'],
+                                                      cmap=cmap,
+                                                      inflate=inflate,
+                                                      threshold=0.5,
+                                                      vmax=1)
+            fig_surf.savefig(fn_fig + f'_surf_inflate_{inflate}.png')
+            plt.close(fig_surf)

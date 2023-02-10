@@ -24,7 +24,6 @@ def get_channel_names(dict_row, data_type=None, oneliner=True):
     else:
         #print(f'WARNING: FILE NOT FOUND {path2fn}')
         return pd.DataFrame() # return empty dataframe
-    
     # PICK
     if data_type == 'micro':
         probe_name = dict_row['probe_name']
@@ -158,8 +157,6 @@ def pick_channels_by_cube(df_coords, center,
     z_min, z_max = center[2] - side_half, center[2] + side_half
     query = f'(MNI_x<{x_max} & MNI_x>{x_min}) & (MNI_y<{y_max} & MNI_y>{y_min}) & (MNI_z<{z_max} & MNI_z>{z_min})'
     df_cube = df_coords.query(query)
-     
-    # DUPLICATE FOR 479 554 (Two sessions)
     df_all = df_cube.copy().query('patient != 479 & patient != 554')
     df_479 = df_cube.copy().query('patient == 479')
     if not df_479.empty:

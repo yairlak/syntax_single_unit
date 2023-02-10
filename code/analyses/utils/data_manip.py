@@ -477,7 +477,7 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
     if recording_system == 'Neuralynx':
         reader = neo.rawio.NeuralynxRawIO(dirname=path2data)
         reader.parse_header()
-        #print(dir(reader))
+        print(dir(reader))
         time0, timeend = reader.global_t_start, reader.global_t_stop
         sfreq = reader.get_signal_sampling_rate()
         print(f'Neural files: Start time {time0}, End time {timeend}')
@@ -487,23 +487,21 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         print('Number of channel %i: %s'
                       % (len(ch_names), ch_names))
 
-
         n_segments_list = reader.header['nb_segment'] # list of n_segments
         chunks = []
         for i_block, n_segments in enumerate(n_segments_list):
             for i_segment in range(n_segments):
-                print(f'block {i_block+1}; Segment {i_segment+1}/{n_segments}')
+                if i_segment % 100 == 0:
+                    print(f'block {i_block+1}; Segment {i_segment+1}/{n_segments}')
                 curr_chunk = reader.get_analogsignal_chunk(block_index=i_block,
                                                            seg_index=i_segment)
                 chunks.append(curr_chunk)
         data = np.vstack(chunks)
-
-        # TO MNE
         info = mne.create_info(ch_names=ch_names,
                                sfreq=sfreq, ch_types='seeg')
         raw = mne.io.RawArray(data.T, info, verbose=True)
-
-
+        print(raw)
+        
     elif recording_system == 'BlackRock':
         if data_type == 'macro':
             ext = 'ns3'
@@ -520,18 +518,16 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
         nsx_file.close()
         sfreq = cont_data['samp_per_s']
         print(sfreq)
-
-        # CHANNEL NUMBERS
-        #if data_type == 'macro':
-        #    elec_ids -= 128
-        #elif data_type == 'micro':
-        #    elec_ids = np.asarray(list(set(elec_ids) - set(range(129, 300))))
-        # print(elec_ids)
-        
-        # CHANNEL NAME
         elec_ids = np.asarray(cont_data['elec_ids'])
-        ch_names = []
+        
         dict_ch_names, _ = get_dict_ch_names(os.path.join(path2data))
+        ch_names = []
+        if data_type == 'macro':
+            elec_ids -= 128
+        elif data_type == 'micro':
+            elec_ids = np.asarray(list(set(elec_ids) - set(range(129, 300))))
+            
+        print(elec_ids)
         for elec_id in elec_ids:
             if data_type == 'macro':
                 curr_elec_id = int(elec_id) - 128
@@ -551,7 +547,6 @@ def get_data_from_ncs_or_ns(data_type, path2data, sfreq_down):
                                sfreq=sfreq,
                                ch_types='seeg')
         raw = mne.io.RawArray(cont_data['data'][0].T, info, verbose=False)
-
     return raw
 
 

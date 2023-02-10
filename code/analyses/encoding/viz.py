@@ -784,3 +784,4 @@ def plot_evoked_bar_coef(times, coef_mean, coef_sem, reject_fdr,
     plt.subplots_adjust(left=0.25)
 
     return fig
+    
